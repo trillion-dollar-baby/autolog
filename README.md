@@ -6,7 +6,7 @@ SITE Course Year: 2022
 
 Cohort: **Add Company Sponsor Name**
 
-Team Member Names:Deland Chen, Enzo Falone, Wynee Pintado
+Team Member Names: Deland Chen, Enzo Falone, Wynee Pintado
 
 Mentors Names: **Insert Professional Mentor Names**
 
