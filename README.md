@@ -2,11 +2,11 @@
 
 # SITE Capstone Project
 
-SITE Course Year: **20__**
+SITE Course Year: 2022
 
 Cohort: **Add Company Sponsor Name**
 
-Team Member Names:**Insert Team Member Names**
+Team Member Names:Deland Chen, Enzo Falone, Wynee Pintado
 
 Mentors Names: **Insert Professional Mentor Names**
 
