@@ -1,16 +1,16 @@
 # Project Proposal
 
-Pod Members: **Add Pod Members Names**
+Pod Members: Deland Chen, Enzo Falone, Wynee Pintado
 
 ## Problem Statement
 
-Insert your groups problem statement and target audience.
+Small business auto shop owners lack a simple, easy-to-use, and affordable software to manage their inventory. Competitors are geared towards larger businesses and charge enormous monthly fees. Our goal is to create a immediately usable (plug-and-play), cheap, but powerful tool.
 
 ## User Roles
 
-“Owner”: all the below, Can update, read, create, and delete. Can also delete the database. (CRUD + deleting database)
-“Manager”: all the below, able to cancel, return, add orders and items (CRUD)
-“Employee”: user that is able to see inventory items and prices, and move items into orders (Read and update)
+“Owner”: all the below, Can update, read, create, and delete. Can also delete the database. (CRUD + deleting database) <br>
+“Manager”: all the below, able to cancel, return, add orders and items (CRUD)<br>
+“Employee”: user that is able to see inventory items and prices, and move items into orders (Read and update)<br>
 “Viewer”: user who can only view inventory items (View)
 
 
