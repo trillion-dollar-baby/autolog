@@ -49,4 +49,4 @@ As a viewer, I want to be able to see the availability and information of the st
 
 ## Wireframe (Bonus)
 
-Insert link or image to your group's wireframe. 
+https://www.figma.com/file/Q2ehMysK0HoGPmLji1R0TU/Inventory-Management-App?node-id=0%3A1
