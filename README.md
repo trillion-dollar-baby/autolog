@@ -12,8 +12,8 @@ Mentors Names: **Busher Bridi, Renee Labutay **
 
 Project Code Repository Links
 
-* [Frontend Repo Link]()
-* [Backend Repo Link]()
+* [Frontend Repo Link](https://github.com/trillion-dollar-baby/autolog/tree/main/autolog-ui)
+* [Backend Repo Link](https://github.com/trillion-dollar-baby/autolog/tree/main/autolog-api)
 
 ## Project Overview
 
