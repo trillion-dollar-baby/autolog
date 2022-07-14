@@ -8,30 +8,27 @@
 
 .login-page .content {
     display: flex;
-    margin: auto;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    position: relative;
-    bottom: 50px;
+    margin-bottom: 75px;
 }
 
 
 /* Header */
 .login-page .content .header {
-    margin: auto;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-page .content .header .header-img {
     height: 150px;
     width: 150px;
-    margin: 0 auto;
     margin-bottom: 20px;
 }
 
-.login-page .content .header .header-welcome {
-    margin: 0 auto;
-}
+/* .login-page .content .header .header-welcome {
+} */
 
 .login-page .content .header .header-instruction {
     color: #B6B6B6;
@@ -43,7 +40,6 @@
     display: flex;
     margin: auto;
     flex-direction: column;
-    margin-top: 35px;
 }
 
 .login-page .content .login-form .login-email {
@@ -60,10 +56,12 @@
 
 .login-page .content .login-form .login-input {
     height: 5vh;
-    width: 16vw;
+    width: 20vw;
     border-radius: 7px;
     border: 1.5px #ACACAC solid;
     background-color: #D9D9D9;
+    font-size: 18px;
+    color: grey;
 }
 
 .login-page .content .login-form .input-label {
