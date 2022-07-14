@@ -13,12 +13,12 @@ export default function Login() {
                 </div>
                 <div className='login-form'>
                     <div className='login-email'>
-                    <label className='input-label' for="email">Email</label>
-                    <input className='login-input' id="email" name="email" placeholder='Enter email...'></input>
+                        <label className='input-label' for="email">Email</label>
+                        <input className='login-input' id="email" name="email" placeholder='Enter email...'></input>
                     </div>
                     <div className='login-password'>
-                    <label className='input-label' for="password">Password</label>
-                    <input className='login-input' id="password" name="password" placeholder='Enter password...'></input>
+                        <label className='input-label' for="password">Password</label>
+                        <input className='login-input' id="password" name="password" placeholder='Enter password...'></input>
                     </div>
                     <button className='login-button'> Sign In </button>
                 </div>
