@@ -2,14 +2,21 @@
  * Main component of express pipeline
  */
 
-// library imports
+/**
+ * Imports
+ */
+
+//libraries
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
-// error handler imports
-const { NotFoundError } = require("./utils/errors");
 
-// end of imports
+const { NotFoundError } = require("./utils/errors");
+const security = require("./middleware/security");
+
+/**
+ * End of imports
+ */
 
 // initialize express app
 const app = express();
@@ -20,8 +27,11 @@ app.use(morgan("tiny"));
 // parse JSON bodies
 app.use(express.json());
 
+// extract token to obtain payload information of user
+app.use(security.extractUserFromJwt);
+
 /**
- * Routes
+ * Application routes
  */
 
 // health check
@@ -34,7 +44,7 @@ app.get("/", (req, res, next) => {
 });
 
 /**
- * End of routes
+ * End of application routes
  */
 
 // 404 error handling
