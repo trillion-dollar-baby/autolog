@@ -10,6 +10,8 @@ import Sidebar from './components/Sidebar/Sidebar';
 import Navbar from './components/Navbar/Navbar';
 import Settings from './components/Settings/Settings';
 import Dashboard from './components/Dashboard/Dashboard';
+import Inventory from './components/Inventory/Inventory';
+import NotFound from './components/NotFound/NotFound';
 
 function App() {
   return (
@@ -17,7 +19,7 @@ function App() {
         <BrowserRouter>
           {/* rendered in all paths */}
           <Navbar/>
-          
+
           {/* rendered for logged in users */}
           <Sidebar/>
 
@@ -33,6 +35,9 @@ function App() {
             <Route path='/item/create' element={<CreateItem/>}/>
             <Route path='/performance' element={<Performance/>}/>
             <Route path='/settings' element={<Settings/>}/>
+            
+            {/* Not found error */}
+            <Route path='*' element={<NotFound/>}/>
           </Routes>
         </BrowserRouter>
     </div>
