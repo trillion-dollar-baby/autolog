@@ -24,8 +24,8 @@ export default function Settings() {
     <div className='settings'>
       {/* always render in page */}
       <Sidebar/>
-      <Topbar routes={settingsRoutes} />
       <div className="content">
+      <Topbar routes={settingsRoutes} />
       <Routes>
         
         <Route exact path='/' element={<SettingsUser />} />

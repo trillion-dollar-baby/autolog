@@ -1,4 +1,10 @@
-.settings.content {
+.settings {
+    display:flex;
+    flex-direction: row;
+    max-height: 100vh;
+}
+
+.settings .content {
     display:flex;
     flex-direction: column;
     justify-content: center;
