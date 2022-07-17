@@ -15,8 +15,12 @@ function App() {
   return (
     <div className="app">
         <BrowserRouter>
+          {/* rendered in all paths */}
           <Navbar/>
+          
+          {/* rendered for logged in users */}
           <Sidebar/>
+
           <Routes>
             <Route path='/' element={<Landing/>}/>
             
