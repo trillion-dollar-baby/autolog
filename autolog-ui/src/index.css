@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap');
 
 :root {
+  --maxWidth: 1080px;
   /* color variables */
 
   /* navbar, sidebar, topbar */
@@ -77,10 +78,20 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
+  width: 100vw;
+}
+
+.content {
+  display:flex;
+  
+  max-width: 1080px;
+  min-width: 320px;
+
+  margin: 0 auto;
+  text-align: center;
+
+  place-items: center;
 }
 
 h1 {
