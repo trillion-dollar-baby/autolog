@@ -1,0 +1,10 @@
+.form-gray {
+    width: 100%;
+    height: fit-content;
+    display:flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    
+    gap: 25px;
+}
+
