@@ -3,8 +3,8 @@ import './Sidebar.css'
 
 export default function Sidebar() {
     return (
-        <div>
+        <nav className='sidebar'>
 
-        </div>
+        </nav>
     )
 }
