@@ -86,7 +86,6 @@ body {
 
 .content {
   display:flex;
-  
   max-width: 1080px;
   min-width: 320px;
 
