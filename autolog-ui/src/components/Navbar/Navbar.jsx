@@ -12,6 +12,7 @@ export default function Navbar() {
           <span className="logo-title">Autolog</span>
         </Link>
       </div>
+      <Link to='/Register'> Login </Link>
       <div className="section">
         {/* TODO: create a function to log out the user and lead to landing page or login screen */}
         <NavLink className={(isActive) => { return 'btn-log-out' }} to={'/'} onClick={undefined}>
