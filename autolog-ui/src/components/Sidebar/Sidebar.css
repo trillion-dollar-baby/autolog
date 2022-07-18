@@ -4,6 +4,9 @@
 
 
     display: flex;
+    position: fixed;
+    overflow: hidden;
+    
     flex-direction: column;
     text-align: center;
 
@@ -12,8 +15,21 @@
     background-color: var(--darkBlueAccent);
 }
 
-.sidebar .title {
-    margin: 30px 0;
+.icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 10px;
+}
+
+.sidebar-empty {
+    width: 280px;
+    height: 50vh;
+}
+
+.title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: 300;
 }
 
 .sidebar-item {
@@ -37,4 +53,8 @@
 a.sidebar-item.active {
     background-color: var(--darkBlueAccentFocused);
 
+}
+
+.sidebar-item:hover {
+    color: var(--white);
 }

@@ -1,11 +1,33 @@
 .settings {
     display:flex;
-    flex-direction: row;
+    flex-direction: column;
+    max-width: var(--maxWidth);
     max-height: 100vh;
+    margin: 0 auto;
+    flex-grow:1;
 }
 
 .settings .content {
+    max-width: var(--maxWidth);
     display:flex;
     flex-direction: column;
     justify-content: center;
+
+    
+}
+
+.settings-divider {
+    display:flex;
+    justify-content: flex-start;
+    padding-left: 20px;
+    align-items: center;
+    font-size: 24px;
+
+    max-width: var(--maxWidth);
+    height: 75px;
+    background-color: var(--darkBlueAccent);
+
+    margin: var(--elementSpacing) 0;
+    border-radius: 10px;
+
 }
