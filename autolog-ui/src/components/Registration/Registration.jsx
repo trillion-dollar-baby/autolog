@@ -1,9 +1,35 @@
 import * as React from 'react';
 import './Registration.css'
 import RedCar from '../../assets/red-car.png'
-
+import apiClient from '../../services/apiClient';
 
 export default function Registration() {
+    const [ credentials, setCredentials ] = React.useState({email: "", password: "", confirmPassword: "", firstName: "", lastName: "", phoneNumber: 0, username: ""});
+
+    const handleOnFormChange = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
+
+        // Change the value of the given field
+        setCredentials({...credentials, [name]: value});
+    }
+
+    const registerUser = async () => {
+        if (credentials.password != credentials.confirmPassword) {
+            console.log("passwords must match");
+            return;
+        }
+        const { data, error } = await apiClient.registerUser(credentials);
+
+        if (error) {
+            console.log(error);
+        }
+        if (data?.user) {
+            console.log("successfully signed in user")
+            apiClient.setToken(data.token);
+        }
+    }
+
     return (
         <div>
             <div className='registration-page'>
@@ -16,39 +42,39 @@ export default function Registration() {
                 <div className='registration-form'>
                     <div className='registration-username'>
                         <label className='input-label' for="username">Username</label>
-                        <input className='registration-input' id="username" name="username" placeholder='Enter username...'></input>
+                        <input className='registration-input' id="username" name="username" placeholder='Enter username...' onChange={handleOnFormChange}></input>
                     </div>
                     <div className='registration-form-row-1'>
                         <span className='registration-first-name'>
                             <label className='input-label' for="first-name">First name</label>
-                            <input className='registration-input' id="first-name" name="first-name" placeholder='Enter first name...'></input>
+                            <input className='registration-input' id="first-name" name="firstName" placeholder='Enter first name...' onChange={handleOnFormChange}></input>
                         </span>
                         <span className='registration-last-name'>
                             <label className='input-label' for="last-name">Last name</label>
-                            <input className='registration-input' id="last-name" name="last-name" placeholder='Enter last name...'></input>
+                            <input className='registration-input' id="last-name" name="lastName" placeholder='Enter last name...' onChange={handleOnFormChange}></input>
                         </span>
                     </div>
                     <div className='registration-form-row-2'>
                         <span className='registration-email'>
                             <label className='input-label' for="email">Email</label>
-                            <input className='registration-input' id="email" name="email" placeholder='Enter email...'></input>
+                            <input className='registration-input' id="email" name="email" placeholder='Enter email...' onChange={handleOnFormChange}></input>
                         </span>
                         <span className='registration-phone-number'>
                             <label className='input-label' for="phone-number">Phone number</label>
-                            <input className='registration-input' id="phone-number" name="phone-number" placeholder='(xxx)-xxx-xxxx'></input>
+                            <input className='registration-input' id="phone-number" name="phoneNumber" placeholder='(xxx)-xxx-xxxx' onChange={handleOnFormChange}></input>
                         </span>
                     </div>
                     <div className='registration-form-row-3'>
                         <span className='registration-password'>
                             <label className='input-label' for="password">Password</label>
-                            <input className='registration-input' id="password" name="password" placeholder='**********'></input>
+                            <input className='registration-input' id="password" name="password" placeholder='**********' onChange={handleOnFormChange}></input>
                         </span>
                         <span className='registration-confirm-password'>
                             <label className='input-label' for="confirm-password">Confirm password</label>
-                            <input className='registration-input' id="confirm-password" name="confirm-password" placeholder='**********'></input>
+                            <input className='registration-input' id="confirm-password" name="confirmPassword" placeholder='**********' onChange={handleOnFormChange}></input>
                         </span>
                     </div>
-                    <button className='registration-button'> Register </button>
+                    <button className='registration-button' onClick={registerUser}> Register </button>
                 </div>
                 <div className='footer'>
                     <p> Already a user? </p>

@@ -13,6 +13,7 @@ const cors = require("cors");
 
 const { NotFoundError } = require("./utils/errors");
 const security = require("./middleware/security");
+const authRoutes = require("./routes/user");
 
 /**
  * End of imports
@@ -27,12 +28,17 @@ app.use(morgan("tiny"));
 // parse JSON bodies
 app.use(express.json());
 
+// Use Cross Origin Requests
+app.use(cors());
+
 // extract token to obtain payload information of user
 app.use(security.extractUserFromJwt);
 
 /**
  * Application routes
  */
+
+app.use("/auth", authRoutes)
 
 // health check
 app.get("/", (req, res, next) => {

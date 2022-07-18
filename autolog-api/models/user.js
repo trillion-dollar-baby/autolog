@@ -35,7 +35,7 @@ class User {
   }
 
   static async register(credentials) {
-    const requiredFields = ["email", "username", "firstName", "lastName", "password"]
+    const requiredFields = ["email", "username", "firstName", "lastName", "password", "phoneNumber"]
     requiredFields.forEach((property) => {
       if (!credentials?.hasOwnProperty(property)) {
         throw new BadRequestError(`Missing ${property} in request body.`)
