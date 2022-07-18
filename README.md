@@ -23,4 +23,4 @@ Deployment Website: **Add Link to Deployed Project**
 
 ### Open-source libraries used
 
-- Add any links to open-source libraries used in your project.
+- [lodash](https://www.npmjs.com/package/lodash)
