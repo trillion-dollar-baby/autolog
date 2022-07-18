@@ -8,7 +8,7 @@ export default function SettingsUser() {
 
     //TODO: if the user changes the original value, render update button
 
-    // what values we want in the form 
+    // what values we want in the form
     const formArray = [
         {
             label: "First Name",
@@ -43,11 +43,15 @@ export default function SettingsUser() {
     ]
 
     return (
-        <div className="settings content settings-user">
-            <Form formState={form} setFormState={setForm} formArray={formArray}/>
+        <div className="settings">
+            <div className="settings content settings-user">
+                <Form formState={form} setFormState={setForm} formArray={formArray} />
+            </div>
 
-            <div className='settings-divider'/>
-
+            <div className='settings-divider'>
+                <span>Password settings</span>
+            </div>
+            
         </div>
     )
 }

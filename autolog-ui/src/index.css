@@ -3,6 +3,7 @@
 :root {
   --maxWidth: 1080px;
   --navbarHeight: 70px; 
+  --elementSpacing: 30px;
   /* color variables */
 
   /* navbar, sidebar, topbar */

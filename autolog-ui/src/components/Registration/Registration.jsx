@@ -5,7 +5,7 @@ import RedCar from '../../assets/red-car.png'
 
 export default function Registration() {
     return (
-        <div>
+        <div className='registration'>
             <div className='registration-page'>
             <div className='content'>
                 <div className='header'>
