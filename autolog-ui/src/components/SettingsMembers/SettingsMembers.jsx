@@ -48,9 +48,9 @@ export default function SettingsMembers() {
                 {/* <Form formState={form} setFormState={setForm} formArray={formArray} /> */}
             </div>
 
-            <div className='settings-divider'>
+            {/* <div className='settings-divider'>
                 <span>Password settings</span>
-            </div>
+            </div> */}
             
         </div>
     )
