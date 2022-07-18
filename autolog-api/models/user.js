@@ -11,7 +11,6 @@ class User {
       username: user.username,
       firstName: user.first_name,
       lastName: user.last_name,
-      isAdmin: user.is_admin,
       createdAt: user.created_at,
     }
   }
