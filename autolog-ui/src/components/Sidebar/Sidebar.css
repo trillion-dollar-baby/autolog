@@ -4,12 +4,20 @@
 
 
     display: flex;
+    position: fixed;
+    overflow: hidden;
+    
     flex-direction: column;
     text-align: center;
 
     font-size: 24px;
 
     background-color: var(--darkBlueAccent);
+}
+
+.sidebar-empty {
+    width: 280px;
+    height: 100%;
 }
 
 .sidebar .title {

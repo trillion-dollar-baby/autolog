@@ -2,6 +2,7 @@
 
 :root {
   --maxWidth: 1080px;
+  --navbarHeight: 70px; 
   /* color variables */
 
   /* navbar, sidebar, topbar */
