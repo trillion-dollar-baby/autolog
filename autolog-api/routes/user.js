@@ -1,120 +1,38 @@
-const bcrypt = require("bcrypt")
-const { BCRYPT_WORK_FACTOR } = require("../config")
-const db = require("../db")
-const { BadRequestError, UnauthorizedError } = require("../utils/errors")
+const express = require("express")
+const User = require("../models/user")
+const tokens = require("../utils/tokens")
+const security = require("../middleware/security")
+const router = express.Router()
 
-class User {
-  static makePublicUser(user) {
-    return {
-      id: user.id,
-      email: user.email,
-      username: user.username,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      isAdmin: user.is_admin,
-      createdAt: user.created_at,
-    }
+router.post("/login", async (req, res, next) => {
+  try {
+    const user = await User.login(req.body)
+    const token = tokens.createUserJwt(user)
+    return res.status(200).json({ user, token })
+  } catch (err) {
+    next(err)
   }
+})
 
-  static async login(credentials) {
-    const requiredFields = ["email", "password"]
-    requiredFields.forEach((property) => {
-      if (!credentials?.hasOwnProperty(property)) {
-        throw new BadRequestError(`Missing ${property} in request body.`)
-      }
-    })
-
-    const user = await User.fetchUserByEmail(credentials.email)
-    if (user) {
-      const isValid = await bcrypt.compare(credentials.password, user.password)
-      if (isValid) {
-        return User.makePublicUser(user)
-      }
-    }
-
-    throw new UnauthorizedError("Invalid username/password")
+router.post("/register", async (req, res, next) => {
+  try {
+    const user = await User.register({ ...req.body, isAdmin: false })
+    const token = tokens.createUserJwt(user)
+    return res.status(201).json({ user, token })
+  } catch (err) {
+    next(err)
   }
+})
 
-  static async register(credentials) {
-    const requiredFields = ["email", "username", "firstName", "lastName", "password"]
-    requiredFields.forEach((property) => {
-      if (!credentials?.hasOwnProperty(property)) {
-        throw new BadRequestError(`Missing ${property} in request body.`)
-      }
-    })
-
-    if (credentials.email.indexOf("@") <= 0) {
-      throw new BadRequestError("Invalid email.")
-    }
-
-    const existingUser = await User.fetchUserByEmail(credentials.email)
-    if (existingUser) {
-      throw new BadRequestError(`A user already exists with email: ${credentials.email}`)
-    }
-
-    const existingUserWithUsername = await User.fetchUserByUsername(credentials.username)
-    if (existingUserWithUsername) {
-      throw new BadRequestError(`A user already exists with username: ${credentials.username}`)
-    }
-
-    const hashedPassword = await bcrypt.hash(credentials.password, BCRYPT_WORK_FACTOR)
-    const normalizedEmail = credentials.email.toLowerCase()
-    const normalizedUsername = credentials.username.toLowerCase()
-
-    const userResult = await db.query(
-      `INSERT INTO users (email, username, first_name, last_name, password, is_admin)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       RETURNING id, email, username, first_name, last_name, is_admin, created_at;
-      `,
-      [
-        normalizedEmail,
-        normalizedUsername,
-        credentials.firstName,
-        credentials.lastName,
-        hashedPassword,
-        credentials.isAdmin,
-      ]
-    )
-    const user = User.makePublicUser(userResult.rows[0])
-
-    return user
+router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
+  try {
+    const { username } = res.locals.user
+    const user = await User.fetchUserByUsername(username)
+    const publicUser = User.makePublicUser(user)
+    return res.status(200).json({ user: publicUser })
+  } catch (err) {
+    next(err)
   }
+})
 
-  static async fetchUserByEmail(email) {
-    if (!email) {
-      throw new BadRequestError("No email provided")
-    }
-
-    const query = `SELECT * FROM users WHERE email = $1`
-
-    const result = await db.query(query, [email.toLowerCase()])
-
-    const user = result.rows[0]
-
-    if (user) {
-      return user;
-    }
-
-    return false;
-  }
-
-  static async fetchUserByUsername(username) {
-    if (!username) {
-      throw new BadRequestError("No username provided")
-    }
-
-    const query = `SELECT * FROM users WHERE username = $1`
-
-    const result = await db.query(query, [username.toLowerCase()])
-
-    const user = result.rows[0]
-
-    if (user) {
-      return user;
-    }
-
-    return false;
-  }
-}
-
-module.exports = User
+module.exports = router
