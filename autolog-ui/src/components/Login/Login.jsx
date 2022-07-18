@@ -1,8 +1,31 @@
 import * as React from 'react';
 import './Login.css'
 import RedCar from '../../assets/red-car.png'
+import apiClient from '../../services/apiClient';
 
 export default function Login() {
+    const [ credentials, setCredentials ] = React.useState({email: "", password: ""});
+
+    const handleOnFormChange = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
+
+        // Change the value of the given field
+        setCredentials({...credentials, [name]: value});
+    }
+
+    const signInUser = async () => {
+        const { data, error } = await apiClient.loginUser(credentials);
+
+        if (error) {
+            console.log(error);
+        }
+        if (data?.user) {
+            console.log("successfully signed in user")
+            apiClient.setToken(data.token);
+        }
+    }
+
     return (
         <div className='login-page'>
             <div className='content'>
@@ -14,13 +37,13 @@ export default function Login() {
                 <div className='login-form'>
                     <div className='login-email'>
                         <label className='input-label' for="email">Email</label>
-                        <input className='login-input' id="email" name="email" placeholder='Enter email...'></input>
+                        <input className='login-input' id="email" name="email" placeholder='Enter email...' onChange={handleOnFormChange}></input>
                     </div>
                     <div className='login-password'>
                         <label className='input-label' for="password">Password</label>
-                        <input className='login-input' id="password" name="password" placeholder='Enter password...'></input>
+                        <input className='login-input' id="password" name="password" placeholder='Enter password...' onChange={handleOnFormChange}></input>
                     </div>
-                    <button className='login-button'> Sign In </button>
+                    <button className='login-button' onClick={signInUser}> Sign In </button>
                 </div>
                 <div className='footer'>
                     <p> Not a user? </p>

@@ -14,7 +14,8 @@
  db.connect((err) => {
      if (err) {
          console.error("connection error:".red, err.stack);
-     } else {
+     } 
+     else {
          console.log("Successfully connected to DB📭".blue)
      }
  })
