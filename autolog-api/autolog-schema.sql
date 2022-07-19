@@ -17,24 +17,16 @@ CREATE TABLE user_roles (
     user_id INTEGER NOT NULL,
     role_name TEXT NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
-)
+);
 
 CREATE TABLE permissions (
     id SERIAL PRIMARY KEY,
     role_name TEXT NOT NULL,
-    create BOOLEAN NOT NULL,
-    read BOOLEAN NOT NULL,
-    update BOOLEAN NOT NULL,
-    delete BOOLEAN NOT NULL
-)
-
-CREATE TABLE user_to_inventory (
-    id SERIAL PRIMARY KEY,
-    inventory_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-    FOREIGN KEY (inventory_id) REFERENCES inventory(id)
-)
+    c BOOLEAN NOT NULL,
+    r BOOLEAN NOT NULL,
+    u BOOLEAN NOT NULL,
+    d BOOLEAN NOT NULL
+);
 
 CREATE TABLE inventory (
     id SERIAL PRIMARY KEY,
@@ -43,7 +35,15 @@ CREATE TABLE inventory (
     createdAt timestamp NOT NULL DEFAULT CURRENT_DATE,
     updatedAt timestamp NOT NULL DEFAULT NOW(),
     FOREIGN KEY (admin_id) REFERENCES users(id)
-)
+);
+
+CREATE TABLE user_to_inventory (
+    id SERIAL PRIMARY KEY,
+    inventory_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id)
+);
 
 CREATE TABLE items (
     id SERIAL PRIMARY KEY,
@@ -53,12 +53,11 @@ CREATE TABLE items (
     measures TEXT NOT NULL,
     located_at TEXT NOT NULL,
     part_number TEXT NOT NULL,
-    name TEXT NOT NULL,
     createdAt timestamp NOT NULL DEFAULT CURRENT_DATE,
     updatedAt timestamp NOT NULL DEFAULT NOW(),
     inventory_id INTEGER NOT NULL,
     FOREIGN KEY (inventory_id) REFERENCES inventory(id)
-)
+);
 
 CREATE TABLE logs (
     id SERIAL PRIMARY KEY,
@@ -68,4 +67,4 @@ CREATE TABLE logs (
     created_at timestamp NOT NULL default CURRENT_DATE,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (item_id) REFERENCES items(id)
-)
+);
