@@ -1,8 +1,65 @@
 import * as React from 'react';
 import './Dashboard.css'
 import emptyCheckbox from '../../assets/empty-checkbox.png'
+import { useState, useEffect } from 'react';
 
 export default function Dashboard() {
+    const [todos, setTodos] = useState([]);
+    const [todo, setTodo] = useState("");
+    const [todoEditing, setTodoEditing] = useState(null);
+    const [editingText, setEditingText] = useState("");
+
+    useEffect(() => {
+        const json = localStorage.getItem("todos");
+        const loadedTodos = JSON.parse(json);
+        if (loadedTodos) {
+          setTodos(loadedTodos);
+        }
+      }, []);
+
+      useEffect(() => {
+        const json = JSON.stringify(todos);
+        localStorage.setItem("todos", json);
+      }, [todos]);
+
+      function handleSubmit(e) {
+        e.preventDefault();
+    
+        const newTodo = {
+          id: new Date().getTime(),
+          text: todo,
+          completed: false,
+        };
+        setTodos([...todos].concat(newTodo));
+        setTodo("");
+      }
+
+      function toggleComplete(id) {
+        let updatedTodos = [...todos].map((todo) => {
+          if (todo.id === id) {
+            todo.completed = !todo.completed;
+          }
+          return todo;
+        });
+        setTodos(updatedTodos);
+      }
+
+      function submitEdits(id) {
+        const updatedTodos = [...todos].map((todo) => {
+          if (todo.id === id) {
+            todo.text = editingText;
+          }
+          return todo;
+        });
+        setTodos(updatedTodos);
+        setTodoEditing(null);
+      }
+
+      function deleteTodo(id) {
+        let updatedTodos = [...todos].filter((todo) => todo.id !== id);
+        setTodos(updatedTodos);
+      }
+
     return (
         <div className="dashboard">
             <div className="head">
