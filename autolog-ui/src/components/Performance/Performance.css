@@ -1,0 +1,8 @@
+.performance-content {
+    max-height: 100vh;
+    max-width: calc(100vw - 280px);
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: column;
+}

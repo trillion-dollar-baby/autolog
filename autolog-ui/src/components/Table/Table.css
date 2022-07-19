@@ -1,0 +1,27 @@
+.table {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    min-height: 100%;
+    width: calc(100vw - 280px);
+    overflow-y: scroll;
+}
+
+.row-item {
+    text-decoration: none;
+    background-color: #CCCCCC;
+    border-bottom: 1px #B7B7B7 solid;
+    height: 35px;
+}
+
+.table-column {
+    background-color: #CCCCCC;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.column-label {
+    height: 35px;
+    background-color: #B7B7B7;
+}
