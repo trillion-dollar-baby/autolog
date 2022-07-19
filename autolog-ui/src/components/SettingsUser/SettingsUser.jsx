@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
+import ButtonAction from '../Button/ButtonAction';
 import Form from '../Form/Form';
 import './SettingsUser.css';
 
@@ -103,7 +104,7 @@ export default function SettingsUser() {
                 <Form formState={form} setFormState={setForm} formArray={formArray} />
             </div>
             
-            {change && <p>works</p>}
+            {change && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => console.log("asd")}/>}
 
             {/* divider */}
             <div className='settings-divider'>
@@ -115,7 +116,7 @@ export default function SettingsUser() {
                 <Form formState={passwordForm} setFormState={setPasswordForm} formArray={passwordFormArray} />
                 {/* if password does not match show error message */}
                 {(passwordError && passwordChange) && <p style={{color: 'red'}}>you stupid the password does not match!</p>}
-                {(!passwordError && passwordChange) && <p style={{color: 'green'}}> you got it brah</p> }
+                {(!passwordError && passwordChange) && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => console.log("asd")}/> }
             </div>
 
         </div>

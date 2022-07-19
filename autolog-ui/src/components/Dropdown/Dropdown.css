@@ -15,6 +15,12 @@
 .dropdown-wrapper.active{
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
+
+    outline: 3px rgb(100, 100, 100) solid;
+}
+
+.dropdown-wrapper.active .dropdown-list {
+    outline: 3px  rgb(100, 100, 100) solid;
 }
 
 .dropdown-header {
