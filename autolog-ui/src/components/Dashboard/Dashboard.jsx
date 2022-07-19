@@ -5,6 +5,14 @@ import emptyCheckbox from '../../assets/empty-checkbox.png'
 export default function Dashboard() {
     return (
         <div className="dashboard">
+            <div className="head">
+                <div className="hello">
+                    <h2 className="hey"> Welcome Back, </h2>
+                </div>
+                <div className="invite-bttn">
+                    <button className="invite"> Invite </button>
+                </div>
+            </div>
             <div className="display">
                 <div className="announcements">
                     <label className="title"> Announcements </label>
@@ -35,18 +43,19 @@ export default function Dashboard() {
                 <div className="column-name"> 
                 <table>
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Date</th>
-                            <th>User</th>
-                            <th>Item ID</th>
+                        <tr className='column-label'>
+                            <th className='num1'>ID</th>
+                            <th className='num1'>Date</th>
+                            <th className='num1'>User</th>
+                            <th className='num2'>Item ID</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr className="rows">
                             <td>12345</td>
                             <td>01-23-45</td>
-                            <td>MoeElias</td>      
+                            <td>MoeElias</td>
+                            <td>145678</td>      
                         </tr>
                     </tbody>
                 </table>

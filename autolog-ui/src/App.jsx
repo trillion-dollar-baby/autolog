@@ -20,22 +20,26 @@ function App() {
         {/* rendered in all paths */}
         <Navbar />
 
-        <Routes>
-          <Route path='/' element={<Landing />} />
+        <div className="page-content">
+          {/* <Sidebar /> */}
 
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Registration />} />
+          <Routes>
+            <Route path='/' element={<Landing />} />
 
-          {/* TODO: create authorized routes for routes below */}
-          <Route path='/dashboard' element={<Dashboard />} />
-          <Route path='/inventory' element={<Inventory />} />
-          <Route path='/item/create' element={<CreateItem />} />
-          <Route path='/performance' element={<Performance />} />
-          <Route path='/settings/*' element={<Settings />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Registration />} />
 
-          {/* Not found error */}
-          <Route path='*' element={<NotFound />} />
-        </Routes>
+            {/* TODO: create authorized routes for routes below */}
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/inventory' element={<Inventory />} />
+            <Route path='/item/create' element={<CreateItem />} />
+            <Route path='/performance' element={<Performance />} />
+            <Route path='/settings/*' element={<Settings />} />
+
+            {/* Not found error */}
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     </div>
   )

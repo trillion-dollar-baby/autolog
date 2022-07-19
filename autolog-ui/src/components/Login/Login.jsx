@@ -35,11 +35,11 @@ export default function Login() {
                     <h3 className='header-instruction'> Sign in to your account </h3>
                 </div>
                 <div className='login-form'>
-                    <div className='login-email'>
+                    <div className='login-email form-input-gray'>
                         <label className='input-label' for="email">Email</label>
                         <input className='login-input' id="email" name="email" placeholder='Enter email...' onChange={handleOnFormChange}></input>
                     </div>
-                    <div className='login-password'>
+                    <div className='login-password form-input-gray'>
                         <label className='input-label' for="password">Password</label>
                         <input className='login-input' id="password" name="password" placeholder='Enter password...' onChange={handleOnFormChange}></input>
                     </div>
@@ -47,7 +47,7 @@ export default function Login() {
                 </div>
                 <div className='footer'>
                     <p> Not a user? </p>
-                    <a> Register now! </a>
+                    <NavLink to='/register'> Register now! </NavLink>
                 </div>
             </div>
         </div >

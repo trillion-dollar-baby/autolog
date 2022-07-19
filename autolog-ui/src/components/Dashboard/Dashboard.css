@@ -1,4 +1,16 @@
+.hey{
+    font-style: normal;
+    font-weight: 400;
+    font-size: 27px;
+    color: #000000;
 
+}
+.head{
+    display:flex;
+    flex-direction: row;
+    margin-top: 20px;
+    gap:690px;
+}
 .dashboard{
     max-height: 100vh;
     max-width: 100vw;
@@ -10,11 +22,25 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: 70px;
-        margin-top:20px;
+        margin-top:25px;
 }
+.invite{
+    filter: drop-shadow(0px 2px 0px rgba(0, 0, 0, 0.25));
+    background: #2EAF79;
+    border-radius: 10px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    text-align: center;
+    color: #F8F8F8;
+}
+/* .invite-bttn{
+    margin-left:715px;
+
+} */
 .announcement-form{
-width: 670px;
-height: 200px;
+width: 650px;
+height: 160px;
 /* left: 343px; */
 /* top: 360px; */
 background: #D9D9D9;
@@ -90,9 +116,35 @@ line-height: none;
     margin-top:20px;
     background-color: #D9D9D9;
     height: 30px;
-    width: 1160px;
+    width: 1160px; 
+    border-radius: 30px 30px 0px 0px;
     
-    
+}
+.title2{
+    width: 218.28px;
+height: 35px;
+left: 303.91px;
+top: 675px;
+margin-left: 10px;
+margin-bottom: 10px;
+}
+
+.column-label{
+background: #B7B7B7;
+border-style: solid;
+border-color: #CCCCCC;
+}
+.num1{
+    width: 120px;
+}
+.num2{
+    width: 791px;
+}
+.rows{
+background: #D9D9D9;
+border-width: 1.5px 0px;
+border-style: solid;
+border-color: #CCCCCC;
 }
 .more-items{
     /* justify-content: center;

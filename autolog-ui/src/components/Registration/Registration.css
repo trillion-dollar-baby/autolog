@@ -1,6 +1,10 @@
+.registration {
+    margin: 0 auto;
+}
+
 .registration-page {
     max-height: 100vh;
-    max-width: 100vw;
+    max-width: var(--maxWidth);
     justify-content: center;
     align-items: center;
     display: flex;
