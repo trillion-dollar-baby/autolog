@@ -1,57 +1,31 @@
 import { useState } from 'react';
 import Form from '../Form/Form';
-import './SettingsMembers.css'
+
+import './SettingsMembers.css';
+import DropdownSmall from '../DropdownSmall/DropdownSmall';
+import MemberList from '../MemberList/MemberList';
+import Dropdown from '../Dropdown/Dropdown';
 
 export default function SettingsMembers() {
-    const [form, setForm] = useState({});
+  const roleOptions = [
+    'Admin',
+    'Manager',
+    'Employee',
+    'Viewer'
+  ]
+  const [value, setValue] = useState(roleOptions[1]);
 
-
-    //TODO: if the user changes the original value, render update button
-
-    // what values we want in the form
-    const formArray = [
-        {
-            label: "First Name",
-            name: "firstName",
-            type: "text",
-            placeholder: "First Name"
-        },
-        {
-            label: "Last Name",
-            name: "lastName",
-            type: "text",
-            placeholder: "Last Name"
-        },
-        {
-            label: "Phone Number",
-            name: "phoneNumber",
-            type: "tel",
-            placeholder: "No phone number found"
-        },
-        {
-            label: "Email",
-            name: "email",
-            type: "email",
-            placeholder: "Email"
-        },
-        {
-            label: "Username",
-            name: "username",
-            type: "text",
-            placeholder: "Username"
-        }
-    ]
-
-    return (
-        <div>
-            <div className="settings settings-members">
-                {/* <Form formState={form} setFormState={setForm} formArray={formArray} /> */}
-            </div>
-
-            {/* <div className='settings-divider'>
+  return (
+    <div>
+      <div className="settings settings-members">
+        <MemberList/>
+      </div>
+      {/* <Dropdown title={'hello world'}/> */}
+      
+      {/* <div className='settings-divider'>
                 <span>Password settings</span>
             </div> */}
-            
-        </div>
-    )
+
+    </div>
+  )
 }
