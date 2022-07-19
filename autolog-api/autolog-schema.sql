@@ -8,8 +8,8 @@ CREATE TABLE users (
     phone_number TEXT NOT NULL,
     role TEXT NOT NULL,
     is_verified BOOLEAN NOT NULL,
-    createdAt timestamp NOT NULL DEFAULT CURRENT_DATE,
-    updatedAt timestamp NOT NULL DEFAULT NOW()
+    created_at timestamp NOT NULL DEFAULT CURRENT_DATE,
+    updated_at timestamp NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE user_roles (

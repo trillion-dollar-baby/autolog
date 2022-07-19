@@ -59,19 +59,26 @@ class User {
     const hashedPassword = await bcrypt.hash(credentials.password, BCRYPT_WORK_FACTOR)
     const normalizedEmail = credentials.email.toLowerCase()
     const normalizedUsername = credentials.username.toLowerCase()
+    const firstName = credentials.firstName
+    const lastName = credentials.lastName
+    const phoneNumber = credentials.phoneNumber
+    const role = "admin"
+    const isVerified = true;
 
     const userResult = await db.query(
-      `INSERT INTO users (email, username, first_name, last_name, password, is_admin)
-       VALUES ($1, $2, $3, $4, $5, $6)
-       RETURNING id, email, username, first_name, last_name, is_admin, created_at;
+      `INSERT INTO users (email, username, first_name, last_name, password, phone_number, role, is_verified)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       RETURNING id, email, username, first_name, last_name, created_at;
       `,
       [
         normalizedEmail,
         normalizedUsername,
-        credentials.firstName,
-        credentials.lastName,
+        firstName,
+        lastName,
         hashedPassword,
-        credentials.isAdmin,
+        phoneNumber,
+        role,
+        isVerified
       ]
     )
     const user = User.makePublicUser(userResult.rows[0])
