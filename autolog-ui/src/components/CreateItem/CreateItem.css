@@ -127,14 +127,13 @@
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    display: flex;
-    align-items: flex-start;
     color: #868686;
     width: 1022px;
     height: 150px;
-    left: 348px;
-    top: 679px;
+    /* left: 348px; */
+    /* top: 679px; */
     border-style: none;
+    align-self: flex-start;
 
 }
 .submit-create-item {

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './CreateItem.css'
+import Search from "../../assets/Search.png"
 
 export default function CreateItem() {
     return (
@@ -45,6 +46,7 @@ export default function CreateItem() {
                     <div className="category">
                         <label className="labels"> Category </label>
                         <input className="form-input" name="category" placeholder="Filter..."/>
+                        <img className='img' src={Search}></img>
                     </div>
                     <div className="supplier">
                         <label className="labels"> Supplier </label>
