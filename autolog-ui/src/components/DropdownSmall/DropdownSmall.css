@@ -1,0 +1,22 @@
+.dropdown-small {
+    color: var(--backgroundInput);
+}
+
+.dropdown-small>select {
+    min-width: 200px;
+    height: 43px;
+    font-size: 21px;
+    padding-left: 10px;
+    font-weight: 300;
+    background-color: var(--backgroundInput);
+    border-radius: 10px;
+    outline:none;
+    border:none;
+    color: black;
+}
+
+.dropdown-small option {
+    font-weight: 300;
+    outline: none;
+    border: none;
+}
