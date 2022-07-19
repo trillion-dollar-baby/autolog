@@ -1,5 +1,5 @@
 .sidebar {
-    width: 280px;
+    width: var(--sidebarWidth);
     height: 100%;
 
 
@@ -22,7 +22,7 @@
 }
 
 .sidebar-empty {
-    width: 280px;
+    width: var(--sidebarWidth);
     height: 50vh;
 }
 
