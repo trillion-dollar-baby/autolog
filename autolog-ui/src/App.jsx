@@ -12,6 +12,7 @@ import Settings from './components/Settings/Settings';
 import Dashboard from './components/Dashboard/Dashboard';
 import Inventory from './components/Inventory/Inventory';
 import NotFound from './components/NotFound/NotFound';
+import Performance from './components/Performance/Performance'
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Navbar />
 
         <div className="page-content">
-          {/* <Sidebar /> */}
+          <Sidebar />
 
           <Routes>
             <Route path='/' element={<Landing />} />
