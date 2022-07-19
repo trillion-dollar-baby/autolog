@@ -5,12 +5,12 @@
 
     display: flex;
     position: fixed;
-    overflow: hidden;
+    overflow:hidden;
     
     flex-direction: column;
     text-align: center;
-
-    font-size: 24px;
+    
+    font-size: 20px;
 
     background-color: var(--darkBlueAccent);
 }
@@ -26,10 +26,10 @@
     height: 50vh;
 }
 
-.title {
-    margin-top: 20px;
-    margin-bottom: 20px;
+span.title {
+    margin: 20px auto 20px auto;
     font-weight: 300;
+    color:var(--white);
 }
 
 .sidebar-item {

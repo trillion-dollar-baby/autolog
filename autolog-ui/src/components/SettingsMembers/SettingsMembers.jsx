@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Form from '../Form/Form';
 
 import './SettingsMembers.css';
-import DropdownSmall from '../DropdownSmall/DropdownSmall';
 import MemberList from '../MemberList/MemberList';
 import Dropdown from '../Dropdown/Dropdown';
 
