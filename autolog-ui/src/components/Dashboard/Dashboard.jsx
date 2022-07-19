@@ -78,17 +78,18 @@ export default function Dashboard() {
                 <div className="checklist">
                     <label className="title"> Checklist </label>
                     <div className="check-items">
+                        <form className="checkbox" onSubmit={handleSubmit}>
+                            <img className="img" src={emptyCheckbox}></img>
+                            <input className="list-form" type="text"name="checklist" onChange={(e) => setTodo(e.target.value)} value={todo} placeholder="Enter a new list item..."/>
+                            <button type="submit" className='more-items'>+</button>
+                        </form>
                         <div className="checkbox">
                             <img className="img" src={emptyCheckbox}></img>
-                            <input className="list-form" name="checklist" placeholder="Enter a new list item..."/>
+                            <input className="list-form" type="text" name="checklist" placeholder="Enter a new list item..."/>
                         </div>
                         <div className="checkbox">
                             <img className="img" src={emptyCheckbox}></img>
-                            <input className="list-form" name="checklist" placeholder="Enter a new list item..."/>
-                        </div>
-                        <div className="checkbox">
-                            <img className="img" src={emptyCheckbox}></img>
-                            <input className="list-form" name="checklist" placeholder="Enter a new list item..."/>
+                            <input className="list-form" type="text" name="checklist" placeholder="Enter a new list item..."/>
                         </div>
                         <button className="more-items">+</button>
                     </div>
