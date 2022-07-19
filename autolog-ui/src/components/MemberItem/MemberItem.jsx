@@ -4,8 +4,6 @@ import _ from 'lodash';
 
 import placeholderImage from '../../assets/placeholder.jpg';
 import iconDelete from '../../assets/icons8-delete.png';
-import DropdownSmall from '../DropdownSmall/DropdownSmall';
-import { useState } from 'react';
 import Dropdown from '../Dropdown/Dropdown';
 
 export default function MemberItem({index, id, firstName, lastName, email, userRole, setUserRole}) {
@@ -16,7 +14,7 @@ export default function MemberItem({index, id, firstName, lastName, email, userR
     'employee',
     'viewer'
   ]
-  
+
   // get role value from the dropdown and change it to 
   const onDropdownClick = (role) => {
     // change member role
