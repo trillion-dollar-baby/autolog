@@ -19,7 +19,7 @@ function getDatabaseUri() {
 }
 
 // work factor for hashing
-const BCRYPT_WORK_FACTOR = process.env.BCRYPT_WORK_FACTOR || 13;
+const BCRYPT_WORK_FACTOR = Number(process.env.BCRYPT_WORK_FACTOR) || 13;
 
 console.log("App Config".red)
 console.log("PORT:".blue, PORT)
