@@ -1,0 +1,19 @@
+.inventory-content {
+    max-height: calc(100vh - var(--navbarHeight));
+    max-width: calc(100vw - 280px);
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.inventory-content .topbar-container {
+    max-width: var(--maxWidth);
+    width: 100%;
+}
+
+.inventory-content .table-container {
+    height: 40vh;
+    display: flex;
+}

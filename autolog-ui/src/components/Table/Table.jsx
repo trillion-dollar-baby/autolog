@@ -11,15 +11,15 @@ import './Table.css'
  */
 export default function Table({ tableState, setTableState, tableElementArray, tableColumnLabelArray, onSubmit }) {
   return (
-    <div className="table">
-        {tableColumnLabelArray?.map((columnName, index) => (
-            <div key={`column-${index}`} className={`table-column`}> 
-                    <p className='column-label'> {columnName} </p>
-                {tableElementArray?.map((rowItems, index) => (
-                    <li className="row-item" key={`row-item-${index}`}> {rowItems[columnName]} </li>
-            ))} </div>
-        ))}
-    </div>
+        <div className="table">
+                {tableColumnLabelArray?.map((columnName, index) => (
+                    <div key={`column-${index}`} className={`table-column`}> 
+                            <p className='column-label'> {columnName} </p>
+                        {tableElementArray?.map((rowItems, index) => (
+                            <li className="row-item" key={`row-item-${index}`}> {rowItems[columnName]} </li>
+                    ))} </div>
+                ))}
+        </div>
   )
 
 }
