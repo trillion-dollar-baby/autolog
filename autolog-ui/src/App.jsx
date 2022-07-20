@@ -13,8 +13,15 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Inventory from './components/Inventory/Inventory';
 import NotFound from './components/NotFound/NotFound';
 import Performance from './components/Performance/Performance'
+import { useState } from 'react';
+import { useContext } from 'react';
+import AuthContext from './contexts/auth';
 
 function App() {
+  const {userContext} = useContext(AuthContext);
+  const [user, setUser] = userContext;
+
+  console.log('usercontext,', user);
   return (
     <div className="app">
       <BrowserRouter>
@@ -22,7 +29,7 @@ function App() {
         <Navbar />
 
         <div className="page-content">
-          <Sidebar />
+          <Sidebar login={true}/>
 
           <Routes>
             <Route path='/' element={<Landing />} />
