@@ -3,13 +3,18 @@ import './Registration.css'
 import RedCar from '../../assets/red-car.png'
 import apiClient from '../../services/apiClient';
 import { NavLink } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function Registration() {
-    const [ credentials, setCredentials ] = React.useState({email: "", password: "", confirmPassword: "", firstName: "", lastName: "", phoneNumber: 0, username: ""});
+    const [ credentials, setCredentials ] = useState({email: "", password: "", confirmPassword: "", firstName: "", lastName: "", phoneNumber: 0, username: ""});
+    const [error, setError] = useState();
 
     const handleOnFormChange = (e) => {
         let name = e.target.name;
         let value = e.target.value;
+
+        // reset error as user is changing values again
+        setError();
 
         // Change the value of the given field
         setCredentials({...credentials, [name]: value});
@@ -23,7 +28,10 @@ export default function Registration() {
         const { data, error } = await apiClient.registerUser(credentials);
 
         if (error) {
-            console.log(error);
+            console.error("auth error:", error);
+
+            // let user know what happened
+            setError(error);
         }
         if (data?.user) {
             console.log("successfully signed in user")
@@ -39,6 +47,7 @@ export default function Registration() {
                     <img className='header-img' src={RedCar}></img>
                     <h1 className='header-welcome'> Welcome, start by making a new account</h1>
                     <h3 className='header-instruction'> Register your new account </h3>
+                    <h3 className="error-message">{error}</h3>
                 </div>
                 <div className='registration-form'>
                     <div className='registration-username form-input-gray'>
@@ -68,11 +77,11 @@ export default function Registration() {
                     <div className='registration-form-row-3'>
                         <span className='registration-password form-input-gray'>
                             <label className='input-label' for="password">Password</label>
-                            <input className='registration-input' id="password" name="password" placeholder='**********' value={credentials.password} onChange={handleOnFormChange}></input>
+                            <input className='registration-input' id="password" type='password' name="password" placeholder='**********' value={credentials.password} onChange={handleOnFormChange}></input>
                         </span>
                         <span className='registration-confirm-password form-input-gray'>
                             <label className='input-label' for="confirm-password">Confirm password</label>
-                            <input className='registration-input' id="confirm-password" name="confirmPassword" placeholder='**********' value={credentials.confirmPassword} onChange={handleOnFormChange}></input>
+                            <input className='registration-input' id="confirm-password" type='password' name="confirmPassword" placeholder='**********' value={credentials.confirmPassword} onChange={handleOnFormChange}></input>
                         </span>
                     </div>
                     <button className='registration-button' onClick={registerUser}> Register </button>

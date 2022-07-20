@@ -1,7 +1,7 @@
 import './App.css'
 import * as React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useContext } from 'react';
 // components
 import CreateItem from './components/CreateItem/CreateItem'
 import Landing from './components/Landing/Landing.jsx'
@@ -15,8 +15,13 @@ import Inventory from './components/Inventory/Inventory';
 import NotFound from './components/NotFound/NotFound';
 import Performance from './components/Performance/Performance'
 import CreateInventory from './components/CreateInventory/CreateInventory';
+import AuthContext from './contexts/auth';
 
 function App() {
+  const {userContext} = useContext(AuthContext);
+  const [user, setUser] = userContext;
+
+  console.log('usercontext,', user);
   return (
     <div className="app">
       <BrowserRouter>
@@ -24,7 +29,7 @@ function App() {
         <Navbar />
 
         <div className="page-content">
-          <Sidebar />
+          <Sidebar login={true}/>
 
           <Routes>
             <Route path='/' element={<Landing />} />

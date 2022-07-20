@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
+import ButtonAction from '../Button/ButtonAction';
 import './Topbar.css'
 
 import _ from 'lodash';
@@ -6,9 +7,10 @@ import _ from 'lodash';
 /**
  * Navigation bar for subsections inside the application
  * 
- * @param {Array} routes Array of objects that contain <name> and link <to>  
+ * @param {Array} routes Array of objects that contain <name> and link <to> 
+ * @param {String} buttonName The name of the button to render 
  */
-export default function Topbar({ routes }) {
+export default function Topbar({ routes, buttonName, buttonPath }) {
   return (
     <nav className="topbar">
       {routes.map((item, idx) => {
@@ -19,6 +21,9 @@ export default function Topbar({ routes }) {
           </NavLink>
         )
       })}
+      <div className='button-space' >
+        {buttonName ? <NavLink className='topbar-button' to={buttonPath} > <ButtonAction label={buttonName} color={"#2EAF79"} buttonWidth={"150px"}/> </NavLink> : null}
+      </div>
     </nav>
   )
 }
