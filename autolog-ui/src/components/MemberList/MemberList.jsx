@@ -13,11 +13,27 @@ import { useState } from 'react';
 
 import MemberItem from '../MemberItem/MemberItem';
 
-export default function MemberList({userArray}) {
+export default function MemberList({ userArray, userRoles, setUserRoles }) {
 
-    return(
-        <div className="member-list">
-            <MemberItem/>
-        </div>
-    )
+  // get useState to manage single roles depending on what is choosen in each item's dropdown
+  const setUserRole = (id, role) => {
+    setUserRoles((prevRoles) => ({
+      ...prevRoles,
+      [id]: role
+    }))
+  };
+
+  return (
+    <div className="member-list">
+      {userArray.map((item, idx) => {
+        let index = '';
+        if(idx === 0) index = 'first';
+        if(idx === userArray.length-1) index = 'last'
+
+        return (
+          <MemberItem index={index} id={item.id} firstName={item.firstName} lastName={item.lastName} email={item.email} userRole={userRoles[item.id]} setUserRole={setUserRole}/>
+        )
+      })}
+    </div>
+  )
 }

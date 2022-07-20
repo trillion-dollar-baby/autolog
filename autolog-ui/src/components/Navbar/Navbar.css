@@ -9,9 +9,11 @@
     align-items: center;
 }
 
-.navbar.section { 
+.navbar .section { 
     display:flex;
     align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 
 }
 
@@ -37,5 +39,12 @@
     padding: 10px;
 
     background-color: var(--actionRed);
+    border-radius: 5px;
+}
+
+.btn-sign-up {
+    padding: 10px;
+
+    background-color: var(--actionGreen);
     border-radius: 5px;
 }
