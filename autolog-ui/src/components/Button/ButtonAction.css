@@ -1,0 +1,20 @@
+.button-action {
+    width: 240px;
+    height: 56px;
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 100ms;
+    user-select: none;
+}
+
+.button-action:hover {
+    filter: brightness(90%);
+}
+
+.button-action:active {
+    transform: translateY(1px);
+}
