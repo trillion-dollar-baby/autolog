@@ -12,7 +12,7 @@ function getDatabaseUri() {
     const dbPass = process.env.DATABASE_PASS ? encodeURI(process.env.DATABASE_PASS) : 'Youngqueen8$';
     const dbHost = process.env.DATABASE_HOST || 'localhost'
     const dbPort = process.env.DATABASE_PORT || 5432
-    const dbName = process.env.DATABASE_NAME || 'autolog_test'
+    const dbName = process.env.DATABASE_NAME || 'autolog'
 
     // if DATABASE_URL use it, otherwise use what is provided
     return process.env.DATABASE_URL || `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}`;

@@ -18,7 +18,7 @@ class Item {
             quantity, 
             inventory_id
             )
-            VALUES ($1, $2, $3, $4, (SELECT id FROM inventory WHERE id = $5))
+            VALUES ($1, $2, $3, (SELECT id FROM users WHERE email = $4))
             RETURNING id, name, category, quantity, inventory_id, created_at
      `, 
      [item.name, item.category, item.quantity, user.email])
@@ -28,41 +28,37 @@ class Item {
     static async fetchItemById (itemId) {
 //continue making changes from here
     const results = await db.query(`        
-                SELECT nutr.id, 
-                   nutr.name,
-                   nutr.category,
-                   nutr.calories,
-                   nutr.quantity,
-                   nutr.image_url,
+                SELECT items.id, 
+                   items.name,
+                   items.category,
+                   items.quantity,
                    u.email AS "userEmail",
-                   nutr.created_at
-            FROM nutrition AS nutr
-                LEFT JOIN users AS u ON u.id = nutr.user_id
-            WHERE nutr.id = $1
+                   items.created_at
+            FROM items
+                LEFT JOIN users AS u ON u.id = items.user_id
+            WHERE items.id = $1
         `, [itemId]
     )
-    const nutrition = results.rows[0]
-    if (!nutrition) {
+    const items = results.rows[0]
+    if (!items) {
         throw new NotFoundError()
     }
-    return nutrition
+    return items
 
 
 }
+//if the user doesn't work we have to change it to inventory but for testing purposes lets set this up to have it with user's email
 
-
-static async listNutritionForUser(user) {
+static async listItemForUser(user) {
     const results = await db.query(
-        ` SELECT nutr.id,
-                   nutr.name,
-                   nutr.category,
-                   nutr.calories,
-                   nutr.quantity,
-                   nutr.image_url,
-                   nutr.created_at,
+        ` SELECT items.id,
+                   items.name,
+                   items.category,
+                   items.quantity,
+                   items.created_at,
                    u.email as "userEmail"
-            FROM nutrition AS nutr
-                RIGHT JOIN users AS u ON u.id = nutr.user_id
+            FROM items
+                RIGHT JOIN users AS u ON u.id = items.user_id
             WHERE u.email = $1
         `, [user.email]
     )
