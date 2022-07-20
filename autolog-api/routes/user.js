@@ -26,8 +26,8 @@ router.post("/register", async (req, res, next) => {
 
 router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
   try {
-    const { username } = res.locals.user
-    const user = await User.fetchUserByUsername(username)
+    const { email } = res.locals.user;
+    const user = await User.fetchUserByEmail(email);
     const publicUser = User.makePublicUser(user)
     return res.status(200).json({ user: publicUser })
   } catch (err) {
