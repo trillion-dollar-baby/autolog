@@ -4,10 +4,9 @@ import { Link, NavLink } from 'react-router-dom';
 import logoImage from '../../assets/red-car.png';
 import './Navbar.css'
 
-export default function Navbar() {
+export default function Navbar({login}) {
 
   //testing useState, remove this and check if user is logged in 
-  const [login, setLogin] = useState(false);
 
   return (
     <nav className='navbar'>

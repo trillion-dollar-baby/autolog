@@ -14,9 +14,19 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Inventory from './components/Inventory/Inventory';
 import NotFound from './components/NotFound/NotFound';
 import Performance from './components/Performance/Performance'
+<<<<<<< HEAD
+import { useState } from 'react';
+import { useContext } from 'react';
+import AuthContext from './contexts/auth';
+=======
 import CreateInventory from './components/CreateInventory/CreateInventory';
+>>>>>>> 6056017babfbc4b7a24e3f53b9c869e3ee888344
 
 function App() {
+  const {userContext} = useContext(AuthContext);
+  const [user, setUser] = userContext;
+
+  console.log('usercontext,', user);
   return (
     <div className="app">
       <BrowserRouter>
@@ -24,7 +34,7 @@ function App() {
         <Navbar />
 
         <div className="page-content">
-          <Sidebar />
+          <Sidebar login={true}/>
 
           <Routes>
             <Route path='/' element={<Landing />} />
