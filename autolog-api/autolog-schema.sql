@@ -32,10 +32,12 @@ CREATE TABLE inventory (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     admin_id INTEGER NOT NULL,
-    createdAt timestamp NOT NULL DEFAULT CURRENT_DATE,
-    updatedAt timestamp NOT NULL DEFAULT NOW(),
+    created_at timestamp DEFAULT NOW(),
+    updated_at timestamp NOT NULL DEFAULT NOW(),
     FOREIGN KEY (admin_id) REFERENCES users(id)
 );
+/* Got rid of NOT NULL at the end of admin_id 
+FOREIGN KEY (admin_id) REFERENCES users(id)*/
 
 CREATE TABLE user_to_inventory (
     id SERIAL PRIMARY KEY,

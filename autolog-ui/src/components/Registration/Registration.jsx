@@ -52,36 +52,36 @@ export default function Registration() {
                 <div className='registration-form'>
                     <div className='registration-username form-input-gray'>
                         <label className='input-label' for="username">Username</label>
-                        <input className='registration-input' id="username" name="username" placeholder='Enter username...' onChange={handleOnFormChange}></input>
+                        <input className='registration-input' id="username" name="username" placeholder='Enter username...' value={credentials.username} onChange={handleOnFormChange}></input>
                     </div>
                     <div className='registration-form-row-1'>
                         <span className='registration-first-name form-input-gray'>
                             <label className='input-label' for="first-name">First name</label>
-                            <input className='registration-input' id="first-name" name="firstName" placeholder='Enter first name...' onChange={handleOnFormChange}></input>
+                            <input className='registration-input' id="first-name" name="firstName" placeholder='Enter first name...' value={credentials.firstName} onChange={handleOnFormChange}></input>
                         </span>
                         <span className='registration-last-name form-input-gray'>
                             <label className='input-label' for="last-name">Last name</label>
-                            <input className='registration-input' id="last-name" name="lastName" placeholder='Enter last name...' onChange={handleOnFormChange}></input>
+                            <input className='registration-input' id="last-name" name="lastName" placeholder='Enter last name...' value={credentials.lastName} onChange={handleOnFormChange}></input>
                         </span>
                     </div>
                     <div className='registration-form-row-2'>
                         <span className='registration-email form-input-gray'>
                             <label className='input-label' for="email">Email</label>
-                            <input className='registration-input' id="email" name="email" placeholder='Enter email...' onChange={handleOnFormChange}></input>
+                            <input className='registration-input' id="email" name="email" placeholder='Enter email...' value={credentials.email} onChange={handleOnFormChange}></input>
                         </span>
                         <span className='registration-phone-number form-input-gray'>
                             <label className='input-label' for="phone-number">Phone number</label>
-                            <input className='registration-input' id="phone-number" name="phoneNumber" placeholder='(xxx)-xxx-xxxx' onChange={handleOnFormChange}></input>
+                            <input className='registration-input' id="phone-number" name="phoneNumber" placeholder='(xxx)-xxx-xxxx' value={credentials.phoneNumber} onChange={handleOnFormChange}></input>
                         </span>
                     </div>
                     <div className='registration-form-row-3'>
                         <span className='registration-password form-input-gray'>
                             <label className='input-label' for="password">Password</label>
-                            <input className='registration-input' id="password" type='password' name="password" placeholder='**********' onChange={handleOnFormChange}></input>
+                            <input className='registration-input' id="password" type='password' name="password" placeholder='**********' value={credentials.password} onChange={handleOnFormChange}></input>
                         </span>
                         <span className='registration-confirm-password form-input-gray'>
                             <label className='input-label' for="confirm-password">Confirm password</label>
-                            <input className='registration-input' id="confirm-password" type='password' name="confirmPassword" placeholder='**********' onChange={handleOnFormChange}></input>
+                            <input className='registration-input' id="confirm-password" type='password' name="confirmPassword" placeholder='**********' value={credentials.confirmPassword} onChange={handleOnFormChange}></input>
                         </span>
                     </div>
                     <button className='registration-button' onClick={registerUser}> Register </button>
