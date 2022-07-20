@@ -38,11 +38,11 @@ export default function Login() {
                 <div className='login-form'>
                     <div className='login-email form-input-gray'>
                         <label className='input-label' for="email">Email</label>
-                        <input className='login-input' id="email" name="email" placeholder='Enter email...' onChange={handleOnFormChange}></input>
+                        <input className='login-input' id="email" name="email" placeholder='Enter email...' value={credentials.email} onChange={handleOnFormChange}></input>
                     </div>
                     <div className='login-password form-input-gray'>
                         <label className='input-label' for="password">Password</label>
-                        <input className='login-input' id="password" name="password" placeholder='Enter password...' onChange={handleOnFormChange}></input>
+                        <input className='login-input' id="password" name="password" placeholder='Enter password...' value={credentials.password} onChange={handleOnFormChange}></input>
                     </div>
                     <button className='login-button' onClick={signInUser}> Sign In </button>
                 </div>
