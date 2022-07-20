@@ -4,7 +4,7 @@ class ApiClient {
     constructor(remoteHostUrl) {
         this.remoteHostUrl = remoteHostUrl;
         this.token = null;
-        this.tokenName = "lifetracker_token";
+        this.tokenName = "autolog_token";
     }
 
     setToken(token) {
@@ -27,6 +27,7 @@ class ApiClient {
 
         try {
             const res = await axios({url, method, data, headers});
+            console.log(res.data);
             return {data: res.data, error: null};
         }
         catch (err) {
@@ -36,12 +37,32 @@ class ApiClient {
         }
     }
 
+    /**
+     * General user endpoints
+     */
+
     async loginUser(credentials) {
         return await this.request({endpoint: 'auth/login', method:'POST', data: credentials});
     }
 
     async registerUser(credentials) {
         return await this.request({endpoint: 'auth/register', method: 'POST', data: credentials});
+    }
+
+    async fetchUserFromToken() {
+        return await this.request({ endpoint: `auth/me`, method: `GET` })
+    }
+
+    /**
+     * Settings endpoints
+     */
+
+    async changeUserCredentials(credentials) {
+        return await this.request({endpoint: 'auth/change', method: 'PATCH', data: credentials});
+    }
+    
+    async changeUserPassword(credentials) {
+        return await this.request({endpoint: 'auth/password', method: 'PATCH', data: credentials});
     }
 }
 
