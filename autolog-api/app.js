@@ -14,7 +14,8 @@ const cors = require("cors");
 const { NotFoundError } = require("./utils/errors");
 const security = require("./middleware/security");
 const authRoutes = require("./routes/user");
-const itemRoutes = require("./routes/item")
+const itemRoutes = require("./routes/item");
+const inventoryRoutes = require("./routes/inventory");
 
 /**
  * End of imports
@@ -41,6 +42,7 @@ app.use(security.extractUserFromJwt);
 
 app.use("/auth", authRoutes)
 app.use("/item", itemRoutes)
+app.use("/inventory", inventoryRoutes)
 
 // health check
 app.get("/", (req, res, next) => {
