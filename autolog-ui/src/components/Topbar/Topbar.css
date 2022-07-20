@@ -45,3 +45,14 @@
 .topbar-item.focused {
     background-color: var(--darkBlueAccentFocused);
 }
+
+.topbar .button-space {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+a {
+    color: #FFF !important;
+  }

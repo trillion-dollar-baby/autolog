@@ -21,10 +21,10 @@ export default function Inventory() {
     return (
         <div className='inventory-content'>
             <div className='topbar-container'>
-                <Topbar routes={settingsRoutes} />
+                <Topbar routes={settingsRoutes} buttonName={"Create"} buttonPath={"./create"} />
             </div>
             <div className='table-container'>
-                <Table tableElementArray={testArr} tableColumnLabelArray={testCol} />
+                <Table tableElementArray={testArr} tableColumnLabelArray={testCol}/>
             </div>
         </div>
     )
