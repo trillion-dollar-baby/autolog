@@ -13,6 +13,7 @@ const TOKEN_EXPIRATION_TIME = "12h";
 const createUserJwt = (user) => {
   // information that will be stored in token
   const payload = {
+    id: user.id,
     email: user.email,
   };
   return generateToken(payload);
