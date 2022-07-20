@@ -2,26 +2,31 @@
     display: flex;
     flex-direction: row;
     list-style: none;
-    min-height: 100%;
     width: calc(100vw - 280px);
     overflow-y: scroll;
+    flex-grow: 1;
+    background-color: var(--tableHeaderBgColor);
+    font-weight: 400;
 }
 
 .row-item {
     text-decoration: none;
-    background-color: #CCCCCC;
+    background-color: var(--tableElementBgColor);
     border-bottom: 1px #B7B7B7 solid;
-    height: 35px;
+    height: 45px;
+    padding: 8px 8px;
 }
 
 .table-column {
-    background-color: #CCCCCC;
+    background-color: var(--tableElementBgColor);
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
 .column-label {
-    height: 35px;
-    background-color: #B7B7B7;
+    height: 45px;
+    border: 1px solid #B7B7B7;
+    vertical-align: center;
+    padding: 8px 8px;
 }
