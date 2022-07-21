@@ -13,17 +13,19 @@ export default function Navbar({login}) {
 
   return (
     <nav className='navbar'>
+      {/* logo section */}
       <div className="section">
         <Link to='/dashboard'>
           <img className='logo-image' src={logoImage} />
           <span className="logo-title">Autolog</span>
         </Link>
       </div>
+      {/* auth and inventory dropdown section */}
       <div className="section">
+        {/* Render buttons depending on whether user is logged in or not */}
         {(user?.email ?
         <>
           {/* TODO: create dropdown showing what inventories does the user has */}
-          {/* TODO: create a function to log out the user and lead to landing page or login screen */}
           <NavLink className={(isActive) => 'btn-log-out'} to={'/login'} onClick={() => logoutUser()}>
             Log Out
           </NavLink>
