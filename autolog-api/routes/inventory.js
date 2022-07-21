@@ -18,7 +18,7 @@ router.get("/",  async (req, res, next) => {
     }
 })
 
-
+// create inventory
 router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         const { user } = res.locals
@@ -43,7 +43,7 @@ router.get("/me",  async (req, res, next) => {
 })
 
 // endpoint to show member list
-router.post("/member/list", security.requireAuthenticatedUser, async(req,res,next) => {
+router.get("/member/list", security.requireAuthenticatedUser, async(req,res,next) => {
     try {
         const { user } = res.locals;
 

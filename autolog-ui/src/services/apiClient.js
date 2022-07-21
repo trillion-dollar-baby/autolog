@@ -64,6 +64,29 @@ class ApiClient {
     async changeUserPassword(credentials) {
         return await this.request({endpoint: 'auth/password', method: 'PATCH', data: credentials});
     }
+
+    /**
+     * Inventory endpoints
+     */
+    async createInventory(values) {
+        return await this.request({endpoint: 'inventory/', method: 'POST', data: values})
+    }
+
+    async getAccessibleInventories() {
+        return await this.request({endpoint: 'inventory/', method: 'GET'});
+    }
+
+    async getOwnedInventories() {
+        return await this.request({endpoint: 'inventory/me', method: 'GET'});
+    }
+
+    async getInventoryMembers(inventoryId) {
+        return await this.request({endpoint: 'inventory/member/list', method: 'GET', data: {inventoryId: inventoryId}});
+    }
+
+    async addInventoryMember(userEmail, inventoryId) {
+        return await this.request({endpoint: 'inventory/member', method: 'POST', data: {userEmail: userEmail, inventoryId: inventoryId}})
+    }
 }
 
 export default new ApiClient("http://localhost:3001");
