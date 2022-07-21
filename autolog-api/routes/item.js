@@ -19,7 +19,6 @@ router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         
         const { user } = res.locals
-        console.log(user)
         const items = await Item.createItem({item: req.body, user: user})
         return res.status(201).json({ items })
     }
@@ -27,17 +26,6 @@ router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
         next(err)
     }
 })
-// router.get("/id/:itemId", async (req, res, next) => {
-//     try {
-//         const { itemId } = req.params.itemId
-//         const items = await Item.fetchItemById(itemId)
-//         console.log(JSON.stringify(items))
-//         return res.status(200).json({ items })
-//     }
-//     catch(err) {
-//         next(err)
-//     }
-// })
 
 
 module.exports = router

@@ -6,7 +6,6 @@ class Item {
     static async createItem({ item, user }) {
         const requiredFields = ["category", "quantity"];
         requiredFields.forEach((field)=> {
-            console.log(item)
             if (!item?.hasOwnProperty(field)){
                 throw new BadRequestError(`Missing ${field} in request body.`);
             }
@@ -28,29 +27,6 @@ class Item {
 
     return results.rows[0]
 };
-//     static async fetchItemById (itemId) {
-// //continue making changes from here
-//     const results = await db.query(`        
-//                 SELECT items.id, 
-//                    items.name,
-//                    items.category,
-//                    items.quantity,
-//                    u.email AS "userEmail",
-//                    items.created_at
-//             FROM items
-//                 LEFT JOIN users AS u ON u.id = items.user_id
-//             WHERE items.id = $1
-//         `, [itemId]
-//     )
-//     const items = results.rows[0]
-//     if (!items) {
-//         throw new NotFoundError()
-//     }
-//     return items
-
-
-// }
-//if the user doesn't work we have to change it to inventory but for testing purposes lets set this up to have it with user's email
 
 static async listItemForUser(user) {
     const results = await db.query(
@@ -59,11 +35,11 @@ static async listItemForUser(user) {
                    items.category,
                    items.quantity,
                    items.created_at,
-                   i.admin_id as "adminId"
+                   i.id as "adminId"
             FROM items
-                RIGHT JOIN inventory AS i ON i.admin_id = items.inventory_id
-            WHERE i.admin_id = $1
-        `, [user.admin_id]
+                RIGHT JOIN inventory AS i ON i.id = items.inventory_id
+            WHERE i.id = $1
+        `, [user.id]
     );
     return results.rows;
 
