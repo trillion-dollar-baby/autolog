@@ -17,3 +17,37 @@
     height: 40vh;
     display: flex;
 }
+
+.inventory-content .filter-container {
+    display: flex;
+    flex-direction: row;
+    max-width: var(--maxWidth);
+    width: 100%;
+    margin-bottom: 50px;
+    align-items: center;
+}
+
+.inventory-content .filter-container .search-bar {
+    display: flex;
+    flex-grow: 2;
+    max-width: 30vw;
+    height: 4.5vh;
+    margin: 0 15px;
+}
+
+.inventory-content .filter-container .filter-by-name {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    width: 4vw;
+    margin: 0 15px;
+
+}
+
+.inventory-content .filter-container .filter-by-category {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    width: 4vw;
+    margin: 0 15px;
+}
