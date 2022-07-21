@@ -92,7 +92,7 @@ export default function Registration() {
                             <input className='registration-input' id="confirm-password" type='password' name="confirmPassword" placeholder='**********' value={credentials.confirmPassword} onChange={handleOnFormChange}></input>
                         </span>
                     </div>
-                    <button className='registration-button' onClick={registerUser}> Register </button>
+                    <button className='registration-button' onClick={handleOnSubmit}> Register </button>
                 </div>
                 <div className='footer'>
                     <p> Already a user? </p>

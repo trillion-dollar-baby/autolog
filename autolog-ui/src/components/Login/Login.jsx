@@ -29,7 +29,7 @@ export default function Login() {
         setError();
     }
 
-    const signInUser = async () => {
+    const handleOnSubmit = async () => {
         const { data, error } = await loginUser(credentials);
 
         if (error) {
@@ -63,7 +63,7 @@ export default function Login() {
                         <label className='input-label' for="password">Password</label>
                         <input className='login-input' id="password" type="password" name="password" placeholder='Enter password...' value={credentials.password} onChange={handleOnFormChange}></input>
                     </div>
-                    <button className='login-button' onClick={signInUser}> Sign In </button>
+                    <button className='login-button' onClick={handleOnSubmit}> Sign In </button>
                 </div>
                 <div className='footer'>
                     <p> Not a user? </p>
