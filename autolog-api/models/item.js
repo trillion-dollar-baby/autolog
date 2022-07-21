@@ -12,7 +12,7 @@ class Item {
             }
            
         });
-        //also for this, should we base this off the user's email or the inventory id?
+        
         console.log(user.id)
         const results = await db.query(`
         INSERT INTO items (
