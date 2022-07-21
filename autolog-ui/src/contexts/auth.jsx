@@ -91,7 +91,7 @@ export const AuthContextProvider = ({ children }) => {
   }
 
   // check if it is still fetching data between renders
-  if (!initialized) {
+  if (!initialized || isProcessing) {
     return (<h1>Authenticating...</h1>)
   }
 
@@ -104,6 +104,7 @@ export const AuthContextProvider = ({ children }) => {
     <AuthContext.Provider value={{
       initializedContext: [initialized, setInitialized], 
       userContext: [user, setUser],
+      authContext: [loginUser, registerUser, logoutUser],
       processingContext: [isProcessing, setIsProcessing], 
       errorContext: [error, setError]
     }}>

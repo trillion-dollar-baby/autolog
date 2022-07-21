@@ -2,11 +2,20 @@ import * as React from 'react';
 import './Registration.css'
 import RedCar from '../../assets/red-car.png'
 import apiClient from '../../services/apiClient';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import AuthContext from '../../contexts/auth';
+import { useContext } from 'react';
 
 export default function Registration() {
-    const [ credentials, setCredentials ] = useState({email: "", password: "", confirmPassword: "", firstName: "", lastName: "", phoneNumber: 0, username: ""});
+    const {authContext, userContext} = useContext(AuthContext);
+    const [user, setUser] = userContext;
+    const [loginUser, registerUser, logoutUser] = authContext;
+
+    const navigate = useNavigate();
+    const { state } = useLocation();
+
+    const [ credentials, setCredentials ] = useState({email: "", password: "", confirmPassword: "", firstName: "", lastName: "", phoneNumber: "", username: ""});
     const [error, setError] = useState();
 
     const handleOnFormChange = (e) => {
@@ -20,27 +29,26 @@ export default function Registration() {
         setCredentials({...credentials, [name]: value});
     }
 
-    const registerUser = async () => {
+    const handleOnSubmit = async () => {
         if (credentials.password != credentials.confirmPassword) {
-            console.log("passwords must match");
+            setError("Passwords do not match!");
             return;
         }
-        const { data, error } = await apiClient.registerUser(credentials);
+
+        const { data, error } = await registerUser(credentials);
 
         if (error) {
             console.error("auth error:", error);
-
             // let user know what happened
             setError(error);
-        }
-        if (data?.user) {
-            console.log("successfully signed in user")
-            apiClient.setToken(data.token);
+        } else {
+            navigate('/inventory/create');
         }
     }
 
     return (
         <div className='registration'>
+            {(user?.email && <Navigate to={state?.path || '/dashboard'}/>)}
             <div className='registration-page'>
             <div className='content'>
                 <div className='header'>
