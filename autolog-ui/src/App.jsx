@@ -39,7 +39,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Registration />} />
 
-            {/* TODO: create authorized routes for routes below */}
+            {/* Routes for only logged in users */}
             <Route path='/dashboard' element={<RequireAuth><Dashboard/></RequireAuth>} />
             <Route path='/inventory' element={<RequireAuth><Inventory /></RequireAuth>} />
             <Route path='/item/create' element={<RequireAuth><CreateItem /></RequireAuth>} />
