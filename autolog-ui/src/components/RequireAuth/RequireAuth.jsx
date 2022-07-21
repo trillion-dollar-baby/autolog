@@ -3,9 +3,22 @@ import { Navigate, useLocation } from "react-router";
 import AuthContext from "../../contexts/auth";
 
 export default function RequireAuth({ children }) {
-    const { userContext } = useContext(AuthContext);
+    const { userContext, errorContext } = useContext(AuthContext);
     const location = useLocation();
     const [user, setUser] = userContext;
-    
-    return user.email ? children : <Navigate to='/login' replace state={{path: location.pathname}}/>;
+    const [error, setError] = errorContext;
+
+    const notAuthorized = () => {
+        // make user know that he is unauthorized
+        setError("Unauthorized error, please log in")
+        return <Navigate to='/login' replace state={{path: location.pathname}}/>
+    }
+
+    // if an user email is present in AuthContext, render page
+    // if not, redirect to login page with an error message
+    return (user.email ? 
+        children 
+        : 
+        notAuthorized()
+        );
 }
