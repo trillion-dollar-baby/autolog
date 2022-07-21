@@ -46,19 +46,11 @@ export default function Login() {
                 <div className='login-form'>
                     <div className='login-email form-input-gray'>
                         <label className='input-label' for="email">Email</label>
-<<<<<<< HEAD
-                        <input className='login-input' id="email" type='email' name="email" placeholder='Enter email...' onChange={handleOnFormChange}></input>
-                    </div>
-                    <div className='login-password form-input-gray'>
-                        <label className='input-label' for="password">Password</label>
-                        <input className='login-input' id="password" type='password' name="password" placeholder='Enter password...' onChange={handleOnFormChange}></input>
-=======
                         <input className='login-input' id="email" name="email" placeholder='Enter email...' value={credentials.email} onChange={handleOnFormChange}></input>
                     </div>
                     <div className='login-password form-input-gray'>
                         <label className='input-label' for="password">Password</label>
                         <input className='login-input' id="password" name="password" placeholder='Enter password...' value={credentials.password} onChange={handleOnFormChange}></input>
->>>>>>> 6056017babfbc4b7a24e3f53b9c869e3ee888344
                     </div>
                     <button className='login-button' onClick={signInUser}> Sign In </button>
                 </div>
