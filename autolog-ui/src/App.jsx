@@ -14,15 +14,10 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Inventory from './components/Inventory/Inventory';
 import NotFound from './components/NotFound/NotFound';
 import Performance from './components/Performance/Performance'
-import { useState } from 'react';
-import { useContext } from 'react';
-import AuthContext from './contexts/auth';
 import CreateInventory from './components/CreateInventory/CreateInventory';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 
 function App() {
-  const {userContext} = useContext(AuthContext);
-  const [user, setUser] = userContext;
 
   return (
     <div className="app">
@@ -31,7 +26,7 @@ function App() {
         <Navbar />
 
         <div className="page-content">
-          <Sidebar login={user?.email}></Sidebar>
+          <Sidebar></Sidebar>
 
           <Routes>
             <Route path='/' element={<Landing />} />
