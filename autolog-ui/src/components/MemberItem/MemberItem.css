@@ -70,3 +70,7 @@
 .member-item .dropdown-small {
     margin-left: auto;
 }
+
+.member-item .section .dropdown {
+    width: 8vw;
+}
