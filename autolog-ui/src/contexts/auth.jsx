@@ -52,59 +52,56 @@ export const AuthContextProvider = ({ children }) => {
 
   // login user function
   const loginUser = async (loginForm) => {
-    const { data, errorLogin } = await apiClient.loginUser(loginForm);
-
-    if (errorLogin) {
-      //return an empty object
-      return { success: false, error: errorLogin, user: null }
-    }
-
-    // if login worked and we received data, store in application
-    if (data?.user) {
-      setUser(data.user);
-      apiClient.setToken(data.token);
-      return { success: true, user: data?.user }
-    }
+    const { data, error: errorLogin } = await apiClient.loginUser(loginForm);
+    // handle data sent
+    setUserData(data, errorLogin);
   }
 
   // register user function
   const registerUser = async (registrationForm) => {
-    const { data, errorRegistration } = await apiClient.registerUser(registrationForm);
+    const { data, error: errorRegistration } = await apiClient.registerUser(registrationForm);
+    // handle data sent
+    setUserData(data, errorRegistration);
+  }
 
-    if (errorRegistration) {
-      return { success: false, error: errorRegistration, user: null }
-    }
-
-    // if registration worked and we received data, store in application
+  // set user data after any initial authentication method
+  const setUserData = (data, error) => {
     if (data?.user) {
       setUser(data?.user);
-      apiClient.setToken(data.token)
-      return { success: true, user: data?.user }
+      apiClient.setToken(data.token);
+    } else {
+      console.log("Authentication error:", error);
+      setError(error)
     }
   }
 
   const logoutUser = async () => {
     // reset state data
     setUser({});
-    //reset token from local storage
+
+    // reset token from local storage
     localStorage.removeItem(apiClient.tokenName);
+
+    // reload page
+    window.location.reload(false);
   }
 
   // check if it is still fetching data between renders
-  if (!initialized) {
+  if (!initialized || isProcessing) {
     return (<h1>Authenticating...</h1>)
   }
 
   // check if any errors have been found in useEffect request
-  if (error) {
+  if (error && !initialized) {
     return (<h1>Authentication error</h1>)
   }
 
   return (
     <AuthContext.Provider value={{
-      initializedContext: [initialized, setInitialized], 
+      initializedContext: [initialized, setInitialized],
       userContext: [user, setUser],
-      processingContext: [isProcessing, setIsProcessing], 
+      authContext: [loginUser, registerUser, logoutUser],
+      processingContext: [isProcessing, setIsProcessing],
       errorContext: [error, setError]
     }}>
       {children}

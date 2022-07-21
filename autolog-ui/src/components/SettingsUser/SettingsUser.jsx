@@ -90,7 +90,6 @@ export default function SettingsUser() {
     // if there is a password change, check if they both match, if they don't, let user know
     useEffect(() => {
         // if both fields do not match, set useState true to render an error message 
-        console.log(passwordForm);
         setPasswordError(passwordForm.password !== passwordForm.rePassword);
         
         // if there is a change, set useState to true

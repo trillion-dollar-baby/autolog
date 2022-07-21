@@ -52,12 +52,12 @@ CREATE TABLE items (
     name TEXT NOT NULL,
     category TEXT NOT NULL,
     quantity TEXT NOT NULL,
-    measures TEXT NOT NULL,
-    located_at TEXT NOT NULL,
-    part_number TEXT NOT NULL,
-    createdAt timestamp NOT NULL DEFAULT CURRENT_DATE,
-    updatedAt timestamp NOT NULL DEFAULT NOW(),
-    inventory_id INTEGER NOT NULL,
+    measures TEXT,
+    located_at TEXT,
+    part_number TEXT,
+    created_at timestamp DEFAULT CURRENT_DATE,
+    updated_at timestamp NOT NULL DEFAULT NOW(),
+    inventory_id INTEGER,
     FOREIGN KEY (inventory_id) REFERENCES inventory(id)
 );
 

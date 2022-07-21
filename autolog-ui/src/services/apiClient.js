@@ -20,7 +20,7 @@ class ApiClient {
             "Accept":"application/json, text/plain, /",
             "Content-Type": "application/json"
         }
-
+		
         if (this.token) {
             headers["Authorization"] = `Bearer ${this.token}`;
         }

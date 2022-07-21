@@ -1,6 +1,8 @@
 .create-item{
     max-height: 100vh;
     max-width: 100vw;
+    margin-left: 300px;
+    display: flex;
 }
 .create-input-fields{
     display: grid;
