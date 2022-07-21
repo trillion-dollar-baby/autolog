@@ -1,12 +1,15 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import logoImage from '../../assets/red-car.png';
+import AuthContext from '../../contexts/auth';
 import './Navbar.css'
 
 export default function Navbar({login}) {
-
-  //testing useState, remove this and check if user is logged in 
+  const {userContext, authContext} = useContext(AuthContext);
+  const [user, setUser] = userContext;
+  const [loginUser, registerUser, logoutUser] = authContext;
 
   return (
     <nav className='navbar'>
@@ -17,11 +20,11 @@ export default function Navbar({login}) {
         </Link>
       </div>
       <div className="section">
-        {(login ?
+        {(user?.email ?
         <>
           {/* TODO: create dropdown showing what inventories does the user has */}
           {/* TODO: create a function to log out the user and lead to landing page or login screen */}
-          <NavLink className={(isActive) => 'btn-log-out'} to={'/'} onClick={() => setLogin(false)}>
+          <NavLink className={(isActive) => 'btn-log-out'} to={'/login'} onClick={() => logoutUser()}>
             Log Out
           </NavLink>
         </>
