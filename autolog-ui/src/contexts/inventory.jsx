@@ -25,12 +25,11 @@ export const InventoryContextProvider = ({ children }) => {
       setIsProcessing(true);
       try {
         const { data, error } = await apiClient.getAccessibleInventories();
-
+        console.log(data);
         if (data?.inventory) {
           // pick first accessible inventory (CHANGE)
           setAccessibleInventories(data?.inventory);
           setSelectedInventory(data?.inventory[0]);
-          console.log(data?.inventory);
         }
 
       } catch (error) {
@@ -83,10 +82,13 @@ export const InventoryContextProvider = ({ children }) => {
   }
 
   // Get members of a given inventory
-  const getInventoryMembers = async (inventoryId) => {
-    const { data, error } = await apiClient.getInventoryMembers(inventoryId);
+  const getInventoryMembers = async () => {
+    const { data, error } = await apiClient.getInventoryMembers(selectedInventory.inventoryId);
+    console.log(data, error);
     if (!error) {
-      setInventoryMembers(data);
+      setInventoryMembers(data?.members);
+      
+      return { data: data?.members, error };
     }
     else {
       console.error("Error getting inventory members, message:", error)
