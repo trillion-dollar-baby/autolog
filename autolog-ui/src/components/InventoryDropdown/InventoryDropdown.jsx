@@ -15,7 +15,7 @@ import { useEffect } from 'react';
  * that the user has access to
  */
 export default function InventoryDropdown() {
-    const {accessibleInventoriesContext, selectedInventoryContext} = useContext(InventoryContext);
+    const { accessibleInventoriesContext, selectedInventoryContext } = useContext(InventoryContext);
     const [accessibleInventories, setAccessibleInventories] = accessibleInventoriesContext;
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
@@ -26,40 +26,44 @@ export default function InventoryDropdown() {
 
     // handle dropdown item's clicks
     const handleOnClick = (inventory) => {
-        //TODO: share value to InventoryContext
-
         setSelectedInventory(inventory);
         setOpen(!open);
     }
-    
-    return (
-        <div className={`dropdown-inventory-wrapper ${open ? 'active' : ''}`}>
-            {/* header */}
-            <div
-                tabIndex={0}
-                onClick={() => toggle()}
-                role="button"
-                className="dropdown-inventory-header">
 
-                <div className="dropdown-inventory-header-title">
-                    <span>{_.capitalize(selectedInventory.inventoryName)}</span>
-                </div>
+    // if there are accessible inventories, render dropdown, otherwise render nothing(empty fragment)
+    if (accessibleInventories.length > 0) {
+        return (
+            <div className={`dropdown-inventory-wrapper ${open ? 'active' : ''}`}>
+                {/* header */}
+                <div
+                    tabIndex={0}
+                    onClick={() => toggle()}
+                    role="button"
+                    className="dropdown-inventory-header">
 
-                <div className="dropdown-inventory-header-action">
-                    <img src={open ? arrowCollapse : arrowExpand} />
+                    <div className="dropdown-inventory-header-title">
+                        <span>{_.capitalize(selectedInventory?.inventoryName)}</span>
+                    </div>
+
+                    <div className="dropdown-inventory-header-action">
+                        <img src={open ? arrowCollapse : arrowExpand} />
+                    </div>
                 </div>
+                {/* items wrapper */}
+                {open && (
+                    <ul className="dropdown-inventory-list">
+                        {/* items */}
+                        {accessibleInventories?.map((item, idx) => {
+                            return (<div className={`dropdown-inventory-item ${(idx === (accessibleInventories?.length - 1) ? 'last' : '')}`} onClick={() => handleOnClick(item)}>
+                                <span>{_.capitalize(item?.inventoryName)}</span>
+                            </div>)
+                        })}
+                    </ul>
+                )}
             </div>
-            {/* items wrapper */}
-            {open && (
-                <ul className="dropdown-inventory-list">
-                    {/* items */}
-                    {accessibleInventories.map((item, idx) => {
-                        return (<div className={`dropdown-inventory-item ${(idx === (accessibleInventories.length - 1) ? 'last' : '')}`} onClick={() => handleOnClick(item)}>
-                            <span>{_.capitalize(item.inventoryName)}</span>
-                        </div>)
-                    })}
-                </ul>
-            )}
-        </div>
-    )
+        )
+    }
+    else {
+        <></>
+    }
 }
