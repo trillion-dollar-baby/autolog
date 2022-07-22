@@ -1,8 +1,47 @@
 .performance-content {
-    max-height: 100vh;
+    max-height: calc(100vh - var(--navbarHeight));
     max-width: calc(100vw - 280px);
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
     flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
 }
+
+.performance-content .visual-data-container {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    max-width: calc(100vw - 280px);
+    max-height: calc(100vh - (var(--navbarHeight) + 350)); /* 100vh minus navbar height plus table height*/
+    justify-content: center;
+    align-items: center;
+}
+
+.performance-content .visual-data-container .bar-chart-container {
+    width: 30vw;
+}
+
+.performance-content .visual-data-container .pie-chart-container {
+    width: 15vw;
+}
+
+.performance-content .filter-container {
+    display: flex;
+    flex-direction: row;
+    max-width: var(--maxWidth);
+    width: 100%;
+    margin-bottom: 50px;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 30px;
+    margin-top: 15px;
+}
+
+.performance-content .table-container {
+    height: 350px;
+    display: flex;
+    position: fixed;
+    top: 493px;
+}
+

@@ -3,7 +3,7 @@
     max-width: calc(100vw - 280px);
     flex-direction: column;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-grow: 1;
 }
@@ -11,11 +11,14 @@
 .inventory-content .topbar-container {
     max-width: var(--maxWidth);
     width: 100%;
+    margin-top: 35px;
 }
 
 .inventory-content .table-container {
-    height: 40vh;
+    height: 450px;
     display: flex;
+    position: fixed;
+    top: 393px;
 }
 
 .inventory-content .filter-container {
