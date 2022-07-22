@@ -54,11 +54,11 @@ router.patch("/", security.requireAuthenticatedUser, async(req,res,next) => {
 
     // update
     const updatedUser = await User.updateCredentials(oldCredentials.id, newCredentials, oldCredentials);
+    
+    // remove sensitive data
+    const publicUpdatedUser = User.makePublicUser(updatedUser);
 
-    // // return only non-sensitive data
-    // const publicUser = User.makePublicUser(updatedUser);
-    // return res.status(201).json({user: publicUser});
-    return res.status(201).json({ping: "pong"});
+    return res.status(201).json({user: publicUpdatedUser});
   } catch (error) {
     next(error)
   }

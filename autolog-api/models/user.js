@@ -171,10 +171,11 @@ class User {
       credentials.phoneNumber,
     ]);
 
-    //   return result.rows[0];
+    return result.rows[0];
   }
 
   static async updatePassword(userId, newCredential) {
+	// hash password
     const hashedPassword = await bcrypt.hash(
       newCredential.password,
       BCRYPT_WORK_FACTOR
