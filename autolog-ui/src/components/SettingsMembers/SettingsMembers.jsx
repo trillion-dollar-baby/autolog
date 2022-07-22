@@ -9,7 +9,7 @@ import apiClient from '../../services/apiClient';
 
 export default function SettingsMembers() {
   const { inventoryGetContext, inventoryMembersContext } = useContext(InventoryContext);
-  const [createInventory, getAccessibleInventories, getOwnedInventories, getInventoryMembers] = inventoryGetContext;
+  const [getAccessibleInventories, getOwnedInventories, getInventoryMembers] = inventoryGetContext;
   const [inventoryMembers, setInventoryMembers] = inventoryMembersContext;
 
   const data = {

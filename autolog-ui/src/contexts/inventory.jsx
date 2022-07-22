@@ -52,7 +52,7 @@ export const InventoryContextProvider = ({ children }) => {
       console.log("Created inventory is:", data);
     }
     else {
-      console.error("Error acreating inventory, message:", error)
+      console.error("Error creating inventory, message:", error)
     }
   }
 
