@@ -86,6 +86,22 @@ class ApiClient {
     async addInventoryMember(userEmail, inventoryId) {
         return await this.request({endpoint: 'inventory/member', method: 'POST', data: {userEmail: userEmail, inventoryId: inventoryId}})
     }
+
+    /**
+     * Item endpoints
+     */
+
+    async createItem(values) {
+        return await this.request({endpoint: 'item/', method: 'POST', data: values})
+    }
+
+    async getItem(itemId) {
+        return await this.request({endpoint: `item/id/${itemId}`, method: 'GET'});
+    }
+    
+    async getItemList(pageNumber) {
+        return await this.request({endpoint: `item/${pageNumber}`, method: 'GET'});
+    }
 }
 
 export default new ApiClient("http://localhost:3001");
