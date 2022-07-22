@@ -6,8 +6,21 @@ import FormInput from '../FormInput/FormInput'
 
 export default function Inventory() {
     //TODO: implement
-    const testCol = ["ID", "Part", "Quantity"]
-    const testArr = [{ID: 5, Part: "hammer", Quantity: 5}, {ID: 6, Part: "screw", Quantity: 10}, {ID: 15, Part: "table", Quantity: 3}]
+    const testCol = ["ID", "Date", "User"]
+    const testArr = [{ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"},
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"},
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"},
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"},
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"},
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
+                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}]
 
     const settingsRoutes = [
         {
