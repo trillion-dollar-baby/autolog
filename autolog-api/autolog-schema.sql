@@ -8,7 +8,7 @@ CREATE TABLE users (
     phone_number TEXT NOT NULL,
     role TEXT NOT NULL,
     is_verified BOOLEAN NOT NULL,
-    created_at timestamp NOT NULL DEFAULT CURRENT_DATE,
+    created_at timestamp NOT NULL DEFAULT NOW(),
     updated_at timestamp NOT NULL DEFAULT NOW()
 );
 
@@ -55,9 +55,9 @@ CREATE TABLE items (
     measures TEXT,
     located_at TEXT,
     part_number TEXT,
-    created_at timestamp DEFAULT CURRENT_DATE,
+    created_at timestamp DEFAULT NOW(),
     updated_at timestamp NOT NULL DEFAULT NOW(),
-    inventory_id INTEGER,
+    inventory_id INTEGER NOT NULL,
     FOREIGN KEY (inventory_id) REFERENCES inventory(id)
 );
 
