@@ -113,7 +113,7 @@ export const InventoryContextProvider = ({ children }) => {
 
   return (
     <InventoryContext.Provider value={{
-      inventoryGetContext: [getAccessibleInventories, getOwnedInventories, getInventoryMembers],
+      inventoryGetContext: [createInventory, getAccessibleInventories, getOwnedInventories, getInventoryMembers],
       ownedInventoriesContext: [ownedInventories, setOwnedInventories],
       accessibleInventoriesContext: [accessibleInventories, setAccessibleInventories],
       processingContext: [isProcessing, setIsProcessing],
