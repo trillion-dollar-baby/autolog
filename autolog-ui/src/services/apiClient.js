@@ -99,8 +99,8 @@ class ApiClient {
         return await this.request({endpoint: `item/id/${itemId}`, method: 'GET'});
     }
     
-    async getItemList(pageNumber) {
-        return await this.request({endpoint: `item/${pageNumber}`, method: 'GET'});
+    async getItemList(inventoryId, pageNumber, search) {
+        return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}`, method: 'GET'});
     }
 }
 
