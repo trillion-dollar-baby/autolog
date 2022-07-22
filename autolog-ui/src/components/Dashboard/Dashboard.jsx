@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './Dashboard.css'
-import emptyCheckbox from '../../assets/empty-checkbox.png'
 import { useState, useEffect } from 'react';
 
 export default function Dashboard() {
@@ -79,22 +78,30 @@ export default function Dashboard() {
                     <label className="title"> Checklist </label>
                     <div className="check-items">
                         <form className="checkbox" onSubmit={handleSubmit}>
-                            <img className="img" src={emptyCheckbox}></img>
-                            <input className="list-form" type="text"name="checklist" onChange={(e) => setTodo(e.target.value)} value={todo} placeholder="Enter a new list item..."/>
-                            <button type="submit" className='more-items'>+</button>
+                            <input className="list-form" type="text" name="checklist" onChange={(e) => setTodo(e.target.value)} value={todo} placeholder="Enter a new list item..."/>
+                            <button type="submit" className='submit-items'>+</button>
                         </form>
-                        <div className="checkbox">
-                            <img className="img" src={emptyCheckbox}></img>
-                            <input className="list-form" type="text" name="checklist" placeholder="Enter a new list item..."/>
+                        {todos.map((todo)=>(
+                        <div key ={todo.id} className="checkmark">
+                            <div className="textTodo">
+                            <input className="list-form" type="checkbox" id="completed" checked={todo.completed} onChange={()=> toggleComplete(todo.id)}/>
+                          {todo.id === todoEditing ? (
+                            <input className="listForm" type="text" onChange={(e)=> setEditingText(e.target.value)} />
+                          ) :(
+                            <div>{todo.text}</div>
+                          )}
                         </div>
-                        <div className="checkbox">
-                            <img className="img" src={emptyCheckbox}></img>
-                            <input className="list-form" type="text" name="checklist" placeholder="Enter a new list item..."/>
-                        </div>
-                        <button className="more-items">+</button>
+                        <div className="extraEditing">
+                          {todo.id === todoEditing ? (
+                          <button className="more-items" onClick={() => submitEdits(todo.id)}>Submit Edits</button>):(<button className="more-items" onClick={()=> setTodoEditing(todo.id)}>Edit</button>)}
+                          
+                          <button className="more-items" onClick={() => deleteTodo(todo.id)}>Delete</button>
+                          </div>
                     </div>
+                        ))}
                 </div>
                 </div> 
+                </div>
                 <div className="logs">
                     <label className="title2">Latest Editions</label>
                 </div>
@@ -121,9 +128,5 @@ export default function Dashboard() {
 
               
         </div>
-    )
-}
-
-//checklist
-//announcemnts
-//log table
+    );
+};
