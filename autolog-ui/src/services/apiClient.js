@@ -14,7 +14,6 @@ class ApiClient {
 
     async request({endpoint, method = "GET", data = {}}) {
         const url = `${this.remoteHostUrl}/${endpoint}`;
-        console.log(url);
 
         const headers = {
             "Accept":"application/json, text/plain, /",
@@ -56,11 +55,11 @@ class ApiClient {
      * Settings endpoints
      */
 
-    async changeUserCredentials(credentials) {
-        return await this.request({endpoint: 'auth/change', method: 'PATCH', data: credentials});
+    async patchUserCredentials(credentials) {
+        return await this.request({endpoint: 'auth/', method: 'PATCH', data: credentials});
     }
     
-    async changeUserPassword(credentials) {
+    async patchUserPassword(credentials) {
         return await this.request({endpoint: 'auth/password', method: 'PATCH', data: credentials});
     }
 
@@ -80,7 +79,7 @@ class ApiClient {
     }
 
     async getInventoryMembers(inventoryId) {
-        return await this.request({endpoint: 'inventory/member/list', method: 'GET', data: {inventoryId: inventoryId}});
+        return await this.request({endpoint: 'inventory/member/list', method: 'POST', data: {inventoryId: inventoryId}});
     }
 
     async addInventoryMember(userEmail, inventoryId) {
