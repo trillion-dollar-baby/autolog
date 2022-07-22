@@ -25,13 +25,13 @@ export default function MemberList({ userArray, userRoles, setUserRoles }) {
 
   return (
     <div className="member-list">
-      {userArray.map((item, idx) => {
+      {userArray?.map((item, idx) => {
         let index = '';
         if(idx === 0) index = 'first';
         if(idx === userArray.length-1) index = 'last'
 
         return (
-          <MemberItem index={index} id={item.id} firstName={item.firstName} lastName={item.lastName} email={item.email} userRole={userRoles[item.id]} setUserRole={setUserRole}/>
+          <MemberItem index={index} id={item.id} firstName={item.firstName} lastName={item.lastName} email={item.userEmail} userRole={userRoles[item.id]} setUserRole={setUserRole}/>
         )
       })}
     </div>
