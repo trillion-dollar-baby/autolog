@@ -3,11 +3,8 @@ import apiClient from "../services/apiClient"
 import InventoryContext from "./inventory"
 import AuthContext from "./auth"
 
-console.log("hello")
 const ItemContext = createContext({});
 export const ItemContextProvider = ({children})=>{
-    console.log("hello")
-
     const [items, setItems] =useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -26,15 +23,13 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
  useEffect(async ()=>{
 
     setIsLoading(true)
-    console.log("reached 1")
     const {data, err} = await apiClient.getItem()
-    console.log("reached 2")
     if(data){
-        console.log(data);
+
         setItems(data?.items) 
     }else if(err){
     setError(err)
-    console.log("reached 3")
+   
     }
     setIsLoading(false)
 

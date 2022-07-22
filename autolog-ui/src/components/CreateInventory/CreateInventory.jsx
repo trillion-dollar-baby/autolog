@@ -16,7 +16,7 @@ export default function CreateInventory() {
 
         // Change the value of the given field
         setField({...field, [name]: value});
-        console.log(field.name);
+        
     }
 
     const handleCreateInventory = async () => {
