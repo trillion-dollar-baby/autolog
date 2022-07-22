@@ -8,7 +8,7 @@ Cohort: **Workday**
 
 Team Member Names: Deland Chen, Enzo Falone, Wynee Pintado
 
-Mentors Names: <b>Busher Bridi, Renee Labutay</b>
+Mentors Names: <b>Busher Bridi, Renee Labutay, Mikaila Johnson</b>
 
 Project Code Repository Links
 
