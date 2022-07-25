@@ -7,10 +7,22 @@ class ApiClient {
         this.tokenName = "autolog_token";
     }
 
+    /**
+     * token getter and setter
+     */
+
+    getToken() {
+        return this.token;
+    }
+
     setToken(token) {
         this.token = token;
         localStorage.setItem(this.tokenName, this.token);
     }
+
+    /**
+     * Standard request function used for any request into the API client
+     */
 
     async request({endpoint, method = "GET", data = {}}) {
         const url = `${this.remoteHostUrl}/${endpoint}`;
@@ -66,6 +78,7 @@ class ApiClient {
     /**
      * Inventory endpoints
      */
+    
     async createInventory(values) {
         return await this.request({endpoint: 'inventory/', method: 'POST', data: values})
     }

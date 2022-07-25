@@ -26,8 +26,9 @@ export const AuthContextProvider = ({ children }) => {
         // if token is invalid, delete from localStorage 
         // and let the rest of the application know user is invalid
         console.log('JWT EXPIRED OR INVALID');
-        localStorage.removeItem(this.tokenName);
-        this.token = null;
+        
+        apiClient.setToken(null);
+        localStorage.removeItem(apiClient.tokenName);
       }
     } catch (error) {
       console.error("Fetching user error:", error);
@@ -85,9 +86,10 @@ export const AuthContextProvider = ({ children }) => {
 
     // reset token from local storage
     localStorage.removeItem(apiClient.tokenName);
-
-    // reload page
-    window.location.reload(false);
+    apiClient.setToken(null);
+    
+    // reload page to reset all states after logging out
+    window.location.reload();
   }
 
   // update user information
