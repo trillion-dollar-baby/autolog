@@ -3,7 +3,7 @@
     max-width: calc(100vw - 280px);
     flex-direction: column;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-grow: 1;
 }
@@ -11,9 +11,46 @@
 .inventory-content .topbar-container {
     max-width: var(--maxWidth);
     width: 100%;
+    margin-top: 35px;
 }
 
 .inventory-content .table-container {
-    height: 40vh;
+    height: 450px;
     display: flex;
+    position: fixed;
+    top: 393px;
+}
+
+.inventory-content .filter-container {
+    display: flex;
+    flex-direction: row;
+    max-width: var(--maxWidth);
+    width: 100%;
+    margin-bottom: 50px;
+    align-items: center;
+}
+
+.inventory-content .filter-container .search-bar {
+    display: flex;
+    flex-grow: 2;
+    max-width: 30vw;
+    height: 4.5vh;
+    margin: 0 15px;
+}
+
+.inventory-content .filter-container .filter-by-name {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    width: 4vw;
+    margin: 0 15px;
+
+}
+
+.inventory-content .filter-container .filter-by-category {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    width: 4vw;
+    margin: 0 15px;
 }

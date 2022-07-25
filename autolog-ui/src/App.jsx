@@ -15,13 +15,10 @@ import Inventory from './components/Inventory/Inventory';
 import NotFound from './components/NotFound/NotFound';
 import Performance from './components/Performance/Performance'
 import CreateInventory from './components/CreateInventory/CreateInventory';
-import AuthContext from './contexts/auth';
+import RequireAuth from './components/RequireAuth/RequireAuth';
 
 function App() {
-  const {userContext} = useContext(AuthContext);
-  const [user, setUser] = userContext;
 
-  console.log('usercontext,', user);
   return (
     <div className="app">
       <BrowserRouter>
@@ -29,7 +26,7 @@ function App() {
         <Navbar />
 
         <div className="page-content">
-          <Sidebar login={true}/>
+          <Sidebar></Sidebar>
 
           <Routes>
             <Route path='/' element={<Landing />} />
@@ -37,13 +34,13 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Registration />} />
 
-            {/* TODO: create authorized routes for routes below */}
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/inventory' element={<Inventory />} />
-            <Route path='/item/create' element={<CreateItem />} />
-            <Route path='/inventory/create' element={<CreateInventory />} />
-            <Route path='/performance' element={<Performance />} />
-            <Route path='/settings/*' element={<Settings />} />
+            {/* Routes for only logged in users */}
+            <Route path='/dashboard' element={<RequireAuth><Dashboard/></RequireAuth>} />
+            <Route path='/inventory' element={<RequireAuth><Inventory /></RequireAuth>} />
+            <Route path='/item/create' element={<RequireAuth><CreateItem /></RequireAuth>} />
+            <Route path='/inventory/create' element={<RequireAuth><CreateInventory/></RequireAuth>} />
+            <Route path='/performance' element={<RequireAuth><Performance /></RequireAuth>} />
+            <Route path='/settings/*' element={<RequireAuth><Settings /></RequireAuth>} />
 
             {/* Not found error */}
             <Route path='*' element={<NotFound />} />

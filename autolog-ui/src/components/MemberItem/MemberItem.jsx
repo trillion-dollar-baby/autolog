@@ -31,7 +31,9 @@ export default function MemberItem({index, id, firstName, lastName, email, userR
         </div>
       </div>
       <div className='section'>
+        <div className='dropdown'>
         <Dropdown value={userRole} onSelect={onDropdownClick} items={roleOptions} />
+        </div>
         <img className={'member-item-delete'} title='Remove member from inventory' alt='remove button' src={iconDelete} />
       </div>
     </div>

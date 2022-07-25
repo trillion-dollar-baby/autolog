@@ -20,14 +20,13 @@ class ApiClient {
             "Accept":"application/json, text/plain, /",
             "Content-Type": "application/json"
         }
-
+		
         if (this.token) {
             headers["Authorization"] = `Bearer ${this.token}`;
         }
 
         try {
             const res = await axios({url, method, data, headers});
-            console.log(res.data);
             return {data: res.data, error: null};
         }
         catch (err) {
@@ -63,6 +62,45 @@ class ApiClient {
     
     async changeUserPassword(credentials) {
         return await this.request({endpoint: 'auth/password', method: 'PATCH', data: credentials});
+    }
+
+    /**
+     * Inventory endpoints
+     */
+    async createInventory(values) {
+        return await this.request({endpoint: 'inventory/', method: 'POST', data: values})
+    }
+
+    async getAccessibleInventories() {
+        return await this.request({endpoint: 'inventory/', method: 'GET'});
+    }
+
+    async getOwnedInventories() {
+        return await this.request({endpoint: 'inventory/me', method: 'GET'});
+    }
+
+    async getInventoryMembers(inventoryId) {
+        return await this.request({endpoint: 'inventory/member/list', method: 'GET', data: {inventoryId: inventoryId}});
+    }
+
+    async addInventoryMember(userEmail, inventoryId) {
+        return await this.request({endpoint: 'inventory/member', method: 'POST', data: {userEmail: userEmail, inventoryId: inventoryId}})
+    }
+
+    /**
+     * Item endpoints
+     */
+
+    async createItem(values) {
+        return await this.request({endpoint: 'item/', method: 'POST', data: values})
+    }
+
+    async getItem(itemId) {
+        return await this.request({endpoint: `item/id/${itemId}`, method: 'GET'});
+    }
+    
+    async getItemList(inventoryId, pageNumber, search) {
+        return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}`, method: 'GET'});
     }
 }
 

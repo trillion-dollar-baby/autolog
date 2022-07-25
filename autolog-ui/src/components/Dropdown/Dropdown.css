@@ -2,14 +2,13 @@
     position: relative;
     display:flex;
     flex-direction: column;
-    width: 200px;
-    height: fit-content;
     font-size: 20px;
     border-radius: 10px;
     background-color: var(--backgroundInput);
     color:black;
 
     user-select: none;
+    flex: 1;
 }
 
 .dropdown-wrapper.active{
