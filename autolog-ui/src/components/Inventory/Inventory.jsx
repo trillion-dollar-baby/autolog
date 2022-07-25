@@ -6,9 +6,14 @@ import Topbar from '../Topbar/Topbar'
 import Dropdown from '../Dropdown/Dropdown'
 import FormInput from '../FormInput/FormInput'
 import ItemContext from '../../contexts/items';
+import InventoryContext from '../../contexts/inventory';
+import Loading from '../Loading/Loading';
 
 export default function Inventory() {
     //TODO: implement
+    const { processingContext, initializedContext } = useContext(InventoryContext)
+    const [ isProcessing, setIsProcessing ] = processingContext
+    const [ initialized, setInitialized ] = initializedContext
 
     const { itemContext } = useContext(ItemContext)
     const [ items, setItems ] = itemContext
@@ -44,7 +49,8 @@ export default function Inventory() {
               </div>
             </div>
             <div className='table-container'>
-                <Table tableElementArray={(items.length) ? items : []} tableColumnLabelArray={(items.length) ? Object.keys(items[0]) : []}/>
+                {(isProcessing || !initialized) ? <Loading /> :
+                <Table tableElementArray={(items.length) ? items : []} tableColumnLabelArray={(items.length) ? Object.keys(items[0]) : []}/>}
             </div>
         </div>
     )

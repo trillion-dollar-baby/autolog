@@ -2,6 +2,7 @@ import { createContext, useState, useEffect, useContext} from "react"
 import apiClient from "../services/apiClient"
 import InventoryContext from "./inventory"
 import AuthContext from "./auth"
+import Loading from "../components/Loading/Loading"
 
 const ItemContext = createContext({});
 export const ItemContextProvider = ({children})=>{
@@ -68,12 +69,6 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
       console.error("Error creating items, message:", error)
     }
   }
-
-  if (isLoading) return (
-    <div className="content">
-      <h1>Loading item...</h1>
-    </div>
-  )
 
 const values={errorContext: [error, setError], itemContext: [items, setItems], loadingContext: [isLoading, setIsLoading], itemCreateContext: [createItem]}
    

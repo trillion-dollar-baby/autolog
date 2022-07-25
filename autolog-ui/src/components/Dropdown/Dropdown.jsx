@@ -20,8 +20,12 @@ export default function Dropdown({ value, items, onSelect}) {
         setOpen(!open);
     }
 
+    const handleOnBlur = () => {
+        setOpen(!open);
+    }
+
     return (
-        <div className={`dropdown-wrapper ${open ? 'active' : ''}`}>
+        <div onBlur={handleOnBlur} className={`dropdown-wrapper ${open ? 'active' : ''}`}>
             <div
                 tabIndex={0}
                 onClick={() => toggle()}
