@@ -13,13 +13,15 @@ import Modal from '../Modal/Modal';
 import Form from '../Form/Form';
 import Backdrop from '../Backdrop/Backdrop';
 import DropdownOverlay from '../DropdownOverlay/DropdownOverlay';
+import apiClient from '../../services/apiClient';
 
 /**
  * Dropdown for navbar that switches between inventories
  * that the user has access to
  */
 export default function InventoryDropdown() {
-    const { accessibleInventoriesContext, selectedInventoryContext } = useContext(InventoryContext);
+    const { accessibleInventoriesContext, selectedInventoryContext, inventoryPostContext } = useContext(InventoryContext);
+    const [createInventory] = inventoryPostContext;
     const [accessibleInventories, setAccessibleInventories] = accessibleInventoriesContext;
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
@@ -61,6 +63,9 @@ export default function InventoryDropdown() {
 
     const [formState, setFormState] = useState({});
 
+    const onSubmitNewInventory = async() => {
+        await createInventory(formState);
+    }
     // if there are accessible inventories, render dropdown, otherwise render nothing(empty fragment)
     if (accessibleInventories.length > 0) {
         return (
@@ -87,7 +92,7 @@ export default function InventoryDropdown() {
                 */}
                 {open && (
                     <>
-                        <DropdownOverlay onBlur={toggle}/>
+                        <DropdownOverlay onClick={toggle}/>
                         <ul className="dropdown-inventory-list">
                             {/* items */}
                             {accessibleInventories?.map((item, idx) => {
@@ -117,7 +122,7 @@ export default function InventoryDropdown() {
                         <Modal
                             title={'Create New Inventory'}
                             body={<Form formState={formState} setFormState={setFormState} formArray={formArray} />}
-                            onSubmit={() => console.log("create")}
+                            onSubmit={onSubmitNewInventory}
                             handleClose={closeModal} 
                         />
                     }

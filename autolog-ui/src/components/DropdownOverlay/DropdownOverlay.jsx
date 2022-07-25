@@ -2,9 +2,9 @@ import React from 'react'
 
 import './DropdownOverlay.css'
 
-function DropdownOverlay({onBlur}) {
+function DropdownOverlay({onClick}) {
   return (
-    <div onClick={onBlur} className='overlay'/>
+    <div onClick={onClick} className='overlay'/>
   )
 }
 
