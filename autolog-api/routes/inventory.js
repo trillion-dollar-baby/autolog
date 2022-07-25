@@ -43,7 +43,7 @@ router.get("/me",  async (req, res, next) => {
 })
 
 // endpoint to show member list
-router.get("/member/list", security.requireAuthenticatedUser, async(req,res,next) => {
+router.post("/member/list", security.requireAuthenticatedUser, async(req,res,next) => {
     try {
         const { user } = res.locals;
 
