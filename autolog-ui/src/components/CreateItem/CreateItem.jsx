@@ -5,7 +5,7 @@ import ItemContext from '../../contexts/items';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import InventoryContext from '../../contexts/inventory';
-// import apiClient from '../../services/apiClient';
+
 
 export default function CreateItem() {
     const{itemContext, itemCreateContext} = useContext(ItemContext);
@@ -14,10 +14,7 @@ export default function CreateItem() {
     const{selectedInventoryContext}=useContext(InventoryContext);
     const [selectedInventory, setSelectedInventory]=selectedInventoryContext;
 
-    
-    // const[itemName, setName]=useState("")
-    // const[category, setCategory]=useState("")
-    // const[quantity, setQuantity]=useState("")
+
 
     const navigate = useNavigate();
     const [itemThings, setItemThings] = useState({ name: "", category: "", quantity: "", itemPrice:"", standardCost: "", supplier:"", description:""});
@@ -29,30 +26,15 @@ export default function CreateItem() {
        let name = e.target.name;
 
     setItemThings({...itemThings, [name]: value});
-   
-//    switch(e.target.name){
-//        case "itemName": setName(value);
-//            break;
-//        case "category":setCategory(value);
-//            break;
-//         case "quantity": setQuantity(value);
-//             break;
-//        }
     }
 
-    //{ itemName: itemName, category: category, quantity: quantity}
     const handleItemCreate = async () => {
-        // values = { itemName: itemName, category: category, quantity: quantity}
-        // const {data, error} = await apiClient.createItem(values)
         await createItem(itemThings, itemThings.inventoryId=selectedInventory.inventoryId);
-        // itemThings.selectedInventory=selectedInventory.inventoryId;
+        
         console.log(itemThings.inventoryId);
-        // if(data?.items) {
-        //     setItems([...items, data.items])
-        //     navigate("/")
-        // }
+    
         navigate("/inventory/");
-        /// Add code for onclick to create inventory
+       
     }
     return (
         <div className ="create-item">
@@ -116,4 +98,3 @@ export default function CreateItem() {
         </div>
     )
 }
-//I made a comment!

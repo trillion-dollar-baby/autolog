@@ -24,8 +24,6 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
 
     async function fetchItemList(){
     setIsLoading(true)
-    // console.log(selectedInventory.inventoryId)
-    
     
     const {data, err} = await apiClient.getItemList(selectedInventory, 0, '')
     
@@ -64,7 +62,6 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
   const createItem = async (values) => {
     const { data, error } = await apiClient.createItem(values);
     if (!error) {
-    // form.inventoryId = selectedInventory.inventoryId
       console.log("Created item is:", data);
     }
     else {
