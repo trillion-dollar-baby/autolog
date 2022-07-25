@@ -1,0 +1,16 @@
+button.modal-button {
+    width: 100px;
+    height: 60px;
+
+    background-color: var(--actionRed);
+    border-radius: 10px;
+
+    margin: 10px;
+
+    border: none;
+}
+
+button.modal-button:hover {
+    border-color: none;
+    outline: none;
+}

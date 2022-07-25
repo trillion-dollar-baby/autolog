@@ -1,3 +1,4 @@
+@import-normalize;
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap');
 
 :root {
@@ -41,6 +42,7 @@
   --actionBlue: #383F5E;
   --actionBlueAccent: #3F5BE8;
   --actionGreen: #2EAF79;
+  --actionGreenHover: #217a55;
   
   --outlineGray: #CCCCCC;
   /* end of variables */
