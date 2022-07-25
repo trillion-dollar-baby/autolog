@@ -14,7 +14,7 @@ export default function Table({ tableState, setTableState, tableElementArray, ta
         <div className="table">
                 {tableColumnLabelArray?.map((columnName, index) => (
                     <div key={`column-${index}`} className={`table-column`}> 
-                            <p className='column-label'> {columnName} </p>
+                            <p className='column-label'> {columnName.toUpperCase()} </p>
                         {tableElementArray?.map((rowItems, index) => (
                             <li className="row-item" key={`row-item-${index}`}> {rowItems[columnName]} </li>
                     ))} </div>

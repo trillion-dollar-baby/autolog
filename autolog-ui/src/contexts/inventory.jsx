@@ -58,7 +58,6 @@ export const InventoryContextProvider = ({ children }) => {
   const createInventory = async (values) => {
     const { data, error } = await apiClient.createInventory(values);
     if (!error) {
-      console.log("Created inventory is:", data);
       setAccessibleInventories((prev) => [...prev, data.inventory]);
     }
     else {
