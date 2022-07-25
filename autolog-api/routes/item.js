@@ -11,7 +11,6 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     const inventoryId = req.query.inventoryId;
     const page = req.query.page;
     const search = req.query.search;
-	console.log(search);
     const { user } = res.locals;
 
     const items = await Item.listInventoryItems(inventoryId, search, page);
