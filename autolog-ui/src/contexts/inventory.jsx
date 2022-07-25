@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { createContext, useState } from "react";
 import apiClient from "../services/apiClient";
 import AuthContext from "./auth";
+import Loading from "../components/Loading/Loading";
 
 const InventoryContext = createContext({});
 
@@ -48,11 +49,11 @@ export const InventoryContextProvider = ({ children }) => {
   }, [user]);
 
    // Loading message to stop any other children components to render
-   if ((isProcessing) || (initialized === false)) return (
-    <div className="">
-      <h1>Loading inventory...</h1>
-    </div>
-  )
+  //  if ((isProcessing) || (initialized === false)) return (
+  //   <div className="">
+  //     {/* <Loading /> */}
+  //   </div>
+  // )
 
   // Create an inventory
   const createInventory = async (values) => {
@@ -128,7 +129,8 @@ export const InventoryContextProvider = ({ children }) => {
       processingContext: [isProcessing, setIsProcessing],
       selectedInventoryContext: [selectedInventory, setSelectedInventory],
       inventoryMembersContext: [inventoryMembers, setInventoryMembers],
-      errorContext: [error, setError]
+      errorContext: [error, setError],
+      initializedContext: [initialized, setInitialized]
     }}>
       {children}
     </InventoryContext.Provider>

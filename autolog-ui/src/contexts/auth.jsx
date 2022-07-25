@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { createContext, useState } from "react";
 import apiClient from "../services/apiClient";
+import Loading from "../components/Loading/Loading";
 
 const AuthContext = createContext({});
 
@@ -120,9 +121,9 @@ export const AuthContextProvider = ({ children }) => {
     }
   }
 
-  // check if it is still fetching data between renders
+  // If GET /me is still processing or uninitialized, render a blank screen
   if (!initialized || isProcessing) {
-    return (<h1>Authenticating...</h1>)
+    return <div></div>
   }
 
   // check if any errors have been found in useEffect request
