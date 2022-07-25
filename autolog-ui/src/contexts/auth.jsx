@@ -23,7 +23,12 @@ export const AuthContextProvider = ({ children }) => {
       }
 
       if (error) {
-        console.log('token expired...')
+        // if token is invalid, delete from localStorage 
+        // and let the rest of the application know user is invalid
+        console.log('JWT EXPIRED OR INVALID');
+        
+        apiClient.setToken(null);
+        localStorage.removeItem(apiClient.tokenName);
       }
     } catch (error) {
       console.error("Fetching user error:", error);
@@ -81,9 +86,38 @@ export const AuthContextProvider = ({ children }) => {
 
     // reset token from local storage
     localStorage.removeItem(apiClient.tokenName);
+    apiClient.setToken(null);
+    
+    // reload page to reset all states after logging out
+    window.location.reload();
+  }
 
-    // reload page
-    window.location.reload(false);
+  // update user information
+  const updateUserData = async (formData) => {
+    // let backend handle all the data
+    try {
+      const {data, error} = await apiClient.patchUserCredentials(formData);
+      
+      if(data?.user){
+        return data?.user;
+      }
+    } catch (error) {
+      return { error }
+    }
+  }
+
+  // update user password by sending new one
+  const updateUserPassword = async (formData) => {
+    // let backend handle all the data
+    try {
+      const {data, error} = await apiClient.patchUserPassword(formData);
+
+      if(data?.message){
+        return data?.message
+      }
+    } catch (error) {
+      return { error }
+    }
   }
 
   // check if it is still fetching data between renders
@@ -100,6 +134,7 @@ export const AuthContextProvider = ({ children }) => {
     <AuthContext.Provider value={{
       initializedContext: [initialized, setInitialized],
       userContext: [user, setUser],
+      settingsContext: [updateUserData, updateUserPassword],
       authContext: [loginUser, registerUser, logoutUser],
       processingContext: [isProcessing, setIsProcessing],
       errorContext: [error, setError]

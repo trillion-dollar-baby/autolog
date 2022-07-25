@@ -1,27 +1,24 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useState } from 'react';
+import AuthContext from '../../contexts/auth';
 import ButtonAction from '../Button/ButtonAction';
 import Form from '../Form/Form';
 import './SettingsUser.css';
 
 export default function SettingsUser() {
-    const dummyForm = {
-        firstName: 'enzo',
-        lastName: 'falone',
-        phoneNumber: '1234567890',
-        email: 'enzo@falone.io',
-        username: 'enzofalone'
-    }
+    const { userContext, settingsContext } = useContext(AuthContext);
+    const [user, setUser] = userContext;
+    const [updateUserData, updateUserPassword] = settingsContext;
 
-    // TODO: populate forms with information from API client
-    const [form, setForm] = useState(dummyForm);
+    // populate forms with information from API client
+    const [form, setForm] = useState({ ...user });
     const [passwordForm, setPasswordForm] = useState({});
 
-    //TODO: if the user changes the original value, render update button
-    // record changes
+    // record changes and success boolean to let user know if no errors resulted from request
     const [change, setChange] = useState(false);
+    const [success, setSuccess] = useState();
+    // record changes for password and track if passwords match
     const [passwordChange, setPasswordChange] = useState(false);
-
     const [passwordError, setPasswordError] = useState(false);
 
     // what values we want in the form
@@ -73,25 +70,41 @@ export default function SettingsUser() {
         }
     ]
 
+    const onSubmitCredentials = async () => {
+        const result = await updateUserData(form);
+
+        if (result) {
+            setUser(result?.user);
+        } else {
+            console.log("error, " + result);
+        }
+
+        // reload page
+        window.location.reload(false);
+    }
+
+    const onSubmitPassword = async () => {
+
+    }
+
     // if original data received from database is different from what the user has, 
     // render Update button to perform the changes in database as well 
 
     useEffect(() => {
-        Object.keys(dummyForm).forEach((val, idx) => {
-            if (dummyForm[val] !== form[val]) {
+        // TODO: create form array by appending in each forEach iteration
+        Object.keys(user).forEach((val, idx) => {
+            if (user[val] !== form[val]) {
                 console.log('change occurred')
                 setChange(true);
             }
         })
-
-        
-    },[form])
+    }, [form])
 
     // if there is a password change, check if they both match, if they don't, let user know
     useEffect(() => {
         // if both fields do not match, set useState true to render an error message 
         setPasswordError(passwordForm.password !== passwordForm.rePassword);
-        
+
         // if there is a change, set useState to true
         setPasswordChange(passwordForm?.password?.length > 0);
 
@@ -102,8 +115,8 @@ export default function SettingsUser() {
             <div className="settings-user">
                 <Form formState={form} setFormState={setForm} formArray={formArray} />
             </div>
-            
-            {change && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => console.log("asd")}/>}
+
+            {change && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => onSubmitCredentials()} />}
 
             {/* divider */}
             <div className='settings-divider'>
@@ -114,8 +127,8 @@ export default function SettingsUser() {
                 {/* password forms */}
                 <Form formState={passwordForm} setFormState={setPasswordForm} formArray={passwordFormArray} />
                 {/* if password does not match show error message */}
-                {(passwordError && passwordChange) && <p style={{color: 'red'}}>you stupid the password does not match!</p>}
-                {(!passwordError && passwordChange) && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => console.log("asd")}/> }
+                {(passwordError && passwordChange) && <p style={{ color: 'red' }}>Password does not match!</p>}
+                {(!passwordError && passwordChange) && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => onSubmitPassword()} />}
             </div>
 
         </div>

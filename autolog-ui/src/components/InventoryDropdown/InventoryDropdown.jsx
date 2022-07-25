@@ -54,7 +54,7 @@ export default function InventoryDropdown() {
                     <ul className="dropdown-inventory-list">
                         {/* items */}
                         {accessibleInventories?.map((item, idx) => {
-                            return (<div className={`dropdown-inventory-item ${(idx === (accessibleInventories?.length - 1) ? 'last' : '')}`} onClick={() => handleOnClick(item)}>
+                            return (<div key={idx} className={`dropdown-inventory-item ${(idx === (accessibleInventories?.length - 1) ? 'last' : '')}`} onClick={() => handleOnClick(item)}>
                                 <span>{_.capitalize(item?.inventoryName)}</span>
                             </div>)
                         })}
