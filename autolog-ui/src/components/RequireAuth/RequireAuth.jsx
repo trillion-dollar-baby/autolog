@@ -17,7 +17,7 @@ export default function RequireAuth({ children }) {
 
     // if an user email is present in AuthContext, render page
     // if not, redirect to login page with an error message
-    return (apiClient.token ? 
+    return (apiClient.getToken() ? 
         children 
         : 
         notAuthorized()
