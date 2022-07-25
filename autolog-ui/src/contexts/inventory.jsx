@@ -29,7 +29,7 @@ export const InventoryContextProvider = ({ children }) => {
         if (data?.inventory) {
           // pick first accessible inventory (CHANGE)
           setAccessibleInventories(data?.inventory);
-          setSelectedInventory(data?.inventory[4]);
+          setSelectedInventory(data?.inventory[0]);  // Select the first inventory initially, changable with the inventory dropdown
           console.log(data?.inventory);
         }
 
