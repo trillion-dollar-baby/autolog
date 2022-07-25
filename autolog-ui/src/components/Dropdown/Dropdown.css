@@ -9,6 +9,7 @@
 
     user-select: none;
     flex: 1;
+    flex-grow: 1;
 }
 
 .dropdown-wrapper.active{
@@ -26,7 +27,7 @@
     display:flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 5px;
+    padding: 5px 10px;
 }
 
 .dropdown-header-action {

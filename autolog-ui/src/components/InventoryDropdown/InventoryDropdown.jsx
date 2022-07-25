@@ -8,7 +8,11 @@ import arrowExpand from '../../assets/icons8-expand-arrow-2.png'
 import arrowCollapse from '../../assets/icons8-collapse-arrow-2.png'
 import { useContext } from 'react';
 import InventoryContext from '../../contexts/inventory';
-import { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Modal from '../Modal/Modal';
+import Form from '../Form/Form';
+import Backdrop from '../Backdrop/Backdrop';
+import DropdownOverlay from '../DropdownOverlay/DropdownOverlay';
 
 /**
  * Dropdown for navbar that switches between inventories
@@ -30,11 +34,40 @@ export default function InventoryDropdown() {
         setOpen(!open);
     }
 
+    // new inventory modal
+    const [modalOpen, setModalOpen] = useState(false);
+    const closeModal = () => setModalOpen(false);
+    const openModal = () => setModalOpen(true);
+    const toggleModalOnDropdown = () => {
+        setModalOpen(prevState => !prevState);
+        setOpen(!open);
+    }
+
+    // new inventory form
+    const formArray = [
+        {
+            label: 'Inventory Name',
+            name: 'name',
+            type: 'text',
+            placeholder: 'This is a placeholder'
+        },
+        {
+            label: 'Inventory Password',
+            name: 'password',
+            type: 'text',
+            placeholder: '********'
+        }
+    ]
+
+    const [formState, setFormState] = useState({});
+
     // if there are accessible inventories, render dropdown, otherwise render nothing(empty fragment)
     if (accessibleInventories.length > 0) {
         return (
             <div className={`dropdown-inventory-wrapper ${open ? 'active' : ''}`}>
-                {/* header */}
+                {/* 
+                    Header 
+                */}
                 <div
                     tabIndex={0}
                     onClick={() => toggle()}
@@ -49,21 +82,51 @@ export default function InventoryDropdown() {
                         <img src={open ? arrowCollapse : arrowExpand} />
                     </div>
                 </div>
-                {/* items wrapper */}
+                {/* 
+                    Inventory List 
+                */}
                 {open && (
-                    <ul className="dropdown-inventory-list">
-                        {/* items */}
-                        {accessibleInventories?.map((item, idx) => {
-                            return (<div key={idx} className={`dropdown-inventory-item ${(idx === (accessibleInventories?.length - 1) ? 'last' : '')}`} onClick={() => handleOnClick(item)}>
-                                <span>{_.capitalize(item?.inventoryName)}</span>
-                            </div>)
-                        })}
+                    <>
+                        <DropdownOverlay onBlur={toggle}/>
+                        <ul className="dropdown-inventory-list">
+                            {/* items */}
+                            {accessibleInventories?.map((item, idx) => {
+                                return (<div key={idx} className={`dropdown-inventory-item`} onClick={() => handleOnClick(item)}>
+                                    <span>{_.capitalize(item?.inventoryName)}</span>
+                                </div>)
+                            })}
+
+                            {/* button that leads to create inventory */}
+                            <div className={`dropdown-inventory-item button-create-inventory last`} onClick={toggleModalOnDropdown}>
+                                <span>Create New Inventory</span>
+                            </div>
                     </ul>
+                    </>
                 )}
+
+                {/* 
+                    Modal for new inventory
+                */}
+
+                <AnimatePresence
+                    initial={false}
+                    exitBeforeEnter={true}
+                    onExitComplete={() => null}>
+                    {
+                        modalOpen && 
+                        <Modal
+                            title={'Create New Inventory'}
+                            body={<Form formState={formState} setFormState={setFormState} formArray={formArray} />}
+                            onSubmit={() => console.log("create")}
+                            handleClose={closeModal} 
+                        />
+                    }
+                </AnimatePresence>
             </div>
         )
     }
     else {
+        // if no accessible inventories, show nothing
         <></>
     }
 }
