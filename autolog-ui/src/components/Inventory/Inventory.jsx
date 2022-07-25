@@ -1,26 +1,19 @@
+import * as React from 'react';
+import { useContext } from 'react';
 import './Inventory.css'
 import Table from '../Table/Table'
 import Topbar from '../Topbar/Topbar'
 import Dropdown from '../Dropdown/Dropdown'
 import FormInput from '../FormInput/FormInput'
+import ItemContext from '../../contexts/items';
 
 export default function Inventory() {
     //TODO: implement
-    const testCol = ["ID", "Date", "User"]
-    const testArr = [{ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"},
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"},
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"},
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"},
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"},
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}, 
-                      {ID: 123456789, Date: "01-23-45", User: "MoeElias"}]
+
+    const { itemContext } = useContext(ItemContext)
+    const [ items, setItems ] = itemContext
+
+    console.log("items are", items)
 
     const settingsRoutes = [
         {
@@ -53,7 +46,7 @@ export default function Inventory() {
               </div>
             </div>
             <div className='table-container'>
-                <Table tableElementArray={testArr} tableColumnLabelArray={testCol}/>
+                <Table tableElementArray={(items.length) ? items : []} tableColumnLabelArray={(items.length) ? Object.keys(items[0]) : []}/>
             </div>
         </div>
     )
