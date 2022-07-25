@@ -14,12 +14,14 @@ import Form from '../Form/Form';
 import Backdrop from '../Backdrop/Backdrop';
 import DropdownOverlay from '../DropdownOverlay/DropdownOverlay';
 import apiClient from '../../services/apiClient';
+import { useEffect } from 'react';
 
 /**
  * Dropdown for navbar that switches between inventories
  * that the user has access to
  */
 export default function InventoryDropdown() {
+    // contexts
     const { accessibleInventoriesContext, selectedInventoryContext, inventoryPostContext } = useContext(InventoryContext);
     const [createInventory] = inventoryPostContext;
     const [accessibleInventories, setAccessibleInventories] = accessibleInventoriesContext;
@@ -36,7 +38,12 @@ export default function InventoryDropdown() {
         setOpen(!open);
     }
 
-    // new inventory modal
+    /**
+     * Modal invoked within dropdown
+     */
+
+    // new inventory modal hooks
+    const [formState, setFormState] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
     const closeModal = () => setModalOpen(false);
     const openModal = () => setModalOpen(true);
@@ -61,11 +68,11 @@ export default function InventoryDropdown() {
         }
     ]
 
-    const [formState, setFormState] = useState({});
-
+    // On modal "Create" button, perform API call via InventoryContext
     const onSubmitNewInventory = async() => {
         await createInventory(formState);
     }
+
     // if there are accessible inventories, render dropdown, otherwise render nothing(empty fragment)
     if (accessibleInventories.length > 0) {
         return (
