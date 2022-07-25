@@ -58,11 +58,11 @@ export default function Login() {
                 {/* form */}
                 <div className='login-form'>
                     <div className='login-email form-input-gray'>
-                        <label className='input-label' for="email">Email</label>
+                        <label className='input-label' htmlFor="email">Email</label>
                         <input className='login-input' id="email" name="email" placeholder='Enter email...' value={credentials.email} onChange={handleOnFormChange}></input>
                     </div>
                     <div className='login-password form-input-gray'>
-                        <label className='input-label' for="password">Password</label>
+                        <label className='input-label' htmlFor="password">Password</label>
                         <input className='login-input' id="password" type="password" name="password" placeholder='Enter password...' value={credentials.password} onChange={handleOnFormChange}></input>
                     </div>
                     <button className='login-button' onClick={handleOnSubmit}>{isProcessing ? "Loading..." : "Sign In"}</button>

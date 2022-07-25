@@ -3,6 +3,9 @@
     flex-direction: column;
     max-width: var(--maxWidth);
     max-height: 100vh;
+    width:100%;
+    height:100%;
+    justify-content: center;
     margin: 0 auto;
     flex-grow:1;
 }

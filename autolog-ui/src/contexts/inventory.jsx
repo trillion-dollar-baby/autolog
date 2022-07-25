@@ -15,6 +15,7 @@ export const InventoryContextProvider = ({ children }) => {
   const [inventoryMembers, setInventoryMembers] = useState([]);
   const [error, setError] = useState();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [initialized, setInitialized] = useState(false);
 
   // Based on selected inventory ID, component is going to load information for the application to be populated
   const [selectedInventory, setSelectedInventory] = useState();
@@ -30,7 +31,6 @@ export const InventoryContextProvider = ({ children }) => {
           // pick first accessible inventory (CHANGE)
           setAccessibleInventories(data?.inventory);
           setSelectedInventory(data?.inventory[0]);
-          console.log(data?.inventory);
         }
 
       } catch (error) {
@@ -44,13 +44,22 @@ export const InventoryContextProvider = ({ children }) => {
     if (user?.email) {
       fetchData();
     }
+    setInitialized(true);
   }, [user]);
+
+   // Loading message to stop any other children components to render
+   if ((isProcessing) || (initialized === false)) return (
+    <div className="">
+      <h1>Loading inventory...</h1>
+    </div>
+  )
 
   // Create an inventory
   const createInventory = async (values) => {
     const { data, error } = await apiClient.createInventory(values);
     if (!error) {
       console.log("Created inventory is:", data);
+      setAccessibleInventories((prev) => [...prev, data.inventory]);
     }
     else {
       console.error("Error creating inventory, message:", error)
@@ -59,15 +68,17 @@ export const InventoryContextProvider = ({ children }) => {
 
   // Get inventories that are accessible to the user
   const getAccessibleInventories = async () => {
-    const { data, error } = await apiClient.getAccessibleInventories();
-    if (!error) {
-      if (data?.inventory) {
-        setAccessibleInventories(data?.inventory);
-        return { data: data?.inventory, error };
+    if (selectedInventory.inventoryId !== null) {
+      const { data, error } = await apiClient.getAccessibleInventories();
+      if (!error) {
+        if (data?.inventory) {
+          setAccessibleInventories(data?.inventory);
+          return { data: data?.inventory, error };
+        }
       }
-    }
-    else {
-      console.error("Error getting accessible inventories, message:", error)
+      else {
+        console.error("Error getting accessible inventories, message:", error)
+      }
     }
   }
 
@@ -82,13 +93,18 @@ export const InventoryContextProvider = ({ children }) => {
     }
   }
 
+  /**
+   * Member requests
+   */
+
   // Get members of a given inventory
-  const getInventoryMembers = async (inventoryId) => {
-    const { data, error } = await apiClient.getInventoryMembers(inventoryId);
+  const getInventoryMembers = async () => {
+    const { data, error } = await apiClient.getInventoryMembers(selectedInventory.inventoryId);
+
     if (!error) {
-      setInventoryMembers(data);
-    }
-    else {
+      setInventoryMembers(data?.members);
+      return data?.members;
+    } else {
       console.error("Error getting inventory members, message:", error)
     }
   }
@@ -104,16 +120,10 @@ export const InventoryContextProvider = ({ children }) => {
     }
   }
 
-  // Loading message to stop any other children components to render
-  if (isProcessing) return (
-    <div className="content">
-      <h1>Loading inventory...</h1>
-    </div>
-  )
-
   return (
     <InventoryContext.Provider value={{
-      inventoryGetContext: [createInventory, getAccessibleInventories, getOwnedInventories, getInventoryMembers],
+      inventoryGetContext: [getAccessibleInventories, getOwnedInventories, getInventoryMembers],
+      inventoryPostContext: [createInventory],
       ownedInventoriesContext: [ownedInventories, setOwnedInventories],
       accessibleInventoriesContext: [accessibleInventories, setAccessibleInventories],
       processingContext: [isProcessing, setIsProcessing],

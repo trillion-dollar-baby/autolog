@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Navigate, useLocation } from "react-router";
 import AuthContext from "../../contexts/auth";
+import apiClient from "../../services/apiClient";
 
 export default function RequireAuth({ children }) {
     const { userContext, errorContext } = useContext(AuthContext);
@@ -16,7 +17,7 @@ export default function RequireAuth({ children }) {
 
     // if an user email is present in AuthContext, render page
     // if not, redirect to login page with an error message
-    return (user.email ? 
+    return (apiClient.getToken() ? 
         children 
         : 
         notAuthorized()

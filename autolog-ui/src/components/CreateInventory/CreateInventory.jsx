@@ -6,9 +6,9 @@ import { useNavigate } from 'react-router';
 export default function CreateInventory() {
     const navigate = useNavigate();
     const [ field, setField ] = React.useState({name: "", password: ""});
-    const { inventoryGetContext, errorContext} = useContext(InventoryContext);
+    const { inventoryPostContext, errorContext} = useContext(InventoryContext);
     const [error, setError] = errorContext;
-    const [createInventory, getAccessibleInventories, getOwnedInventories, getInventoryMembers]= inventoryGetContext;
+    const [createInventory]= inventoryPostContext;
     
     const handleOnFormChange = (e) => {
         let name = e.target.name;
