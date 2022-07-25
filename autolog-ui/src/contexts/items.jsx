@@ -20,24 +20,36 @@ const {selectedInventoryContext}= useContext(InventoryContext);
 const [selectedInventory, setSelectedInventory] = selectedInventoryContext
 
 
- useEffect(async ()=>{
+ useEffect(()=>{
 
+    async function fetchItemList(){
     setIsLoading(true)
-    const {data, err} = await apiClient.getItem()
+    
+    const {data, err} = await apiClient.getItemList(selectedInventory, 0, '')
+    
     if(data){
-
+        console.log(data)
+       
         setItems(data?.items) 
+
     }else if(err){
+
     setError(err)
    
     }
     setIsLoading(false)
+    }
+    fetchItemList()
 
    }, [user, selectedInventory])
 
+
+
+
    // Get id of a given item
-  const getItemList = async (inventoryId, pageNumber, search) => {
-    const { data, error } = await apiClient.getItemList(inventoryId, pageNumber, search);
+   //for when we are accessing the item through item details
+  const getItem = async (itemId) => {
+    const { data, error } = await apiClient.getItem(itemId);
     if (!error) {
       console.log("Items are:", data);
     }
@@ -46,7 +58,24 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
     }
   }
 
-const values={errorContext: [error, setError], itemContext: [items, setItems], loadingContext: [isLoading, setIsLoading]}
+  //create item
+  const createItem = async (values) => {
+    const { data, error } = await apiClient.createItem(values);
+    if (!error) {
+      console.log("Created item is:", data);
+    }
+    else {
+      console.error("Error creating items, message:", error)
+    }
+  }
+
+  if (isLoading) return (
+    <div className="content">
+      <h1>Loading item...</h1>
+    </div>
+  )
+
+const values={errorContext: [error, setError], itemContext: [items, setItems], loadingContext: [isLoading, setIsLoading], itemCreateContext: [createItem]}
    
 return(
         <ItemContext.Provider value={values}>
