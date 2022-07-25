@@ -25,14 +25,14 @@ export default function Settings() {
       {/* always render in page */}
 
       {/* <div className="content"> */}
-        <Topbar routes={settingsRoutes} />
+      <Topbar routes={settingsRoutes} />
 
-        <Routes>
-          <Route exact path='/' element={<SettingsUser />} />
-          <Route exact path='/members' element={<SettingsMembers />} />
-        </Routes>
+      <Routes>
+        <Route exact path='/' element={<SettingsUser />} />
+        <Route exact path='/members' element={<SettingsMembers />} />
+      </Routes>
 
-      </div>
+    </div>
     // </div>
   )
 }

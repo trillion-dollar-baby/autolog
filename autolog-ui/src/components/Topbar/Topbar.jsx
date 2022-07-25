@@ -15,7 +15,7 @@ export default function Topbar({ routes, buttonName, buttonPath }) {
     <nav className="topbar">
       {routes.map((item, idx) => {
         return (
-          <NavLink className={({isActive}) => `topbar-item ${isActive ? 'focused' : ''}`}
+          <NavLink key={idx} className={({isActive}) => `topbar-item ${isActive ? 'focused' : ''}`}
             to={item.to}>
               <span className="topbar-item-text">{_.capitalize(item.name)}</span>
           </NavLink>
