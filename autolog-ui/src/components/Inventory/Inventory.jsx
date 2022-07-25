@@ -13,8 +13,6 @@ export default function Inventory() {
     const { itemContext } = useContext(ItemContext)
     const [ items, setItems ] = itemContext
 
-    console.log("items are", items)
-
     const settingsRoutes = [
         {
           name: 'Inventory',
