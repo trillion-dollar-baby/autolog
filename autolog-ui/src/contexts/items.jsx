@@ -25,10 +25,11 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
     async function fetchItemList(){
     setIsLoading(true)
     
-    const {data, err} = await apiClient.getItemList(selectedInventory, 0, '')
+    console.log("Selected inventory:", selectedInventory)
+    const {data, err} = await apiClient.getItemList(selectedInventory.inventoryId, 0, '')
     
     if(data){
-        console.log(data)
+        console.log("Get item returned:", data.items)
        
         setItems(data?.items) 
 

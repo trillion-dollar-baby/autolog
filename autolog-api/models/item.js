@@ -101,6 +101,8 @@ class Item {
       search.toLowerCase()
     ]);
 
+    console.log("Get Item results:", results.rows)
+
     return results.rows;
   }
 
