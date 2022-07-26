@@ -12,17 +12,17 @@
     max-width: var(--maxWidth);
     width: 100%;
     margin-top: 35px;
+    display: flex;
 }
 
 .inventory-content .table-container {
-    height: 450px;
     display: flex;
-    position: fixed;
-    top: 393px;
+    flex-grow: 8;
 }
 
 .inventory-content .filter-container {
     display: flex;
+    flex-grow: 1;
     flex-direction: row;
     max-width: var(--maxWidth);
     width: 100%;

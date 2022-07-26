@@ -57,7 +57,7 @@ export default function Performance() {
             </div>
 
             <div className='table-container'>
-                <Table tableElementArray={testArr} tableColumnLabelArray={testCol}/>
+                <Table tableElementArray={testArr} tableColumnLabelArray={testCol} tableLabel={"Results"}/>
             </div>
         </div>
     )
