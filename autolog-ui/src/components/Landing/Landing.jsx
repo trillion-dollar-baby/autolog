@@ -7,6 +7,7 @@ export default function Landing() {
         <div className='landing-page'>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             <div className="nav-heading">
             </div>
             <div className="hero">
@@ -62,6 +63,8 @@ export default function Landing() {
 
             
 
+=======
+>>>>>>> 7d4d59cfe9d3a788169baf1a71e6d6862dd96f87
 =======
 >>>>>>> 7d4d59cfe9d3a788169baf1a71e6d6862dd96f87
 =======
