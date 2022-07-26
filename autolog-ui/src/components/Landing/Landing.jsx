@@ -5,6 +5,7 @@ import placeholder from "../../assets/placeholder.jpg"
 import githubIcon from "../../assets/github-icon.png"
 import twitterIcon from "../../assets/twitter-icon.png"
 import discordIcon from "../../assets/discord-icon.png"
+import Enzo from "../../assets/enzo.png"
 export default function Landing() {
     return (
         <div className='landing-page'>
@@ -51,16 +52,16 @@ export default function Landing() {
                     </h3>
                     </div>
                     <div className="about-images">
-                        <img className="photo"src={placeholder}></img>
+                        <img className="photo"src={Enzo}></img>
                         <img className="photo" src={placeholder}></img>
                         <img className="photo" src={placeholder}></img>
                     </div>
                     <div className="about-description">
-                    <p> We are a group of developers interested in helping out small businesses find solutions to their biggest problems. AutoLog was born  </p>
+                    <p> We are a group of developers interested in helping out small businesses find solutions to their biggest problems. AutoLog was born out of the need for  </p>
                     </div>
 
                 </div>
-                <div className="footer">
+                <div className="footers">
                     <div className="foot">
                     <p className="footer-description"> Join our mailing list to stay in the loop with our newest feature releases! </p>
                     </div>

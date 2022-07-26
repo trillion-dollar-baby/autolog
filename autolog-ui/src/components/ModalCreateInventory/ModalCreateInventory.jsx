@@ -30,7 +30,7 @@ function ModalCreateInventory({closeModal}) {
         {
             label: 'Inventory Password',
             name: 'password',
-            type: 'text',
+            type: 'password',
             placeholder: '********'
         }
     ]
