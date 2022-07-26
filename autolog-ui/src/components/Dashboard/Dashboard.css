@@ -5,17 +5,12 @@
     color: #000000;
 
 }
-/* .hello{
-    display:flex;
-    justify-self: flex-start;
-} */
 .head{
     display:flex;
     flex-direction: row;
     margin-top: 20px;
     flex: 1;
     display:inline-block;
-    /* justify-content: center; */
     gap:40px; 
     max-width: calc(100vw - 280px);
     max-height: calc(100vh - (var(--navbarHeight) + 350)); /* 100vh minus navbar height plus table height*/
@@ -34,7 +29,7 @@
         display:flex;
         flex-direction: row;
         flex-wrap: wrap;
-        gap: 70px;
+        gap: 60px;
         margin-top:25px;
 }
 .invite{
@@ -51,17 +46,15 @@
     display:flex;
     position: absolute;
     right: 0;
-  margin-right: 20px;
-    /* position: absolute; */
+    margin-right: 20px;
+    
 
 } 
 .announcement-form{
 display:flex;
+max-width: calc(100vw - 600px);
 width: 600px;
-/* max-width: calc(100vw-600px); */
 height: 160px;
-/* left: 343px; */
-/* top: 360px; */
 background: #D9D9D9;
 border-radius: 10px;
 font-style: normal;
@@ -73,8 +66,6 @@ line-height: none;
 }
 
 .announcements{
-    /* left: 348px;
-    top: 160px; */
     max-width: calc(100vw - 600px);
     max-height: calc(100vh - (var(--navbarHeight) + 350)); /* 100vh minus navbar height plus table height*/
 }
@@ -202,8 +193,6 @@ border-color: #CCCCCC;
 }
 .submit-items{
     display: flex;
-    /* margin-top: 2px;
-    margin-bottom: 2px; */
     filter: drop-shadow(0px 2px 0px rgba(0, 0, 0, 0.25));
     background: #B7B7B7;
     font-size: 20px;
@@ -225,6 +214,6 @@ border-color: #CCCCCC;
     font-style:normal;
     justify-content: center;
     align-items: center;
-    /* border-radius: 0px; */
+    
 
 }
