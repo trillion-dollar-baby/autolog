@@ -3,6 +3,7 @@ import "./Dashboard.css";
 import { useState, useEffect, useContext } from "react";
 import Table from "../Table/Table";
 import AuthContext from "../../contexts/auth";
+import ButtonInvite from "../ButtonInvite/ButtonInvite";
 
 export default function Dashboard() {
   const [todos, setTodos] = useState([]);
@@ -76,7 +77,7 @@ export default function Dashboard() {
           <h2 className="welcome"> Welcome Back, {user.firstName}</h2>
         </div>
         <div className="invite">
-          <button className="invite-btn"> Invite </button>
+          <ButtonInvite/>
         </div>
       </div>
       <div className="dashboard-body">

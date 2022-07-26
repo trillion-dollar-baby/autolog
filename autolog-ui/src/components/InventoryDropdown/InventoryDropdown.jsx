@@ -9,12 +9,8 @@ import arrowCollapse from '../../assets/icons8-collapse-arrow-2.png'
 import { useContext } from 'react';
 import InventoryContext from '../../contexts/inventory';
 import { motion, AnimatePresence } from 'framer-motion';
-import Modal from '../Modal/Modal';
-import Form from '../Form/Form';
-import Backdrop from '../Backdrop/Backdrop';
 import DropdownOverlay from '../DropdownOverlay/DropdownOverlay';
-import apiClient from '../../services/apiClient';
-import { useEffect } from 'react';
+import ModalCreateInventory from '../ModalCreateInventory/ModalCreateInventory';
 
 /**
  * Dropdown for navbar that switches between inventories
@@ -29,48 +25,23 @@ export default function InventoryDropdown() {
 
     const [open, setOpen] = useState(false);
 
-    // toggle open/closed state
-    const toggle = () => setOpen(!open);
-
-    // handle dropdown item's clicks
-    const handleOnClick = (inventory) => {
-        setSelectedInventory(inventory);
-        setOpen(!open);
-    }
-
-    /**
-     * Modal invoked within dropdown
-     */
-
-    // new inventory modal hooks
-    const [formState, setFormState] = useState({});
+    // modal hook
     const [modalOpen, setModalOpen] = useState(false);
+    
+    // manage modal states
+    const toggle = () => setOpen(!open);
     const closeModal = () => setModalOpen(false);
     const openModal = () => setModalOpen(true);
+
     const toggleModalOnDropdown = () => {
         setModalOpen(prevState => !prevState);
         setOpen(!open);
     }
 
-    // new inventory form
-    const formArray = [
-        {
-            label: 'Inventory Name',
-            name: 'name',
-            type: 'text',
-            placeholder: 'This is a placeholder'
-        },
-        {
-            label: 'Inventory Password',
-            name: 'password',
-            type: 'text',
-            placeholder: '********'
-        }
-    ]
-
-    // On modal "Create" button, perform API call via InventoryContext
-    const onSubmitNewInventory = async() => {
-        await createInventory(formState);
+    // handle dropdown item's clicks
+    const handleOnClick = (inventory) => {
+        setSelectedInventory(inventory);
+        setOpen(!open);
     }
 
     // if there are accessible inventories, render dropdown, otherwise render nothing(empty fragment)
@@ -99,7 +70,7 @@ export default function InventoryDropdown() {
                 */}
                 {open && (
                     <>
-                        <DropdownOverlay onClick={toggle}/>
+                        <DropdownOverlay onClick={toggle} />
                         <ul className="dropdown-inventory-list">
                             {/* items */}
                             {accessibleInventories?.map((item, idx) => {
@@ -112,7 +83,7 @@ export default function InventoryDropdown() {
                             <div className={`dropdown-inventory-item button-create-inventory last`} onClick={toggleModalOnDropdown}>
                                 <span>Create New Inventory</span>
                             </div>
-                    </ul>
+                        </ul>
                     </>
                 )}
 
@@ -125,13 +96,8 @@ export default function InventoryDropdown() {
                     exitBeforeEnter={true}
                     onExitComplete={() => null}>
                     {
-                        modalOpen && 
-                        <Modal
-                            title={'Create New Inventory'}
-                            body={<Form formState={formState} setFormState={setFormState} formArray={formArray} />}
-                            onSubmit={onSubmitNewInventory}
-                            handleClose={closeModal} 
-                        />
+                        modalOpen &&
+                        <ModalCreateInventory closeModal={closeModal}/>
                     }
                 </AnimatePresence>
             </div>
