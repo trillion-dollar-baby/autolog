@@ -2,13 +2,16 @@ import * as React from 'react';
 import './Landing.css'
 import YellowCar from "../../assets/yellow-car.png"
 import placeholder from "../../assets/placeholder.jpg"
+import githubIcon from "../../assets/github-icon.png"
+import twitterIcon from "../../assets/twitter-icon.png"
+import discordIcon from "../../assets/discord-icon.png"
 export default function Landing() {
     return (
         <div className='landing-page'>
             <div className="nav-heading">
             </div>
             <div className="hero">
-                <div className="hero-1">
+                <div className="heros">
                     <div className="title-hero">
                         <h2> Free and easy-to-use solutions for automotive businesses </h2> 
                     </div>
@@ -21,12 +24,16 @@ export default function Landing() {
                 </div>
                 
             </div>
-                <div className="product-reviews">
+                <div className="product-reviews"> 
                    <h3 className="review"> Product Reviews </h3>
-                   <div className="review-card">
-                    {/* <img>Review Image</img> */}
-                    <p>Review 1</p>
-                   </div>
+                   <div className="rev">
+                        <div className="info">
+                            <p> Product Review 1 </p>
+                        </div>
+                        <div className="info-2">
+                            <p> Product Review 2 </p>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="contact-info">
@@ -39,23 +46,31 @@ export default function Landing() {
                 </div>
                 <div className="about-us">
                     <div className="about-title">
-                    <h2 className="heading">
+                    <h3 className="heading">
                         About Us
-                    </h2>
+                    </h3>
                     </div>
                     <div className="about-images">
-                        <img className="img" src={placeholder}></img>
-                        <img className="img" src={placeholder}></img>
-                        <img className="img" src={placeholder}></img>
-                        <img className="img" src={placeholder}></img>
+                        <img className="photo"src={placeholder}></img>
+                        <img className="photo" src={placeholder}></img>
+                        <img className="photo" src={placeholder}></img>
                     </div>
                     <div className="about-description">
-                    <p> We are a group of developers interested in </p>
+                    <p> We are a group of developers interested in helping out small businesses find solutions to their biggest problems. AutoLog was born  </p>
                     </div>
 
                 </div>
                 <div className="footer">
-                    {/* Make this blue */}
+                    <div className="foot">
+                    <p className="footer-description"> Join our mailing list to stay in the loop with our newest feature releases! </p>
+                    </div>
+                <div className="socials">
+                    <div className="imgs">
+                    <img className="icons" src={githubIcon}></img>
+                    <img className="icons" src={twitterIcon}></img>
+                    <img className="icons" src={discordIcon}></img>
+                    </div>
+                </div>
                 </div>
 
             

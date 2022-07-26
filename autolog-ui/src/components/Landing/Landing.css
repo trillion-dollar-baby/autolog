@@ -1,57 +1,65 @@
 .landing-page{
    
     margin-top: 20px;
-    /* max-height: calc(100vh - (var(--navbarHeight) + 350)); 100vh minus navbar height plus table height */
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
     padding-top: 70px;
-    padding-left:30px;
+    padding-left: 20px;
     font-family: 'Inter';
     font-style: normal;
-    /* padding-right:30px; */
     
 }
 .hero{
     display: flex;
     flex-direction: row;
-    gap:20px;
-    
-    
+    gap:20px;  
 }
-.description{
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 33px;
-padding-top: 20px;
 
-color: #6B6B6B;
+.description{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 33px;
+    padding-top: 20px;
+    color: #6B6B6B;
 }
+
 .title-hero{
-font-family: 'Inter';
-font-style: normal;
-font-weight: 700;
-font-size: 30px;
-line-height: 48px;
-max-width: 750px;
-left: 76px;
-top: 256px
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 48px;
+}
+
+.heading{
+    font-size: 30px;
+    font-style:normal; 
+    font-weight: 700;
+    padding-bottom: 20px;
+    
+}
+
+.heros{
+    max-width: 700px;
+    width:100%;
 }
 
 .image{
-    display: flex;
-    max-width: var(--maxWidth);
     width:100%;
-    flex: 0 1 auto;
 }
 .product-reviews{
-padding-top:40px;
-font-size: 30px;
-font-style:normal;
+    padding-top:40px;
+    font-size: 30px;
+    font-style:normal;
+    padding-bottom: 20px;
 
-padding-bottom: 20px;
+}
+.rev{
+    display:flex;
+    flex-direction: row;
 }
 .review{
     font-size: 35px;
@@ -62,61 +70,123 @@ padding-bottom: 20px;
 .info{
     display:flex;
     background: #d4d4d4;
-    max-width: var(--maxWidth);
-    width: 600px;
-    height: 350px;
+    width: 50%;
+    height: 300px;
     justify-content: center;
     text-align: center;
+    padding-top:90px;
+    font-weight: 400;
+    font-size: 30px;
+    color: #6B6B6B;
+}
+.info-2{
+    display:flex;
+    background: #B3B3B3;
+    width: 50%;
+    height: 300px;
+    justify-content: center;
+    text-align: center;
+    padding-top:90px;
+    font-weight: 400;
+    font-size: 30px;
+    color: #6B6B6B;
+    
 }
 .image-1{
     display:flex;
     background: #B3B3B3;
-    max-width: var(--maxWidth);
-    width: 600px;
-    height: 350px;
+    width: 50%;
+    height: 300px;
     align-content:center;
     justify-content: center;
+    padding-top:90px;
+    font-weight: 400;
+    font-size: 30px;
+    color: #6B6B6B;
 }
 .contact-info{
     display:flex;
     flex-direction: row;
-    max-width: var(--maxWidth);
+    margin-top:30px;
+    margin-bottom:30px;
+    
 }
 .heading{
-    font-size: 30px;
+    font-size: 35px;
+    padding-bottom:40px;
 }
 .about-description{
-font-weight: 300;
-font-size: 20px;
-line-height: 33px;
-/* padding-top: 20px; */
-
-color: #6B6B6B;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 33px;
+    padding-top: 20px;
+    color: #6B6B6B;
+    margin:20px;
+    text-align: center;
 }
 .about-us{
-    font-family: 'Inter';
-font-style: normal;
-padding-top:20px;
-padding-bottom:20px;
-background-color:#B3B3B3;
-margin-top: 20px;
-align-items: center;
-justify-content: center;
-display:flex;
-flex-direction: column;
+    padding-top:20px;
+    padding-bottom:20px;
+    background-color:#B3B3B3;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    align-items: center;
+    justify-content: center;
+    display:flex;
+    flex-direction: column;
 }
 .about-images{
     flex-direction: row;
     display:flex;
-    gap:20px;
-    width:200px;
-    height:200px;
-}
-.img{
+    max-width:200px;
+    max-height:200px;
     width:100%;
-    height:100%;
-    border-radius: 50%;
+    gap:20px;
+    justify-content: center;
 }
+
+.yellowCar{
+    width:100%;
+    height:auto;
+
+}
+.photo{
+    border-radius: 50%;
+    width:100%;
+    height:auto;
+}
+.footer{
+    margin-top:20px;
+    background-color: #303550;
+    border-radius: 40px 40px 0px 0px;
+    height: 150px;
+    /* align-items:flex-start; */
+    flex-direction:row;
+    display:flex;
+    gap:20px;
+}
+.footer-description{
+    color: #FFFFFF;
+    margin-left: 50px;
+    margin-top: 40px;
+}
+.foot{
+    width:45%;
+}
+.socials{
+    margin-top: 40px;
+    width: 50%;
+}
+.imgs{
+    display: flex;
+    float:right;
+
+}
+.icons{
+    margin-left:10px;
+    margin-right:10px;
+}
+
 
 
 
