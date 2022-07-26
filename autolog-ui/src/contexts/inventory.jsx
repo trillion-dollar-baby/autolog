@@ -122,7 +122,7 @@ export const InventoryContextProvider = ({ children }) => {
     const { data, error } = await apiClient.addInventoryMember(userEmail, InventoryId);
 
     if (!error) {
-      console.log("Added member is", data);
+      // console.log("Added member is", data);
       return {data: data, error: null}
     } else {
       console.error("Error adding member to inventory, message:", error)
