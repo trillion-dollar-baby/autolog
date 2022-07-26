@@ -9,6 +9,7 @@
     display:flex;
     justify-self: flex-start;
 } */
+
 .head{
     display:flex;
     flex-direction: row;

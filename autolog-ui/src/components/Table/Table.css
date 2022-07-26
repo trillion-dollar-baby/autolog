@@ -1,9 +1,28 @@
 .table {
     display: flex;
+    flex-direction: column;
+    width: calc(100vw - 280px);
+    flex-grow: 1;
+    background-color: var(--tableHeaderBgColor);
+    overflow-y: scroll;
+}
+
+.table-header {
+    display: flex;
+    height: 45px;
+    align-items: center;
+    background-color: var(--tableElementBgColor);
+}
+
+.table-header-label {
+    padding: 8px 8px;
+}
+
+.table-body {
+    display: flex;
     flex-direction: row;
     list-style: none;
     width: calc(100vw - 280px);
-    overflow-y: scroll;
     flex-grow: 1;
     background-color: var(--tableHeaderBgColor);
     font-weight: 500;
