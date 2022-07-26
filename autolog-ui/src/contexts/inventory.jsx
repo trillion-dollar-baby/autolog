@@ -61,9 +61,14 @@ export const InventoryContextProvider = ({ children }) => {
     if (!error) {
       setAccessibleInventories((prev) => [...prev, data.inventory]);
       setSelectedInventory(data.inventory);
+      // return data for components using this to know it is successful
+      return {data: data, error: null}
     }
     else {
       console.error("Error creating inventory, message:", error)
+      
+      // return data for components using this to know it is not successful
+      return {data: null, error: error}
     }
   }
 
@@ -112,12 +117,15 @@ export const InventoryContextProvider = ({ children }) => {
 
   // Add members to an inventory
   const addInventoryMembers = async (userEmail, InventoryId) => {
+    //TODO: accept user role when backend uses it
+
     const { data, error } = await apiClient.addInventoryMember(userEmail, InventoryId);
+
     if (!error) {
-      console.log("Added member is", data);
-    }
-    else {
+      return {data: data, error: null}
+    } else {
       console.error("Error adding member to inventory, message:", error)
+      return {data: null, error: error}
     }
   }
 
@@ -131,7 +139,8 @@ export const InventoryContextProvider = ({ children }) => {
       selectedInventoryContext: [selectedInventory, setSelectedInventory],
       inventoryMembersContext: [inventoryMembers, setInventoryMembers],
       errorContext: [error, setError],
-      initializedContext: [initialized, setInitialized]
+      initializedContext: [initialized, setInitialized],
+      addMemberContext: [addInventoryMembers]
     }}>
       {children}
     </InventoryContext.Provider>
