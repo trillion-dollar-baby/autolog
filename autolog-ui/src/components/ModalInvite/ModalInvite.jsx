@@ -108,9 +108,9 @@ export function ModalBody({ modalError, modalProcessing, formState, setFormState
     return (
         <>
             {/* messages */}
+            {/* TODO: change this for something consistent with design and spaced */}
             <h3 style={{ color: 'red' }}>{modalError || ''}</h3>
-
-            <h3 style={{ color: 'blue' }}>{modalProcessing || ''}</h3>
+            <h3 style={{ color: 'blue' }}>{modalProcessing ? 'Processing...' : ''}</h3>
 
             {/* inputs */}
             <div className="form-container">
