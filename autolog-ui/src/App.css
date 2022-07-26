@@ -7,4 +7,5 @@
 .page-content {
     display:flex;
     flex-direction: row;
+    height: calc(100vh - var(--navbarHeight));
 }

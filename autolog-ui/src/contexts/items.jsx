@@ -44,9 +44,6 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
 
    }, [user, selectedInventory])
 
-
-
-
    // Get id of a given item
    //for when we are accessing the item through item details
   const getItem = async (itemId) => {

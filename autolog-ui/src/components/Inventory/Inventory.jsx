@@ -35,7 +35,7 @@ export default function Inventory() {
     return (
         <div className='inventory-content'>
             <div className='topbar-container'>
-                <Topbar routes={settingsRoutes} buttonName={"Create"} buttonPath={"./create"} />
+                <Topbar routes={settingsRoutes} buttonName={"Create"} buttonPath={"/item/create"} />
             </div>
             <div className='filter-container'>
               <div className='search-bar'>
@@ -50,7 +50,7 @@ export default function Inventory() {
             </div>
             <div className='table-container'>
                 {(isProcessing || !initialized) ? <Loading /> :
-                <Table tableElementArray={(items.length) ? items : []} tableColumnLabelArray={(items.length) ? Object.keys(items[0]) : []}/>}
+                <Table tableLabel={"Results"} tableElementArray={(items.length) ? items : []} tableColumnLabelArray={(items.length) ? Object.keys(items[0]) : []}/>}
             </div>
         </div>
     )
