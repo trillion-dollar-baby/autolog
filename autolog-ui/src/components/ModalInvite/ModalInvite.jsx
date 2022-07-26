@@ -72,7 +72,6 @@ export function ModalInvite({ closeModal }) {
     // when form state changes, reset error
     useEffect(() => {
         setModalError();
-        console.log(formState);
     }, [formState])
 
     // when modal is mounted, reset form and existing errors (if any)
