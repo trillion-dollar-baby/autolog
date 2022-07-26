@@ -11,7 +11,7 @@
 .performance-content .visual-data-container {
     display: flex;
     flex-direction: row;
-    flex: 1;
+    flex: 6;
     max-width: calc(100vw - 280px);
     max-height: calc(100vh - (var(--navbarHeight) + 350)); /* 100vh minus navbar height plus table height*/
     justify-content: center;
@@ -28,6 +28,7 @@
 
 .performance-content .filter-container {
     display: flex;
+    flex: 1;
     flex-direction: row;
     max-width: var(--maxWidth);
     width: 100%;
@@ -39,9 +40,7 @@
 }
 
 .performance-content .table-container {
-    height: 350px;
     display: flex;
-    position: fixed;
-    top: 493px;
+    flex-grow: 1;
 }
 
