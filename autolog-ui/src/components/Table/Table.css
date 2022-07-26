@@ -1,10 +1,10 @@
 .table {
     display: flex;
     flex-direction: column;
-    width: calc(100vw - 280px);
+    max-width: calc(100vw - var(--sidebarWidth));
     flex-grow: 1;
-    background-color: var(--tableHeaderBgColor);
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 .table-header {
@@ -24,28 +24,27 @@
     list-style: none;
     width: calc(100vw - 280px);
     flex-grow: 1;
-    background-color: var(--tableHeaderBgColor);
     font-weight: 500;
 }
 
 .row-item {
     text-decoration: none;
-    background-color: var(--tableElementBgColor);
     border-bottom: 1px #B7B7B7 solid;
     height: 45px;
     padding: 8px 8px;
 }
 
 .table-column {
-    background-color: var(--tableElementBgColor);
     display: flex;
     flex-direction: column;
     flex: 1;
+    background-color: var(--tableElementBgColor);
 }
 
 .column-label {
+    background-color: var(--tableHeaderBgColor);
     height: 45px;
-    border: 1px solid #B7B7B7;
+    border: 1px solid var(--tableHeaderBgColor);
     vertical-align: center;
     padding: 8px 8px;
 }
