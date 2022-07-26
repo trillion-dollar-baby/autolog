@@ -60,6 +60,7 @@ export const InventoryContextProvider = ({ children }) => {
     const { data, error } = await apiClient.createInventory(values);
     if (!error) {
       setAccessibleInventories((prev) => [...prev, data.inventory]);
+      setSelectedInventory(data.inventory);
     }
     else {
       console.error("Error creating inventory, message:", error)
