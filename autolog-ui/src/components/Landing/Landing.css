@@ -1,0 +1,122 @@
+.landing-page{
+   
+    margin-top: 20px;
+    /* max-height: calc(100vh - (var(--navbarHeight) + 350)); 100vh minus navbar height plus table height */
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding-top: 70px;
+    padding-left:30px;
+    font-family: 'Inter';
+    font-style: normal;
+    /* padding-right:30px; */
+    
+}
+.hero{
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    
+    
+}
+.description{
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 33px;
+padding-top: 20px;
+
+color: #6B6B6B;
+}
+.title-hero{
+font-family: 'Inter';
+font-style: normal;
+font-weight: 700;
+font-size: 30px;
+line-height: 48px;
+max-width: 750px;
+left: 76px;
+top: 256px
+}
+
+.image{
+    display: flex;
+    max-width: var(--maxWidth);
+    width:100%;
+    flex: 0 1 auto;
+}
+.product-reviews{
+padding-top:40px;
+font-size: 30px;
+font-style:normal;
+
+padding-bottom: 20px;
+}
+.review{
+    font-size: 35px;
+    font-style:normal;
+    font-weight:700;
+    padding-bottom: 20px;
+}
+.info{
+    display:flex;
+    background: #d4d4d4;
+    max-width: var(--maxWidth);
+    width: 600px;
+    height: 350px;
+    justify-content: center;
+    text-align: center;
+}
+.image-1{
+    display:flex;
+    background: #B3B3B3;
+    max-width: var(--maxWidth);
+    width: 600px;
+    height: 350px;
+    align-content:center;
+    justify-content: center;
+}
+.contact-info{
+    display:flex;
+    flex-direction: row;
+    max-width: var(--maxWidth);
+}
+.heading{
+    font-size: 30px;
+}
+.about-description{
+font-weight: 300;
+font-size: 20px;
+line-height: 33px;
+/* padding-top: 20px; */
+
+color: #6B6B6B;
+}
+.about-us{
+    font-family: 'Inter';
+font-style: normal;
+padding-top:20px;
+padding-bottom:20px;
+background-color:#B3B3B3;
+margin-top: 20px;
+align-items: center;
+justify-content: center;
+display:flex;
+flex-direction: column;
+}
+.about-images{
+    flex-direction: row;
+    display:flex;
+    gap:20px;
+    width:200px;
+    height:200px;
+}
+.img{
+    width:100%;
+    height:100%;
+    border-radius: 50%;
+}
+
+
+
