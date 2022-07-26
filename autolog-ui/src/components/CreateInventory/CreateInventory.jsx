@@ -38,7 +38,7 @@ export default function CreateInventory() {
                     </div>
                     <div className='inventory-admin-password form-input-gray'>
                         <label className='input-label' for="password">Admin Password</label>
-                        <input className='create-inventory-input' id="password" name="password" placeholder='***********' value={field.password} onChange={handleOnFormChange}></input>
+                        <input className='create-inventory-input' id="password" name="password" type="password" placeholder='***********' value={field.password} onChange={handleOnFormChange}></input>
                     </div>
                     <button className='create-inventory-button' onClick={handleCreateInventory}> Create! </button>
                 </div>

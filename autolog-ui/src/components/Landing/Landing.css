@@ -5,7 +5,8 @@
     justify-content: flex-start;
     flex-direction: column;
     padding-top: 70px;
-    padding-left: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
     font-family: 'Inter';
     font-style: normal;
     
@@ -155,7 +156,7 @@
     width:100%;
     height:auto;
 }
-.footer{
+.footers{
     margin-top:20px;
     background-color: #303550;
     border-radius: 40px 40px 0px 0px;
