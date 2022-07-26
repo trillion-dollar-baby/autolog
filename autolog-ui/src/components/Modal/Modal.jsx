@@ -57,7 +57,7 @@ export default function Modal({ handleClose, title, body, onSubmit }) {
                     {onSubmit && 
                     <ModalButton 
                         style={{ 'backgroundColor': 'var(--actionBlue)' }} 
-                        onClick={() => {onSubmit();handleClose()}}>
+                        onClick={() => {onSubmit()}}>
                             Create
                     </ModalButton>}
                 </ModalFooter>

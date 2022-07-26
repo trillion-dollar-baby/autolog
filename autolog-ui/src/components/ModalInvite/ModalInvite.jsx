@@ -82,12 +82,11 @@ export function ModalInvite({ closeModal }) {
 
     }, [])
 
-
-
     return (
         <Modal
             title={'Add user to inventory'}
             body={
+            // pass props instead of defining inside so form does not re-render and lose focus
             <ModalBody  modalError={modalError} 
                         modalProcessing={modalProcessing} 
                         formState={formState} 
