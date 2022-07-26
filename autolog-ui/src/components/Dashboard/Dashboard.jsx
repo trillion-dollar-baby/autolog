@@ -1,6 +1,7 @@
 import * as React from 'react';
 import './Dashboard.css'
 import { useState, useEffect } from 'react';
+import ButtonInvite from '../ButtonInvite/ButtonInvite';
 
 export default function Dashboard() {
     const [todos, setTodos] = useState([]);
@@ -66,7 +67,7 @@ export default function Dashboard() {
                     <h2 className="hey"> Welcome Back, </h2>
                 </div>
                 <div className="invite-bttn">
-                    <button className="invite"> Invite </button>
+                    <ButtonInvite/>
                 </div>
             </div>
             <div className="display">
