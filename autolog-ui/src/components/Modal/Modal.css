@@ -1,0 +1,56 @@
+.modal-container {
+    width: clamp(50%, 700px, 70%);
+    height: min(50%, 600px);
+  
+    margin: auto;
+    padding: 0 2rem;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+
+
+    font-size: 24px;
+    z-index: 10;
+
+    background-color: var(--darkBlueAccent);
+}
+
+.modal-header {
+    width: 100%;
+    height:fit-content;
+    margin-top: 2rem;
+}
+
+.modal-body {
+    max-width: 100%;
+
+    padding: 2rem 0;
+    margin:0;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.modal-body .form-gray { 
+    display:flex;
+    flex-direction: column;
+
+    gap:30px;
+}
+
+.modal-body .form-gray .user-form-input {
+    /* width: 60%; */
+    height:5rem;
+}
+
+.modal-footer{
+    width:100%;
+    margin: auto 0 2rem auto;
+
+    display:flex;
+    gap:20px;
+}
+
+.modal-footer:nth-child(1) {
+    margin-left: auto;
+}
