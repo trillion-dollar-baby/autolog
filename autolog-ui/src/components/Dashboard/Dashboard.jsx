@@ -135,7 +135,7 @@ function Checklist({handleSubmit, todo, todos, setTodo, deleteTodo, toggleComple
                     onChange={(e) => setEditingText(e.target.value)}
                   />
                 ) : (
-                  <div>{todo.text}</div>
+                  <div className="todo-text">{todo.text}</div>
                 )}
               </div>
               <div className="extraEditing">

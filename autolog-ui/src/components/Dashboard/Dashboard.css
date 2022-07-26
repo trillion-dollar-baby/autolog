@@ -143,6 +143,21 @@
     margin: 10px;
 }
 
+.dashboard-body .checklist-container .content .body .textTodo {
+    display: flex;
+    flex-direction: row;
+}
+
+.dashboard-body .checklist-container .content .body .textTodo .todo-text {
+    margin: 0 10px;
+}
+
+.dashboard-body .checklist-container .content .body .more-items {
+    width: 50px;
+    font-size: 10px;
+    text-align: start;
+}
+
 
 /****************************/
 
