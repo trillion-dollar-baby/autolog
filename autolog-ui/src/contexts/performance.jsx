@@ -21,7 +21,7 @@ export const PerformanceContextProvider = ({children})=>{
 
     
  useEffect(()=>{
-      async function fetchPerformanceList() {
+      const fetchPerformanceList = async () => {
         setIsLoading(true)
         const {data, err} = await apiClient.getPerformance(selectedInventory?.inventoryId)
         

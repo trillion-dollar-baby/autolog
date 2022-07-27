@@ -7,24 +7,19 @@ class Performance {
         throw new BadRequestError("Missing inventory ID for performance")
     }
 
-    const query = `
+      const query = `
       SELECT 
         items.category AS category,
-        SUM(CAST(items.quantity AS int)) AS "total quantity",
+        SUM(items.quantity) AS "total quantity",
         EXTRACT(MONTH FROM items.created_at) AS month
       FROM items
       WHERE items.inventory_id = $1
       GROUP BY category, month
       ORDER BY category DESC`;
 
-    try {
       const results = await db.query(query, [
         inventoryId,
       ]);
-    }
-    catch(err) {
-      throw new BadRequestError("Inventory is empty");
-    }
     
     return results.rows;
   }

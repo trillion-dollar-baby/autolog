@@ -21,7 +21,7 @@ export const ItemContextProvider = ({ children }) => {
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
   useEffect(() => {
-      async function fetchItemList() {
+      const fetchItemList = async () => {
         setIsLoading(true);
 
         const { data, err } = await apiClient.getItemList(
@@ -36,23 +36,23 @@ export const ItemContextProvider = ({ children }) => {
           setError(err);
         }
         setIsLoading(false);
+      }
 
       if (user && selectedInventory?.inventoryId) {
         fetchItemList();
       }
-    }
   }, [user, selectedInventory]);
 
   // Get id of a given item
   //for when we are accessing the item through item details
-  const getItem = async (itemId) => {
-    const { data, error } = await apiClient.getItem(itemId);
-    if (!error) {
-      console.log("Items are:", data);
-    } else {
-      console.error("Error getting items, message:", error);
-    }
-  };
+  // const getItem = async (itemId) => {
+  //   const { data, error } = await apiClient.getItem(itemId);
+  //   if (!error) {
+  //     console.log("Items are:", data);
+  //   } else {
+  //     console.error("Error getting items, message:", error);
+  //   }
+  // };
 
   //create item
   const createItem = async (values) => {

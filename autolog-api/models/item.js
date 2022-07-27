@@ -115,7 +115,6 @@ class Item {
       throw new BadRequestError(`id:${id} cant be less than zero`);
     }
 
-    try {
       const result = await db.query(
         `
       SELECT items.id AS "id",
@@ -130,12 +129,7 @@ class Item {
       WHERE items.id = $1`,
         [intId]
       );
-    }
-    catch (err) {
-      throw new BadRequestError("Inventory is empty");
-    }
     
-
     // return the only entry that exists
     return result.rows[0];
   }
