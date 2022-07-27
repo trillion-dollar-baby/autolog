@@ -31,6 +31,14 @@ export default function Inventory() {
 
     const nameFilters = ["A", "B", "C"]
     const categoryFilter = ["Tools", "Parts", "Cars"]
+    
+    const onChange = (event) => {
+      setItems(event.target.value)
+
+    }
+    function handle(searchTerm){
+      console.log("search", searchTerm)
+    }
 
     return (
         <div className='inventory-content'>
@@ -39,7 +47,7 @@ export default function Inventory() {
             </div>
             <div className='filter-container'>
               <div className='search-bar'>
-                <FormInput data={{name: "search", type: "text", placeholder: "Search for items..."}} inputValue={null} onChange={null} />
+                <FormInput data={{name: "search", type: "text", placeholder: "Search for items...", onkeypress: "handle(event)"}} inputValue={items.value} onChange={onChange} />
               </div>
               <div className='filter-by-name'>
                 <Dropdown items={nameFilters} value={"Sort by name"}/>
