@@ -54,7 +54,7 @@ export const ItemContextProvider = ({ children }) => {
   //   }
   // };
 
-  //create item
+  // Create item
   const createItem = async (values) => {
     const { data, error } = await apiClient.createItem(values);
     if (!error) {
