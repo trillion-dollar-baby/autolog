@@ -1,79 +1,77 @@
-import { createContext, useState, useEffect, useContext} from "react"
-import apiClient from "../services/apiClient"
-import InventoryContext from "./inventory"
-import AuthContext from "./auth"
-import Loading from "../components/Loading/Loading"
+import { createContext, useState, useEffect, useContext } from "react";
+import apiClient from "../services/apiClient";
+import InventoryContext from "./inventory";
+import AuthContext from "./auth";
 
 const ItemContext = createContext({});
-export const ItemContextProvider = ({children})=>{
-    const [items, setItems] =useState([]);
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState(null)
-    
-//should call the useAuthContext
-const { userContext } = useContext(AuthContext);
-const [user, setUser] = userContext;
-//connect inventory context
-const {accessibleInventoriesContext} = useContext(InventoryContext);
-const [accessibleInventories, setAccessibleInventories]= accessibleInventoriesContext;
+export const ItemContextProvider = ({ children }) => {
+  const [items, setItems] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-const {selectedInventoryContext}= useContext(InventoryContext);
-const [selectedInventory, setSelectedInventory] = selectedInventoryContext
+  //should call the useAuthContext
+  const { userContext } = useContext(AuthContext);
+  const [user, setUser] = userContext;
+  //connect inventory context
+  const { accessibleInventoriesContext } = useContext(InventoryContext);
+  const [accessibleInventories, setAccessibleInventories] =
+    accessibleInventoriesContext;
 
+  const { selectedInventoryContext } = useContext(InventoryContext);
+  const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
- useEffect(()=>{
+  useEffect(() => {
+      const fetchItemList = async () => {
+        setIsLoading(true);
 
-    if (user) {
-      async function fetchItemList(){
-        setIsLoading(true)
-        
-        const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
-        
-        if(data){
-            setItems(data?.items) 
-    
-        }else if(err){
-    
-        setError(err)
-       
+        const { data, err } = await apiClient.getItemList(
+          selectedInventory?.inventoryId,
+          0,
+          ""
+        );
+
+        if (data) {
+          setItems(data?.items);
+        } else if (err) {
+          setError(err);
         }
-        setIsLoading(false)
-        }
-        fetchItemList()
-    }
+        setIsLoading(false);
+      }
 
-   }, [user, selectedInventory])
+      if (user && selectedInventory?.inventoryId) {
+        fetchItemList();
+      }
+  }, [user, selectedInventory]);
 
-   // Get id of a given item
-   //for when we are accessing the item through item details
-  const getItem = async (itemId) => {
-    const { data, error } = await apiClient.getItem(itemId);
-    if (!error) {
-      console.log("Items are:", data);
-    }
-    else {
-      console.error("Error getting items, message:", error)
-    }
-  }
+  // Get id of a given item
+  // for when we are accessing the item through item details
+  // const getItem = async (itemId) => {
+  //   const { data, error } = await apiClient.getItem(itemId);
+  //   if (!error) {
+  //     console.log("Items are:", data);
+  //   } else {
+  //     console.error("Error getting items, message:", error);
+  //   }
+  // };
 
-  //create item
+  // Create item
   const createItem = async (values) => {
     const { data, error } = await apiClient.createItem(values);
     if (!error) {
-      console.log("Created item is:", data);
+      // console.log("Created item is:", data);
+    } else {
+      console.error("Error creating items, message:", error);
     }
-    else {
-      console.error("Error creating items, message:", error)
-    }
-  }
+  };
 
-const values={errorContext: [error, setError], itemContext: [items, setItems], loadingContext: [isLoading, setIsLoading], itemCreateContext: [createItem]}
-   
-return(
-        <ItemContext.Provider value={values}>
-            {children}
-        </ItemContext.Provider>
-    )
-}
+  const values = {
+    errorContext: [error, setError],
+    itemContext: [items, setItems],
+    loadingContext: [isLoading, setIsLoading],
+    itemCreateContext: [createItem],
+  };
+
+  return <ItemContext.Provider value={values}>{children}</ItemContext.Provider>;
+};
 
 export default ItemContext;

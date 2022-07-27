@@ -1,3 +1,3 @@
-/* .settings-members {
-    max-width: var(--maxWidth);
-} */
+.settings-member {
+    width: var(--maxWidth);
+}

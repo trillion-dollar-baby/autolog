@@ -1,13 +1,18 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import './Performance.css'
 import Table from '../Table/Table'
 import BarChart from '../BarChart/BarChart'
 import PieChart from '../PieChart/PieChart';
 import Dropdown from '../Dropdown/Dropdown'
+import PerformanceContext from '../../contexts/performance';
 
 
 export default function Performance() {
-    const testCol = ["Category", "Month", "Total Spent", "Total Quantity"]
+    const { performanceContext } = useContext(PerformanceContext)
+    const [ performance, setPerformance ] = performanceContext
+
+    const testCol = ["Category", "Month", "Total Quantity"]
     const testArr = [{Category: "Paint", Month: "Janurary", "Total Spent": 900, "Total Quantity": 5}, 
                     {Category: "Tools", Month: "Feburary", "Total Spent": 700, "Total Quantity": 15},
                     {Category: "Materials", Month: "March", "Total Spent": 600, "Total Quantity": 5},
@@ -57,7 +62,7 @@ export default function Performance() {
             </div>
 
             <div className='table-container'>
-                <Table tableElementArray={testArr} tableColumnLabelArray={testCol} tableLabel={"Results"}/>
+                <Table tableLabel={"Results"} tableElementArray={(performance.length) ? performance : []} tableColumnLabelArray={(performance.length) ? Object.keys(performance[0]) : []}/>
             </div>
         </div>
     )

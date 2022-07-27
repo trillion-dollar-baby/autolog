@@ -114,6 +114,14 @@ class ApiClient {
     async getItemList(inventoryId, pageNumber, search) {
         return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}`, method: 'GET'});
     }
+
+    /**
+     * Performance endpoints
+     */
+    async getPerformance(inventoryId) {
+        return await this.request({endpoint: `performance/?inventoryId=${inventoryId}`, method: 'GET'})
+    }
+    
 }
 
 export default new ApiClient("http://localhost:3001");
