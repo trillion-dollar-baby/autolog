@@ -3,17 +3,16 @@
     flex-direction: column;
     max-width: calc(100vw - 280px);
     max-height: calc(100vh - var(--navbarHeight));
-    justify-content: center;
     margin: 0 auto;
     flex-grow:1;
 }
 
 .settings .content {
-    max-width: calc(100vw - 280px);
+    max-width: var(--maxWidth);
     display:flex;
     flex-direction: column;
     justify-content: center;
-
+    align-items: center;
     
 }
 

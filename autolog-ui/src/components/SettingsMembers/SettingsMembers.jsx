@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import Form from '../Form/Form';
 
 import './SettingsMembers.css';
@@ -10,7 +11,7 @@ import apiClient from '../../services/apiClient';
 export default function SettingsMembers() {
   const { inventoryGetContext, inventoryMembersContext, selectedInventoryContext } = useContext(InventoryContext);
   const [getAccessibleInventories, getOwnedInventories, getInventoryMembers] = inventoryGetContext;
-  const [ selectedInventory, setSelectedInventory ] = selectedInventoryContext
+  const [selectedInventory, setSelectedInventory] = selectedInventoryContext
   const [inventoryMembers, setInventoryMembers] = inventoryMembersContext;
 
   const data = {
@@ -34,13 +35,29 @@ export default function SettingsMembers() {
     fetchData();
   }, [selectedInventory])
 
-  if (isProcessing) return (<h1>Loading...</h1>)
+  if (isProcessing) return (<></>)
+
+  const containerVariants = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: { delay: 0.3, duration: 0.3 }
+    },
+    exit: {
+      opacity: 0,
+    }
+  }
 
   return (
-    <div>
-      <div className="content">
+    <motion.div className="settings-member"
+      variants={containerVariants}
+      initial={"hidden"}
+      animate={"visible"}
+      exit={"exit"}
+    >
         <MemberList userArray={inventoryMembers} userRoles={userRoles} setUserRoles={setUserRoles} />
-      </div>
-    </div>
+    </motion.div>
   )
 }
