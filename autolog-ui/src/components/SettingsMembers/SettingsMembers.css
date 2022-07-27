@@ -1,8 +1,3 @@
-.settings-members {
-    width: 100%;
-    height: 100%;
-    display:flex;
-    justify-content: center;
-    
-    margin: 0 auto;
+.settings-membersa {
+    max-width: var(--maxWidth);
 }

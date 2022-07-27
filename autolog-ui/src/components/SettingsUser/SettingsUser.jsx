@@ -1,5 +1,6 @@
 import { useContext, useEffect } from 'react';
 import { useState } from 'react';
+import {motion} from 'framer-motion';
 import AuthContext from '../../contexts/auth';
 import ButtonAction from '../Button/ButtonAction';
 import Form from '../Form/Form';
@@ -86,7 +87,7 @@ export default function SettingsUser() {
     const onSubmitPassword = async () => {
 
     }
-
+    
     // if original data received from database is different from what the user has, 
     // render Update button to perform the changes in database as well 
 
@@ -110,8 +111,27 @@ export default function SettingsUser() {
 
     }, [passwordForm])
 
+    const containerVariants = {
+        hidden: {
+            opacity: 0,
+        },
+        visible: {
+            opacity: 1,
+            transition: { delay: 0.3, duration: 0.3 }
+        },
+        exit: {
+            opacity: 0,
+            transition: {ease: 'easeInOut'}
+        }
+    }
+
     return (
-        <div className="settings">
+        <motion.div className="settings"
+            variants={containerVariants}
+            initial={"hidden"}
+            animate={"visible"}
+            exit={"exit"}
+            >
             <div className="settings-user">
                 <Form formState={form} setFormState={setForm} formArray={formArray} />
             </div>
@@ -131,6 +151,6 @@ export default function SettingsUser() {
                 {(!passwordError && passwordChange) && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => onSubmitPassword()} />}
             </div>
 
-        </div>
+        </motion.div>
     )
 }
