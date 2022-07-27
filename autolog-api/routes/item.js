@@ -14,7 +14,7 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     const { user } = res.locals;
 
     const items = await Item.listInventoryItems(inventoryId, search, page);
-    return res.status(201).json({ items });
+    return res.status(200).json({ items });
   } catch (err) {
     next(err);
   }
@@ -30,7 +30,7 @@ router.get(
 
       const item = await Item.getItemById(itemId);
 
-      return res.status(201).json({ item });
+      return res.status(200).json({ item });
     } catch (error) {
       next(error);
     }
@@ -54,7 +54,7 @@ router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
     //send json response to client with all of the user-owned item instances in an array
     const { user } = res.locals;
     const items = await Item.listItemForUser(user);
-    return res.status(201).json({ items });
+    return res.status(200).json({ items });
   } catch (err) {
     next(err);
   }

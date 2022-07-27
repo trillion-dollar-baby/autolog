@@ -74,7 +74,7 @@ class Item {
     // get offset if user wants to see more items of the same search
     // if there was no pageNumber received, offset is going to be 0
     let offset;
-    let limit = 10;
+    let limit = 30;
 
     // convert pageNumber to a Number in case it is going to be used in calculation
     if (pageNumber) {
@@ -116,21 +116,21 @@ class Item {
       throw new BadRequestError(`id:${id} cant be less than zero`);
     }
 
-    const result = await db.query(
-      `
-		SELECT items.id AS "id",
-			   items.name,
-			   items.category AS "category",
-			   items.created_at AS "createdAt",
-			   items.updated_at AS "updatedAt",
-			   items.inventory_id AS "inventoryId",
-			   items.quantity
-		FROM items
-			JOIN inventory ON inventory.id = items.inventory_id
-		WHERE items.id = $1`,
-      [intId]
-    );
-
+      const result = await db.query(
+        `
+      SELECT items.id AS "id",
+           items.name,
+           items.category AS "category",
+           items.created_at AS "createdAt",
+           items.updated_at AS "updatedAt",
+           items.inventory_id AS "inventoryId",
+           items.quantity
+      FROM items
+        JOIN inventory ON inventory.id = items.inventory_id
+      WHERE items.id = $1`,
+        [intId]
+      );
+    
     // return the only entry that exists
     return result.rows[0];
   }
