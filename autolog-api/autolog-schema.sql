@@ -55,8 +55,8 @@ CREATE TABLE items (
     measures TEXT,
     located_at TEXT,
     part_number TEXT,
-    created_at timestamp DEFAULT NOW(),
-    updated_at timestamp NOT NULL DEFAULT NOW(),
+    created_at timestamp WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP(0),
+    updated_at timestamp WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     inventory_id INTEGER NOT NULL,
     FOREIGN KEY (inventory_id) REFERENCES inventory(id)
 );
