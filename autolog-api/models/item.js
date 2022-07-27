@@ -115,20 +115,26 @@ class Item {
       throw new BadRequestError(`id:${id} cant be less than zero`);
     }
 
-    const result = await db.query(
-      `
-		SELECT items.id AS "id",
-			   items.name,
-			   items.category AS "category",
-			   items.created_at AS "createdAt",
-			   items.updated_at AS "updatedAt",
-			   items.inventory_id AS "inventoryId",
-			   items.quantity
-		FROM items
-			JOIN inventory ON inventory.id = items.inventory_id
-		WHERE items.id = $1`,
-      [intId]
-    );
+    try {
+      const result = await db.query(
+        `
+      SELECT items.id AS "id",
+           items.name,
+           items.category AS "category",
+           items.created_at AS "createdAt",
+           items.updated_at AS "updatedAt",
+           items.inventory_id AS "inventoryId",
+           items.quantity
+      FROM items
+        JOIN inventory ON inventory.id = items.inventory_id
+      WHERE items.id = $1`,
+        [intId]
+      );
+    }
+    catch (err) {
+      throw new BadRequestError("Inventory is empty");
+    }
+    
 
     // return the only entry that exists
     return result.rows[0];

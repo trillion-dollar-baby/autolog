@@ -3,6 +3,10 @@ const { BadRequestError, NotFoundError } = require("../utils/errors");
 
 class Performance {
   static async getPerformanceSortedByCategory(inventoryId) {
+    if (!inventoryId) {
+        throw new BadRequestError("Missing inventory ID for performance")
+    }
+
     const query = `
       SELECT 
         items.category AS category,
@@ -13,22 +17,27 @@ class Performance {
       GROUP BY category, month
       ORDER BY category DESC`;
 
-    const results = await db.query(query, [
-      inventoryId,
-    ]);
-
+    try {
+      const results = await db.query(query, [
+        inventoryId,
+      ]);
+    }
+    catch(err) {
+      throw new BadRequestError("Inventory is empty");
+    }
+    
     return results.rows;
   }
 
-  static async getPerformanceSortedByMonth(user, inventoryId) {
+  static async getPerformanceSortedByMonth(inventoryId) {
     return;
   }
 
-  static async getPerformanceFilteredByQuantityDesc(user, inventoryId) {
+  static async getPerformanceFilteredByQuantityDesc(inventoryId) {
     return;
   }
 
-  static async getPerformanceFilteredByQuantityAsc(user, inventoryId){
+  static async getPerformanceFilteredByQuantityAsc(inventoryId){
     return;
   }
 
