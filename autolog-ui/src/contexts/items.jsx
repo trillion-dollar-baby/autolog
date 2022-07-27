@@ -44,7 +44,7 @@ export const ItemContextProvider = ({ children }) => {
   }, [user, selectedInventory]);
 
   // Get id of a given item
-  //for when we are accessing the item through item details
+  // for when we are accessing the item through item details
   // const getItem = async (itemId) => {
   //   const { data, error } = await apiClient.getItem(itemId);
   //   if (!error) {
@@ -58,7 +58,7 @@ export const ItemContextProvider = ({ children }) => {
   const createItem = async (values) => {
     const { data, error } = await apiClient.createItem(values);
     if (!error) {
-      console.log("Created item is:", data);
+      // console.log("Created item is:", data);
     } else {
       console.error("Error creating items, message:", error);
     }
