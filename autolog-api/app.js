@@ -16,6 +16,7 @@ const security = require("./middleware/security");
 const authRoutes = require("./routes/user");
 const itemRoutes = require("./routes/item");
 const inventoryRoutes = require("./routes/inventory");
+const performanceRoutes = require("./routes/performance");
 
 /**
  * End of imports
@@ -43,6 +44,7 @@ app.use(security.extractUserFromJwt);
 app.use("/auth", authRoutes)
 app.use("/item", itemRoutes)
 app.use("/inventory", inventoryRoutes)
+app.use("/performance", performanceRoutes)
 
 // health check
 app.get("/", (req, res, next) => {

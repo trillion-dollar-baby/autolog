@@ -51,10 +51,11 @@ CREATE TABLE items (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     category TEXT NOT NULL,
-    quantity TEXT NOT NULL,
-    measures TEXT,
+    quantity INTEGER NOT NULL DEFAULT 1,
     located_at TEXT,
     part_number TEXT,
+    description TEXT,
+    supplier TEXT,
     created_at timestamp WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP(0),
     updated_at timestamp WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     inventory_id INTEGER NOT NULL,
@@ -69,4 +70,11 @@ CREATE TABLE logs (
     created_at timestamp NOT NULL default CURRENT_DATE,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (item_id) REFERENCES items(id)
+);
+
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    inventory_id INTEGER NOT NULL,
+    category_name TEXT NOT NULL,
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id)
 );

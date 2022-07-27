@@ -14,9 +14,10 @@ export default function Inventory() {
     const { processingContext, initializedContext } = useContext(InventoryContext)
     const [ isProcessing, setIsProcessing ] = processingContext
     const [ initialized, setInitialized ] = initializedContext
-
     const { itemContext } = useContext(ItemContext)
     const [ items, setItems ] = itemContext
+
+    console.log(items);
 
     const settingsRoutes = [
         {

@@ -28,7 +28,7 @@
 
 .performance-content .filter-container {
     display: flex;
-    flex: 1;
+    flex-grow: 1;
     flex-direction: row;
     max-width: var(--maxWidth);
     width: 100%;
@@ -41,6 +41,6 @@
 
 .performance-content .table-container {
     display: flex;
-    flex-grow: 1;
+    flex-grow: 5;
 }
 
