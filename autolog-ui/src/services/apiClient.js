@@ -121,6 +121,18 @@ class ApiClient {
     async getPerformance(inventoryId) {
         return await this.request({endpoint: `performance/?inventoryId=${inventoryId}`, method: 'GET'})
     }
+
+    /**
+     * Category endpoints
+     */
+
+    async getCategories(inventoryId) {
+        return await this.request({endpoint: `category/?inventoryId=${inventoryId}`, method: `GET`})
+    }
+
+    async createCategory(inventoryId, categoryName) {
+        return await this.request({endpoint: `category/`, method: `POST`, data: {inventoryId, categoryName}})
+    }
     
 }
 
