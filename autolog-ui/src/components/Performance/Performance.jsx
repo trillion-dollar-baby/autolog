@@ -9,26 +9,11 @@ import PerformanceContext from '../../contexts/performance';
 
 
 export default function Performance() {
-    const { performanceContext } = useContext(PerformanceContext)
+    const { performanceContext, filterContext, sortContext } = useContext(PerformanceContext)
+    
     const [ performance, setPerformance ] = performanceContext
-
-    const testCol = ["Category", "Month", "Total Quantity"]
-    const testArr = [{Category: "Paint", Month: "Janurary", "Total Spent": 900, "Total Quantity": 5}, 
-                    {Category: "Tools", Month: "Feburary", "Total Spent": 700, "Total Quantity": 15},
-                    {Category: "Materials", Month: "March", "Total Spent": 600, "Total Quantity": 5},
-                    {Category: "Parts", Month: "April", "Total Spent": 700, "Total Quantity": 3},
-                    {Category: "Other", Month: "May", "Total Spent": 7100, "Total Quantity": 8}] 
-
-    const settingsRoutes = [
-        {
-          name: 'Inventory',
-          to: './'
-        },
-        {
-          name: 'Orders',
-          to: './orders'
-        }
-      ]
+    const [ filter, setFilter ] = filterContext
+    const [ sort, setSort ] = sortContext
 
     const data = {
         labels: [2017, 2018], datasets: [{
@@ -38,8 +23,9 @@ export default function Performance() {
         }]
     }
 
-    const weekFilters = ["Week 1", "Week 2", "Week 3", "Week 4"]
-    const monthFilter = ["Jan", "Feb", "March"]
+    // Labels to render for the dropdown
+    const sortItems = ["Quantity ↑", "Quantity ↓"]
+    const filterItems = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "December"]
 
     return (
         <div className="performance-content">
@@ -54,10 +40,10 @@ export default function Performance() {
 
             <div className='filter-container'>
               <div className='filter-by-week'>
-                <Dropdown items={weekFilters} value={"Sort by week"}/>
+                <Dropdown items={sortItems} value={"Sort By"} onSelect={setSort}/>
               </div>
               <div className='filter-by-month'>
-                <Dropdown items={monthFilter} value={"Sort by month"}/>
+                <Dropdown items={filterItems} value={"Filter By"} onSelect={setFilter}/>
               </div>
             </div>
 

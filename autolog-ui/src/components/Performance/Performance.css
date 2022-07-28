@@ -31,8 +31,9 @@
     flex-grow: 1;
     flex-direction: row;
     max-width: var(--maxWidth);
+    min-height: 50px;
     width: 100%;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     align-items: center;
     justify-content: flex-end;
     gap: 30px;
@@ -41,6 +42,6 @@
 
 .performance-content .table-container {
     display: flex;
-    flex-grow: 5;
+    flex-grow: 2.5;
 }
 

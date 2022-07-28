@@ -118,8 +118,20 @@ class ApiClient {
     /**
      * Performance endpoints
      */
-    async getPerformance(inventoryId) {
+    async getPerformanceByCategory(inventoryId) {
         return await this.request({endpoint: `performance/?inventoryId=${inventoryId}`, method: 'GET'})
+    }
+
+    async getPerformanceFilteredByMonth(inventoryId, month) {
+        return await this.request({endpoint: `performance/filter/?inventoryId=${inventoryId}&month=${month}`, method: "GET"})
+    }
+
+    async getPerformanceSortedByQuantityAsc(inventoryId, month) {
+        return await this.request({endpoint: `performance/sort/ascending/?inventoryId=${inventoryId}&month=${month}`, method: "GET"})
+    }
+
+    async getPerformanceSortedByQuantityDesc(inventoryId, month) {
+        return await this.request({endpoint: `performance/sort/descending/?inventoryId=${inventoryId}&month=${month}`, method: "GET"})
     }
 
     /**
