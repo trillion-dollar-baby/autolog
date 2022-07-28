@@ -10,10 +10,12 @@
 
 
     font-size: 24px;
-    z-index: 10;
+    z-index: 4;
 
     background-color: var(--darkBlueAccent);
 }
+
+/* HEADER CONTAINER */
 
 .modal-header {
     width: 100%;
@@ -21,9 +23,10 @@
     margin-top: 2rem;
 }
 
+/* BODY CONTAINER */
+
 .modal-body {
     max-width: 100%;
-
     padding: 2rem 0;
     margin:0;
     display:flex;
@@ -34,7 +37,6 @@
 .modal-body .form-gray { 
     display:flex;
     flex-direction: column;
-
     gap:30px;
 }
 
@@ -43,10 +45,11 @@
     height:5rem;
 }
 
+/* FOOTER CONTAINER */
+
 .modal-footer{
     width:100%;
     margin: auto 0 2rem auto;
-
     display:flex;
     gap:20px;
 }

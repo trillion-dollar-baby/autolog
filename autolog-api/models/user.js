@@ -12,7 +12,6 @@ class User {
       firstName: user.first_name,
       lastName: user.last_name,
       phoneNumber: user.phone_number,
-      createdAt: user.created_at,
     };
   }
 

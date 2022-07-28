@@ -1,186 +1,69 @@
 .create-item{
     max-height: calc(100vh - var(--navbarHeight));
     max-width: calc(100vw - 280px);
-    flex-grow: 1;
-
     display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    overflow: hidden;
 }
-.create-input-fields{
-    display: grid;
-    grid-template-rows: 1,1,1;
-    display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+
+.create-item .content {
+    flex-direction: column;
 }
+
 .page-contents{
     display:flex;
     flex-direction: column;
 }
-.header-1{
+/* header */
+.header{
     display:flex;
     max-width: calc(100vw - 280px);
-    background: #BEBEBE;
     border-radius: 0px;
-
+    padding: 1rem;
+    color:black;
 }
-.header-2{
+
+.header-title-wrapper {
     display:flex;
-    max-width: calc(100vw - 280px);
-    background: #BEBEBE;
-    border-radius: 0px;
-
-}
-.heading{
-    font-style: normal;
-    font-weight: 400;
-    font-size: 21px;
-    line-height: 29px;
-    display: flex;
+    margin-left: 1rem;
     align-items: center;
-    color: #1E1E1E;
-    
-}
-.item-id{
-    margin-top: 9px;
-    width: 306px;
-    height: 74px;
-    left: 348px;
-    top: 160px;
-}
-.item-name{
-    margin-top: 9px;
-    width: 306px;
-    height: 74px;
-    left: 348px;
-    top: 160px;
-}
-.quantity{
-    margin-top: 9px;
-    width: 306px;
-    height: 74px;
-    left: 348px;
-    top: 160px;
-}
-.order-date{
-    margin-top: 9px;
-    width: 306px;
-    height: 74px;
-    left: 348px;
-    top: 160px;
-}
-.arrival-date{
-    margin-top: 9px;
-    width: 306px;
-    height: 74px;
-    left: 348px;
-    top: 160px;
-}
-.item-price{
-    margin-top: 9px;
-    width: 306px;
-    height: 74px;
-    left: 348px;
-    top: 160px;
-}
-.standard-cost{
-    margin-top: 9px;
-    width: 306px;
-    height: 74px;
-    left: 348px;
-    top: 160px;
-}
-.labels{
-    font-style: normal;
-    font-weight: 400;
-    font-size: 17px;
-    line-height: 22px;
-    display: flex;
-    align-items: center;
-    color: #000000;
 }
 
-.form-input{
-    background: #D9D9D9;
-    border-radius: 10px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 25px;
-    display: flex;
-    align-items: center;
-    color: #868686;
-    border-style: none;
+.header-title{
+    font-weight: 600;
+    font-size: 2rem;
+    margin-right: 20px;
 }
-.category{
-    margin-top: 9px;
-    width: 306px;
-    height: 74px;
-    left: 348px;
-    top: 160px;
-}
-.supplier{
-    margin-top: 9px;
-    width: 306px;
-    height: 74px;
-    left: 348px;
-    top: 160px;
-}
+/* form containers */
+.item-information {
+    width: 100%;
+    height: fit-content;
 
-.form-inputs{
-    max-width: calc(100vw - 280px);
     display:flex;
-    background: #D9D9D9;
-    border-radius: 10px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    color: #868686;
-    width: 1022px;
-    height: 150px;
-    /* left: 348px; */
-    /* top: 679px; */
-    border-style: none;
-    align-self: flex-start;
+    flex-direction: column;
 
+    margin: 10px 0;
 }
-.submit-create-item {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    filter: drop-shadow(0px 2px 0px rgba(0, 0, 0, 0.25));
-    background: #2EAF79;
-    border-radius: 10px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    align-items: center;
-    text-align: center;
-    color: #F8F8F8;
-    width: 170px;
-    height: 38px;
-    left: 611px;
 
+.form-container.text-area>.form-input-gray{
+    height: 200px;
 }
-.buttons{
+
+.additional-details {
     display:flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 25px;
+    flex-direction: column;
+    width: 100%;
 }
 
-.submit-update-item{
-    margin-top: 10px;
-    margin-bottom: 10px;
-    filter: drop-shadow(0px 2px 0px rgba(0, 0, 0, 0.25));
-    background: #3F5BE8;
-    border-radius: 10px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
+.form-container-main {
+    margin: 2rem 0;
+}
+
+.form-container-additional {
+    display:flex;
+    flex-direction: row;
+    flex-grow: 1;
     
     align-items: center;
-    text-align: center;
-    color: #F8F8F8;
-    width: 170px;
-    height: 38px;
-    left: 611px;
 }

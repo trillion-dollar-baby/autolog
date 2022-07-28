@@ -1,15 +1,18 @@
 import { useContext, useEffect } from 'react';
 import { useState } from 'react';
-import {motion} from 'framer-motion';
+import { motion } from 'framer-motion';
 import AuthContext from '../../contexts/auth';
 import ButtonAction from '../Button/ButtonAction';
 import Form from '../Form/Form';
 import './SettingsUser.css';
+import _ from 'lodash';
 
 export default function SettingsUser() {
     const { userContext, settingsContext } = useContext(AuthContext);
     const [user, setUser] = userContext;
     const [updateUserData, updateUserPassword] = settingsContext;
+
+
 
     // populate forms with information from API client
     const [form, setForm] = useState({ ...user });
@@ -21,6 +24,8 @@ export default function SettingsUser() {
     // record changes for password and track if passwords match
     const [passwordChange, setPasswordChange] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
+
+
 
     // what values we want in the form
     const formArray = [
@@ -87,15 +92,30 @@ export default function SettingsUser() {
     const onSubmitPassword = async () => {
 
     }
-    
+
+    // on mount, capitalize form string fields
+    useEffect(() => {
+        Object.keys(form).forEach((key) => {
+            if (isNaN(form[key])) {
+                const capitalizedField = _.capitalize(form[key]);
+
+                setForm((prevForm) => ({
+                    ...prevForm,
+                    [key]: capitalizedField
+                }))
+            }
+        })
+    }, [])
+
     // if original data received from database is different from what the user has, 
     // render Update button to perform the changes in database as well 
 
     useEffect(() => {
         // TODO: create form array by appending in each forEach iteration
         Object.keys(user).forEach((val, idx) => {
-            if (user[val] !== form[val]) {
-                console.log('change occurred')
+            const normalizedFormField = (isNaN(form[val]) ? form[val].toLowerCase() : form[val])
+            const normalizedUserField = (isNaN(user[val]) ? user[val].toLowerCase() : user[val])
+            if (normalizedUserField !== normalizedFormField) {
                 setChange(true);
             }
         })
@@ -111,6 +131,7 @@ export default function SettingsUser() {
 
     }, [passwordForm])
 
+    // animation properties
     const containerVariants = {
         hidden: {
             opacity: 0,
@@ -121,7 +142,7 @@ export default function SettingsUser() {
         },
         exit: {
             opacity: 0,
-            transition: {ease: 'easeInOut'}
+            transition: { ease: 'easeInOut' }
         }
     }
 
@@ -131,12 +152,17 @@ export default function SettingsUser() {
             initial={"hidden"}
             animate={"visible"}
             exit={"exit"}
-            >
+        >
             <div className="settings-user">
                 <Form formState={form} setFormState={setForm} formArray={formArray} />
             </div>
 
-            {change && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => onSubmitCredentials()} />}
+            {/* if change, render button */}
+            {change &&
+                <div className="submit-button">
+                    <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => onSubmitCredentials()} />
+                </div>
+            }
 
             {/* divider */}
             <div className='settings-divider'>
@@ -148,7 +174,10 @@ export default function SettingsUser() {
                 <Form formState={passwordForm} setFormState={setPasswordForm} formArray={passwordFormArray} />
                 {/* if password does not match show error message */}
                 {(passwordError && passwordChange) && <p style={{ color: 'red' }}>Password does not match!</p>}
-                {(!passwordError && passwordChange) && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => onSubmitPassword()} />}
+                {(!passwordError && passwordChange) &&
+                    <div className="submit-button">
+                        <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => onSubmitPassword()} />
+                    </div>}
             </div>
 
         </motion.div>
