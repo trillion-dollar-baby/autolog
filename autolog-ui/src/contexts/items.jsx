@@ -49,7 +49,7 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
   const getItem = async (itemId) => {
     const { data, error } = await apiClient.getItem(itemId);
     if (!error) {
-      console.log("Items are:", data);
+      return {data, error: null}
     }
     else {
       console.error("Error getting items, message:", error)
@@ -72,12 +72,11 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
   const searchItem = async(search, pageNumber)=>{
     const {data, error} = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, search);
     if(!error){
-      console.log("Searched item is:", data);
       return data;
       
     }
     else{
-      console.log("Error searching for items, message:", error)
+      console.error("Error searching for items, message:", error)
     }
   }
 

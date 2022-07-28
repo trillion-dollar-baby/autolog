@@ -166,6 +166,6 @@
 .dashboard .table-container {
     height: 300px;
     display: flex;
-    flex: 2;
+    flex: 1;
     top: 543px;
 }

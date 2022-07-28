@@ -46,12 +46,9 @@ export default function Inventory() {
       const result = await searchItem(searchTerm, 0);
       setIsProcessing(false);
 
-      console.log("search", searchItem);
-
       setItems(result.items);
-      console.log(result.items);
     }
-    console.log("no search currently");
+    console.error("no search currently");
   }
 
   return (
