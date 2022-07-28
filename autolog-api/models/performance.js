@@ -11,7 +11,7 @@ class Performance {
       SELECT 
         items.category AS category,
         SUM(items.quantity) AS "total quantity",
-        EXTRACT(MONTH FROM items.created_at) AS month
+        TO_CHAR(items.created_at, 'Month') as month
       FROM items
       WHERE items.inventory_id = $1
       GROUP BY category, month
@@ -20,6 +20,8 @@ class Performance {
       const results = await db.query(query, [
         inventoryId,
       ]);
+
+      console.log(results);
     
     return results.rows;
   }
