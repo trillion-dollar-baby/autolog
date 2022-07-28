@@ -1,3 +1,7 @@
+#root {
+    --memberItemHeight: 175px;
+}
+
 .dropdown-wrapper { 
     position: relative;
     display:flex;
@@ -6,6 +10,9 @@
     border-radius: 10px;
     background-color: var(--backgroundInput);
     color:black;
+
+    min-width: var(--memberItemHeight);
+    max-width: var(--memberItemHeight);
 
     user-select: none;
     flex: 1;

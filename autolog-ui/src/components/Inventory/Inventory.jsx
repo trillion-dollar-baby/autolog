@@ -77,7 +77,7 @@ export default function Inventory() {
           <Dropdown items={nameFilters} value={"Sort by name"} />
         </div>
         <div className="filter-by-category">
-          <Dropdown items={categoryFilter} value={"Sort by category"} />
+          <Dropdown items={categoryFilter} value={"Sort by ctgry"} />
         </div>
       </div>
       <div className="table-container">

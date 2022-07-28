@@ -85,8 +85,8 @@ class Item {
       SELECT items.id AS "id",
           items.name,
           items.category AS "category",
-          to_char(items.created_at, 'DD-MM-YYYY') AS "createdAt",
-          to_char(items.updated_at, 'DD-MM-YYYY') AS "updatedAt",
+          to_char(items.created_at, 'MM-DD-YYYY') AS "createdAt",
+          to_char(items.updated_at, 'MM-DD-YYYY') AS "updatedAt",
           items.inventory_id AS "inventoryId",
           items.quantity
       FROM items
