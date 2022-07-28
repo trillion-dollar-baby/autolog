@@ -62,7 +62,6 @@ useEffect(() => {
         }
     }
 
-    console.log(performance);
 }, [sort, filter])
 
 
