@@ -39,15 +39,12 @@ export default function Inventory() {
     setValue(event.target.value);
   };
   async function handle(e, searchTerm) {
-    // setValue(searchTerm);
     if (e.key === "Enter") {
       e.preventDefault();
       searchTerm = value;
       setIsProcessing(true);
       const result = await searchItem(searchTerm, 0);
       setIsProcessing(false);
-      //reset page number
-      // setPageNumber(page)
 
       console.log("search", searchItem);
 
@@ -56,15 +53,6 @@ export default function Inventory() {
     }
     console.log("no search currently");
   }
-
-  // function search(rows){
-  //   const columns = rows[0] && Object.keys(rows[0]);
-  //   return rows.filter((row)=>
-  //   columns.some(
-  //     (column) => row[column].toString().toLowerCase().indexOf(value.toLowerCase()) > -1
-  //   )
-  //   );
-  // }
 
   return (
     <div className="inventory-content">
