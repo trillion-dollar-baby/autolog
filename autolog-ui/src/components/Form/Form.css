@@ -6,9 +6,10 @@
     flex-wrap: wrap;
     
     gap: 25px;
+    color:black;
 }
 
 .form-gray .user-form-input {
-    height: 10vh;
+    height: 70px;
 }
 

@@ -44,7 +44,7 @@
     display:flex;
     position: absolute;
     
-    width: 200px;
+    width: 100%;
     top:100%;
     
     flex-direction: column;
