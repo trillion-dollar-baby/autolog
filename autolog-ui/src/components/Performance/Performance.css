@@ -31,7 +31,6 @@
     flex-grow: 1;
     flex-direction: row;
     max-width: var(--maxWidth);
-    min-height: 50px;
     width: 100%;
     margin-bottom: 20px;
     align-items: center;
@@ -43,5 +42,6 @@
 .performance-content .table-container {
     display: flex;
     flex-grow: 2.5;
+    min-height: 400px;
 }
 
