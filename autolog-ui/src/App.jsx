@@ -1,7 +1,8 @@
 import './App.css'
 import * as React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useLocation } from 'react';
+import {AnimatePresence} from 'framer-motion';
 // components
 import CreateItem from './components/CreateItem/CreateItem'
 import Landing from './components/Landing/Landing.jsx'
@@ -16,6 +17,7 @@ import NotFound from './components/NotFound/NotFound';
 import Performance from './components/Performance/Performance'
 import CreateInventory from './components/CreateInventory/CreateInventory';
 import RequireAuth from './components/RequireAuth/RequireAuth';
+import ItemDetail from './components/ItemDetail/ItemDetail';
 
 function App() {
 
@@ -27,8 +29,8 @@ function App() {
 
         <div className="page-content">
           <Sidebar></Sidebar>
-
-          <Routes>
+          <AnimatePresence>
+          <Routes >
             <Route path='/' element={<Landing />} />
 
             <Route path='/login' element={<Login />} />
@@ -38,6 +40,7 @@ function App() {
             <Route path='/dashboard' element={<RequireAuth><Dashboard/></RequireAuth>} />
             <Route path='/inventory' element={<RequireAuth><Inventory /></RequireAuth>} />
             <Route path='/item/create' element={<RequireAuth><CreateItem /></RequireAuth>} />
+            <Route path='/item/id/:itemId' element={<RequireAuth><ItemDetail/></RequireAuth>}/>
             <Route path='/inventory/create' element={<RequireAuth><CreateInventory/></RequireAuth>} />
             <Route path='/performance' element={<RequireAuth><Performance /></RequireAuth>} />
             <Route path='/settings/*' element={<RequireAuth><Settings /></RequireAuth>} />
@@ -45,6 +48,7 @@ function App() {
             {/* Not found error */}
             <Route path='*' element={<NotFound />} />
           </Routes>
+          </AnimatePresence>
         </div>
       </BrowserRouter>
     </div>

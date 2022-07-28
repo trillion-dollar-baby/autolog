@@ -5,6 +5,7 @@
     font-size: 18px;
     flex-grow: 1;
     height: 100%;
+    color:black;
 }
 
 .form-input-gray>label {

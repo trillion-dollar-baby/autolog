@@ -1,7 +1,7 @@
 .button-action {
     width: 240px;
     height: 56px;
-
+    color: var(--white);
     display:flex;
     justify-content: center;
     align-items: center;

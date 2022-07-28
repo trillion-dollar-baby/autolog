@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import SettingsMembers from '../SettingsMembers/SettingsMembers';
 import SettingsUser from '../SettingsUser/SettingsUser';
 import Sidebar from '../Sidebar/Sidebar';
@@ -21,8 +21,26 @@ export default function Settings() {
     }
   ]
 
+  const containerVariants = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+      transition: { delay: 0.3, duration: 0.3 }
+    },
+    exit: {
+      opacity: 0,
+      transition: { ease: 'easeInOut' }
+    }
+  }
+
   return (
-    <div className='settings'>
+    <motion.div className="settings"
+      variants={containerVariants}
+      initial={"hidden"}
+      animate={"visible"}
+      exit={"exit"}>
       {/* always render in page */}
 
       <div className="content">
@@ -35,6 +53,6 @@ export default function Settings() {
           </Routes>
         </AnimatePresence>
       </div>
-    </div>
+    </motion.div>
   )
 }
