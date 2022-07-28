@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './CreateItem.css'
-import Search from "../../assets/Search.png"
 import ItemContext from '../../contexts/items';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -8,7 +7,6 @@ import { motion } from 'framer-motion';
 import InventoryContext from '../../contexts/inventory';
 import Form from '../Form/Form';
 import DropdownCategory from '../DropdownCategory/DropdownCategory';
-import FormInput from '../FormInput/FormInput';
 import TextArea from '../TextArea/TextArea';
 import ButtonAction from '../Button/ButtonAction';
 
