@@ -44,18 +44,23 @@ class Category {
             }
         });
 
+		// normalize data before inserting into database
+		const normalizedCategoryName = data.categoryName.toLowerCase();
+
         const query = `
             INSERT INTO categories (
                 inventory_id,
                 category_name
             )
             VALUES ($1, $2)
-            RETURNING *
+            RETURNING 
+				inventory_id AS "inventoryId",
+				category_name AS "categoryName"
         `;
 
         const result = await db.query(query, [
             data.inventoryId,
-            data.categoryName,
+            normalizedCategoryName,
         ]);
         // return new category item
         return result.rows[0];
