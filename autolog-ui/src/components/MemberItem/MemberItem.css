@@ -30,8 +30,18 @@
     
 }
 
-.member-item .section {
+.member-item .permissions-section {
     display:flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: flex-end;
+}
+
+.member-item .user-section {
+    display:flex;
+    flex-direction: row;
+    flex-grow: 1;
+    justify-content: flex-start;
 }
 
 /* image */
@@ -57,7 +67,7 @@
 }
 
 .member-item-dropdown {
-    margin-left:auto;
+    /* margin-left:auto; */
 }
 
 .member-item-delete {
