@@ -83,7 +83,7 @@ export default function SettingsUser() {
             setUser(result);
             setSuccess("Credentials have been successfully changed!");
         } else {
-            console.log("error, " + result);
+            console.error("error, " + result);
         }
 
         setIsProcessing(false);
