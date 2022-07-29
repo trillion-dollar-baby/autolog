@@ -46,9 +46,13 @@ export default function Inventory() {
       setIsProcessing(true);
       const result = await searchItem(searchTerm, 0);
       setIsProcessing(false);
-
       setItems(result.items);
-    }
+      console.log(result.items)
+      if(result.items.length == 0){
+        setItems(items);
+        alert("no such item exists");
+      }
+    } 
   }
 
   const containerVariants = {
