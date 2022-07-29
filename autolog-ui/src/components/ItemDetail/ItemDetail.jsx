@@ -28,7 +28,6 @@ function ItemDetail() {
     const { selectedInventoryContext } = useContext(InventoryContext);
     const [items, setItems] = itemContext;
 
-
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
     const [isProcessing, setIsProcessing] = useState(false);
@@ -145,7 +144,7 @@ function ItemDetail() {
 
             <div className="header">
                 <div className="header-title-wrapper">
-                    <label className="header-title"> Create a new item </label>
+                    <label className="header-title"> Item detail </label>
                     <label className='error-message'>{errorMessage}</label>
                     <label className='processing-message'>{isProcessing ? 'Processing...' : ''}</label>
                 </div>
