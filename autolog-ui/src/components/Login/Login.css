@@ -20,6 +20,8 @@
 .login-page .content .header {
     justify-content: center;
     align-items: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .login-page .content .header .header-img {

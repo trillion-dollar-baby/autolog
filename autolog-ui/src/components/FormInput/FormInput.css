@@ -20,7 +20,7 @@
     padding-left: 15px;
 
     background-color: var(--backgroundInput);
-    border:none;
+    border:2px solid var(--backgroundInput);
     outline:none;
     
     font-size: 18px;
