@@ -104,13 +104,14 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
   const values = {
     errorContext: [error, setError],
     itemContext: [items, setItems],
+    searchContext : [searchItem],
     loadingContext: [isLoading, setIsLoading],
     itemCreateContext: [createItem],
     itemGetContext: [getItem],
     itemUpdateContext: [updateItem],
     itemDeleteContext: [deleteItem],
   };
-  
+
 return(
         <ItemContext.Provider value={values}>
             {children}

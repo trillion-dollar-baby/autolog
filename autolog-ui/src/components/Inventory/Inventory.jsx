@@ -1,19 +1,7 @@
-<<<<<<< HEAD
-import * as React from 'react';
-import { useContext } from 'react';
-import {motion} from 'framer-motion';
-import './Inventory.css'
-import Table from '../Table/Table'
-import Topbar from '../Topbar/Topbar'
-import Dropdown from '../Dropdown/Dropdown'
-import FormInput from '../FormInput/FormInput'
-import ItemContext from '../../contexts/items';
-import InventoryContext from '../../contexts/inventory';
-import Loading from '../Loading/Loading';
-=======
 import * as React from "react";
 import { useState } from "react";
 import { useContext } from "react";
+import { motion } from "framer-motion";
 import "./Inventory.css";
 import Table from "../Table/Table";
 import Topbar from "../Topbar/Topbar";
@@ -22,7 +10,6 @@ import FormInput from "../FormInput/FormInput";
 import ItemContext from "../../contexts/items";
 import InventoryContext from "../../contexts/inventory";
 import Loading from "../Loading/Loading";
->>>>>>> a9324bd37156f30279f1bf1d8385e4f36706b025
 
 export default function Inventory() {
   const { processingContext, initializedContext } =
@@ -60,57 +47,31 @@ export default function Inventory() {
       const result = await searchItem(searchTerm, 0);
       setIsProcessing(false);
 
-<<<<<<< HEAD
-    const containerVariants = {
-      hidden: {
-          opacity: 0,
-      },
-      visible: {
-          opacity: 1,
-          transition: { delay: 0.3, duration: 0.3 }
-      },
-      exit: {
-          opacity: 0,
-          transition: { ease: 'easeInOut' }
-      }
-  	}
+      setItems(result.items);
+    }
+  }
 
-    return (
-        <motion.div
-			variants={containerVariants}
+  const containerVariants = {
+	hidden: {
+		opacity: 0,
+	},
+	visible: {
+		opacity: 1,
+		transition: { delay: 0.3, duration: 0.3 }
+	},
+	exit: {
+		opacity: 0,
+		transition: { ease: 'easeInOut' }
+	}
+	}
+
+  return (
+    <motion.div
+            variants={containerVariants}
             initial={"hidden"}
             animate={"visible"}
             exit={"exit"}
-			className='inventory-content'>
-            <div className='topbar-container'>
-                <Topbar routes={settingsRoutes} buttonName={"Create"} buttonPath={"/item/create"} />
-            </div>
-            <div className='filter-container'>
-              <div className='search-bar'>
-                <FormInput data={{name: "search", type: "text", placeholder: "Search for items..."}} inputValue={null} onChange={null} />
-              </div>
-              <div className='filter-by-name'>
-                <Dropdown items={nameFilters} value={"Sort by name"}/>
-              </div>
-              <div className='filter-by-category'>
-                <Dropdown items={categoryFilter} value={"Sort by category"}/>
-              </div>
-            </div>
-            <div className='table-container'>
-                {(isProcessing || !initialized) ? <Loading /> :
-                <Table tableLabel={"Results"} tableElementArray={(items.length) ? items : []} tableColumnLabelArray={(items.length) ? Object.keys(items[0]) : []}/>}
-            </div>
-        </motion.div>
-    )
-}
-=======
-      setItems(result.items);
-    }
-    console.error("no search currently");
-  }
-
-  return (
-    <div className="inventory-content">
+			className="inventory-content">
       <div className="topbar-container">
         <Topbar
           routes={settingsRoutes}
@@ -149,7 +110,6 @@ export default function Inventory() {
           />
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }
->>>>>>> a9324bd37156f30279f1bf1d8385e4f36706b025
