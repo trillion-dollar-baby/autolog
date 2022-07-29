@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./Dashboard.css";
+import { motion } from "framer-motion";
 import { useState, useEffect, useContext } from "react";
 import Table from "../Table/Table";
 import AuthContext from "../../contexts/auth";
@@ -69,9 +70,28 @@ export default function Dashboard() {
   const columnLabelArr = ["ID", "DATE", "USER", "ITEM ID"];
   const rowItemArr = [{ID: "123456789", DATE: "01-23-45", USER: "Moe Elias", "ITEM ID": 5}]
   const tableLabel = "Latest Editions"
+  
+  const containerVariants = {
+    hidden: {
+        opacity: 0,
+    },
+    visible: {
+        opacity: 1,
+        transition: { delay: 0.3, duration: 0.3 }
+    },
+    exit: {
+        opacity: 0,
+        transition: { ease: 'easeInOut' }
+    }
+  }
 
   return (
-    <div className="dashboard">
+      <motion.div
+          variants={containerVariants}
+          initial={"hidden"}
+          animate={"visible"}
+          exit={"exit"}
+          className="dashboard">
       <div className="dashboard-header">
         <div className="greeting">
           <h2 className="welcome"> Welcome Back, {user.firstName}</h2>
@@ -92,7 +112,7 @@ export default function Dashboard() {
       <div className="table-container">
         <Table tableElementArray={rowItemArr} tableColumnLabelArray={columnLabelArr} tableLabel={tableLabel}/>                    
       </div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -100,7 +120,8 @@ export default function Dashboard() {
 function Checklist({handleSubmit, todo, todos, setTodo, deleteTodo, toggleComplete, 
                   submitEdits, setTodoEditing, setEditingText, todoEditing}) {
   return (
-    <div className="content">
+    <div 
+    className="content">
       <div className="header">
        <h2 className="title"> Checklist </h2>
       </div>

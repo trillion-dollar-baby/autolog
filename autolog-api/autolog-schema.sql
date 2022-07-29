@@ -16,7 +16,7 @@ CREATE TABLE user_roles (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     role_name TEXT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE permissions (
@@ -34,7 +34,7 @@ CREATE TABLE inventory (
     admin_id INTEGER NOT NULL,
     created_at timestamp DEFAULT NOW(),
     updated_at timestamp NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (admin_id) REFERENCES users(id)
+    FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE
 );
 /* Got rid of NOT NULL at the end of admin_id 
 FOREIGN KEY (admin_id) REFERENCES users(id)*/
@@ -43,7 +43,7 @@ CREATE TABLE user_to_inventory (
     id SERIAL PRIMARY KEY,
     inventory_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (inventory_id) REFERENCES inventory(id)
 );
 
@@ -59,7 +59,7 @@ CREATE TABLE items (
     created_at timestamp WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP(0),
     updated_at timestamp WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     inventory_id INTEGER NOT NULL,
-    FOREIGN KEY (inventory_id) REFERENCES inventory(id)
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
 );
 
 CREATE TABLE logs (
@@ -76,5 +76,5 @@ CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
     inventory_id INTEGER NOT NULL,
     category_name TEXT NOT NULL,
-    FOREIGN KEY (inventory_id) REFERENCES inventory(id)
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
 );

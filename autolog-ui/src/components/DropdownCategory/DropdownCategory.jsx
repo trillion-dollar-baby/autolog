@@ -96,6 +96,7 @@ export default function DropdownCategory({categoryValue, setCategoryValue}) {
                     tabIndex={0}
                     role="button"
                     name='category'
+                    autoComplete='off'
                     onClick={() => {
                         if (!isFocused) openDropdown();
                     }}
@@ -111,7 +112,7 @@ export default function DropdownCategory({categoryValue, setCategoryValue}) {
                     <>
                         <DropdownOverlay onClick={closeDropdown} />
                         <div className="dropdown-category-list">
-                            {/* if fetching, show loading message */}
+                            {/* if fetching, show that it's loading */}
                             {isFetching ?
                                 <div className="spinning-loader-container">
                                     <div className="spinning-loader"></div>

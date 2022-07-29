@@ -1,6 +1,5 @@
 import * as React from 'react';
 import './CreateItem.css'
-import Search from "../../assets/Search.png"
 import ItemContext from '../../contexts/items';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -8,7 +7,6 @@ import { motion } from 'framer-motion';
 import InventoryContext from '../../contexts/inventory';
 import Form from '../Form/Form';
 import DropdownCategory from '../DropdownCategory/DropdownCategory';
-import FormInput from '../FormInput/FormInput';
 import TextArea from '../TextArea/TextArea';
 import ButtonAction from '../Button/ButtonAction';
 
@@ -150,7 +148,7 @@ export default function CreateItem() {
                         <DropdownCategory categoryValue={categoryValue} setCategoryValue={setCategoryValue} />
                     </div>
                     <div className="form-container text-area">
-                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Hello World" }} onChange={setItemForm} inputValue={itemForm['description']} />
+                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Hello World" }} onChange={handleChange} inputValue={itemForm['description']} />
                     </div>
                     <div className="content">
                         <ButtonAction onClick={handleItemCreate} color={'#3F5BE8'} label={"Create"} />

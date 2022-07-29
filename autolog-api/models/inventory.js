@@ -36,7 +36,6 @@ class Inventory {
 
   // fetch list of inventories user has access to
   static async listInventoriesWithAccess(user) {
-    console.log(user);
 
     // query with many-to-many relationship
     const results = await db.query(
