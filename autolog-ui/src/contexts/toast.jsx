@@ -6,7 +6,7 @@ import { createContext } from 'react';
 export const ToastContext = createContext({});
 
 export const ToastContextProvider = ({children}) => {
-    
+    // functions for components to call
     const notifySuccess = (message) => toast.success(message);
     const notifyError = (message) => toast.error(message); 
 

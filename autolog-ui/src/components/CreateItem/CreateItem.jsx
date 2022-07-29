@@ -4,6 +4,7 @@ import ItemContext from '../../contexts/items';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
+import { ToastContext } from '../../contexts/toast';
 import InventoryContext from '../../contexts/inventory';
 import Form from '../Form/Form';
 import DropdownCategory from '../DropdownCategory/DropdownCategory';
@@ -14,6 +15,7 @@ import ButtonAction from '../Button/ButtonAction';
 export default function CreateItem() {
     const navigate = useNavigate();
     // contexts
+    const {notifySuccess, notifyError} = useContext(ToastContext);
     const { itemContext, itemCreateContext } = useContext(ItemContext);
     const { selectedInventoryContext } = useContext(InventoryContext);
     const [items, setItems] = itemContext;
@@ -47,8 +49,9 @@ export default function CreateItem() {
 
         if(data) {
             navigate("/inventory/");
+            notifySuccess(`Item successfully created!`);
         } else {
-            setErrorMessage(error);
+            notifyError(error);
         }
     }
 
