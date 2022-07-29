@@ -2,23 +2,23 @@ import { createContext, useState, useEffect, useContext} from "react"
 import apiClient from "../services/apiClient"
 import InventoryContext from "./inventory"
 import AuthContext from "./auth"
-import Loading from "../components/Loading/Loading"
 
 const ItemContext = createContext({});
 export const ItemContextProvider = ({children})=>{
-    const [items, setItems] =useState([]);
-    const [isLoading, setIsLoading] = useState(false)
-    const [error, setError] = useState(null)
+  const [items, setItems] =useState([]);
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchFilter, setSearchFilter] = useState("");
     
-//should call the useAuthContext
-const { userContext } = useContext(AuthContext);
-const [user, setUser] = userContext;
-//connect inventory context
-const {accessibleInventoriesContext} = useContext(InventoryContext);
-const [accessibleInventories, setAccessibleInventories]= accessibleInventoriesContext;
+  //should call the useAuthContext
+  const { userContext } = useContext(AuthContext);
+  const [user, setUser] = userContext;
 
-const {selectedInventoryContext}= useContext(InventoryContext);
-const [selectedInventory, setSelectedInventory] = selectedInventoryContext
+  //connect inventory context
+  const {accessibleInventoriesContext, selectedInventoryContext} = useContext(InventoryContext);
+  const [accessibleInventories, setAccessibleInventories]= accessibleInventoriesContext;
+  const [selectedInventory, setSelectedInventory] = selectedInventoryContext
 
 
  useEffect(()=>{
@@ -68,9 +68,8 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
   }
 
   //search item
-
-  const searchItem = async(search, pageNumber)=>{
-    const {data, error} = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, search);
+  const searchItem = async(searchTerm, pageNumber)=>{
+    const {data, error} = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, searchTerm);
     if(!error){
       return data;
       
@@ -80,7 +79,8 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
     }
   }
 
-const values={errorContext: [error, setError], itemContext: [items, setItems], loadingContext: [isLoading, setIsLoading], itemCreateContext: [createItem], searchContext:[searchItem]}
+const values={errorContext: [error, setError], itemContext: [items, setItems], loadingContext: [isLoading, setIsLoading], itemCreateContext: [createItem], 
+            searchContext:[searchItem], searchTermContext: [searchTerm, setSearchTerm], searchFilterContext: [searchFilter, setSearchFilter]}
    
 return(
         <ItemContext.Provider value={values}>

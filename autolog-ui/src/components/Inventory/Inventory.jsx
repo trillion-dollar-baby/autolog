@@ -11,15 +11,18 @@ import InventoryContext from "../../contexts/inventory";
 import Loading from "../Loading/Loading";
 
 export default function Inventory() {
-  const { processingContext, initializedContext } =
-    useContext(InventoryContext);
+  // Inventory Context
+  const { processingContext, initializedContext } = useContext(InventoryContext);
   const [isProcessing, setIsProcessing] = processingContext;
   const [initialized, setInitialized] = initializedContext;
-  const { itemContext } = useContext(ItemContext);
+
+  // Item Context
+  const { itemContext, searchContext, searchTermContext, searchFilterContext } = useContext(ItemContext);
   const [items, setItems] = itemContext;
-  const [value, setValue] = useState("");
-  const { searchContext } = useContext(ItemContext);
   const [searchItem] = searchContext;
+  const [searchTerm, setSearchTerm] = searchTermContext;
+  const [searchFilter, setSearchFilter] = searchFilterContext;
+
 
   const settingsRoutes = [
     {
@@ -32,17 +35,16 @@ export default function Inventory() {
     },
   ];
 
-  const nameFilters = ["A", "B", "C"]
-  const categoryFilter = ["Tools", "Parts", "Cars"]
+  const searchFilters = ["name", "category", "createdAt", "updatedAt", "quantity"]
   const columnLabel = ["id", "name", "category", "createdAt", "updatedAt", "inventoryId", "quantity"]
 
   const onChange = (event) => {
-    setValue(event.target.value);
+    setSearchTerm(event.target.value);
   };
-  async function handle(e, searchTerm) {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      searchTerm = value;
+
+  async function handle(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
       setIsProcessing(true);
       const result = await searchItem(searchTerm, 0);
       setIsProcessing(false);
@@ -69,16 +71,10 @@ export default function Inventory() {
               type: "text",
               placeholder: "Search for items...",
             }}
-            inputValue={value}
+            inputValue={searchTerm}
             onChange={onChange}
             onkeypress={handle}
           />
-        </div>
-        <div className="filter-by-name">
-          <Dropdown items={nameFilters} value={"Sort by name"} />
-        </div>
-        <div className="filter-by-category">
-          <Dropdown items={categoryFilter} value={"Sort by ctgry"} />
         </div>
       </div>
       <div className="table-container">
