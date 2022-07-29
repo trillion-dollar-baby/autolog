@@ -50,6 +50,10 @@ export default function Inventory() {
       setIsProcessing(false);
 
       setItems(result?.items);
+      if(result.items.length == 0){
+        setItems(items);
+        alert('No such items exists');
+      }
     }
   }
 
