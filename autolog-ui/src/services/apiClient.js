@@ -115,6 +115,14 @@ class ApiClient {
         return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}`, method: 'GET'});
     }
 
+    async updateItem(itemId, data) {
+        return await this.request({endpoint: `item/id/${itemId}`, method: 'PATCH', data: data});
+    }
+
+    async deleteItem(itemId) {
+        return await this.request({endpoint: `item/id/${itemId}`, method: 'DELETE', data: data})
+    }
+
     /**
      * Performance endpoints
      */
