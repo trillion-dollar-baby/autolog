@@ -1,27 +1,32 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
+import AuthContext from '../../contexts/auth';
 import ButtonAction from '../Button/ButtonAction';
 import Form from '../Form/Form';
 import './SettingsUser.css';
+import _ from 'lodash';
+import Loading from '../Loading/Loading';
+import { ToastContext } from '../../contexts/toast';
 
 export default function SettingsUser() {
-    const dummyForm = {
-        firstName: 'enzo',
-        lastName: 'falone',
-        phoneNumber: '1234567890',
-        email: 'enzo@falone.io',
-        username: 'enzofalone'
-    }
+    const {notifySuccess, notifyError} = useContext(ToastContext);
 
-    // TODO: populate forms with information from API client
-    const [form, setForm] = useState(dummyForm);
+    const { userContext, settingsContext } = useContext(AuthContext);
+    const [user, setUser] = userContext;
+    const [updateUserData, updateUserPassword] = settingsContext;
+
+    const [isProcessing, setIsProcessing] = useState(false);
+
+    // populate forms with information from API client
+    const [form, setForm] = useState({ ...user });
     const [passwordForm, setPasswordForm] = useState({});
 
-    //TODO: if the user changes the original value, render update button
-    // record changes
+    // record changes and success boolean to let user know if no errors resulted from request
     const [change, setChange] = useState(false);
+    const [success, setSuccess] = useState();
+    // record changes for password and track if passwords match
     const [passwordChange, setPasswordChange] = useState(false);
-
     const [passwordError, setPasswordError] = useState(false);
 
     // what values we want in the form
@@ -73,38 +78,107 @@ export default function SettingsUser() {
         }
     ]
 
+    const onSubmitCredentials = async () => {
+        setIsProcessing(true);
+        const result = await updateUserData(form);
+        if (result) {
+            setUser(result);
+            notifySuccess("Credentials have been successfully changed!");
+        } else {
+            console.error("error, " + result);
+            notifyError("An error has occurred while updating credentials!");
+        }
+
+        setIsProcessing(false);
+    }
+
+    const onSubmitPassword = async () => {
+        setIsProcessing(true);
+
+        const result = await updateUserPassword(passwordForm);
+
+        if(result) {
+            notifySuccess("Password has been successfully changed!");
+        } else {
+            notifyError("An error has occurred while changing password!");
+        }
+
+        setIsProcessing(false);
+    }
+
+    // on mount, capitalize form string fields
+    useEffect(() => {
+        Object.keys(form).forEach((key) => {
+            if (isNaN(form[key])) {
+                const capitalizedField = _.capitalize(form[key]);
+
+                setForm((prevForm) => ({
+                    ...prevForm,
+                    [key]: capitalizedField
+                }))
+            }
+        })
+    }, [])
+
     // if original data received from database is different from what the user has, 
     // render Update button to perform the changes in database as well 
 
     useEffect(() => {
-        Object.keys(dummyForm).forEach((val, idx) => {
-            if (dummyForm[val] !== form[val]) {
-                console.log('change occurred')
-                setChange(true);
-            }
-        })
+        // TODO: create form array by appending in each forEach iteration
+        if (user) {
+            Object.keys(user).forEach((val, idx) => {
+                const normalizedFormField = (isNaN(form[val]) ? form[val].toLowerCase() : form[val])
+                const normalizedUserField = (isNaN(user[val]) ? user[val].toLowerCase() : user[val])
 
-        
-    },[form])
+                if (normalizedUserField !== normalizedFormField) {
+                    setChange(true);
+                }
+            })
+        }
+    }, [form])
 
     // if there is a password change, check if they both match, if they don't, let user know
     useEffect(() => {
         // if both fields do not match, set useState true to render an error message 
-        console.log(passwordForm);
         setPasswordError(passwordForm.password !== passwordForm.rePassword);
-        
+
         // if there is a change, set useState to true
         setPasswordChange(passwordForm?.password?.length > 0);
 
     }, [passwordForm])
 
+    // animation properties
+    const containerVariants = {
+        hidden: {
+            opacity: 0,
+        },
+        visible: {
+            opacity: 1,
+            transition: { delay: 0.3, duration: 0.3 }
+        },
+        exit: {
+            opacity: 0,
+            transition: { ease: 'easeInOut' }
+        }
+    }
+
     return (
-        <div className="settings">
-            <div className="settings-user">
-                <Form formState={form} setFormState={setForm} formArray={formArray} />
-            </div>
-            
-            {change && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => console.log("asd")}/>}
+        <motion.div className="settings"
+            variants={containerVariants}
+            initial={"hidden"}
+            animate={"visible"}
+            exit={"exit"}
+        >
+            {isProcessing ? <Loading /> :
+                <div className="settings-user">
+                    <Form formState={form} setFormState={setForm} formArray={formArray} />
+                </div>}
+            {/* if change, render button */}
+            {change &&
+                <div className="submit-button">
+                    <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => onSubmitCredentials()} />
+                </div>
+            }
 
             {/* divider */}
             <div className='settings-divider'>
@@ -115,10 +189,14 @@ export default function SettingsUser() {
                 {/* password forms */}
                 <Form formState={passwordForm} setFormState={setPasswordForm} formArray={passwordFormArray} />
                 {/* if password does not match show error message */}
-                {(passwordError && passwordChange) && <p style={{color: 'red'}}>you stupid the password does not match!</p>}
-                {(!passwordError && passwordChange) && <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => console.log("asd")}/> }
+                {(passwordError && passwordChange) && <p style={{ color: 'red' }}>Password does not match!</p>}
+                {(!passwordError && passwordChange) &&
+                    <div className="submit-button">
+                        <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => onSubmitPassword()} />
+                    </div>}
+                {passwordError && <label className='error-message'>{passwordError}</label>}
+                {success && <label style={{'color':'green'}}>{success}</label>}
             </div>
-
-        </div>
+        </motion.div>
     )
 }

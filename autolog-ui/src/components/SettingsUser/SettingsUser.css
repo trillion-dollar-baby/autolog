@@ -1,3 +1,15 @@
-.settings-user{
-    
+.settings .content {
+    width: 100%;
 }
+
+.submit-button {
+    display:flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.settings .settings-divider {
+    color: #FFF !important;
+    padding-left: 35px;
+}
+

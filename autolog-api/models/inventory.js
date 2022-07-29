@@ -17,7 +17,7 @@ class Inventory {
             admin_id
             )
             VALUES ($1, (SELECT id FROM users WHERE email = $2))
-            RETURNING id, name, created_at, admin_id 
+            RETURNING id AS "inventoryId", name AS "inventoryName", created_at, admin_id 
      `,
       [inventory.name, user.email]
     );
@@ -28,7 +28,7 @@ class Inventory {
             inventory_id
             )
             VALUES ((SELECT id FROM users WHERE email = $1), $2)`,
-      [user.email, results.rows[0].id]
+      [user.email, results.rows[0].inventoryId]
     );
 
     return results.rows[0];
@@ -36,7 +36,6 @@ class Inventory {
 
   // fetch list of inventories user has access to
   static async listInventoriesWithAccess(user) {
-    console.log(user);
 
     // query with many-to-many relationship
     const results = await db.query(

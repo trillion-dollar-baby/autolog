@@ -1,10 +1,11 @@
 .settings {
     display:flex;
     flex-direction: column;
-    max-width: var(--maxWidth);
-    max-height: 100vh;
+    max-width: calc(100vw - 280px);
+    max-height: calc(100vh - var(--navbarHeight));
     margin: 0 auto;
     flex-grow:1;
+    overflow-x: hidden;
 }
 
 .settings .content {
@@ -12,7 +13,7 @@
     display:flex;
     flex-direction: column;
     justify-content: center;
-
+    align-items: center;
     
 }
 
@@ -23,7 +24,7 @@
     align-items: center;
     font-size: 24px;
 
-    max-width: var(--maxWidth);
+    max-width: calc(100vw - 280px);
     height: 75px;
     background-color: var(--darkBlueAccent);
 

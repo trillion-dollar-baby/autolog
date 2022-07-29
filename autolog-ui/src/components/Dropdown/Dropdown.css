@@ -1,15 +1,22 @@
+#root {
+    --memberItemHeight: 175px;
+}
+
 .dropdown-wrapper { 
     position: relative;
     display:flex;
     flex-direction: column;
-    width: 200px;
-    height: fit-content;
     font-size: 20px;
     border-radius: 10px;
     background-color: var(--backgroundInput);
     color:black;
 
+    min-width: var(--memberItemHeight);
+    max-width: var(--memberItemHeight);
+
     user-select: none;
+    flex: 1;
+    flex-grow: 1;
 }
 
 .dropdown-wrapper.active{
@@ -27,7 +34,7 @@
     display:flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 5px;
+    padding: 5px 10px;
 }
 
 .dropdown-header-action {
@@ -44,7 +51,7 @@
     display:flex;
     position: absolute;
     
-    width: 200px;
+    width: 100%;
     top:100%;
     
     flex-direction: column;

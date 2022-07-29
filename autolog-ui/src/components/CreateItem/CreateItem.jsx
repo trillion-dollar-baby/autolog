@@ -1,68 +1,163 @@
 import * as React from 'react';
 import './CreateItem.css'
-import Search from "../../assets/Search.png"
+import ItemContext from '../../contexts/items';
+import { useContext, useState } from 'react';
+import { useNavigate } from 'react-router';
+import { motion } from 'framer-motion';
+import { ToastContext } from '../../contexts/toast';
+import InventoryContext from '../../contexts/inventory';
+import Form from '../Form/Form';
+import DropdownCategory from '../DropdownCategory/DropdownCategory';
+import TextArea from '../TextArea/TextArea';
+import ButtonAction from '../Button/ButtonAction';
+
 
 export default function CreateItem() {
+    const navigate = useNavigate();
+    // contexts
+    const {notifySuccess, notifyError} = useContext(ToastContext);
+    const { itemContext, itemCreateContext } = useContext(ItemContext);
+    const { selectedInventoryContext } = useContext(InventoryContext);
+    const [items, setItems] = itemContext;
+    const [createItem] = itemCreateContext;
+    const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
+
+    const [isProcessing, setIsProcessing] = useState(false);
+    const [errorMessage, setErrorMessage] = useState();
+
+    // form handling
+    const [itemForm, setItemForm] = useState({});
+    const [categoryValue, setCategoryValue] = useState('');
+
+    const handleChange = (e) => {
+        e.preventDefault();
+
+        let value = e.target.value;
+        let name = e.target.name;
+
+        setItemForm({ ...itemForm, [name]: value });
+    }
+
+    // submit button handler
+    const handleItemCreate = async () => {
+        // TODO: APPEND TO INVENTORY LOOKUP ARRAY
+        setIsProcessing(true);
+        itemForm['category'] = categoryValue;
+        const {data, error} = await createItem(itemForm, itemForm.inventoryId = selectedInventory.inventoryId);
+
+        setIsProcessing(false);
+
+        if(data) {
+            navigate("/inventory/");
+            notifySuccess(`Item successfully created!`);
+        } else {
+            notifyError(error);
+        }
+    }
+
+    // form array for "item information" section
+    const formArray = [
+        {
+            label: 'Name',
+            name: 'name',
+            type: 'text',
+            placeholder: 'The alternator is shot Saul'
+        },
+        {
+            label: 'Quantity',
+            name: 'quantity',
+            type: 'text',
+            placeholder: '1234'
+        },
+        {
+            label: 'Measures (Optional)',
+            name: 'measures',
+            type: 'text',
+            placeholder: '12x12x12'
+        },
+        {
+            label: 'Located At (Optional)',
+            name: 'locatedAt',
+            type: 'text',
+            placeholder: 'Shelve 12'
+        },
+        {
+            label: 'Part Number (Optional)',
+            name: 'partNumber',
+            type: 'text',
+            placeholder: '1234'
+        },
+    ]
+
+    // form array for "additional details" section
+    const formArray2 = [
+        {
+            label: 'Supplier',
+            name: 'supplier',
+            type: 'text',
+            placeholder: 'ACME'
+        }
+    ]
+
+    const containerVariants = {
+        hidden: {
+            opacity: 0,
+        },
+        visible: {
+            opacity: 1,
+            transition: { delay: 0.3, duration: 0.3 }
+        },
+        exit: {
+            opacity: 0,
+            transition: { ease: 'easeInOut' }
+        }
+    }
+
     return (
-        <div className ="create-item">
-            <div className="page-contents">
-                <div className="header-1">
-                    <label className="heading"> Item Information </label>
+        <motion.div
+            variants={containerVariants}
+            initial={"hidden"}
+            animate={"visible"}
+            exit={"exit"}
+            className="create-item">
+
+            <div className="header">
+                <div className="header-title-wrapper">
+                    <label className="header-title"> Create a new item </label>
+                    <label className='error-message'>{errorMessage}</label>
+                    <label className='processing-message'>{isProcessing ? 'Processing...' : ''}</label>
                 </div>
-            <div className="create-input-fields">
-                <div className="item-id">
-                    <label className="labels"> Item # </label>
-                    <input className="form-input" name="label" placeholder="Enter item #..."/>
+            </div>
+
+            {/* divider */}
+            <div className="content">
+                <div className='divider'>
+                    <span>Item Information</span>
                 </div>
-                <div className="item-name">
-                    <label className="labels"> Item Name </label>
-                    <input className="form-input" name="itemName" placeholder="Enter item name..."/>
+                {/* Main form */}
+
+                <div className="item-information">
+                    <Form formArray={formArray} setFormState={setItemForm} formState={itemForm} />
                 </div>
-                <div className="quantity">
-                    <label className="labels"> Quantity </label>
-                    <input className="form-input" name="quantity" placeholder="0"/>
+
+                {/* Additional form */}
+                <div className="divider">
+                    <label className="title"> Additional Details </label>
                 </div>
-                <div className="order-date">
-                    <label className="labels"> Order Date </label>
-                    <input className="form-input" name="orderDate" placeholder="MM-DD-YY"/>
-                </div>
-                <div className="arrival-date">
-                    <label className="labels"> Arrival Date </label>
-                    <input className="form-input" name="arrivalDate" placeholder="MM-DD-YY"/>
-                </div>
-                <div className="item-price">
-                    <label className="labels"> Item Price </label>
-                    <input className="form-input" name="itemPrice" placeholder="$00.00"/>
-                </div>
-                <div className="standard-cost">
-                    <label className="labels"> Standard Cost </label>
-                    <input className="form-input" name="standardCost" placeholder="$00.00"/>
-                </div>
-                </div>
-                <div className="header-2">
-                    <label className="heading"> Additional Details </label>
-                </div>
-                <div className="create-input-fields">
-                    <div className="category">
-                        <label className="labels"> Category </label>
-                        <input className="form-input" name="category" placeholder="Filter..."/>
-                        <img className='img' src={Search}></img>
+                <div className="additional-details">
+                    <div className="form-container-additional">
+                        <Form formArray={formArray2} setFormState={setItemForm} formState={itemForm} />
+
+                        <DropdownCategory categoryValue={categoryValue} setCategoryValue={setCategoryValue} />
                     </div>
-                    <div className="supplier">
-                        <label className="labels"> Supplier </label>
-                        <input className="form-input" name="supplier" placeholder="Enter a supplier name..."/>
+                    <div className="form-container text-area">
+                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Hello World" }} onChange={handleChange} inputValue={itemForm['description']} />
                     </div>
-                    <div className="description">
-                        <label className="labels"> Description </label>
-                        <input className="form-inputs" name="description" placeholder="Enter a description for the item..."/>
-                    </div>
-                    <div className="buttons">
-                    <button className="submit-create-item"> Create </button>
-                    <button className="submit-update-item"> Update </button>
+                    <div className="content">
+                        <ButtonAction onClick={handleItemCreate} color={'#3F5BE8'} label={"Create"} />
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
-//I made a comment!

@@ -8,7 +8,7 @@ CREATE TABLE users (
     phone_number TEXT NOT NULL,
     role TEXT NOT NULL,
     is_verified BOOLEAN NOT NULL,
-    created_at timestamp NOT NULL DEFAULT CURRENT_DATE,
+    created_at timestamp NOT NULL DEFAULT NOW(),
     updated_at timestamp NOT NULL DEFAULT NOW()
 );
 
@@ -16,7 +16,7 @@ CREATE TABLE user_roles (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     role_name TEXT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE permissions (
@@ -34,7 +34,7 @@ CREATE TABLE inventory (
     admin_id INTEGER NOT NULL,
     created_at timestamp DEFAULT NOW(),
     updated_at timestamp NOT NULL DEFAULT NOW(),
-    FOREIGN KEY (admin_id) REFERENCES users(id)
+    FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE
 );
 /* Got rid of NOT NULL at the end of admin_id 
 FOREIGN KEY (admin_id) REFERENCES users(id)*/
@@ -43,7 +43,7 @@ CREATE TABLE user_to_inventory (
     id SERIAL PRIMARY KEY,
     inventory_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (inventory_id) REFERENCES inventory(id)
 );
 
@@ -51,14 +51,15 @@ CREATE TABLE items (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     category TEXT NOT NULL,
-    quantity TEXT NOT NULL,
-    measures TEXT,
+    quantity INTEGER NOT NULL DEFAULT 1,
     located_at TEXT,
     part_number TEXT,
-    created_at timestamp DEFAULT CURRENT_DATE,
-    updated_at timestamp NOT NULL DEFAULT NOW(),
-    inventory_id INTEGER,
-    FOREIGN KEY (inventory_id) REFERENCES inventory(id)
+    description TEXT,
+    supplier TEXT,
+    created_at timestamp WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP(0),
+    updated_at timestamp WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    inventory_id INTEGER NOT NULL,
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
 );
 
 CREATE TABLE logs (
@@ -69,4 +70,11 @@ CREATE TABLE logs (
     created_at timestamp NOT NULL default CURRENT_DATE,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (item_id) REFERENCES items(id)
+);
+
+CREATE TABLE categories (
+    id SERIAL PRIMARY KEY,
+    inventory_id INTEGER NOT NULL,
+    category_name TEXT NOT NULL,
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
 );

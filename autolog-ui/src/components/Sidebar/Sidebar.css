@@ -5,7 +5,6 @@
 
     display: flex;
     position: fixed;
-    overflow:hidden;
     
     flex-direction: column;
     text-align: center;

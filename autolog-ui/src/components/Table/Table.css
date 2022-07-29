@@ -1,32 +1,57 @@
 .table {
     display: flex;
+    flex-direction: column;
+    max-width: calc(100vw - var(--sidebarWidth));
+    flex-grow: 1;
+    overflow-x: hidden;
+    color:black;
+}
+
+.table-header {
+    display: flex;
+    height: 45px;
+    align-items: center;
+    background-color: var(--tableElementBgColor);
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+}
+
+.table-header-label {
+    padding: 8px 8px;
+}
+
+.table-body {
+    display: flex;
     flex-direction: row;
     list-style: none;
     width: calc(100vw - 280px);
-    overflow-y: scroll;
     flex-grow: 1;
-    background-color: var(--tableHeaderBgColor);
     font-weight: 500;
+    background-color: var(--tableElementBgColor);
 }
 
 .row-item {
     text-decoration: none;
-    background-color: var(--tableElementBgColor);
-    border-bottom: 1px #B7B7B7 solid;
+    border-bottom: 1px #b7b7b7 solid;
     height: 45px;
     padding: 8px 8px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .table-column {
-    background-color: var(--tableElementBgColor);
     display: flex;
     flex-direction: column;
     flex: 1;
+    background-color: var(--tableElementBgColor);
 }
 
 .column-label {
+    background-color: var(--tableHeaderBgColor);
     height: 45px;
-    border: 1px solid #B7B7B7;
+    border: 1px solid var(--tableHeaderBgColor);
     vertical-align: center;
     padding: 8px 8px;
 }

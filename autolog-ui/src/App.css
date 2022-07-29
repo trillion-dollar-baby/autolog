@@ -1,10 +1,11 @@
 .app {
     display:flex;
     flex-direction: column;
-    flex-wrap: nowrap;
+    /* flex-wrap: wrap; */
 }
 
 .page-content {
     display:flex;
     flex-direction: row;
+    height: calc(100vh - var(--navbarHeight));
 }

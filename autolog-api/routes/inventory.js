@@ -12,13 +12,13 @@ router.get("/",  async (req, res, next) => {
         //send json response to client 
         const { user } = res.locals
         const inventory = await Inventory.listInventoriesWithAccess(user);
-        return res.status(201).json({ inventory })
+        return res.status(200).json({ inventory })
     } catch(err) {
         next(err)
     }
 })
 
-
+// create inventory
 router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         const { user } = res.locals
@@ -36,7 +36,7 @@ router.get("/me",  async (req, res, next) => {
         //send json response to client 
         const { user } = res.locals
         const inventory = await Inventory.listOwnedInventories(user);
-        return res.status(201).json({ inventory })
+        return res.status(200).json({ inventory })
     } catch(err) {
         next(err)
     }

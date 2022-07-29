@@ -11,6 +11,7 @@
   /* navbar, sidebar, topbar */
   --darkBlue: #303550;
   --darkBlueAccent: #24283C;
+  --darkBlueAccentOutline: #181b29;
   --darkBlueAccentFocused: #383F5E;
 
   --black: #000000; 
@@ -40,6 +41,7 @@
   --actionBlue: #383F5E;
   --actionBlueAccent: #3F5BE8;
   --actionGreen: #2EAF79;
+  --actionGreenHover: #217a55;
   
   --outlineGray: #CCCCCC;
   /* end of variables */
@@ -49,9 +51,7 @@
   line-height: 24px;
   font-weight: 400;
 
-  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -84,6 +84,7 @@ body {
   margin: 0;
   min-height: 100vh;
   width: 100vw;
+  overflow-x: none;
 }
 
 .content {
@@ -123,6 +124,62 @@ button:focus-visible {
 
 .error-message{
   color: var(--actionRed);
+}
+
+.divider {
+  display:flex;
+  justify-content: flex-start;
+  padding-left: 20px;
+  align-items: center;
+  font-size: 24px;
+
+  max-width: calc(100vw - 280px);
+  width: 100%;
+  height: 75px;
+
+  background-color: var(--darkBlueAccent);
+
+  margin: 1rem 0;
+  border-radius: 10px;
+
+  color: var(--white);
+}
+
+/* Loading animation and styling */
+
+.spinning-loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* scrollbar */
+::-webkit-scrollbar-track {
+  border-radius: 12px;
+  background-color: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  background-color: "transparent";
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 12px;
+  box-shadow: inset 0 0 16px rgba(0, 0, 0, 0.4);
+  background-color: #afafaf70;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #c5c5c599;
 }
 
 @media (prefers-color-scheme: light) {

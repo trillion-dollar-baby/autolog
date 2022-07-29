@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { createContext, useState } from "react";
 import apiClient from "../services/apiClient";
+import Loading from "../components/Loading/Loading";
 
 const AuthContext = createContext({});
 
@@ -19,11 +20,15 @@ export const AuthContextProvider = ({ children }) => {
       // it to be used throughout the application
       if (data) {
         setUser(data.user);
-        console.log("got data from token");
       }
 
       if (error) {
-        console.log('token expired...')
+        // if token is invalid, delete from localStorage 
+        // and let the rest of the application know user is invalid
+        console.error('JWT EXPIRED OR INVALID');
+        
+        apiClient.setToken(null);
+        localStorage.removeItem(apiClient.tokenName);
       }
     } catch (error) {
       console.error("Fetching user error:", error);
@@ -52,59 +57,86 @@ export const AuthContextProvider = ({ children }) => {
 
   // login user function
   const loginUser = async (loginForm) => {
-    const { data, errorLogin } = await apiClient.loginUser(loginForm);
-
-    if (errorLogin) {
-      //return an empty object
-      return { success: false, error: errorLogin, user: null }
-    }
-
-    // if login worked and we received data, store in application
-    if (data?.user) {
-      setUser(data.user);
-      apiClient.setToken(data.token);
-      return { success: true, user: data?.user }
-    }
+    const { data, error: errorLogin } = await apiClient.loginUser(loginForm);
+    // handle data sent
+    setUserData(data, errorLogin);
   }
 
   // register user function
   const registerUser = async (registrationForm) => {
-    const { data, errorRegistration } = await apiClient.registerUser(registrationForm);
+    const { data, error: errorRegistration } = await apiClient.registerUser(registrationForm);
+    // handle data sent
+    setUserData(data, errorRegistration);
+  }
 
-    if (errorRegistration) {
-      return { success: false, error: errorRegistration, user: null }
-    }
-
-    // if registration worked and we received data, store in application
+  // set user data after any initial authentication method
+  const setUserData = (data, error) => {
     if (data?.user) {
       setUser(data?.user);
-      apiClient.setToken(data.token)
-      return { success: true, user: data?.user }
+      apiClient.setToken(data.token);
+    } else {
+      console.log("Authentication error:", error);
+      setError(error)
     }
   }
 
   const logoutUser = async () => {
     // reset state data
     setUser({});
-    //reset token from local storage
+
+    // reset token from local storage
     localStorage.removeItem(apiClient.tokenName);
+    apiClient.setToken(null);
+    
+    // reload page to reset all states after logging out
+    window.location.reload();
   }
 
-  // check if it is still fetching data between renders
-  if (!initialized) {
-    return (<h1>Authenticating...</h1>)
+  // update user information
+  const updateUserData = async (formData) => {
+    // let backend handle all the data
+    try {
+      const {data, error} = await apiClient.patchUserCredentials(formData);
+      
+      if(data?.user){
+        return data?.user;
+      }
+    } catch (error) {
+      return { error }
+    }
+  }
+
+  // update user password by sending new one
+  const updateUserPassword = async (formData) => {
+    // let backend handle all the data
+    try {
+      const {data, error} = await apiClient.patchUserPassword(formData);
+
+      if(data?.message){
+        return data?.message
+      }
+    } catch (error) {
+      return { error }
+    }
+  }
+
+  // If GET /me is still processing or uninitialized, render a blank screen
+  if (!initialized || isProcessing) {
+    return <div></div>
   }
 
   // check if any errors have been found in useEffect request
-  if (error) {
+  if (error && !initialized) {
     return (<h1>Authentication error</h1>)
   }
 
   return (
     <AuthContext.Provider value={{
-      initializedContext: [initialized, setInitialized], 
+      initializedContext: [initialized, setInitialized],
       userContext: [user, setUser],
-      processingContext: [isProcessing, setIsProcessing], 
+      settingsContext: [updateUserData, updateUserPassword],
+      authContext: [loginUser, registerUser, logoutUser],
+      processingContext: [isProcessing, setIsProcessing],
       errorContext: [error, setError]
     }}>
       {children}

@@ -21,12 +21,14 @@ export default function Form({ formState, setFormState, formArray, onSubmit }) {
       {/* add all items */}
       {formArray.map((item, idx) => {
         return (
+          <div key={idx} className="user-form-input">
           <FormInput
             key={idx}
             data={item}
             onChange={onChange || undefined}
-            inputValue={formState[item.name] || undefined}
+            inputValue={formState[item.name] || ''}
           />
+          </div>
         )
       })}
     </div>

@@ -15,7 +15,9 @@ const { NotFoundError } = require("./utils/errors");
 const security = require("./middleware/security");
 const authRoutes = require("./routes/user");
 const itemRoutes = require("./routes/item");
+const categoryRoutes = require("./routes/category");
 const inventoryRoutes = require("./routes/inventory");
+const performanceRoutes = require("./routes/performance");
 
 /**
  * End of imports
@@ -40,9 +42,12 @@ app.use(security.extractUserFromJwt);
  * Application routes
  */
 
+
 app.use("/auth", authRoutes)
 app.use("/item", itemRoutes)
+app.use("/category", categoryRoutes)
 app.use("/inventory", inventoryRoutes)
+app.use("/performance", performanceRoutes)
 
 // health check
 app.get("/", (req, res, next) => {
