@@ -108,13 +108,13 @@
     z-index: 3;
 
     overflow-y: scroll;
+    
 }
 
 /* LIST ITEMS */
 
 .dropdown-category-item {
     padding:5px 10px;
-    margin:0 5px;
     text-align: left;
     border-top: 3px rgb(100, 100, 100) solid;
     cursor: pointer;

@@ -20,11 +20,10 @@ function ItemDetail() {
     const navigate = useNavigate();
     
     // contexts
-    const { itemContext, itemCreateContext, itemUpdateContext, itemDeleteContext } = useContext(ItemContext);
+    const { itemContext, itemCreateContext, itemUpdateContext, itemGetContext, itemDeleteContext } = useContext(ItemContext);
     
-    const [createItem] = itemCreateContext;
+    const [getItem] = itemGetContext;
     const [updateItem] = itemUpdateContext;
-    const [deleteItem] = itemDeleteContext;
 
     const { selectedInventoryContext } = useContext(InventoryContext);
     const [items, setItems] = itemContext;
@@ -53,7 +52,7 @@ function ItemDetail() {
         // TODO: APPEND TO INVENTORY LOOKUP ARRAY
         setIsProcessing(true);
         itemForm['category'] = categoryValue;
-        const { data, error } = await createItem(itemForm, itemForm.inventoryId = selectedInventory.inventoryId);
+        const { data, error } = await updateItem(itemId, itemForm);
 
         setIsProcessing(false);
 
@@ -67,8 +66,12 @@ function ItemDetail() {
     // on mount get the details of the item
     useEffect(() => {
         const fetchItem = async () => {
-            // const {data, error} = await getItem()
+            const {data, error} = await getItem(itemId);
 
+            if(data) {
+                setItemForm(data.item);
+                setCategoryValue(data.item.category);
+            }
         }
 
         fetchItem();
@@ -170,10 +173,10 @@ function ItemDetail() {
                         <DropdownCategory categoryValue={categoryValue} setCategoryValue={setCategoryValue} />
                     </div>
                     <div className="form-container text-area">
-                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Hello World" }} onChange={setItemForm} inputValue={itemForm['description']} />
+                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Hello World" }} onChange={handleChange} inputValue={itemForm['description']} />
                     </div>
                     <div className="content">
-                        <ButtonAction onClick={handleItemUpdate} color={'#3F5BE8'} label={"Create"} />
+                        <ButtonAction onClick={handleItemUpdate} color={'#3F5BE8'} label={"Update"} />
                     </div>
                 </div>
             </div>

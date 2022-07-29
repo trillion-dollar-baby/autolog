@@ -22,23 +22,22 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
 
 
  useEffect(()=>{
-
-    if (user) {
-      async function fetchItemList(){
-        setIsLoading(true)
-        
-        const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
-        
-        if(data){
-            setItems(data?.items) 
-    
-        }else if(err){
-    
+    async function fetchItemList(){
+      setIsLoading(true)
+  
+      const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
+      
+      if(data){
+        setItems(data?.items) 
+      } else if(err) {
         setError(err)
-       
-        }
-        setIsLoading(false)
-        }
+      }
+
+      setIsLoading(false)
+    }
+
+    if (user && selectedInventory?.inventoryId) {
+      
         fetchItemList()
     }
 
