@@ -16,6 +16,12 @@ class Item {
                 throw new BadRequestError(`Missing ${field} in request body.`);
             }
         });
+		
+		Object.keys(item).forEach(field => {
+			if(isNaN(item[field])){
+				item[field] = _.toLower(item[field]);
+			}
+		})
 
         // Insert into items and perform subquery to make sure this inventory id matches with user
         const results = await db.query(
@@ -27,6 +33,7 @@ class Item {
             located_at,
             part_number,
             description,
+			supplier,
             inventory_id
             )
             VALUES ($1, 
@@ -44,12 +51,12 @@ class Item {
                           user_to_inventory AS uti ON uti.inventory_id = inventory.id
                       WHERE 
                           uti.user_id = $8 AND uti.inventory_id = $9))
-            RETURNING id, name, category, quantity, to_char(created_at,'DD-MM-YYYY') AS "created_at"
+            RETURNING id, name, category, quantity, to_char(created_at,'DD-MM-YYYY') AS "createdAt"
             , inventory_id
      `,
             [
-                item.name.toLowerCase(),
-                item.category.toLowerCase(),
+                item.name,
+                item.category,
                 item.quantity,
                 item.locatedAt || "", // only non required fields can have empty strings
                 item.partNumber || "",
