@@ -5,7 +5,7 @@ import AuthContext from "./auth"
 
 const ItemContext = createContext({});
 export const ItemContextProvider = ({children})=>{
-  const [items, setItems] =useState([]);
+  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState("");
@@ -22,22 +22,7 @@ export const ItemContextProvider = ({children})=>{
 
 
  useEffect(()=>{
-    async function fetchItemList(){
-      setIsLoading(true)
-  
-      const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
-      
-      if(data){
-        setItems(data?.items) 
-      } else if(err) {
-        setError(err)
-      }
-
-      setIsLoading(false)
-    }
-
     if (user && selectedInventory?.inventoryId) {
-      
         fetchItemList()
     }
 
@@ -59,7 +44,8 @@ export const ItemContextProvider = ({children})=>{
   const createItem = async (values) => {
     const { data, error } = await apiClient.createItem(values);
     if (!error) {
-      return {data, error: null}
+      fetchItemList();
+      return {data, error: null};
     } else {
       console.error("Error creating items, message:", error);
       return {data: null, error};
@@ -70,6 +56,7 @@ export const ItemContextProvider = ({children})=>{
   const deleteItem = async(id) => {
     const {data, error} = await apiClient.deleteItem(id);
     if (!error) {
+      fetchItemList();
       return {data, error: null};
     } else {
       console.error("Error deleting item, message:", error);
@@ -81,6 +68,7 @@ export const ItemContextProvider = ({children})=>{
   const updateItem = async (itemId, values) => {
     const {data, error} = await apiClient.updateItem(itemId,values);
     if (!error) {
+      fetchItemList();
       return {data, error: null};
     } else {
       console.error("Error getting items, message:", error);
@@ -88,16 +76,31 @@ export const ItemContextProvider = ({children})=>{
     }
   }
 
-  //search item
+  // Search item
   const searchItem = async(search, pageNumber)=>{
     const {data, error} = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, search);
     if(!error){
       return data;
-      
     }
     else{
       console.error("Error searching for items, message:", error)
     }
+  }
+
+
+  // Fetch item list given the inventory id
+  async function fetchItemList() {
+    setIsLoading(true)
+
+    const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
+    
+    if(data){
+      setItems(data?.items) 
+    } else if(err) {
+      setError(err)
+    }
+
+    setIsLoading(false)
   }
 
   const values = {

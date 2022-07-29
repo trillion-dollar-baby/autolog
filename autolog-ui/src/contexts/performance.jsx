@@ -2,23 +2,30 @@ import { createContext, useState, useEffect, useContext} from "react"
 import apiClient from "../services/apiClient"
 import InventoryContext from "./inventory"
 import AuthContext from "./auth"
+import ItemContext from "./items"
 
 const PerformanceContext = createContext({});
 
 export const PerformanceContextProvider = ({children})=>{
     const [performance, setPerformance] =useState([]);
-    const [filter, setFilter] = useState("")
-    const [sort, setSort] = useState("")
-    const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
+    const [filter, setFilter] = useState("");
+    const [sort, setSort] = useState("");
+    const [error, setError] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     // Use InventoryContext to get the current selected inventory
     const {selectedInventoryContext}= useContext(InventoryContext);
-    const [selectedInventory, setSelectedInventory] = selectedInventoryContext
+    const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
     // Use AuthContext to get the current user (if there is one)
     const { userContext } = useContext(AuthContext);
     const [ user, setUser ] = userContext;
+
+    // Use ItemContext to get item list
+    const { itemContext } = useContext(ItemContext);
+    const [ items, setItems ] = itemContext;
+
+
 
 // Default use effect
 useEffect(()=>{
@@ -40,7 +47,7 @@ useEffect(()=>{
     if (user && selectedInventory?.inventoryId != undefined) {
         fetchPerformanceList()
     }
-}, [user, selectedInventory])
+}, [user, selectedInventory, items])
 
 
 // Use effect for sorting and filter
