@@ -11,6 +11,8 @@ import Form from '../Form/Form';
 import DropdownCategory from '../DropdownCategory/DropdownCategory';
 import TextArea from '../TextArea/TextArea';
 import ButtonAction from '../Button/ButtonAction';
+import { ToastContext } from '../../contexts/toast';
+import _ from 'lodash';
 
 function ItemDetail() {
 
@@ -20,6 +22,7 @@ function ItemDetail() {
     const navigate = useNavigate();
     
     // contexts
+    const {notifySuccess, notifyError} = useContext(ToastContext);
     const { itemContext, itemCreateContext, itemUpdateContext, itemGetContext, itemDeleteContext } = useContext(ItemContext);
     
     const [getItem] = itemGetContext;
@@ -56,8 +59,11 @@ function ItemDetail() {
         setIsProcessing(false);
 
         if (data) {
+            notifySuccess(`${_.capitalize((itemForm?.name || "Item"))} successfully updated!`)
             navigate("/inventory/");
+
         } else {
+            notifyError(error);
             setErrorMessage(error);
         }
     }

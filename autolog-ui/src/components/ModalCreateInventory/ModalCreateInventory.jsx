@@ -3,10 +3,13 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { useContext } from 'react';
 import InventoryContext from '../../contexts/inventory';
+import { ToastContext } from '../../contexts/toast';
 import Form from '../Form/Form';
 import Modal from '../Modal/Modal';
 
 function ModalCreateInventory({closeModal}) {
+    const {notifySuccess, notifyError} = useContext(ToastContext);
+
     // contexts
     const { accessibleInventoriesContext, selectedInventoryContext, inventoryPostContext } = useContext(InventoryContext);
     const [createInventory] = inventoryPostContext;
@@ -41,10 +44,11 @@ function ModalCreateInventory({closeModal}) {
         const { data, error } = await createInventory(formState);
 
         if (error) {
-            setModalError(error);
+            notifyError(error);
         }
         // if it was successful and we got data back, close modal
         if (data) {
+            notifySuccess("Inventory successfully created!");
             closeModal();
         }
 
