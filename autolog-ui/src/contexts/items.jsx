@@ -1,47 +1,48 @@
-import { createContext, useState, useEffect, useContext } from "react";
-import apiClient from "../services/apiClient";
-import InventoryContext from "./inventory";
-import AuthContext from "./auth";
+import { createContext, useState, useEffect, useContext} from "react"
+import apiClient from "../services/apiClient"
+import InventoryContext from "./inventory"
+import AuthContext from "./auth"
+import Loading from "../components/Loading/Loading"
 
 const ItemContext = createContext({});
-export const ItemContextProvider = ({ children }) => {
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+export const ItemContextProvider = ({children})=>{
+    const [items, setItems] =useState([]);
+    const [isLoading, setIsLoading] = useState(false)
+    const [error, setError] = useState(null)
+    
+//should call the useAuthContext
+const { userContext } = useContext(AuthContext);
+const [user, setUser] = userContext;
+//connect inventory context
+const {accessibleInventoriesContext} = useContext(InventoryContext);
+const [accessibleInventories, setAccessibleInventories]= accessibleInventoriesContext;
 
-  //should call the useAuthContext
-  const { userContext } = useContext(AuthContext);
-  const [user, setUser] = userContext;
-  //connect inventory context
-  const { accessibleInventoriesContext } = useContext(InventoryContext);
-  const [accessibleInventories, setAccessibleInventories] =
-    accessibleInventoriesContext;
+const {selectedInventoryContext}= useContext(InventoryContext);
+const [selectedInventory, setSelectedInventory] = selectedInventoryContext
 
-  const { selectedInventoryContext } = useContext(InventoryContext);
-  const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
-  useEffect(() => {
-      const fetchItemList = async () => {
-        setIsLoading(true);
+ useEffect(()=>{
 
-        const { data, err } = await apiClient.getItemList(
-          selectedInventory?.inventoryId,
-          0,
-          ""
-        );
-
-        if (data) {
-          setItems(data?.items);
-        } else if (err) {
-          setError(err);
+    if (user) {
+      async function fetchItemList(){
+        setIsLoading(true)
+        
+        const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
+        
+        if(data){
+            setItems(data?.items) 
+    
+        }else if(err){
+    
+        setError(err)
+       
         }
-        setIsLoading(false);
-      }
+        setIsLoading(false)
+        }
+        fetchItemList()
+    }
 
-      if (user && selectedInventory?.inventoryId) {
-        fetchItemList();
-      }
-  }, [user, selectedInventory]);
+   }, [user, selectedInventory])
 
   // Get id of a given item
   // for when we are accessing the item through item details
@@ -64,7 +65,7 @@ export const ItemContextProvider = ({ children }) => {
       console.error("Error creating items, message:", error);
       return {data: null, error};
     }
-  };
+  }
 
   // delete item given the id
   const deleteItem = async(id) => {
@@ -88,6 +89,18 @@ export const ItemContextProvider = ({ children }) => {
     }
   }
 
+  //search item
+  const searchItem = async(search, pageNumber)=>{
+    const {data, error} = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, search);
+    if(!error){
+      return data;
+      
+    }
+    else{
+      console.error("Error searching for items, message:", error)
+    }
+  }
+
   const values = {
     errorContext: [error, setError],
     itemContext: [items, setItems],
@@ -97,8 +110,12 @@ export const ItemContextProvider = ({ children }) => {
     itemUpdateContext: [updateItem],
     itemDeleteContext: [deleteItem],
   };
-
-  return <ItemContext.Provider value={values}>{children}</ItemContext.Provider>;
-};
+  
+return(
+        <ItemContext.Provider value={values}>
+            {children}
+        </ItemContext.Provider>
+    )
+}
 
 export default ItemContext;

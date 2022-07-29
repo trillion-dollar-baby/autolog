@@ -1,6 +1,6 @@
 import './FormInput.css'
 
-export default function FormInput({ data, onChange, inputValue }) {
+export default function FormInput({ data, onChange, inputValue, onkeypress}) {
   return (
     <div className="form-input-gray">
       <label htmlFor={data.name}>
@@ -13,6 +13,7 @@ export default function FormInput({ data, onChange, inputValue }) {
         placeholder={data.placeholder || null}
         value={inputValue}
         onChange={onChange}
+        onKeyPress ={onkeypress}
       />
 
     </div>
