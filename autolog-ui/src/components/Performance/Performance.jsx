@@ -26,6 +26,7 @@ export default function Performance() {
     // Labels to render for the dropdown
     const sortItems = ["Quantity ↑", "Quantity ↓"]
     const filterItems = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "December"]
+    const columnLabel = ["category", "total quantity", "month"]
 
     return (
         <div className="performance-content">
@@ -48,7 +49,10 @@ export default function Performance() {
             </div>
 
             <div className='table-container'>
-                <Table tableLabel={"Results"} tableElementArray={(performance.length) ? performance : []} tableColumnLabelArray={(performance.length) ? Object.keys(performance[0]) : []}/>
+                <Table 
+                tableLabel={"Results"} 
+                tableElementArray={(performance.length) ? performance : []} 
+                tableColumnLabelArray={columnLabel}/>
             </div>
         </div>
     )

@@ -32,8 +32,9 @@ export default function Inventory() {
     },
   ];
 
-  const nameFilters = ["A", "B", "C"];
-  const categoryFilter = ["Tools", "Parts", "Cars"];
+  const nameFilters = ["A", "B", "C"]
+  const categoryFilter = ["Tools", "Parts", "Cars"]
+  const columnLabel = ["id", "name", "category", "createdAt", "updatedAt", "inventoryId", "quantity"]
 
   const onChange = (event) => {
     setValue(event.target.value);
@@ -87,7 +88,7 @@ export default function Inventory() {
           <Table
             tableLabel={"Results"}
             tableElementArray={items.length ? items : []}
-            tableColumnLabelArray={items.length ? Object.keys(items[0]) : []}
+            tableColumnLabelArray={columnLabel}
           />
         )}
       </div>
