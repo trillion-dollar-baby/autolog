@@ -18,11 +18,10 @@ export default function Inventory() {
   const [initialized, setInitialized] = initializedContext;
 
   // Item Context
-  const { itemContext, searchContext, searchTermContext, searchFilterContext } = useContext(ItemContext);
+  const { itemContext, searchContext, searchTermContext} = useContext(ItemContext);
   const [items, setItems] = itemContext;
   const [searchItem] = searchContext;
   const [searchTerm, setSearchTerm] = searchTermContext;
-  const [searchFilter, setSearchFilter] = searchFilterContext;
 
 
   const settingsRoutes = [
@@ -49,6 +48,7 @@ export default function Inventory() {
       setIsProcessing(true);
       const result = await searchItem(searchTerm, 0);
       setIsProcessing(false);
+<<<<<<< HEAD
       setItems(result.items);
       console.log(result.items)
       if(result.items.length == 0){
@@ -56,6 +56,11 @@ export default function Inventory() {
         alert("no such item exists");
       }
     } 
+=======
+
+      setItems(result?.items);
+    }
+>>>>>>> 22d0b91c5ea1eceacbeccb99c9f7912648d3929e
   }
 
   const containerVariants = {

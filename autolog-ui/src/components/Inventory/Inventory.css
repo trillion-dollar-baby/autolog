@@ -34,7 +34,7 @@
 .inventory-content .filter-container .search-bar {
     display: flex;
     flex-grow: 2;
-    max-width: 35vw;
-    height: 5vh;
+    max-width: 650px;
+    height: 40px;
     margin: 0 15px;
 }
