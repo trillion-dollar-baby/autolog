@@ -7,3 +7,9 @@
     justify-content: center;
     margin-top: 2rem;
 }
+
+.settings .settings-divider {
+    color: #FFF !important;
+    padding-left: 35px;
+}
+
