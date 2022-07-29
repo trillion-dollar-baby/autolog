@@ -5,8 +5,10 @@ import _ from 'lodash';
 import apiClient from '../../services/apiClient';
 import Form from '../Form/Form';
 import Modal from '../Modal/Modal';
+import { ToastContext } from '../../contexts/toast';
 
 function ModalCreateCategory({closeModal, setCategory}) {
+    const {notifySuccess, notifyError} = useContext(ToastContext);
     // contexts
     const { selectedInventoryContext } = useContext(InventoryContext);
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
@@ -35,9 +37,11 @@ function ModalCreateCategory({closeModal, setCategory}) {
 
         if (error) {
             setModalError(error);
+            notifyError(error);
         }
         // if it was successful and we got data back, close modal
         if (data) {
+            notifySuccess(`Successfully created new category ${data?.category.categoryName}`)
             setCategory(_.upperFirst(data?.category.categoryName));
             closeModal();
         }
