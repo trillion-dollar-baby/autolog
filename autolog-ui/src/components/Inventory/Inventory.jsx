@@ -10,8 +10,11 @@ import FormInput from "../FormInput/FormInput";
 import ItemContext from "../../contexts/items";
 import InventoryContext from "../../contexts/inventory";
 import Loading from "../Loading/Loading";
+import { ToastContext } from "../../contexts/toast";
 
 export default function Inventory() {
+  const {notifyError, notifySuccess} = useContext(ToastContext);
+  
   // Inventory Context
   const { processingContext, initializedContext } = useContext(InventoryContext);
   const [isProcessing, setIsProcessing] = processingContext;
@@ -50,9 +53,9 @@ export default function Inventory() {
       setIsProcessing(false);
 
       setItems(result?.items);
-      if(result.items.length == 0){
-        setItems(items);
-        alert('No such items exists');
+
+      if(result.items.length === 0) {
+        notifyError("No items were found!");
       }
     }
   }

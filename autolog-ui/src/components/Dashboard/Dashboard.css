@@ -14,6 +14,7 @@
     max-width: calc(100vw - 280px);
     justify-content: center;
     align-items: center;
+    color:black;
 }
 
 .dashboard-header .greeting {

@@ -21,6 +21,7 @@
     width: 100%;
     height:fit-content;
     margin-top: 2rem;
+    color:var(--white);
 }
 
 /* BODY CONTAINER */
@@ -43,6 +44,11 @@
 .modal-body .form-gray .user-form-input {
     /* width: 60%; */
     height:5rem;
+}
+
+
+.modal-body>.form-gray>.user-form-input>.form-input-gray>label, .modal-body>.form-container>.form-gray>.user-form-input>.form-input-gray>label {
+    color: var(--white);
 }
 
 /* FOOTER CONTAINER */
