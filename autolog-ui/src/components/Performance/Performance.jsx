@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
+import { motion } from 'framer-motion';
 import './Performance.css'
 import Table from '../Table/Table'
 import BarChart from '../BarChart/BarChart'
@@ -27,8 +28,27 @@ export default function Performance() {
     const sortItems = ["Quantity ↑", "Quantity ↓"]
     const filterItems = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "December"]
 
+    const containerVariants = {
+      hidden: {
+          opacity: 0,
+      },
+      visible: {
+          opacity: 1,
+          transition: { delay: 0.3, duration: 0.3 }
+      },
+      exit: {
+          opacity: 0,
+          transition: { ease: 'easeInOut' }
+      }
+  	}
+
     return (
-        <div className="performance-content">
+        <motion.div
+			      variants={containerVariants}
+            initial={"hidden"}
+            animate={"visible"}
+            exit={"exit"}
+            className="performance-content">
             <div className='visual-data-container'>
                 <div className='bar-chart-container'>
                     <BarChart data={data} options={{responsive:true}}/>
@@ -50,6 +70,6 @@ export default function Performance() {
             <div className='table-container'>
                 <Table tableLabel={"Results"} tableElementArray={(performance.length) ? performance : []} tableColumnLabelArray={(performance.length) ? Object.keys(performance[0]) : []}/>
             </div>
-        </div>
+        </motion.div>
     )
 }

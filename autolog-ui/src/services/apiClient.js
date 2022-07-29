@@ -43,7 +43,7 @@ class ApiClient {
         catch (err) {
             console.error({ errorResponse: err.response });
             const message = err?.response?.data?.error?.message;
-            return {data: null, error: message || String(error)}
+            return {data: null, error: message || String(err)}
         }
     }
 
@@ -113,6 +113,14 @@ class ApiClient {
     
     async getItemList(inventoryId, pageNumber, search) {
         return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}`, method: 'GET'});
+    }
+
+    async updateItem(itemId, data) {
+        return await this.request({endpoint: `item/id/${itemId}`, method: 'PATCH', data: data});
+    }
+
+    async deleteItem(itemId) {
+        return await this.request({endpoint: `item/id/${itemId}`, method: 'DELETE', data: data})
     }
 
     /**

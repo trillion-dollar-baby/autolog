@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { useContext } from "react";
+import { motion } from "framer-motion";
 import "./Inventory.css";
 import Table from "../Table/Table";
 import Topbar from "../Topbar/Topbar";
@@ -48,11 +49,29 @@ export default function Inventory() {
 
       setItems(result.items);
     }
-    console.error("no search currently");
   }
 
+  const containerVariants = {
+	hidden: {
+		opacity: 0,
+	},
+	visible: {
+		opacity: 1,
+		transition: { delay: 0.3, duration: 0.3 }
+	},
+	exit: {
+		opacity: 0,
+		transition: { ease: 'easeInOut' }
+	}
+	}
+
   return (
-    <div className="inventory-content">
+    <motion.div
+            variants={containerVariants}
+            initial={"hidden"}
+            animate={"visible"}
+            exit={"exit"}
+			className="inventory-content">
       <div className="topbar-container">
         <Topbar
           routes={settingsRoutes}
@@ -91,6 +110,6 @@ export default function Inventory() {
           />
         )}
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -29,8 +29,8 @@ router.post("/register", async (req, res, next) => {
 // endpoint to get data of user based on email which was contained in token payload
 router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
   try {
-    const { email } = res.locals.user;
-    const user = await User.fetchUserByEmail(email);
+    const { id } = res.locals.user;
+    const user = await User.fetchUserById(id);
     const publicUser = User.makePublicUser(user)
     return res.status(200).json({ user: publicUser })
   } catch (err) {
@@ -46,10 +46,10 @@ router.patch("/", security.requireAuthenticatedUser, async(req,res,next) => {
     const newCredentials = req.body
 
     // get user id and email to fetch
-    const { email } = res.locals.user;
+    const { id } = res.locals.user
 
     // get user's existing credentials and get object with non-sensitive data
-    const oldUser = await User.fetchUserByEmail(email);
+    const oldUser = await User.fetchUserById(id);
     const oldCredentials = User.makePublicUser(oldUser);
 
     // update

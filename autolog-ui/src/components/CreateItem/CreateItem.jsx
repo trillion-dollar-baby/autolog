@@ -148,7 +148,7 @@ export default function CreateItem() {
                         <DropdownCategory categoryValue={categoryValue} setCategoryValue={setCategoryValue} />
                     </div>
                     <div className="form-container text-area">
-                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Hello World" }} onChange={setItemForm} inputValue={itemForm['description']} />
+                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Hello World" }} onChange={handleChange} inputValue={itemForm['description']} />
                     </div>
                     <div className="content">
                         <ButtonAction onClick={handleItemCreate} color={'#3F5BE8'} label={"Create"} />

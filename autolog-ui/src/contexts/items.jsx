@@ -22,41 +22,40 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
 
 
  useEffect(()=>{
-
-    if (user) {
-      async function fetchItemList(){
-        setIsLoading(true)
-        
-        const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
-        
-        if(data){
-            setItems(data?.items) 
-    
-        }else if(err){
-    
+    async function fetchItemList(){
+      setIsLoading(true)
+  
+      const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
+      
+      if(data){
+        setItems(data?.items) 
+      } else if(err) {
         setError(err)
-       
-        }
-        setIsLoading(false)
-        }
+      }
+
+      setIsLoading(false)
+    }
+
+    if (user && selectedInventory?.inventoryId) {
+      
         fetchItemList()
     }
 
    }, [user, selectedInventory])
 
-   // Get id of a given item
-   //for when we are accessing the item through item details
+  // Get id of a given item
+  // for when we are accessing the item through item details
   const getItem = async (itemId) => {
     const { data, error } = await apiClient.getItem(itemId);
     if (!error) {
-      return {data, error: null}
+      return {data, error: null};
+    } else {
+      console.error("Error getting items, message:", error);
+      return {data: null, error};
     }
-    else {
-      console.error("Error getting items, message:", error)
-    }
-  }
+  };
 
-  //create item
+  // Create item given data
   const createItem = async (values) => {
     const { data, error } = await apiClient.createItem(values);
     if (!error) {
@@ -67,8 +66,29 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
     }
   }
 
-  //search item
+  // delete item given the id
+  const deleteItem = async(id) => {
+    const {data, error} = await apiClient.deleteItem(id);
+    if (!error) {
+      return {data, error: null};
+    } else {
+      console.error("Error deleting item, message:", error);
+      return {data: null, error};
+    }
+  }
 
+  // Update item by given id
+  const updateItem = async (itemId, values) => {
+    const {data, error} = await apiClient.updateItem(itemId,values);
+    if (!error) {
+      return {data, error: null};
+    } else {
+      console.error("Error getting items, message:", error);
+      return {data: null, error};
+    }
+  }
+
+  //search item
   const searchItem = async(search, pageNumber)=>{
     const {data, error} = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, search);
     if(!error){
@@ -80,8 +100,17 @@ const [selectedInventory, setSelectedInventory] = selectedInventoryContext
     }
   }
 
-const values={errorContext: [error, setError], itemContext: [items, setItems], loadingContext: [isLoading, setIsLoading], itemCreateContext: [createItem], searchContext:[searchItem]}
-   
+  const values = {
+    errorContext: [error, setError],
+    itemContext: [items, setItems],
+    searchContext : [searchItem],
+    loadingContext: [isLoading, setIsLoading],
+    itemCreateContext: [createItem],
+    itemGetContext: [getItem],
+    itemUpdateContext: [updateItem],
+    itemDeleteContext: [deleteItem],
+  };
+
 return(
         <ItemContext.Provider value={values}>
             {children}

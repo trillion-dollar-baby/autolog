@@ -27,7 +27,7 @@ export default function InventoryDropdown() {
 
     // modal hook
     const [modalOpen, setModalOpen] = useState(false);
-    
+
     // manage modal states
     const toggle = () => setOpen(!open);
     const closeModal = () => setModalOpen(false);
@@ -45,66 +45,60 @@ export default function InventoryDropdown() {
     }
 
     // if there are accessible inventories, render dropdown, otherwise render nothing(empty fragment)
-    if (accessibleInventories.length > 0) {
-        return (
-            <div className={`dropdown-inventory-wrapper ${open ? 'active' : ''}`}>
-                {/* 
+    return (
+        <div className={`dropdown-inventory-wrapper ${open ? 'active' : ''}`}>
+            {/* 
                     Header 
                 */}
-                <div
-                    tabIndex={0}
-                    onClick={() => toggle()}
-                    role="button"
-                    className="dropdown-inventory-header">
+            <div
+                tabIndex={0}
+                onClick={() => toggle()}
+                role="button"
+                className="dropdown-inventory-header">
 
-                    <div className="dropdown-inventory-header-title">
-                        <span>{_.capitalize(selectedInventory?.inventoryName)}</span>
-                    </div>
-
-                    <div className="dropdown-inventory-header-action">
-                        <img src={open ? arrowCollapse : arrowExpand} />
-                    </div>
+                <div className="dropdown-inventory-header-title">
+                    <span>{_.capitalize(selectedInventory?.inventoryName)}</span>
                 </div>
-                {/* 
+
+                <div className="dropdown-inventory-header-action">
+                    <img src={open ? arrowCollapse : arrowExpand} />
+                </div>
+            </div>
+            {/* 
                     Inventory List 
                 */}
-                {open && (
-                    <>
-                        <DropdownOverlay onClick={toggle} />
-                        <ul className="dropdown-inventory-list">
-                            {/* items */}
-                            {accessibleInventories?.map((item, idx) => {
-                                return (<div key={idx} className={`dropdown-inventory-item`} onClick={() => handleOnClick(item)}>
-                                    <span>{_.capitalize(item?.inventoryName)}</span>
-                                </div>)
-                            })}
+            {open && (
+                <>
+                    <DropdownOverlay onClick={toggle} />
+                    <ul className="dropdown-inventory-list">
+                        {/* items */}
+                        {accessibleInventories?.map((item, idx) => {
+                            return (<div key={idx} className={`dropdown-inventory-item`} onClick={() => handleOnClick(item)}>
+                                <span>{_.capitalize(item?.inventoryName)}</span>
+                            </div>)
+                        })}
 
-                            {/* button that leads to create inventory */}
-                            <div className={`dropdown-inventory-item button-create-inventory last`} onClick={toggleModalOnDropdown}>
-                                <span>Create New Inventory</span>
-                            </div>
-                        </ul>
-                    </>
-                )}
+                        {/* button that leads to create inventory */}
+                        <div className={`dropdown-inventory-item button-create-inventory last`} onClick={toggleModalOnDropdown}>
+                            <span>Create New Inventory</span>
+                        </div>
+                    </ul>
+                </>
+            )}
 
-                {/* 
+            {/* 
                     Modal for new inventory
                 */}
 
-                <AnimatePresence
-                    initial={false}
-                    exitBeforeEnter={true}
-                    onExitComplete={() => null}>
-                    {
-                        modalOpen &&
-                        <ModalCreateInventory closeModal={closeModal}/>
-                    }
-                </AnimatePresence>
-            </div>
-        )
-    }
-    else {
-        // if no accessible inventories, show nothing
-        <></>
-    }
+            <AnimatePresence
+                initial={false}
+                exitBeforeEnter={true}
+                onExitComplete={() => null}>
+                {
+                    modalOpen &&
+                    <ModalCreateInventory closeModal={closeModal} />
+                }
+            </AnimatePresence>
+        </div>
+    )
 }
