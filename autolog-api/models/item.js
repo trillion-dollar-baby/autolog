@@ -106,12 +106,13 @@ class Item {
 				items.category AS "category",
 				to_char(items.created_at, 'MM-DD-YYYY') AS "createdAt",
 				to_char(items.updated_at, 'MM-DD-YYYY') AS "updatedAt",
+                items.created_at,
 				items.inventory_id AS "inventoryId",
 				items.quantity
 			FROM items
 				JOIN inventory ON inventory.id = items.inventory_id
 			WHERE items.inventory_id = $1 AND items.name ~ $4
-			ORDER BY "createdAt" DESC
+			ORDER BY items.created_at DESC
 			LIMIT $2 OFFSET $3`;
 
         const results = await db.query(query, [
