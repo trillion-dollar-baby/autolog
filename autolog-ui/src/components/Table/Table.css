@@ -3,8 +3,8 @@
     flex-direction: column;
     max-width: calc(100vw - var(--sidebarWidth));
     flex-grow: 1;
-    overflow-y: scroll;
     overflow-x: hidden;
+    color:black;
 }
 
 .table-header {
@@ -12,6 +12,10 @@
     height: 45px;
     align-items: center;
     background-color: var(--tableElementBgColor);
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
 }
 
 .table-header-label {
@@ -30,9 +34,11 @@
 
 .row-item {
     text-decoration: none;
-    border-bottom: 1px #B7B7B7 solid;
+    border-bottom: 1px #b7b7b7 solid;
     height: 45px;
     padding: 8px 8px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .table-column {

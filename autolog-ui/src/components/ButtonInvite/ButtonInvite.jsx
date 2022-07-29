@@ -56,7 +56,7 @@ function ButtonInvite() {
 
 	return (
 		<>
-			<motion.button whileTap={{scale:0.98}} onClick={openModal} className="btn-invite">Invite</motion.button>
+			<motion.button whileHover={{scale:1.03}} whileTap={{scale:0.98}} onClick={openModal} className="btn-invite">Invite</motion.button>
 
 			<AnimatePresence
 				initial={false}

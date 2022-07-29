@@ -3,6 +3,7 @@ import { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import InventoryContext from '../../contexts/inventory';
+import { ToastContext } from '../../contexts/toast';
 import Dropdown from '../Dropdown/Dropdown';
 import Form from '../Form/Form';
 import Modal from '../Modal/Modal';
@@ -11,6 +12,7 @@ import Modal from '../Modal/Modal';
  * Modal body content that will be displayed after clicking ButtonInvite
  */
 export function ModalInvite({ closeModal }) {
+    const {notifySuccess, notifyError} = useContext(ToastContext);
     // contexts
     const { addMemberContext, selectedInventoryContext } = useContext(InventoryContext);
     const [addInventoryMembers] = addMemberContext;
@@ -46,7 +48,7 @@ export function ModalInvite({ closeModal }) {
     const onSubmitMember = async () => {
         // check only form value in this modal
         if (!formState.hasOwnProperty("email") || !formState.email.includes("@") || formState.email.length === 0) {
-            setModalError("Invalid email");
+            setModalError("Invalid email!");
         } else {
             setModalProcessing(true);
 
@@ -55,10 +57,12 @@ export function ModalInvite({ closeModal }) {
             // if an error was returned, let user know
             if (error) {
                 setModalError(error);
+                notifyError(error);
             }
 
             // close modal and reset form if successful
             if (data) {
+                notifySuccess("User successfully added into the inventory!")
                 setFormState({});
                 closeModal();
             }
@@ -78,7 +82,6 @@ export function ModalInvite({ closeModal }) {
     useEffect(() => {
         setFormState({});
         setModalError();
-
     }, [])
 
     return (
