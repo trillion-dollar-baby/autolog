@@ -7,8 +7,11 @@ import Form from '../Form/Form';
 import './SettingsUser.css';
 import _ from 'lodash';
 import Loading from '../Loading/Loading';
+import { ToastContext } from '../../contexts/toast';
 
 export default function SettingsUser() {
+    const {notifySuccess, notifyError} = useContext(ToastContext);
+
     const { userContext, settingsContext } = useContext(AuthContext);
     const [user, setUser] = userContext;
     const [updateUserData, updateUserPassword] = settingsContext;
@@ -25,7 +28,6 @@ export default function SettingsUser() {
     // record changes for password and track if passwords match
     const [passwordChange, setPasswordChange] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
-
 
     // what values we want in the form
     const formArray = [
@@ -81,9 +83,10 @@ export default function SettingsUser() {
         const result = await updateUserData(form);
         if (result) {
             setUser(result);
-            setSuccess("Credentials have been successfully changed!");
+            notifySuccess("Credentials have been successfully changed!");
         } else {
             console.error("error, " + result);
+            notifyError("An error has occurred while updating credentials!");
         }
 
         setIsProcessing(false);
@@ -95,9 +98,9 @@ export default function SettingsUser() {
         const result = await updateUserPassword(passwordForm);
 
         if(result) {
-            setSuccess("Password has been successfully changed!");
+            notifySuccess("Password has been successfully changed!");
         } else {
-            setPasswordError("An error has occurred while changing password!");
+            notifyError("An error has occurred while changing password!");
         }
 
         setIsProcessing(false);
@@ -194,7 +197,6 @@ export default function SettingsUser() {
                 {passwordError && <label className='error-message'>{passwordError}</label>}
                 {success && <label style={{'color':'green'}}>{success}</label>}
             </div>
-
         </motion.div>
     )
 }

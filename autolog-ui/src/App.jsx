@@ -20,7 +20,6 @@ import RequireAuth from './components/RequireAuth/RequireAuth';
 import ItemDetail from './components/ItemDetail/ItemDetail';
 
 function App() {
-
   return (
     <div className="app">
       <BrowserRouter>
