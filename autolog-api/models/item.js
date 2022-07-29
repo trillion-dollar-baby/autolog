@@ -51,7 +51,7 @@ class Item {
                           user_to_inventory AS uti ON uti.inventory_id = inventory.id
                       WHERE 
                           uti.user_id = $8 AND uti.inventory_id = $9))
-            RETURNING id, name, category, quantity, to_char(created_at,'DD-MM-YYYY') AS "createdAt"
+            RETURNING id, name, category, quantity, to_char(created_at,'MM-DD-YYYY') AS "createdAt"
             , inventory_id
      `,
             [
@@ -76,7 +76,7 @@ class Item {
                    items.name,
                    items.category,
                    items.quantity,
-                   to_char(items.created_at, 'DD-MM-YYYY') AS "createdAt",
+                   to_char(items.created_at, 'MM-DD-YYYY') AS "createdAt",
                    i.id as "adminId"
             FROM items
                 RIGHT JOIN inventory AS i ON i.id = items.inventory_id
@@ -104,8 +104,8 @@ class Item {
 			SELECT items.id AS "id",
 				items.name,
 				items.category AS "category",
-				to_char(items.created_at, 'DD-MM-YYYY') AS "createdAt",
-				to_char(items.updated_at, 'DD-MM-YYYY') AS "updatedAt",
+				to_char(items.created_at, 'MM-DD-YYYY') AS "createdAt",
+				to_char(items.updated_at, 'MM-DD-YYYY') AS "updatedAt",
 				items.inventory_id AS "inventoryId",
 				items.quantity
 			FROM items
