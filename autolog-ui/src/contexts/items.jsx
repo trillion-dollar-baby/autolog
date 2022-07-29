@@ -45,16 +45,17 @@ export const ItemContextProvider = ({ children }) => {
 
   // Get id of a given item
   // for when we are accessing the item through item details
-  // const getItem = async (itemId) => {
-  //   const { data, error } = await apiClient.getItem(itemId);
-  //   if (!error) {
-  //     console.log("Items are:", data);
-  //   } else {
-  //     console.error("Error getting items, message:", error);
-  //   }
-  // };
+  const getItem = async (itemId) => {
+    const { data, error } = await apiClient.getItem(itemId);
+    if (!error) {
+      return {data, error: null};
+    } else {
+      console.error("Error getting items, message:", error);
+      return {data: null, error};
+    }
+  };
 
-  // Create item
+  // Create item given data
   const createItem = async (values) => {
     const { data, error } = await apiClient.createItem(values);
     if (!error) {
@@ -65,11 +66,36 @@ export const ItemContextProvider = ({ children }) => {
     }
   };
 
+  // delete item given the id
+  const deleteItem = async(id) => {
+    const {data, error} = await apiClient.deleteItem(id);
+    if (!error) {
+      return {data, error: null};
+    } else {
+      console.error("Error deleting item, message:", error);
+      return {data: null, error};
+    }
+  }
+
+  // Update item by given id
+  const updateItem = async (itemId, values) => {
+    const {data, error} = await apiClient.updateItem(itemId,values);
+    if (!error) {
+      return {data, error: null};
+    } else {
+      console.error("Error getting items, message:", error);
+      return {data: null, error};
+    }
+  }
+
   const values = {
     errorContext: [error, setError],
     itemContext: [items, setItems],
     loadingContext: [isLoading, setIsLoading],
     itemCreateContext: [createItem],
+    itemGetContext: [getItem],
+    itemUpdateContext: [updateItem],
+    itemDeleteContext: [deleteItem],
   };
 
   return <ItemContext.Provider value={values}>{children}</ItemContext.Provider>;

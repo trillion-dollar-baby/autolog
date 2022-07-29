@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useContext } from 'react';
+import {motion} from 'framer-motion';
 import './Inventory.css'
 import Table from '../Table/Table'
 import Topbar from '../Topbar/Topbar'
@@ -33,8 +34,27 @@ export default function Inventory() {
     const nameFilters = ["A", "B", "C"]
     const categoryFilter = ["Tools", "Parts", "Cars"]
 
+    const containerVariants = {
+      hidden: {
+          opacity: 0,
+      },
+      visible: {
+          opacity: 1,
+          transition: { delay: 0.3, duration: 0.3 }
+      },
+      exit: {
+          opacity: 0,
+          transition: { ease: 'easeInOut' }
+      }
+  	}
+
     return (
-        <div className='inventory-content'>
+        <motion.div
+			variants={containerVariants}
+            initial={"hidden"}
+            animate={"visible"}
+            exit={"exit"}
+			className='inventory-content'>
             <div className='topbar-container'>
                 <Topbar routes={settingsRoutes} buttonName={"Create"} buttonPath={"/item/create"} />
             </div>
@@ -53,6 +73,6 @@ export default function Inventory() {
                 {(isProcessing || !initialized) ? <Loading /> :
                 <Table tableLabel={"Results"} tableElementArray={(items.length) ? items : []} tableColumnLabelArray={(items.length) ? Object.keys(items[0]) : []}/>}
             </div>
-        </div>
+        </motion.div>
     )
 }

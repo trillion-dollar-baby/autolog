@@ -20,13 +20,12 @@ export const AuthContextProvider = ({ children }) => {
       // it to be used throughout the application
       if (data) {
         setUser(data.user);
-        console.log("got data from token");
       }
 
       if (error) {
         // if token is invalid, delete from localStorage 
         // and let the rest of the application know user is invalid
-        console.log('JWT EXPIRED OR INVALID');
+        console.error('JWT EXPIRED OR INVALID');
         
         apiClient.setToken(null);
         localStorage.removeItem(apiClient.tokenName);

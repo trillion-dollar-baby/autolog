@@ -6,13 +6,14 @@ import ButtonAction from '../Button/ButtonAction';
 import Form from '../Form/Form';
 import './SettingsUser.css';
 import _ from 'lodash';
+import Loading from '../Loading/Loading';
 
 export default function SettingsUser() {
     const { userContext, settingsContext } = useContext(AuthContext);
     const [user, setUser] = userContext;
     const [updateUserData, updateUserPassword] = settingsContext;
 
-
+    const [isProcessing, setIsProcessing] = useState(false);
 
     // populate forms with information from API client
     const [form, setForm] = useState({ ...user });
@@ -24,7 +25,6 @@ export default function SettingsUser() {
     // record changes for password and track if passwords match
     const [passwordChange, setPasswordChange] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
-
 
 
     // what values we want in the form
@@ -77,20 +77,30 @@ export default function SettingsUser() {
     ]
 
     const onSubmitCredentials = async () => {
+        setIsProcessing(true);
         const result = await updateUserData(form);
-
         if (result) {
-            setUser(result?.user);
+            setUser(result);
+            setSuccess("Credentials have been successfully changed!");
         } else {
             console.log("error, " + result);
         }
 
-        // reload page
-        window.location.reload(false);
+        setIsProcessing(false);
     }
 
     const onSubmitPassword = async () => {
+        setIsProcessing(true);
 
+        const result = await updateUserPassword(passwordForm);
+
+        if(result) {
+            setSuccess("Password has been successfully changed!");
+        } else {
+            setPasswordError("An error has occurred while changing password!");
+        }
+
+        setIsProcessing(false);
     }
 
     // on mount, capitalize form string fields
@@ -112,13 +122,16 @@ export default function SettingsUser() {
 
     useEffect(() => {
         // TODO: create form array by appending in each forEach iteration
-        Object.keys(user).forEach((val, idx) => {
-            const normalizedFormField = (isNaN(form[val]) ? form[val].toLowerCase() : form[val])
-            const normalizedUserField = (isNaN(user[val]) ? user[val].toLowerCase() : user[val])
-            if (normalizedUserField !== normalizedFormField) {
-                setChange(true);
-            }
-        })
+        if (user) {
+            Object.keys(user).forEach((val, idx) => {
+                const normalizedFormField = (isNaN(form[val]) ? form[val].toLowerCase() : form[val])
+                const normalizedUserField = (isNaN(user[val]) ? user[val].toLowerCase() : user[val])
+
+                if (normalizedUserField !== normalizedFormField) {
+                    setChange(true);
+                }
+            })
+        }
     }, [form])
 
     // if there is a password change, check if they both match, if they don't, let user know
@@ -153,10 +166,10 @@ export default function SettingsUser() {
             animate={"visible"}
             exit={"exit"}
         >
-            <div className="settings-user">
-                <Form formState={form} setFormState={setForm} formArray={formArray} />
-            </div>
-
+            {isProcessing ? <Loading /> :
+                <div className="settings-user">
+                    <Form formState={form} setFormState={setForm} formArray={formArray} />
+                </div>}
             {/* if change, render button */}
             {change &&
                 <div className="submit-button">
@@ -178,6 +191,8 @@ export default function SettingsUser() {
                     <div className="submit-button">
                         <ButtonAction label={'Update'} color='#3F5BE8' onClick={() => onSubmitPassword()} />
                     </div>}
+                {passwordError && <label className='error-message'>{passwordError}</label>}
+                {success && <label style={{'color':'green'}}>{success}</label>}
             </div>
 
         </motion.div>
