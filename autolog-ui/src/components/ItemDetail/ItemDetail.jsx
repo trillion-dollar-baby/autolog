@@ -12,6 +12,7 @@ import DropdownCategory from '../DropdownCategory/DropdownCategory';
 import TextArea from '../TextArea/TextArea';
 import ButtonAction from '../Button/ButtonAction';
 import { ToastContext } from '../../contexts/toast';
+import _ from 'lodash';
 
 function ItemDetail() {
 
