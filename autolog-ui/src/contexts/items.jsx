@@ -104,6 +104,7 @@ export const ItemContextProvider = ({children})=>{
     errorContext: [error, setError],
     itemContext: [items, setItems],
     searchContext : [searchItem],
+    searchTermContext: [searchTerm, setSearchTerm],
     loadingContext: [isLoading, setIsLoading],
     itemCreateContext: [createItem],
     itemGetContext: [getItem],
