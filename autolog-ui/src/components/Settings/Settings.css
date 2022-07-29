@@ -5,6 +5,7 @@
     max-height: calc(100vh - var(--navbarHeight));
     margin: 0 auto;
     flex-grow:1;
+    overflow-x: hidden;
 }
 
 .settings .content {

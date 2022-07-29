@@ -59,7 +59,7 @@ export default function Landing() {
                         <img className="photo" src={Wynee}></img>
                     </div>
                     <div className="about-description">
-                    <p> We are a group of developers interested in helping out small businesses find solutions to their biggest problems. AutoLog was born out of the need for   </p>
+                    <p> We are a group of developers interested in helping out small businesses find solutions to their biggest problems. AutoLog was born out of the need for a inventory management system that thrived in the auto industry's fast paced environment. Taking insight from 7 Stars, a local auto body shop in Brooklyn, NY, we customized AutoLog with features that serve their greatest needs.</p>
                     </div>
 
                 </div>
