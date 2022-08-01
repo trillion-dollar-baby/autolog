@@ -18,6 +18,7 @@ const itemRoutes = require("./routes/item");
 const categoryRoutes = require("./routes/category");
 const inventoryRoutes = require("./routes/inventory");
 const performanceRoutes = require("./routes/performance");
+const dashboardRoutes = require("./routes/dashboard");
 const logRoutes = require("./routes/log");
 
 /**
@@ -49,6 +50,7 @@ app.use("/item", itemRoutes)
 app.use("/category", categoryRoutes)
 app.use("/inventory", inventoryRoutes)
 app.use("/performance", performanceRoutes)
+app.use("/dashboard", dashboardRoutes)
 app.use("/logs", logRoutes)
 
 // health check
