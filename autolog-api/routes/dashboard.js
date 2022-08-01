@@ -1,6 +1,7 @@
 const express = require("express");
 const Dashboard = require("../models/dashboard");
 const security = require("../middleware/security");
+const Log = require("../models/log");
 const router = express.Router();
 
 // endpoint to create an checklist item
@@ -64,8 +65,12 @@ router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         //send json response with all of the user-owned checklist item instances in an array
         const { user } = res.locals;
+        const inventoryId = req.query.inventoryId;
         const items = await Dashboard.listItemForUser(user);
-        return res.status(200).json({ items });
+        const logs = await Log.fetchLogs(inventoryId);
+        
+        //make /me for announcements
+        return res.status(200).json({ items, logs });
     } catch (err) {
         next(err);
     }
