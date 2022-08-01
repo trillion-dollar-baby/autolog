@@ -153,6 +153,14 @@ class ApiClient {
     async createCategory(inventoryId, categoryName) {
         return await this.request({endpoint: `category/`, method: `POST`, data: {inventoryId, categoryName}})
     }
+
+    /**
+     * Log endpoints
+     */
+
+    async getLogs(inventoryId) {
+        return await this.request({endpoint: `logs/?inventoryId=${inventoryId}`, method: 'GET'})
+    }
     
 }
 

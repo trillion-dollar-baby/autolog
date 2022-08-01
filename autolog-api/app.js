@@ -19,6 +19,7 @@ const categoryRoutes = require("./routes/category");
 const inventoryRoutes = require("./routes/inventory");
 const performanceRoutes = require("./routes/performance");
 const dashboardRoutes = require("./routes/dashboard");
+const logRoutes = require("./routes/log");
 
 /**
  * End of imports
@@ -50,6 +51,7 @@ app.use("/category", categoryRoutes)
 app.use("/inventory", inventoryRoutes)
 app.use("/performance", performanceRoutes)
 app.use("/dashboard", dashboardRoutes)
+app.use("/logs", logRoutes)
 
 // health check
 app.get("/", (req, res, next) => {
