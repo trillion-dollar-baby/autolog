@@ -28,7 +28,6 @@ export default function Table({
                         {tableElementArray?.map((rowItems, index) => (
                             <li className="row-item" key={`row-item-${index}`}>
                                 {" "}
-                                {console.log(rowItems[columnName])}
                                 {rowItems[columnName]}{" "}
                             </li>
                         ))}{" "}
