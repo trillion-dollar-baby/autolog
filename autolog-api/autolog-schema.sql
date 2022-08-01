@@ -12,22 +12,6 @@ CREATE TABLE users (
     updated_at timestamp NOT NULL DEFAULT NOW()
 );
 
-CREATE TABLE user_roles (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    role_name TEXT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-CREATE TABLE permissions (
-    id SERIAL PRIMARY KEY,
-    role_name TEXT NOT NULL,
-    c BOOLEAN NOT NULL,
-    r BOOLEAN NOT NULL,
-    u BOOLEAN NOT NULL,
-    d BOOLEAN NOT NULL
-);
-
 CREATE TABLE inventory (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
@@ -36,8 +20,20 @@ CREATE TABLE inventory (
     updated_at timestamp NOT NULL DEFAULT NOW(),
     FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE
 );
-/* Got rid of NOT NULL at the end of admin_id 
-FOREIGN KEY (admin_id) REFERENCES users(id)*/
+
+CREATE TABLE user_roles (
+    id SERIAL PRIMARY KEY,
+    role_name TEXT NOT NULL,
+    inventory_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    c BOOLEAN NOT NULL,
+    r BOOLEAN NOT NULL,
+    u BOOLEAN NOT NULL,
+    d BOOLEAN NOT NULL,
+    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY(inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
+);
+
 
 CREATE TABLE user_to_inventory (
     id SERIAL PRIMARY KEY,
@@ -67,9 +63,11 @@ CREATE TABLE logs (
     user_id INTEGER NOT NULL,
     item_id INTEGER NOT NULL,
     message TEXT NOT NULL,
+    inventory_id INTEGER NOT NULL,
     created_at timestamp NOT NULL default CURRENT_DATE,
     FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (item_id) REFERENCES items(id)
+    FOREIGN KEY (item_id) REFERENCES items(id),
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id)
 );
 
 CREATE TABLE categories (
@@ -78,3 +76,23 @@ CREATE TABLE categories (
     category_name TEXT NOT NULL,
     FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
 );
+
+CREATE TABLE checklist(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    inventory_id INTEGER NOT NULL,
+    item TEXT NOT NULL,
+    is_checked BOOLEAN NOT NULL DEFAULT false,
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE announcements(
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    announcement TEXT NOT NULL,
+    inventory_id INTEGER NOT NULL,
+    created_at timestamp NOT NULL default CURRENT_DATE,
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+)
