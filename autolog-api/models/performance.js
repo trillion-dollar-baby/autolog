@@ -17,7 +17,7 @@ class Performance {
       FROM items
       WHERE items.inventory_id = $1
       GROUP BY category, month
-      ORDER BY category DESC`;
+      ORDER BY month ASC`;
 
       const results = await db.query(query, [
         inventoryId,
@@ -45,7 +45,7 @@ class Performance {
         FROM items
         WHERE items.inventory_id = $1
         GROUP BY category, month
-        ORDER BY category DESC`;
+        ORDER BY month ASC`;
 
       const results = await db.query(query, [
         inventoryId,
@@ -74,7 +74,7 @@ class Performance {
         FROM items
         WHERE items.inventory_id = $1
         GROUP BY category, month
-        ORDER BY category DESC
+        ORDER BY month ASC
       ) AS sorted
       ORDER BY "total quantity" DESC`;
 
@@ -111,7 +111,7 @@ class Performance {
         FROM items
         WHERE items.inventory_id = $1
         GROUP BY category, month
-        ORDER BY category DESC
+        ORDER BY month ASC
       ) AS sorted
       ORDER BY "total quantity" ASC`;
 
