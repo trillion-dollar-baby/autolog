@@ -2,35 +2,56 @@ const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 
 class Log {
-  static async createRecord(inventoryId, itemId, userId) {
-    if (!isNumeric(inventoryId) || !isNumeric(itemId) || !isNumeric(userId)) {
-      throw new BadRequestError(
-        "Logging failed. ID is the wrong data type for log creation"
-      );
-    }
-
-    const query = `
+    static async createLog(inventoryId, itemId, userId, action) {
+        const query = `
             INSERT INTO logs (
-                user_id,
+                inventory_id,
                 item_id,
-                message
+                user_id,
+                action
             )
             VALUES (
                 $1,
                 $2,
-                $3
+                $3,
+                $4
             )
-            RETURNING id, message, to_char(created_at,'MM-DD-YYYY') AS "createdAt"
+            RETURNING id, user_id, inventory_id, action, to_char(created_at,'MM-DD-YYYY') AS "createdAt"
         `;
 
-    try {
-      const results = db.query(query, [inventoryId, itemId, userId]);
+        try {
+            const results = await db.query(query, [
+                inventoryId,
+                itemId,
+                userId,
+                action,
+            ]);
 
-      return results.rows;
-    } catch (error) {
-      throw new BadRequestError("Logging query failed. Error is:", error);
+            return results.rows;
+        } catch (error) {
+            throw new BadRequestError("Logging query failed. Error is:", error);
+        }
     }
-  }
+
+    static async fetchLogs(inventoryId) {
+        const query = `
+        SELECT 
+            id AS "LOG ID",
+            user_id AS "USER",
+            item_id AS "ITEM ID",
+            inventory_id AS "INVENTORY ID",
+            created_at AS "CREATEDAT",
+            action
+        FROM
+            logs
+        WHERE
+            inventory_id = $1
+        `;
+
+        const results = await db.query(query, [inventoryId]);
+
+        return results.rows;
+    }
 }
 
 module.exports = Log;

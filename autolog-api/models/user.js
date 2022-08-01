@@ -128,21 +128,21 @@ class User {
         return false;
     }
 
-	static async fetchUserById(id) {
-		if(!id || isNaN(id)) {
-			throw new BadRequestError("invalid ID");
-		}
+    static async fetchUserById(id) {
+        if (!id || isNaN(id)) {
+            throw new BadRequestError("invalid ID");
+        }
 
-		const query = `SELECT * FROM users WHERE id = $1`
+        const query = `SELECT * FROM users WHERE id = $1`;
 
-		const result = await db.query(query, [id]);
+        const result = await db.query(query, [id]);
 
-		const user = result.rows[0]
+        const user = result.rows[0];
 
-		if(user) {
-			return user;
-		}
-	}
+        if (user) {
+            return user;
+        }
+    }
 
     static async fetchUserByUsername(username) {
         if (!username) {
@@ -167,8 +167,6 @@ class User {
      */
 
     static async updateCredentials(userId, newCredentials, credentials) {
-        
-
         if (_.toLower(newCredentials.email) !== _.toLower(credentials.email)) {
             const existingUser = await User.fetchUserByEmail(
                 newCredentials.email
@@ -180,7 +178,10 @@ class User {
             }
         }
 
-        if (_.toLower(newCredentials.username) !== _.toLower(credentials.username)) {
+        if (
+            _.toLower(newCredentials.username) !==
+            _.toLower(credentials.username)
+        ) {
             const existingUserWithUsername = await User.fetchUserByUsername(
                 newCredentials.username
             );
@@ -224,7 +225,7 @@ class User {
             _.toLower(credentials.username),
             _.toLower(credentials.phoneNumber),
         ]);
-		
+
         return result.rows[0];
     }
 
