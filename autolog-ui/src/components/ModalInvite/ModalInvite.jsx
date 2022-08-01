@@ -120,7 +120,7 @@ export function ModalBody({ modalError, modalProcessing, formState, setFormState
                 <Form formState={formState} setFormState={setFormState} formArray={formArray} />
             </div>
             <div className="dropdown-container">
-                <span style={{ fontSize: '18px' }}>Role</span>
+                <span style={{ fontSize: '18px', color: 'white' }}>Role</span>
                 <Dropdown value={selectedRole} items={roles} onSelect={setSelectedRole} />
             </div>
         </>

@@ -43,6 +43,7 @@
 .performance-content .table-container {
     display: flex;
     flex-grow: 2.5;
-    min-height: 400px;
+    min-height: 425px;
+    max-height: 425px;
 }
 

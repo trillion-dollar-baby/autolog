@@ -43,7 +43,8 @@ export default function CreateItem() {
         // TODO: APPEND TO INVENTORY LOOKUP ARRAY
         setIsProcessing(true);
         itemForm['category'] = categoryValue;
-        const {data, error} = await createItem(itemForm, itemForm.inventoryId = selectedInventory.inventoryId);
+        itemForm.inventoryId = selectedInventory.inventoryId
+        const {data, error} = await createItem(itemForm);
 
         setIsProcessing(false);
 

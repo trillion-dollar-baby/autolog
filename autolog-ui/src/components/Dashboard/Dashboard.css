@@ -166,8 +166,8 @@
 
 /****** TABLE CONTAINER *****/
 .dashboard .table-container {
-    height: 300px;
+    max-height: 375px;
+    min-height: 375px;
     display: flex;
     flex: 2;
-    top: 543px;
 }

@@ -18,6 +18,8 @@
 .inventory-content .table-container {
     display: flex;
     flex-grow: 8;
+    min-height: 600px;
+    max-height: 600px;
 }
 
 .inventory-content .filter-container {

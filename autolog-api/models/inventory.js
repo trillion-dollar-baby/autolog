@@ -80,34 +80,38 @@ class Inventory {
         return results.rows;
     }
 
-  // add user to inventory by using his email
-  static async addUserToInventory(owner, userEmail, inventoryId) {
-    // check if user was already added to inventory
-    const existingResult = await db.query(
-        `
+    // add user to inventory by using his email
+    static async addUserToInventory(owner, userEmail, inventoryId) {
+        // check if user was already added to inventory
+        const existingResult = await db.query(
+            `
         SELECT user_id
         FROM user_to_inventory
         WHERE user_id = (SELECT id FROM users WHERE email = $1) AND inventory_id = $2
-        `, [userEmail, inventoryId]);
-    
-    // if something was returned, throw error so users can't be added twice into the same inventory
-    if(existingResult.rows[0]) {
-        throw new BadRequestError(`${userEmail} is already in inventory id:${inventoryId}!`)
-    }
+        `,
+            [userEmail, inventoryId]
+        );
 
-    const results = await db.query(
-      `
+        // if something was returned, throw error so users can't be added twice into the same inventory
+        if (existingResult.rows[0]) {
+            throw new BadRequestError(
+                `${userEmail} is already in inventory id:${inventoryId}!`
+            );
+        }
+
+        const results = await db.query(
+            `
         INSERT INTO user_to_inventory(
             user_id,
             inventory_id,
 			user_role_id
         ) VALUES ((SELECT id FROM users WHERE email = $1), $2, (SELECT id FROM roles WHERE roles.inventory_id = $2 AND roles.role_name = 'admin'))
         RETURNING user_id, (inventory_id)`,
-      [userEmail, inventoryId]
-    );
+            [userEmail, inventoryId]
+        );
 
-    return results.rows[0];
-  }
+        return results.rows[0];
+    }
 
     // return inventory members based on inventory Id
     static async getInventoryMembers(inventoryId) {
@@ -131,7 +135,7 @@ class Inventory {
     `,
             [inventoryId]
         );
-		console.log(result.rows);
+
         return result.rows;
     }
 }
