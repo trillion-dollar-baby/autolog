@@ -1,5 +1,6 @@
 const express = require("express");
 const Item = require("../models/item");
+const Log = require("../models/log")
 const security = require("../middleware/security");
 const router = express.Router();
 
@@ -78,6 +79,14 @@ router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         const { user } = res.locals;
         const items = await Item.createItem({ item: req.body, user: user });
+
+        // If the item has successfully been created, then log it
+        if (items) {
+            // The createLog method requires an inventory ID, an item ID, a user ID, and action
+            const action = "Create"
+            const log = await Log.createLog(items.inventory_id, items.id, user.id, action)
+        }
+
         return res.status(201).json({ items });
     } catch (err) {
         next(err);

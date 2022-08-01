@@ -7,6 +7,7 @@ import { InventoryContextProvider } from './contexts/inventory';
 import { ItemContextProvider } from './contexts/items';
 import { PerformanceContextProvider } from './contexts/performance';
 import { ToastContextProvider } from './contexts/toast';
+import { DashboardContextProvider } from './contexts/dashboard';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -14,9 +15,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <InventoryContextProvider>
         <ItemContextProvider>
           <PerformanceContextProvider>
+            <DashboardContextProvider>
             <ToastContextProvider>
               <App />
             </ToastContextProvider>
+            </DashboardContextProvider>
           </PerformanceContextProvider>
         </ItemContextProvider>
       </InventoryContextProvider>

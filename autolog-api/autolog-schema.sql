@@ -21,19 +21,24 @@ CREATE TABLE inventory (
     FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE user_roles (
+CREATE TABLE roles (
     id SERIAL PRIMARY KEY,
-    role_name TEXT NOT NULL,
     inventory_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    c BOOLEAN NOT NULL,
-    r BOOLEAN NOT NULL,
-    u BOOLEAN NOT NULL,
-    d BOOLEAN NOT NULL,
-    FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY(inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
+    role_name TEXT NOT NULL,
+    item_create BOOLEAN NOT NULL,
+    item_read BOOLEAN NOT NULL DEFAULT TRUE,
+    item_update BOOLEAN NOT NULL DEFAULT TRUE,
+    item_delete BOOLEAN NOT NULL,
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
 );
 
+CREATE TABLE user_roles (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    role_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+);
 
 CREATE TABLE user_to_inventory (
     id SERIAL PRIMARY KEY,
@@ -62,8 +67,8 @@ CREATE TABLE logs (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
     item_id INTEGER NOT NULL,
-    message TEXT NOT NULL,
     inventory_id INTEGER NOT NULL,
+    action TEXT NOT NULL,
     created_at timestamp NOT NULL default CURRENT_DATE,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (item_id) REFERENCES items(id),

@@ -1,5 +1,5 @@
 const db = require("../db");
-const _ = require('lodash');
+const _ = require("lodash");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 
 class Item {
@@ -16,12 +16,12 @@ class Item {
                 throw new BadRequestError(`Missing ${field} in request body.`);
             }
         });
-		
-		Object.keys(item).forEach(field => {
-			if(isNaN(item[field])){
-				item[field] = _.toLower(item[field]);
-			}
-		})
+
+        Object.keys(item).forEach((field) => {
+            if (isNaN(item[field])) {
+                item[field] = _.toLower(item[field]);
+            }
+        });
 
         // Insert into items and perform subquery to make sure this inventory id matches with user
         const results = await db.query(
@@ -72,7 +72,7 @@ class Item {
     // listItemForUser
     static async listItemForUser(user) {
         const results = await db.query(
-          ` SELECT items.id,
+            ` SELECT items.id,
                    items.name,
                    items.category,
                    items.quantity,
@@ -202,20 +202,22 @@ class Item {
     /**
      * Delete item function based by itemId provided
      */
-	static async deleteItem(itemId) {
-		// TODO: check if user has access to inventory in order to perform this
-		if(isNaN(itemId)) {
-			throw new BadRequestError(`deleteItem, itemId: ${itemId} is not a number`);
-		}
+    static async deleteItem(itemId) {
+        // TODO: check if user has access to inventory in order to perform this
+        if (isNaN(itemId)) {
+            throw new BadRequestError(
+                `deleteItem, itemId: ${itemId} is not a number`
+            );
+        }
 
-		const query = `
+        const query = `
 			DELETE FROM items WHERE id = $1
-		`
+		`;
 
-		const result = await db.query(query,[itemId])
+        const result = await db.query(query, [itemId]);
 
-		return result.rows[0];
-	}
+        return result.rows[0];
+    }
 }
 
 module.exports = Item;
