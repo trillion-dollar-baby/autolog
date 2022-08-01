@@ -21,9 +21,9 @@ export default function RequireAuth({ children }) {
     }
 
     // check if user has an inventory
-    if(apiClient.getToken() && (accessibleInventories.length < 1) && (location.pathname !== '/inventory/create')) {
-        return <Navigate to='/inventory/create' replace state={{path:location.pathname}}/>
-    }
+    // if(apiClient.getToken() && (accessibleInventories.length < 1) && (location.pathname !== '/inventory/create')) {
+    //     return <Navigate to='/inventory/create'/>
+    // }
 
     // TODO: check if user is verificated when feature is fully working
 
