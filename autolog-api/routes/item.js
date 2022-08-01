@@ -43,7 +43,6 @@ router.get(
 router.patch(
     "/id/:itemId",
     security.requireAuthenticatedUser,
-    permissions.hasEntryToInventory,
     async (req, res, next) => {
         try {
             const { itemId } = req.params;
