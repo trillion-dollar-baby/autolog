@@ -12,7 +12,6 @@ class Dashboard {
     `,
       [item.item, user.id, item.inventoryId]
     );
-    console.log(item);
     return results.rows[0];
   }
 
@@ -60,12 +59,10 @@ class Dashboard {
 
   //update checklist item
   static async updateCheckItem (itemId, itemUpdate) {
-    console.log("itemId is", itemId)
     const results = await db.query(
       `SELECT item, is_checked FROM checklist WHERE id = $1 `,
       [itemId]
     );
-    console.log("results is", results)
     const item = results.rows[0].item
     
     const is_checked = results.rows[0].is_checked
@@ -76,9 +73,6 @@ class Dashboard {
     } else {
       isChecked = itemUpdate.is_checked;
     }
-
-    console.log(isChecked);
-    console.log("item is:", item)
 
     const result = await db.query(
       `
@@ -109,9 +103,26 @@ class Dashboard {
 			DELETE FROM checklist WHERE id = $1
 		`;
     const result = await db.query(query, [itemId]);
-    console.log(result.rows)
     return result.rows[0];
     
   }
+
+  //create announcements
+  static async createAnnouncements({ announcement, user }) {
+    const results = await db.query(
+      `
+        INSERT INTO annoucements (announcement, user_id, inventory_id)
+        VALUES ($1, $2, $3)
+        RETURNING id, item, user_id, inventory_id, created_at
+    `,
+      [announcement.announcement, user.id, announcement.inventoryId]
+    );
+    return results.rows[0];
+  }
+
+  //delete announcements
+
+
+  //edit announcments
 }
 module.exports = Dashboard;

@@ -9,7 +9,6 @@ router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         const { user } = res.locals;
         const items = await Dashboard.createChecklist({ item: req.body, user: user });
-        console.log(items)
         return res.status(201).json({ items });
     } catch (err) {
         next(err);
@@ -34,7 +33,6 @@ router.get("/id/:itemId", security.requireAuthenticatedUser, async (req, res, ne
 router.patch("/id/:itemId", security.requireAuthenticatedUser, async (req, res, next) => {
         try {
             const { itemId } = req.params;
-            console.log("itemId is", itemId)
             const itemUpdate = await Dashboard.fetchCheckItemById(itemId);
             const updatedItem = await Dashboard.updateCheckItem(itemId, itemUpdate);
 
