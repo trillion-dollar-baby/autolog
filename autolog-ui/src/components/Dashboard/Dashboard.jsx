@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useContext } from "react";
 import Table from "../Table/Table";
 import AuthContext from "../../contexts/auth";
+import DashboardContext from "../../contexts/dashboard";
 import ButtonInvite from "../ButtonInvite/ButtonInvite";
 
 export default function Dashboard() {
@@ -12,8 +13,13 @@ export default function Dashboard() {
   const [todoEditing, setTodoEditing] = useState(null);
   const [editingText, setEditingText] = useState("");
 
+  // Auth context
   const { userContext } = useContext(AuthContext)
   const [ user, setUser ] = userContext
+
+  // Dashboard context
+  const { logContext } = useContext(DashboardContext)
+  const [ logs, setLogs ] = logContext
 
   useEffect(() => {
     const json = localStorage.getItem("todos");
@@ -67,8 +73,7 @@ export default function Dashboard() {
   }
 
   // Table Elements
-  const columnLabelArr = ["ID", "DATE", "USER", "ITEM ID"];
-  const rowItemArr = [{ID: "123456789", DATE: "01-23-45", USER: "Moe Elias", "ITEM ID": 5}]
+  const columnLabelArr = ["LOG ID", "action", "USER", "ITEM ID", "INVENTORY ID", "CREATEDAT"];
   const tableLabel = "Latest Editions"
   
   const containerVariants = {
@@ -110,7 +115,7 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="table-container">
-        <Table tableElementArray={rowItemArr} tableColumnLabelArray={columnLabelArr} tableLabel={tableLabel}/>                    
+        <Table tableElementArray={logs.length ? logs : []} tableColumnLabelArray={columnLabelArr} tableLabel={tableLabel}/>                    
       </div>
     </motion.div>
   );

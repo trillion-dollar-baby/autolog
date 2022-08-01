@@ -40,12 +40,15 @@ class Log {
             user_id AS "USER",
             item_id AS "ITEM ID",
             inventory_id AS "INVENTORY ID",
-            created_at AS "CREATEDAT",
+            to_char(logs.created_at, 'MM-DD-YYYY HH:MI:SS') AS "CREATEDAT",
+            logs.created_at,
             action
         FROM
             logs
         WHERE
             inventory_id = $1
+        ORDER BY
+            "LOG ID" DESC
         `;
 
         const results = await db.query(query, [inventoryId]);
