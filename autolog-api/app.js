@@ -18,6 +18,7 @@ const itemRoutes = require("./routes/item");
 const categoryRoutes = require("./routes/category");
 const inventoryRoutes = require("./routes/inventory");
 const performanceRoutes = require("./routes/performance");
+const dashboardRoutes = require("./routes/dashboard");
 
 /**
  * End of imports
@@ -48,6 +49,7 @@ app.use("/item", itemRoutes)
 app.use("/category", categoryRoutes)
 app.use("/inventory", inventoryRoutes)
 app.use("/performance", performanceRoutes)
+app.use("/dashboard", dashboardRoutes)
 
 // health check
 app.get("/", (req, res, next) => {
