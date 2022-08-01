@@ -30,6 +30,7 @@
     flex-grow: 1;
     font-weight: 500;
     background-color: var(--tableElementBgColor);
+    overflow-y: auto;
 }
 
 .row-item {
