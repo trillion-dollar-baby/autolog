@@ -1,6 +1,7 @@
 const express = require("express");
 const Item = require("../models/item");
 const security = require("../middleware/security");
+const permissions = require("../middleware/permissions");
 const router = express.Router();
 
 // endpoint to get a generic list of items in inventory
@@ -41,6 +42,7 @@ router.get(
 router.patch(
     "/id/:itemId",
     security.requireAuthenticatedUser,
+    permissions.hasEntryToInventory,
     async (req, res, next) => {
         try {
             const { itemId } = req.params;
