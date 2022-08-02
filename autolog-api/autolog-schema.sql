@@ -98,6 +98,7 @@ CREATE TABLE announcements(
     announcement TEXT NOT NULL,
     inventory_id INTEGER NOT NULL,
     created_at timestamp NOT NULL default CURRENT_DATE,
+    updated_at timestamp WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id)
 )
