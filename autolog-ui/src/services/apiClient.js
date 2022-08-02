@@ -171,7 +171,6 @@ class ApiClient {
     }
 
     /**
-<<<<<<< HEAD
      * Dashboard endpoints
      */
 
@@ -207,10 +206,11 @@ class ApiClient {
 
     async deleteAnnouncement(itemId) {
         return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'DELETE', data: data})
-=======
-     * Roles endpoints
-     */
-
+    }
+    
+    /**
+    * Roles endpoints
+    */
     async getRoles(inventoryId) {
         return await this.request({endpoint: `inventory/member/roles/?inventoryId=${inventoryId}`, method: 'GET'});
     }
@@ -229,7 +229,6 @@ class ApiClient {
 
     async getUserRole(inventoryId) {
         return await this.request({endpoint: `inventory/member/roles/me/?inventoryId=${inventoryId}`, method: 'GET'});
->>>>>>> 38277c709da79917cdbc18c0f022705a8d949e57
     }
 }
 

@@ -14,6 +14,7 @@ export const DashboardContextProvider = ({ children }) => {
   const [checklist, setChecklist] = useState([]);
   //announcements
   const [announcement, setAnnouncement] = useState([]);
+  //is processing and error useStates
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
 
@@ -29,6 +30,9 @@ export const DashboardContextProvider = ({ children }) => {
   const { itemContext } = useContext(ItemContext);
   const [items, setItems] = itemContext;
 
+  //note: this might not work for fetchList or fetchAnnouncement because the useEffect depends on the items
+  //lets comeback to this later
+  //for now, leave as is
   useEffect(() => {
     setIsProcessing(true);
 
@@ -143,7 +147,7 @@ export const DashboardContextProvider = ({ children }) => {
     const { data, err } = await apiClient.getAnnouncement(itemId);
 
     if (data) {
-      setChecklist(data?.announcement);
+      setAnnouncement(data?.announcement);
     } else if (err) {
       setError(err);
     }
@@ -162,6 +166,8 @@ export const DashboardContextProvider = ({ children }) => {
     announcementDeleteContext: [deleteAnnouncement],
     errorContext: [error, setError],
     logContext: [logs, setLogs],
+    checklistContext: [checklist, setChecklist],
+    announcementContext: [announcement, setAnnouncement],
     processingContext: [isProcessing, setIsProcessing],
   };
 
