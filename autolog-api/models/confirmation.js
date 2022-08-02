@@ -1,24 +1,29 @@
 const db = require("../db");
 const { BadRequestError } = require("../utils/errors");
-const tokens = require('../utils/tokens');
+const { verifyConfirmationToken } = require('../utils/tokens');
 
 class Confirmation {
     static verifyConfirmationToken(token, secret) {
-        const { user: { id } } = tokens.verifyConfirmationToken(token, secret)
+        // Calls the verifyConfirmationToken in ../utils/tokens
+        const { user: { id } } = verifyConfirmationToken(token, secret)
 
+        // If the verification fails or is invalid, then throw an error
         if (!id) {
             throw new BadRequestError("Invalid confirmation token")
         }
+        // Else, return the id so the correct user confirmed_email status can be updated
         else {
             return id
         }
     }
 
     static async updateConfirmationStatus(id) {
+        // Make sure the ID is a number
         if (isNaN(id)) {
             throw new BadRequestError("Provided ID is not a number. Cannot update confirmation status")
         }
 
+        // Query to update the email_confirmed field of the user with the given ID
         const query = `
         UPDATE users
         SET email_confirmed = TRUE
@@ -28,6 +33,7 @@ class Confirmation {
 
         const results = await db.query(query, [id]);
 
+        // Return id, email_confirmed, and email
         return results.rows[0];
     }
 }

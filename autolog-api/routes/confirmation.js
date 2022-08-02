@@ -4,7 +4,13 @@ const Confirmation = require('../models/confirmation')
 
 router.patch('/:token', async (req, res, next) => {
     try {
-        const { user: { id } } = jwt.verify(req.params.token, EMAIL_SECRET);
-
+        // Verify the token and update the email_confirmed status of the given user
+        const { user: { id } } = Confirmation.verifyConfirmationToken(req.params.token, EMAIL_SECRET);
+        await Confirmation.updateConfirmationStatus(id)
+    }   
+    catch (error) {
+        next(error)
     }
 });
+
+module.exports = router;
