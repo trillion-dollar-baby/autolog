@@ -5,7 +5,7 @@ const Log = require("../models/log");
 const router = express.Router();
 
 // endpoint to create an checklist item
-router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
+router.post("/checklist", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         const { user } = res.locals;
         const items = await Dashboard.createChecklist({ item: req.body, user: user });
@@ -76,7 +76,7 @@ router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
 });
 
 // endpoint to create an announcement
-router.post("/create", security.requireAuthenticatedUser, async (req, res, next) => {
+router.post("/announcement", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         const { user } = res.locals;
         const items = await Dashboard.createAnnouncements({ announcement: req.body, user: user });
