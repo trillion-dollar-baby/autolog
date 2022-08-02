@@ -48,8 +48,8 @@ export default function Dropdown({ value, items, onSelect }) {
                 <>
                     <DropdownOverlay onClick={handleOnBlur} />
                     <ul className="dropdown-list">
-                        {items.map((item, idx) => {
-                            return (<div className={`dropdown-item ${(idx === (items.length - 1) ? 'last' : '')}`} onClick={() => handleOnClick(item)}>
+                        {items?.map((item, idx) => {
+                            return (<div key={idx} className={`dropdown-item ${(idx === (items.length - 1) ? 'last' : '')}`} onClick={() => handleOnClick(item)}>
                                 <span>{_.capitalize(item)}</span>
                             </div>)
                         })}

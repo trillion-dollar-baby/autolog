@@ -13,28 +13,26 @@ import './MemberList.css';
  *  )
  */
 
+export default function MemberList({userArray, roleArray}) {
+	return (
+		<div className="member-list">
+			{userArray?.map((item, idx) => {
+				let index = '';
+				if (idx === 0) index += ' first';
+				if (idx === userArray.length - 1) index += ' last'
 
-export default function MemberList({ userArray, userRoles, setUserRoles }) {
-
-  // get useState to manage single roles depending on what is choosen in each item's dropdown
-  const setUserRole = (id, role) => {
-    setUserRoles((prevRoles) => ({
-      ...prevRoles,
-      [id]: role
-    }))
-  };
-
-  return (
-    <div className="member-list">
-      {userArray?.map((item, idx) => {
-        let index = '';
-        if(idx === 0) index += ' first';
-        if(idx === userArray.length-1) index += ' last'
-
-        return (
-          <MemberItem key={idx} index={index} id={item.id} firstName={item.firstName} lastName={item.lastName} email={item.userEmail} userRole={userRoles[item.id]} setUserRole={setUserRole}/>
-        )
-      })}
-    </div>
-  )
+				return (
+					<MemberItem
+						key={idx} 
+						index={index} 
+						id={item.id} 
+						firstName={item.firstName} 
+						lastName={item.lastName} 
+						email={item.userEmail} 
+						userRole={item.roleName}
+						roleOptions={roleArray} />
+				)
+			})}
+		</div>
+	)
 }

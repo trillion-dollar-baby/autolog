@@ -24,3 +24,5 @@ Deployment Website: **Add Link to Deployed Project**
 ### Open-source libraries used
 
 - [lodash](https://www.npmjs.com/package/lodash)
+- [react-hot-toast](https://react-hot-toast.com/)
+- [framer-motion](https://www.npmjs.com/package/framer-motion)
