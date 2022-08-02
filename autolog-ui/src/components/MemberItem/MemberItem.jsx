@@ -16,7 +16,6 @@ export default function MemberItem({index, id, firstName, lastName, email, userR
 
   // get role value from the dropdown and change it in the backend 
   const onDropdownClick = async(role) => {
-    console.log(role);
     const result = await updateInventoryMember(email, role);
     if(!result) {
       notifySuccess("Role successfully updated!")

@@ -55,7 +55,6 @@ export function ModalInvite({ closeModal }) {
             
             if(result?.data) {
                 const roleNameArray = [];
-                console.log("dropdown list", result?.data);
                 // append in array only the names as we don't need the ID 
                 // and Dropdown component only accepts array of strings
                 result?.data.forEach((item) => {

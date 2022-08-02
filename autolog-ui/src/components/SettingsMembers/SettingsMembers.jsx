@@ -23,7 +23,6 @@ export default function SettingsMembers() {
     const fetchData = async () => {
       setIsProcessing(true);
       const resultMembers = await getInventoryMembers();
-      console.log(resultMembers);
       const resultRoles = await apiClient.getRoles(selectedInventory?.inventoryId);
 
       if (resultRoles?.data) {

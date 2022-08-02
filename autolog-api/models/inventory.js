@@ -135,8 +135,6 @@ class Inventory {
 
     // function to update member role in specified inventoryId
     static async updateMember(inventoryId, userEmail, roleName) {
-        console.log(arguments);
-
         const query = `
             UPDATE user_to_inventory
             SET user_role_id = (SELECT roles.id FROM roles WHERE roles.inventory_id = $1 AND roles.role_name = $2)
@@ -144,7 +142,6 @@ class Inventory {
             RETURNING *
         `
         const result = await db.query(query, [inventoryId, _.toLower(roleName), _.toLower(userEmail)]);
-        console.log(result.rows);
         
         return {message: "success updating user role"};
     }

@@ -14,7 +14,6 @@ import './MemberList.css';
  */
 
 export default function MemberList({userArray, roleArray}) {
-	console.log(roleArray);
 	return (
 		<div className="member-list">
 			{userArray?.map((item, idx) => {
