@@ -161,7 +161,44 @@ class ApiClient {
     async getLogs(inventoryId) {
         return await this.request({endpoint: `logs/?inventoryId=${inventoryId}`, method: 'GET'})
     }
-    
+
+    /**
+     * Dashboard endpoints
+     */
+
+    //Checklist endpoints
+     async createCheckListItem(values) {
+        return await this.request({endpoint: 'dashboard/checklist', method: 'POST', data: values})
+    }
+
+    async getCheckList(itemId) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'GET'});
+    }
+
+    async updateCheckList(itemId, data) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'PATCH', data: data});
+    }
+
+    async deleteCheckListItem(itemId) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'DELETE', data: data})
+    }
+
+    //announcements endpoints
+    async createAnnouncement(values) {
+        return await this.request({endpoint: 'dashboard/announcement', method: 'POST', data: values})
+    }
+
+    async getAnnouncement(itemId) {
+        return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'GET'});
+    }
+
+    async updateAnnouncement(itemId, data) {
+        return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'PATCH', data: data});
+    }
+
+    async deleteAnnouncement(itemId) {
+        return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'DELETE', data: data})
+    }
 }
 
 export default new ApiClient("http://localhost:3001");
