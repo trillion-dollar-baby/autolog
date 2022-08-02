@@ -61,7 +61,7 @@ class Role {
         const query = `
             SELECT 
                 role_id AS "roleId",
-                role_name AS "role_name" 
+                role_name AS "roleName" 
             FROM 
                 roles WHERE inventory_id = $1
         `;

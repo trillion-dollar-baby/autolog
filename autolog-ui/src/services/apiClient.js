@@ -92,11 +92,11 @@ class ApiClient {
     }
 
     async getInventoryMembers(inventoryId) {
-        return await this.request({endpoint: 'inventory/member/list', method: 'POST', data: {inventoryId: inventoryId}});
+        return await this.request({endpoint: `inventory/member/list/?inventoryId=${inventoryId}`, method: 'GET'});
     }
 
     async addInventoryMember(userEmail, inventoryId) {
-        return await this.request({endpoint: 'inventory/member', method: 'POST', data: {userEmail: userEmail, inventoryId: inventoryId}})
+        return await this.request({endpoint: `inventory/member/?inventoryId=${inventoryId}`, method: 'POST', data: {userEmail: userEmail}})
     }
 
     /**
@@ -161,7 +161,30 @@ class ApiClient {
     async getLogs(inventoryId) {
         return await this.request({endpoint: `logs/?inventoryId=${inventoryId}`, method: 'GET'})
     }
-    
+
+    /**
+     * Roles endpoints
+     */
+
+    async getRoles(inventoryId) {
+        return await this.request({endpoint: `inventory/member/roles/?inventoryId=${inventoryId}`, method: 'GET'});
+    }
+
+    async createRole(inventoryId, roleData) {
+        return await this.request({endpoint: `inventory/member/roles/?inventoryId=${inventoryId}`, method: 'POST', data: roleData});
+    }
+
+    async updateRole(inventoryId, roleId, roleData) {
+        return await this.request({endpoint: `inventory/member/roles/?inventoryId=${inventoryId}`, method: 'PATCH', data: roleData});
+    }
+
+    async deleteRole(inventoryId, roleId) {
+        return await this.request({endpoint: `inventory/member/roles/?inventoryId=${inventoryId}&roleId=${roleId}`, method: 'DELETE'});
+    }
+
+    async getUserRole(inventoryId) {
+        return await this.request({endpoint: `inventory/member/roles/me/?inventoryId=${inventoryId}`, method: 'GET'});
+    }
 }
 
 export default new ApiClient("http://localhost:3001");

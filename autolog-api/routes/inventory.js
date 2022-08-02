@@ -44,11 +44,11 @@ router.get("/me",  async (req, res, next) => {
 })
 
 // endpoint to show member list
-router.post("/member/list", security.requireAuthenticatedUser, async(req,res,next) => {
+router.get("/member/list", security.requireAuthenticatedUser, async(req,res,next) => {
     try {
-        const { user } = res.locals;
+        const { inventoryId } = req.query;
 
-        const members = await Inventory.getInventoryMembers(req.body.inventoryId);
+        const members = await Inventory.getInventoryMembers(inventoryId);
 
         return res.status(201).json({members});
 
@@ -62,8 +62,9 @@ router.post("/member", security.requireAuthenticatedUser, async (req,res,next) =
     try {
         // get user that will be the "owner" of the inventory
         const { user } = res.locals;
+        const { inventoryId } = res.query;
     
-        const addResult = await Inventory.addUserToInventory(user, req.body.userEmail, req.body.inventoryId);
+        const addResult = await Inventory.addUserToInventory(inventoryId, req.body.userEmail);
 
         return res.status(201).json({addResult});
 
@@ -78,7 +79,7 @@ router.get("/member/roles", security.requireAuthenticatedUser, async (req,res,ne
 
         const result = await Role.getRoles(inventoryId);
         
-        return res.status(200).json({result});
+        return res.status(200).json(result);
     } catch (error) {
         next(error);
     }

@@ -7,6 +7,7 @@ import MemberList from '../MemberList/MemberList';
 import Dropdown from '../Dropdown/Dropdown';
 import InventoryContext from '../../contexts/inventory';
 import apiClient from '../../services/apiClient';
+import Loading from '../Loading/Loading';
 
 export default function SettingsMembers() {
   const { inventoryGetContext, inventoryMembersContext, selectedInventoryContext } = useContext(InventoryContext);
@@ -14,28 +15,33 @@ export default function SettingsMembers() {
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext
   const [inventoryMembers, setInventoryMembers] = inventoryMembersContext;
 
-  const data = {
-    0: 'admin',
-    1: 'manager',
-    2: 'employee',
-    3: 'viewer'
-  }
-
   const [isProcessing, setIsProcessing] = useState(false);
-  const [userRoles, setUserRoles] = useState(data);
+  const [userRoles, setUserRoles] = useState([]);
 
   // when mounted fetch list of members
   useEffect(() => {
     const fetchData = async () => {
       setIsProcessing(true);
-      const result = await getInventoryMembers();
+      const resultMembers = await getInventoryMembers();
+
+      const resultRoles = await apiClient.getRoles(selectedInventory?.inventoryId);
+
+      if (resultRoles?.data) {
+        const roleNameArray = [];
+        // append in array only the names as we don't need the ID and Dropdown component only accepts array of strings
+        resultRoles?.data.forEach((item) => {
+          roleNameArray.push(item?.roleName);
+        })
+        setUserRoles(roleNameArray);
+      }
+
       setIsProcessing(false)
     }
 
     fetchData();
   }, [selectedInventory])
 
-  if (isProcessing) return (<></>)
+  if (isProcessing) return (<Loading></Loading>)
 
   const containerVariants = {
     hidden: {
@@ -57,7 +63,7 @@ export default function SettingsMembers() {
       animate={"visible"}
       exit={"exit"}
     >
-        <MemberList userArray={inventoryMembers} userRoles={userRoles} setUserRoles={setUserRoles} />
+      <MemberList userArray={inventoryMembers} userRoles={userRoles} setUserRoles={setUserRoles} />
     </motion.div>
   )
 }

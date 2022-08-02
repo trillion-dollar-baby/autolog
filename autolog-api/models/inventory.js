@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 const Role = require("./role");
@@ -81,16 +82,13 @@ class Inventory {
     }
 
     // add user to inventory by using his email
-    static async addUserToInventory(owner, userEmail, inventoryId) {
+    static async addUserToInventory(inventoryId, userEmail, roleName) {
         // check if user was already added to inventory
-        const existingResult = await db.query(
-            `
-        SELECT user_id
-        FROM user_to_inventory
-        WHERE user_id = (SELECT id FROM users WHERE email = $1) AND inventory_id = $2
-        `,
-            [userEmail, inventoryId]
-        );
+        const existingResult = await db.query(`
+            SELECT user_id
+            FROM user_to_inventory
+            WHERE user_id = (SELECT id FROM users WHERE email = $1) AND inventory_id = $2
+            `, [userEmail, inventoryId]);
 
         // if something was returned, throw error so users can't be added twice into the same inventory
         if (existingResult.rows[0]) {
@@ -99,31 +97,29 @@ class Inventory {
             );
         }
 
-        const results = await db.query(
-            `
-        INSERT INTO user_to_inventory(
-            user_id,
-            inventory_id,
-			user_role_id
-        ) VALUES ((SELECT id FROM users WHERE email = $1), $2, (SELECT id FROM roles WHERE roles.inventory_id = $2 AND roles.role_name = 'admin'))
-        RETURNING user_id, (inventory_id)`,
-            [userEmail, inventoryId]
-        );
+        const results = await db.query(`
+            INSERT INTO user_to_inventory(
+                user_id,
+                inventory_id,
+                user_role_id
+            ) VALUES ((SELECT id FROM users WHERE email = $1), $2, (SELECT id FROM roles WHERE roles.inventory_id = $2 AND roles.role_name = $3))
+            RETURNING user_id, (inventory_id)`
+            , [_.toLower(userEmail), inventoryId, _.toLower(roleName)]);
 
         return results.rows[0];
     }
 
     // return inventory members based on inventory Id
     static async getInventoryMembers(inventoryId) {
-        const result = await db.query(
-            `
-        SELECT users.id AS "id",
-               users.first_name AS "firstName",
-               users.last_name AS "lastName",
-               users.username AS "username",
-               users.email AS "userEmail",
-			   (SELECT roles.role_name AS "roleName" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
-			   (SELECT roles.role_id AS "roleId" FROM roles WHERE roles.id = user_to_inventory.user_role_id)
+        const result = await db.query(`
+        SELECT 
+            users.id AS "id",
+            users.first_name AS "firstName",
+            users.last_name AS "lastName",
+            users.username AS "username",
+            users.email AS "userEmail",
+			(SELECT roles.role_name AS "roleName" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
+			(SELECT roles.role_id AS "roleId" FROM roles WHERE roles.id = user_to_inventory.user_role_id)
         FROM 
             user_to_inventory
         JOIN
@@ -132,9 +128,7 @@ class Inventory {
             inventory ON inventory.id = user_to_inventory.inventory_id
         WHERE
             inventory.id = $1
-    `,
-            [inventoryId]
-        );
+        `, [inventoryId]);
 
         return result.rows;
     }
