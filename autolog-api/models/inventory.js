@@ -132,6 +132,34 @@ class Inventory {
 
         return result.rows;
     }
+
+    // function to update member role in specified inventoryId
+    static async updateMember(inventoryId, userEmail, roleName) {
+        console.log(arguments);
+
+        const query = `
+            UPDATE user_to_inventory
+            SET user_role_id = (SELECT roles.id FROM roles WHERE roles.inventory_id = $1 AND roles.role_name = $2)
+            WHERE user_to_inventory.user_id = (SELECT id FROM users WHERE email = $3)
+            RETURNING *
+        `
+        const result = await db.query(query, [inventoryId, _.toLower(roleName), _.toLower(userEmail)]);
+        console.log(result.rows);
+        
+        return {message: "success updating user role"};
+    }
+
+    // function to remove member from inventory
+    static async removeMember(inventoryId, userEmail) {
+        const query = `
+            DELETE FROM user_to_inventory
+            WHERE inventory_id = $1 AND user_id = (SELECT id FROM users WHERE email = $2)
+        `
+
+        const result = await db.query(query, [inventoryId, userEmail]);
+
+        return {message: "success removing user"};
+    }   
 }
 
 module.exports = Inventory;
