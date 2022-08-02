@@ -20,6 +20,7 @@ const inventoryRoutes = require("./routes/inventory");
 const performanceRoutes = require("./routes/performance");
 const dashboardRoutes = require("./routes/dashboard");
 const logRoutes = require("./routes/log");
+const confirmationRoutes = require('./routes/confirmation');
 
 /**
  * End of imports
@@ -46,12 +47,14 @@ app.use(security.extractUserFromJwt);
 
 
 app.use("/auth", authRoutes)
+app.use("/confirmation", confirmationRoutes);
 app.use("/item", itemRoutes)
 app.use("/category", categoryRoutes)
 app.use("/inventory", inventoryRoutes)
 app.use("/performance", performanceRoutes)
 app.use("/dashboard", dashboardRoutes)
 app.use("/logs", logRoutes)
+
 
 // health check
 app.get("/", (req, res, next) => {

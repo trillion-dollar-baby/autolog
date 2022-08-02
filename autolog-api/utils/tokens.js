@@ -39,8 +39,13 @@ const validateToken = (token) => {
   }
 };
 
+const verifyConfirmationToken = (token, secret) => {
+  return jwt.verify(token, secret)
+}
+
 module.exports = {
   generateToken,
   validateToken,
   createUserJwt,
+  verifyConfirmationToken,
 };
