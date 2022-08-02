@@ -92,11 +92,19 @@ class ApiClient {
     }
 
     async getInventoryMembers(inventoryId) {
-        return await this.request({endpoint: 'inventory/member/list', method: 'POST', data: {inventoryId: inventoryId}});
+        return await this.request({endpoint: `inventory/member/list/?inventoryId=${inventoryId}`, method: 'GET'});
     }
 
-    async addInventoryMember(userEmail, inventoryId) {
-        return await this.request({endpoint: 'inventory/member', method: 'POST', data: {userEmail: userEmail, inventoryId: inventoryId}})
+    async addInventoryMember(inventoryId, userEmail, roleName) {
+        return await this.request({endpoint: `inventory/member/?inventoryId=${inventoryId}`, method: 'POST', data: {userEmail: userEmail, roleName: roleName}});
+    }
+
+    async updateInventoryMemberRole(inventoryId, userEmail, roleName) {
+        return await this.request({endpoint: `inventory/member/?inventoryId=${inventoryId}`, method: 'PATCH', data:{userEmail: userEmail, roleName: roleName}});
+    }
+
+    async removeInventoryMember(inventoryId, userEmail) {
+        return await this.request({endpoint: `inventory/member/?inventoryId=${inventoryId}`, method: 'DELETE', data: {userEmail: userEmail} });
     }
 
     /**
@@ -163,6 +171,7 @@ class ApiClient {
     }
 
     /**
+<<<<<<< HEAD
      * Dashboard endpoints
      */
 
@@ -198,6 +207,29 @@ class ApiClient {
 
     async deleteAnnouncement(itemId) {
         return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'DELETE', data: data})
+=======
+     * Roles endpoints
+     */
+
+    async getRoles(inventoryId) {
+        return await this.request({endpoint: `inventory/member/roles/?inventoryId=${inventoryId}`, method: 'GET'});
+    }
+
+    async createRole(inventoryId, roleData) {
+        return await this.request({endpoint: `inventory/member/roles/?inventoryId=${inventoryId}`, method: 'POST', data: roleData});
+    }
+
+    async updateRole(inventoryId, roleId, roleData) {
+        return await this.request({endpoint: `inventory/member/roles/?inventoryId=${inventoryId}`, method: 'PATCH', data: roleData});
+    }
+
+    async deleteRole(inventoryId, roleId) {
+        return await this.request({endpoint: `inventory/member/roles/?inventoryId=${inventoryId}&roleId=${roleId}`, method: 'DELETE'});
+    }
+
+    async getUserRole(inventoryId) {
+        return await this.request({endpoint: `inventory/member/roles/me/?inventoryId=${inventoryId}`, method: 'GET'});
+>>>>>>> 38277c709da79917cdbc18c0f022705a8d949e57
     }
 }
 

@@ -2,6 +2,7 @@ const express = require("express");
 const Item = require("../models/item");
 const Log = require("../models/log")
 const security = require("../middleware/security");
+const permissions = require("../middleware/permissions");
 const router = express.Router();
 
 // endpoint to get a generic list of items in inventory
