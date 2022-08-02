@@ -13,17 +13,8 @@ import './MemberList.css';
  *  )
  */
 
-
-export default function MemberList({ userArray, userRoles, setUserRoles }) {
-
-	// get useState to manage single roles depending on what is choosen in each item's dropdown
-	const setUserRole = (id, role) => {
-		setUserRoles((prevRoles) => ({
-			...prevRoles,
-			[id]: role
-		}))
-	};
-
+export default function MemberList({userArray, roleArray}) {
+	console.log(roleArray);
 	return (
 		<div className="member-list">
 			{userArray?.map((item, idx) => {
@@ -39,8 +30,8 @@ export default function MemberList({ userArray, userRoles, setUserRoles }) {
 						firstName={item.firstName} 
 						lastName={item.lastName} 
 						email={item.userEmail} 
-						userRole={userRoles[item.id]} 
-						setUserRole={setUserRole} />
+						userRole={item.roleName}
+						roleOptions={roleArray} />
 				)
 			})}
 		</div>

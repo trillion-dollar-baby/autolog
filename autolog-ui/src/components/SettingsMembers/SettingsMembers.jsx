@@ -23,7 +23,7 @@ export default function SettingsMembers() {
     const fetchData = async () => {
       setIsProcessing(true);
       const resultMembers = await getInventoryMembers();
-
+      console.log(resultMembers);
       const resultRoles = await apiClient.getRoles(selectedInventory?.inventoryId);
 
       if (resultRoles?.data) {
@@ -63,7 +63,7 @@ export default function SettingsMembers() {
       animate={"visible"}
       exit={"exit"}
     >
-      <MemberList userArray={inventoryMembers} userRoles={userRoles} setUserRoles={setUserRoles} />
+      <MemberList userArray={inventoryMembers} roleArray={userRoles} />
     </motion.div>
   )
 }

@@ -80,8 +80,8 @@ export function ModalInvite({ closeModal }) {
             setModalError("Invalid email!");
         } else {
             setModalProcessing(true);
-
-            const { data, error } = await addInventoryMembers(formState.email, selectedInventory.inventoryId);
+        
+            const { data, error } = await addInventoryMembers(selectedInventory.inventoryId, formState.email, selectedRole);
 
             // if an error was returned, let user know
             if (error) {

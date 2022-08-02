@@ -5,20 +5,24 @@ import _ from 'lodash';
 import placeholderImage from '../../assets/placeholder.jpg';
 import iconDelete from '../../assets/icons8-delete.png';
 import Dropdown from '../Dropdown/Dropdown';
+import { useContext } from 'react';
+import { ToastContext } from '../../contexts/toast';
+import apiClient from '../../services/apiClient';
+import InventoryContext from '../../contexts/inventory';
 
-export default function MemberItem({index, id, firstName, lastName, email, userRole, setUserRole}) {
-  
-  const roleOptions = [
-    'admin',
-    'manager',
-    'employee',
-    'viewer'
-  ]
+export default function MemberItem({index, id, firstName, lastName, email, userRole, roleOptions}) {
+  const {notifySuccess, notifyError} = useContext(ToastContext);
+  const {updateInventoryMember} = useContext(InventoryContext);
 
-  // get role value from the dropdown and change it to 
-  const onDropdownClick = (role) => {
-    // change member role
-    setUserRole(id, role);
+  // get role value from the dropdown and change it in the backend 
+  const onDropdownClick = async(role) => {
+    console.log(role);
+    const result = await updateInventoryMember(email, role);
+    if(!result) {
+      notifySuccess("Role successfully updated!")
+    } else {
+      notifyError(result);
+    }
   }
 
   return (

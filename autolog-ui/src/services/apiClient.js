@@ -95,8 +95,16 @@ class ApiClient {
         return await this.request({endpoint: `inventory/member/list/?inventoryId=${inventoryId}`, method: 'GET'});
     }
 
-    async addInventoryMember(userEmail, inventoryId) {
-        return await this.request({endpoint: `inventory/member/?inventoryId=${inventoryId}`, method: 'POST', data: {userEmail: userEmail}})
+    async addInventoryMember(inventoryId, userEmail, roleName) {
+        return await this.request({endpoint: `inventory/member/?inventoryId=${inventoryId}`, method: 'POST', data: {userEmail: userEmail, roleName: roleName}});
+    }
+
+    async updateInventoryMemberRole(inventoryId, userEmail, roleName) {
+        return await this.request({endpoint: `inventory/member/?inventoryId=${inventoryId}`, method: 'PATCH', data:{userEmail: userEmail, roleName: roleName}});
+    }
+
+    async removeInventoryMember(inventoryId, userEmail) {
+        return await this.request({endpoint: `inventory/member/?inventoryId=${inventoryId}`, method: 'DELETE', data: {userEmail: userEmail} });
     }
 
     /**
