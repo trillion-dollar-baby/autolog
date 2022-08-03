@@ -10,8 +10,7 @@ class Role {
                 "Internal error: No inventory ID received"
             );
 
-        const adminRoleResult = await this.createRole({
-            inventoryId: inventoryId,
+        const adminRoleResult = await this.createRole(inventoryId, {
             name: "admin",
             create: true,
             read: true,
@@ -19,8 +18,7 @@ class Role {
             delete: true,
         });
 
-        const employeeRoleResult = await this.createRole({
-            inventoryId: inventoryId,
+        const employeeRoleResult = await this.createRole(inventoryId, {
             name: "employee",
             create: false,
             read: true,
@@ -30,10 +28,10 @@ class Role {
     }
 
     // function to create roles
-    static async createRole(role) {
+    static async createRole(inventoryId, role) {
         // check for required fields
+        console.log(role);
         const requiredFields = [
-            "inventoryId",
             "name",
             "create",
             "read",
@@ -49,7 +47,7 @@ class Role {
         });
 
         // check if duplicate
-        this.checkDuplicateRoleName(role.inventoryId, role.name);
+        this.checkDuplicateRoleName(inventoryId, role.roleName);
 
         const result = await db.query(
             `
@@ -66,7 +64,7 @@ class Role {
         RETURNING *
         `,
             [
-                role.inventoryId,
+                inventoryId,
                 role.name,
                 role.create,
                 role.read,

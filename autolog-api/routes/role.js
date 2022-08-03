@@ -18,6 +18,20 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     }
 })
 
+// endpoint to create a role in inventory
+router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
+    try {
+        const {inventoryId} = req.query;
+
+        const { role } = req.body;
+        console.log(role);
+        console.log(inventoryId);
+        const result = await Role.createRole(inventoryId, role);
+    } catch (error) {
+        next(error);
+    }
+})
+
 // endpoint to delete a role based on query
 router.delete("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
