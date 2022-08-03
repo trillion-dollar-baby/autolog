@@ -143,7 +143,9 @@ class Inventory {
         `
         const result = await db.query(query, [inventoryId, _.toLower(roleName), _.toLower(userEmail)]);
         
-        return {message: "success updating user role"};
+        if(result.rows[0]) {
+            return {message: "success updating member"}
+        }
     }
 
     // function to remove member from inventory
@@ -155,7 +157,9 @@ class Inventory {
 
         const result = await db.query(query, [inventoryId, userEmail]);
 
-        return {message: "success removing user"};
+        if(result.rows[0]) {
+            return {message: "success removing user"};
+        }
     }   
 }
 
