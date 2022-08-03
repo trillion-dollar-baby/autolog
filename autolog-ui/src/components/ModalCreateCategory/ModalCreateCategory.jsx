@@ -33,7 +33,7 @@ function ModalCreateCategory({closeModal, setCategory}) {
     const onSubmitNewCategory = async () => {
         setModalProcessing(true);
 
-        const { data, error } = await apiClient.createCategory(selectedInventory.inventoryId, formState.categoryName);
+        const { data, error } = await apiClient.createCategory(selectedInventory?.inventoryId, formState.categoryName);
 
         if (error) {
             setModalError(error);

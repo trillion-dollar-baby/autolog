@@ -30,7 +30,6 @@ export const DashboardContextProvider = ({ children }) => {
   const { itemContext } = useContext(ItemContext);
   const [items, setItems] = itemContext;
 
-  //note: this might not work for fetchList or fetchAnnouncement because the useEffect depends on the items
   //lets comeback to this later
   //for now, leave as is
   useEffect(() => {
@@ -57,8 +56,12 @@ export const DashboardContextProvider = ({ children }) => {
   };
 
   // Create checklist given data
-  const createList = async (values) => {
-    const { data, error } = await apiClient.createCheckListItem(values);
+  const createList = async (list) => {
+    const requestObj = {
+        inventoryId: selectedInventory?.inventoryId,
+        announcement: list,
+      }
+    const { data, error } = await apiClient.createCheckListItem(requestObj);
     if (!error) {
       fetchList();
       return { data, error: null };
@@ -70,6 +73,7 @@ export const DashboardContextProvider = ({ children }) => {
 
   //update checklist
   const updateChecklist = async (itemId, values) => {
+    
     const { data, error } = await apiClient.updateCheckList(itemId, values);
     if (!error) {
       fetchList();
@@ -92,7 +96,7 @@ export const DashboardContextProvider = ({ children }) => {
   };
 
   // Fetch checklist given the user id
-  async function fetchList() {
+  async function fetchList(itemId) {
     setIsProcessing(true);
 
     const { data, err } = await apiClient.getCheckList(itemId);
@@ -106,9 +110,16 @@ export const DashboardContextProvider = ({ children }) => {
     setIsProcessing(false);
   }
 
+  
+
   //Create announcement given data
-  const createAnnouncement = async (values) => {
-    const { data, error } = await apiClient.createAnnouncement(values);
+  const createAnnouncement = async (message) => {
+    const requestObj = {
+        inventoryId: selectedInventory?.inventoryId,
+        announcement: message,
+      }
+    const { data, error } = await apiClient.createAnnouncements(requestObj);
+    console.log("Data is", data);
     if (!error) {
       fetchAnnouncement();
       return { data, error: null };
@@ -131,7 +142,12 @@ export const DashboardContextProvider = ({ children }) => {
   };
   //Update announcement
   const updateAnnouncement = async (itemId, values) => {
-    const { data, error } = await apiClient.updateAnnouncement(itemId, values);
+    const requestObj = {
+        announcement: values
+      }
+      console.log("itemId is", itemId)
+      console.log("values is", requestObj)
+    const { data, error } = await apiClient.updateAnnouncement(itemId, requestObj);
     if (!error) {
       fetchAnnouncement();
       return { data, error: null };
@@ -141,13 +157,18 @@ export const DashboardContextProvider = ({ children }) => {
     }
   };
 
-  //Fetch announcement given by user id
+  //Fetch announcement given by item id
   async function fetchAnnouncement() {
+    //return first item on the list (aka most recent)
+    console.log('inventory id is:', selectedInventory?.inventoryId)
     setIsProcessing(true);
-    const { data, err } = await apiClient.getAnnouncement(itemId);
+    const { data, err } = await apiClient.getAnnouncement(selectedInventory?.inventoryId);
+
+    console.log('inventory id is:', selectedInventory?.inventoryId);
 
     if (data) {
-      setAnnouncement(data?.announcement);
+      setAnnouncement(data?.announcement)
+      console.log("announcement is: ",data)
     } else if (err) {
       setError(err);
     }

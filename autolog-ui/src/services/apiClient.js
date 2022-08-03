@@ -192,12 +192,12 @@ class ApiClient {
     }
 
     //announcements endpoints
-    async createAnnouncement(values) {
-        return await this.request({endpoint: 'dashboard/announcement', method: 'POST', data: values})
+    async createAnnouncements(values) {
+        return await this.request({endpoint: `dashboard/announcement/`, method: 'POST', data: values})
     }
 
-    async getAnnouncement(itemId) {
-        return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'GET'});
+    async getAnnouncement(inventoryId) {
+        return await this.request({endpoint: `dashboard/recent/?inventoryId=${inventoryId}`, method: 'GET'});
     }
 
     async updateAnnouncement(itemId, data) {
@@ -207,7 +207,7 @@ class ApiClient {
     async deleteAnnouncement(itemId) {
         return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'DELETE', data: data})
     }
-    
+
     /**
     * Roles endpoints
     */

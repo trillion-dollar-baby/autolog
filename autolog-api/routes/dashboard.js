@@ -79,7 +79,9 @@ router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
 router.post("/announcement", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         const { user } = res.locals;
+        console.log("request body", req.body)
         const items = await Dashboard.createAnnouncements({ announcement: req.body, user: user });
+        
         return res.status(201).json({ items });
     } catch (err) {
         next(err);
@@ -87,11 +89,11 @@ router.post("/announcement", security.requireAuthenticatedUser, async (req, res,
 });
 
 // endpoint to get an announcement
-router.get("/announcementId/:itemId", security.requireAuthenticatedUser, async (req, res, next) => {
+router.get("/recent", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
-        const { itemId } = req.params;
+        const inventoryId = req.query.inventoryId;
 
-        const item = await Dashboard.fetchAnnouncementById(itemId);
+        const item = await Dashboard.fetchAnnouncementById(inventoryId);
 
         return res.status(200).json({ item });
     } catch (error) {

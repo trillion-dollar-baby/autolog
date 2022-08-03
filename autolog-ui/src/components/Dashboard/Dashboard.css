@@ -96,6 +96,18 @@
     padding: 20px;
     /* border: 1px #BEBEBE solid; */
 }
+
+#announce{
+    display:block;
+    background-color: #D9D9D9;
+}
+
+#edit{
+    display: none;
+}
+#delete{
+    display:none;
+}
 /****************************/
 
 
