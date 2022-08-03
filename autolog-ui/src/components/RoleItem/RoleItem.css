@@ -1,0 +1,6 @@
+.role-item {
+    display: flex;
+    flex-direction: row;
+    max-width: 80%;
+    background-color: var(--backgroundInput);
+}
