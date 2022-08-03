@@ -6,6 +6,7 @@ import SettingsUser from '../SettingsUser/SettingsUser';
 import Sidebar from '../Sidebar/Sidebar';
 import Topbar from '../Topbar/Topbar';
 import './Settings.css'
+import SettingsRoles from '../SettingsRoles/SettingsRoles';
 
 export default function Settings() {
   const location = useLocation();
@@ -18,6 +19,10 @@ export default function Settings() {
     {
       name: 'members',
       to: './members'
+    },
+    {
+      name: 'roles',
+      to: './roles'
     }
   ]
 
@@ -50,6 +55,7 @@ export default function Settings() {
           <Routes location={location} key={location.key}>
             <Route exact path='/' element={<SettingsUser />} />
             <Route exact path='/members' element={<SettingsMembers />} />
+            <Route exact path='/roles' element={<SettingsRoles />}/>
           </Routes>
         </AnimatePresence>
       </div>

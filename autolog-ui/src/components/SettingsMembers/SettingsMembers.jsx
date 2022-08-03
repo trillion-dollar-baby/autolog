@@ -8,6 +8,8 @@ import Dropdown from '../Dropdown/Dropdown';
 import InventoryContext from '../../contexts/inventory';
 import apiClient from '../../services/apiClient';
 import Loading from '../Loading/Loading';
+import ButtonAction from '../Button/ButtonAction';
+import { useNavigate } from 'react-router';
 
 export default function SettingsMembers() {
   const { inventoryGetContext, inventoryMembersContext, selectedInventoryContext } = useContext(InventoryContext);
@@ -17,6 +19,8 @@ export default function SettingsMembers() {
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [userRoles, setUserRoles] = useState([]);
+
+  const navigate = useNavigate();
 
   // when mounted fetch list of members
   useEffect(() => {
@@ -40,7 +44,11 @@ export default function SettingsMembers() {
     fetchData();
   }, [selectedInventory])
 
-  if (isProcessing) return (<Loading></Loading>)
+  const onClickRedirect = () => {
+    navigate('../roles')
+  }
+
+  if (isProcessing) return (<></>)
 
   const containerVariants = {
     hidden: {
@@ -63,6 +71,9 @@ export default function SettingsMembers() {
       exit={"exit"}
     >
       <MemberList userArray={inventoryMembers} roleArray={userRoles} />
+      <div className="content">
+        <ButtonAction label={"Manage roles"} color={"#4c5e35"} onClick={onClickRedirect} />
+      </div>
     </motion.div>
   )
 }
