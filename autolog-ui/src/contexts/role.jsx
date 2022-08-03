@@ -15,28 +15,19 @@ export const RoleContextProvider = ({ children }) => {
     const [isProcessing, setIsProcessing] = useState(false);
     const [roleList, setRoleList] = useState([]);
 
-    // useEffect(() => {
-    //     const fetchRoleList = async () => {
-    //         setIsProcessing(true);
+    // functionn to create a new role in the backend
+    const createRole = async (roleData) => {
+        if(selectedInventory?.inventoryId) {
+            const {data, error} = await apiClient.createRole(selectedInventory?.inventoryId, roleData);
 
-    //         try {
-    //             const result = await apiClient.getRoles(selectedInventory?.inventoryId);
-
-    //             if (result?.data) {
-    //                 setRoleList()
-    //             }
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-
-    //         setIsProcessing(false);
-    //     }
-
-    //     // only fetch when user has a valid token
-    //     if (apiClient.getToken()) {
-    //         // fetchRoleList();
-    //     }
-    // }, [])
+            if (data) {
+                return { data: data, error: null }
+            } else {
+                console.error(error);
+                return { data: null, error: error }
+            }
+        }
+    }
 
     // get current user role in whichever inventory the user is
     const getUserRole = async () => {
@@ -46,8 +37,8 @@ export const RoleContextProvider = ({ children }) => {
             if (data) {
                 return { data: data, error: null }
             } else {
-                return { data: null, error: error }
                 console.error(error);
+                return { data: null, error: error }
             }
         }
     }
@@ -59,8 +50,8 @@ export const RoleContextProvider = ({ children }) => {
         if (data) {
             return { data: data, error: null }
         } else {
-            return { data: null, error: error }
             console.error(error);
+            return { data: null, error: error }
         }
     }
 
@@ -71,8 +62,8 @@ export const RoleContextProvider = ({ children }) => {
         if (data) {
             return { data: data, error: null }
         } else {
-            return { data: null, error: error }
             console.error(error);
+            return { data: null, error: error }
         }
     }
 
@@ -89,6 +80,7 @@ export const RoleContextProvider = ({ children }) => {
     }
 
     const values = {
+        createRole,
         getRoleList,
         getUserRole,
         updateRole,

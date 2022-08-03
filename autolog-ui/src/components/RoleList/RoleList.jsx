@@ -4,6 +4,7 @@ import './RoleList.css';
 
 
 function RoleList({ roleArray }) {
+
 	return (
 		<div className='role-list'>
 			{roleArray?.map((role, idx) => {

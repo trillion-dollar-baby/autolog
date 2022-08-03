@@ -5,7 +5,7 @@
 
 .member-item {
     max-width: calc(var(--maxWidth) - var(--memberItemWidthOffset));
-    height: var(--memberItemHeight);
+    height: 80px;
 
     background-color: var(--memberTableBgColor);
     
