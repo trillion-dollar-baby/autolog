@@ -8,6 +8,7 @@ import { ItemContextProvider } from './contexts/items';
 import { PerformanceContextProvider } from './contexts/performance';
 import { ToastContextProvider } from './contexts/toast';
 import { DashboardContextProvider } from './contexts/dashboard';
+import { RoleContextProvider } from './contexts/role';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -16,9 +17,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <ItemContextProvider>
           <PerformanceContextProvider>
             <DashboardContextProvider>
-            <ToastContextProvider>
-              <App />
-            </ToastContextProvider>
+              <RoleContextProvider>
+                <ToastContextProvider>
+                  <App />
+                </ToastContextProvider>
+              </RoleContextProvider>
             </DashboardContextProvider>
           </PerformanceContextProvider>
         </ItemContextProvider>

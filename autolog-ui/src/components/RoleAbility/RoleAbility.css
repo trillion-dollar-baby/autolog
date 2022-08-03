@@ -1,0 +1,18 @@
+.role-ability {
+    display:flex;
+    flex-direction: column;
+    margin: 10px;
+    font-weight: 500;
+}
+
+.role-ability-state {
+    font-weight: 700;
+}
+
+.role-ability-state.green {
+    color:var(--actionGreen);
+}
+
+.role-ability-state.red {
+    color:var(--actionRed);
+}
