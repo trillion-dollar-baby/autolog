@@ -12,7 +12,6 @@ function RoleList({ roleArray }) {
 				if (idx === 0) index += ' first';
 				if (idx === roleArray.length - 1) index += ' last'
 
-
 				return <RoleItem key={role.roleName} index={index} role={role} />
 			})}
 		</div>

@@ -19,7 +19,7 @@ export const RoleContextProvider = ({ children }) => {
     const createRole = async (roleData) => {
         if(selectedInventory?.inventoryId) {
             const {data, error} = await apiClient.createRole(selectedInventory?.inventoryId, roleData);
-
+            console.log(data, error);
             if (data) {
                 return { data: data, error: null }
             } else {

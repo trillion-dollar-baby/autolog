@@ -75,8 +75,8 @@ export function ModalInvite({ closeModal }) {
     // function to handle Add button in modal and make an API call
     const onSubmitMember = async () => {
         // check only form value in this modal
-        if (!formState.hasOwnProperty("email") || !formState.email.includes("@") || formState.email.length === 0) {
-            setModalError("Invalid email!");
+        if (!formState.hasOwnProperty("email") || !formState.email.includes("@") || formState.email.length === 0 || selectedRole == 'Select a role') {
+            setModalError("Invalid parameters!");
         } else {
             setModalProcessing(true);
         
@@ -120,8 +120,6 @@ export function ModalInvite({ closeModal }) {
             onSubmit={onSubmitMember}
             handleClose={closeModal}
         />
-
-
     )
 }
 

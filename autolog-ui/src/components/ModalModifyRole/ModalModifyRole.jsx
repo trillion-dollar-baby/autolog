@@ -1,39 +1,54 @@
 import React from 'react'
-import { useState, useContext,useEffect } from 'react';
-import InventoryContext from '../../contexts/inventory';
 import _ from 'lodash';
-import apiClient from '../../services/apiClient';
+import { useState, useContext, useEffect } from 'react';
+import InventoryContext from '../../contexts/inventory';
 import Form from '../Form/Form';
 import Modal from '../Modal/Modal';
 import { ToastContext } from '../../contexts/toast';
+import PermissionCheckbox from '../PermissionCheckbox/PermissionCheckbox';
+import { RoleContext } from '../../contexts/role';
 
-function ModalCreateCategory({closeModal, setCategory}) {
-    const {notifySuccess, notifyError} = useContext(ToastContext);
+function ModalModifyRole({ closeModal, roleData }) {
+    const { notifySuccess, notifyError } = useContext(ToastContext);
     // contexts
+    const { updateRole } = useContext(RoleContext);
     const { selectedInventoryContext } = useContext(InventoryContext);
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
     // new inventory modal hooks
     const [formState, setFormState] = useState({});
-    
+
     const [modalError, setModalError] = useState();
     const [modalProcessing, setModalProcessing] = useState(false);
 
     // new inventory form
     const formArray = [
         {
-            label: 'Category Name',
-            name: 'categoryName',
+            label: 'Role Name',
+            name: 'name',
             type: 'text',
-            placeholder: 'Bodywork'
+            placeholder: 'Employee'
         },
     ]
 
     // On modal "Create" button, perform API call via InventoryContext
-    const onSubmitNewCategory = async () => {
+    const onSubmitModifyRole = async () => {
         setModalProcessing(true);
+        console.log(formState);
+        if(!formState?.name) {
+            setModalError("No role name specified");
+        }
 
-        const { data, error } = await apiClient.createCategory(selectedInventory.inventoryId, formState.categoryName);
+        // make sure checkboxes are false if never checked
+        const newRoleData = {
+            name: formState.name,
+            create: formState.create || false,
+            read: formState.read || false,
+            update: formState.update || false,
+            delete: formState.delete || false,
+        } 
+
+        const { data, error } = await updateRole(roleData.id, newRoleData);
 
         if (error) {
             setModalError(error);
@@ -41,15 +56,12 @@ function ModalCreateCategory({closeModal, setCategory}) {
         }
         // if it was successful and we got data back, close modal
         if (data) {
-            notifySuccess(`Successfully created new category ${data?.category.categoryName}`)
-            setCategory(_.upperFirst(data?.category.categoryName));
             closeModal();
         }
 
         setModalProcessing(false);
     }
-
-
+    
     return (
         <Modal
             title={'Create New Category'}
@@ -61,7 +73,7 @@ function ModalCreateCategory({closeModal, setCategory}) {
                 setModalError={setModalError}
                 modalProcessing={modalProcessing} />
             }
-            onSubmit={onSubmitNewCategory}
+            onSubmit={onSubmitModifyRole}
             handleClose={closeModal}
         />
     )
@@ -79,10 +91,16 @@ export function ModalBody({ formState, setFormState, formArray, setModalError, m
         <>
             <h3 style={{ color: 'red' }}>{modalError || ''}</h3>
             <Form formState={formState} setFormState={setFormState} formArray={formArray} />
+            <div className="permissions-container">
+                <PermissionCheckbox label={"Create"} name={"create"} setForm={setFormState} />
+                <PermissionCheckbox label={"Read"} name={"read"} setForm={setFormState} />
+                <PermissionCheckbox label={"Update"} name={"update"} setForm={setFormState} />
+                <PermissionCheckbox label={"Delete"} name={"delete"} setForm={setFormState} />
+            </div>
             <h3 style={{ color: 'blue' }}>{modalProcessing ? 'Processing...' : ''}</h3>
         </>
     )
 
 }
 
-export default ModalCreateCategory
+export default ModalModifyRole

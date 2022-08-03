@@ -2,7 +2,6 @@ import React from 'react'
 import _ from 'lodash';
 import { useState, useContext, useEffect } from 'react';
 import InventoryContext from '../../contexts/inventory';
-import apiClient from '../../services/apiClient';
 import Form from '../Form/Form';
 import Modal from '../Modal/Modal';
 import { ToastContext } from '../../contexts/toast';
@@ -35,7 +34,7 @@ function ModalCreateRole({ closeModal }) {
     // On modal "Create" button, perform API call via InventoryContext
     const onSubmitNewRole = async () => {
         setModalProcessing(true);
-        console.log(formState);
+        
         if(!formState?.name) {
             setModalError("No role name specified");
         }
@@ -57,6 +56,7 @@ function ModalCreateRole({ closeModal }) {
         }
         // if it was successful and we got data back, close modal
         if (data) {
+            notifySuccess(`Role ${data.role_name} was successfully created!`)
             closeModal();
         }
 
@@ -90,7 +90,6 @@ export function ModalBody({ formState, setFormState, formArray, setModalError, m
 
     return (
         <>
-            {/* TODO: change this for something consistent with design and spaced */}
             <h3 style={{ color: 'red' }}>{modalError || ''}</h3>
             <Form formState={formState} setFormState={setFormState} formArray={formArray} />
             <div className="permissions-container">
