@@ -34,7 +34,7 @@ function ModalModifyRole({ closeModal, roleData }) {
     // On modal "Create" button, perform API call via InventoryContext
     const onSubmitModifyRole = async () => {
         setModalProcessing(true);
-        console.log(formState);
+
         if(!formState?.name) {
             setModalError("No role name specified");
         }

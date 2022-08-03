@@ -30,7 +30,6 @@ class Role {
     // function to create roles
     static async createRole(inventoryId, role) {
         // check for required fields
-        console.log(role);
         const requiredFields = [
             "name",
             "create",

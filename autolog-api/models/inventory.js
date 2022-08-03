@@ -169,7 +169,7 @@ class Inventory {
         `
 
         const result = await db.query(query, [inventoryId, userEmail]);
-        console.log(result);
+
         if(result.rows[0]) {
             return {message: "success removing user"};
         }
@@ -182,8 +182,7 @@ class Inventory {
 
         const resultAdminId = await db.query(queryAdminId, [inventoryId]);
         const resultUserId = await db.query(queryUserId, [userEmail]);
-        console.log(resultAdminId.rows[0].adminId, "userId", resultUserId.rows[0].id);
-        console.log(resultAdminId.rows[0].adminId === resultUserId.rows[0].id)
+
         return resultAdminId.rows[0].adminId === resultUserId?.rows[0].id;
     }
 }
