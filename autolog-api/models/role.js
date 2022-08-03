@@ -205,7 +205,6 @@ class Role {
             // append into array and then tell admin all the users that contain this error
             if (member.roleId === Number(roleId)) {
                 membersWithRequestedRole.push(member.userEmail);
-                console.log("it happened");
             }
         });
 
