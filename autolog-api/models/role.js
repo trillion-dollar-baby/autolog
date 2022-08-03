@@ -141,6 +141,25 @@ class Role {
         return result.rows;
     }
 
+    // function to get role by id
+    static async getRoleById(id) {
+        const query = `
+            SELECT
+                id,
+                inventory_id AS "inventoryId",
+                role_name AS "roleName",
+                item_create AS "create", 
+                item_read AS "read",
+                item_update AS "update",
+                item_delete AS "delete"
+            FROM roles WHERE id = $1
+        `
+
+        const result = await db.query(query,[id]);
+
+        return result.rows[0];
+    }
+
     // function to update role given all necessary fields to select and update values
     static async updateRole(inventoryId, roleObj) {
         const roleFields = ["roleName", "roleId", "create", "read", "update", "delete"];
@@ -189,9 +208,11 @@ class Role {
         }
 
         // admin can't be deleted
-        if (roleId === 0) {
+        const checkAdminResult = await this.getRoleById(roleId);
+
+        if(checkAdminResult.roleName === "admin") {
             throw new BadRequestError("Admin role can't be deleted!");
-        }
+        } 
 
         // check if there are users that still have the role
         const memberList = await Inventory.getInventoryMembers(inventoryId);
