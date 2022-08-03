@@ -84,7 +84,11 @@ class Role {
             SELECT 
                 id AS "id",
                 role_id AS "roleId",
-                role_name AS "roleName" 
+                role_name AS "roleName",
+                item_create AS "create",
+                item_read AS "read",
+                item_update AS "update",
+                item_delete AS "delete"
             FROM 
                 roles WHERE inventory_id = $1
         `;
@@ -92,6 +96,33 @@ class Role {
         const result = await db.query(query, [inventoryId]);
 
         return result.rows;
+    }
+
+    static async getUserRole(inventoryId, userId) {
+        const result = await db.query(`
+            SELECT 
+                users.id AS "id",
+                (SELECT roles.role_name AS "roleName" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
+                (SELECT roles.role_id AS "roleId" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
+                (SELECT roles.item_create AS "create" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
+                (SELECT roles.item_read AS "read" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
+                (SELECT roles.item_update AS "update" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
+                (SELECT roles.item_delete AS "delete" FROM roles WHERE roles.id = user_to_inventory.user_role_id)
+            FROM 
+                user_to_inventory
+            JOIN
+                users ON users.id = user_to_inventory.user_id
+            JOIN
+                inventory ON inventory.id = user_to_inventory.inventory_id
+            WHERE
+                inventory.id = $1 AND users.id = $2
+        `, [inventoryId, userId]);
+
+        if(result.rows[0]) {
+            return result.rows[0];
+        } else {
+            throw new BadRequestError("No user found");
+        }
     }
 
     // function to get assigned roles to users
@@ -114,6 +145,7 @@ class Role {
         return result.rows;
     }
 
+    // function to update role given all necessary fields to select and update values
     static async updateRole(inventoryId, roleObj) {
         const roleFields = ["roleName", "roleId", "create", "read", "update", "delete"];
 
