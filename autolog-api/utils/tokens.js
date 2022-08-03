@@ -40,7 +40,13 @@ const validateToken = (token) => {
 };
 
 const verifyConfirmationToken = (token, secret) => {
-  return jwt.verify(token, secret)
+  try{
+    const verified = jwt.verify(token, secret)
+    return verified;
+  } 
+  catch(error) {
+    return {}
+  }
 }
 
 module.exports = {

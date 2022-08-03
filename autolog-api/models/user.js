@@ -13,6 +13,7 @@ class User {
             firstName: user.first_name,
             lastName: user.last_name,
             phoneNumber: user.phone_number,
+            emailConfirmed: user.email_confirmed,
         };
     }
 
@@ -87,12 +88,11 @@ class User {
         const lastName = credentials.lastName;
         const phoneNumber = credentials.phoneNumber;
         const role = "admin";
-        const isVerified = true;
 
         const userResult = await db.query(
-            `INSERT INTO users (email, username, first_name, last_name, password, phone_number, role, is_verified)
-	   VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-	   RETURNING id, email, username, first_name, last_name, phone_number, created_at;
+            `INSERT INTO users (email, username, first_name, last_name, password, phone_number, role)
+	   VALUES ($1, $2, $3, $4, $5, $6, $7)
+	   RETURNING id, email, username, first_name, last_name, email_confirmed, phone_number, created_at;
 	  `,
             [
                 normalizedEmail,
@@ -102,7 +102,6 @@ class User {
                 hashedPassword,
                 phoneNumber,
                 role,
-                isVerified,
             ]
         );
         const user = User.makePublicUser(userResult.rows[0]);

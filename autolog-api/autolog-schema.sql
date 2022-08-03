@@ -7,7 +7,7 @@ CREATE TABLE users (
     email TEXT NOT NULL UNIQUE CHECK (POSITION('@' IN email) > 1),
     phone_number TEXT NOT NULL,
     role TEXT NOT NULL,
-    is_verified BOOLEAN NOT NULL,
+    email_confirmed BOOLEAN NOT NULL DEFAULT FALSE,
     created_at timestamp NOT NULL DEFAULT NOW(),
     updated_at timestamp NOT NULL DEFAULT NOW()
 );
