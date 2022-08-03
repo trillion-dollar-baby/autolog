@@ -24,9 +24,10 @@ router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
         const {inventoryId} = req.query;
 
         const { role } = req.body;
-        console.log(role);
-        console.log(inventoryId);
+
         const result = await Role.createRole(inventoryId, role);
+
+        return res.status(200).json(result);
     } catch (error) {
         next(error);
     }

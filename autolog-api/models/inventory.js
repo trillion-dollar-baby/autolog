@@ -117,8 +117,7 @@ class Inventory {
             users.last_name AS "lastName",
             users.username AS "username",
             users.email AS "userEmail",
-			(SELECT roles.role_name AS "roleName" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
-			(SELECT roles.role_id AS "roleId" FROM roles WHERE roles.id = user_to_inventory.user_role_id)
+			(SELECT roles.role_name AS "roleName" FROM roles WHERE roles.id = user_to_inventory.user_role_id)
         FROM 
             user_to_inventory
         JOIN
