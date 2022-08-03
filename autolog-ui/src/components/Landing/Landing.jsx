@@ -8,6 +8,7 @@ import discordIcon from "../../assets/discord-icon.png"
 import Enzo from "../../assets/enzo.png"
 import Deland from "../../assets/delandwithcat.jpg"
 import Wynee from "../../assets/wynee.jpg"
+
 export default function Landing() {
     return (
         <div className='landing-page'>

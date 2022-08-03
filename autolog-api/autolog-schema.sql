@@ -24,28 +24,23 @@ CREATE TABLE inventory (
 CREATE TABLE roles (
     id SERIAL PRIMARY KEY,
     inventory_id INTEGER NOT NULL,
+    role_id INTEGER NOT NULL,
     role_name TEXT NOT NULL,
     item_create BOOLEAN NOT NULL,
-    item_read BOOLEAN NOT NULL DEFAULT TRUE,
-    item_update BOOLEAN NOT NULL DEFAULT TRUE,
+    item_read BOOLEAN NOT NULL,
+    item_update BOOLEAN NOT NULL,
     item_delete BOOLEAN NOT NULL,
     FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
-);
-
-CREATE TABLE user_roles (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    role_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
 );
 
 CREATE TABLE user_to_inventory (
     id SERIAL PRIMARY KEY,
     inventory_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
+    user_role_id INTEGER NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (inventory_id) REFERENCES inventory(id)
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_role_id) REFERENCES roles(id)
 );
 
 CREATE TABLE items (

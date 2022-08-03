@@ -27,7 +27,6 @@
 .member-item.last {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    
 }
 
 .member-item .permissions-section {
@@ -64,10 +63,6 @@
 
 .member-item-name span:nth-child(2) {
     color: gray;
-}
-
-.member-item-dropdown {
-    /* margin-left:auto; */
 }
 
 .member-item-delete {

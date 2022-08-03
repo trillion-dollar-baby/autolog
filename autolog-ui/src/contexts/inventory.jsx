@@ -115,11 +115,18 @@ export const InventoryContextProvider = ({ children }) => {
     }
   }
 
-  // Add members to an inventory
-  const addInventoryMembers = async (userEmail, InventoryId) => {
-    //TODO: accept user role when backend uses it
+  // Update member role
+  const updateInventoryMember = async (memberEmail, roleName) => {
+    const {data, error} = await apiClient.updateInventoryMemberRole(selectedInventory?.inventoryId, memberEmail, roleName)
 
-    const { data, error } = await apiClient.addInventoryMember(userEmail, InventoryId);
+    if(error) { 
+      return error;
+    }
+  }
+
+  // Add members to an inventory
+  const addInventoryMembers = async (inventoryId, userEmail, roleName) => {
+    const { data, error } = await apiClient.addInventoryMember(inventoryId, userEmail, roleName);
 
     if (!error) {
       return {data: data, error: null}
@@ -140,7 +147,8 @@ export const InventoryContextProvider = ({ children }) => {
       inventoryMembersContext: [inventoryMembers, setInventoryMembers],
       errorContext: [error, setError],
       initializedContext: [initialized, setInitialized],
-      addMemberContext: [addInventoryMembers]
+      addMemberContext: [addInventoryMembers],
+      updateInventoryMember
     }}>
       {children}
     </InventoryContext.Provider>
