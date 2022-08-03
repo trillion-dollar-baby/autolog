@@ -15,19 +15,12 @@ export default function RequireAuth({ children }) {
     const location = useLocation();
 
     const notAuthorized = () => {
-        // make user know that he is unauthorized
+        // Sets an error and redirects if the user is not logged in (authorized)
         setError("Unauthorized error, please log in")
         return <Navigate to='/login' replace state={{path: location.pathname}}/>
     }
 
-    // check if user has an inventory
-    // if(apiClient.getToken() && (accessibleInventories.length < 1) && (location.pathname !== '/inventory/create')) {
-    //     return <Navigate to='/inventory/create'/>
-    // }
-
-    // TODO: check if user is verificated when feature is fully working
-
-    // if all conditions are false, show application
+    // If the user does not have a JWT token (has not been authenticated), show application
     return (apiClient.getToken() ? 
         children 
         : 

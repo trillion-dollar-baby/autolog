@@ -46,7 +46,7 @@ export default function Login() {
 
     return (
         <div className='login-page'>
-            {(user?.email && !isProcessing && <Navigate to={state?.path || '/dashboard'}/>)}
+            {(user?.emailConfirmed && user?.email && !isProcessing && <Navigate to={state?.path || '/dashboard'}/>)}
             <div className='content'>
                 {/* header */}
                 <div className='header'>
