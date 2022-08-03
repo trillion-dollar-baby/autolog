@@ -8,10 +8,15 @@ import DashboardContext from "../../contexts/dashboard";
 import ButtonInvite from "../ButtonInvite/ButtonInvite";
 import { ToastContext } from "../../contexts/toast";
 import Checklist from "./Checklist";
+import { EditText, EditTextarea } from 'react-edit-text';
+import 'react-edit-text/dist/index.css';
 
 export default function Dashboard() {
   //form handling
   const [message, setMessage] = useState("");
+
+  //setting item id
+  const [itemId, setId]= useState("");
 
   // Auth context
   const { userContext } = useContext(AuthContext);
@@ -24,7 +29,6 @@ export default function Dashboard() {
     processingContext,
     announcementUpdateContext,
     announcementGetContext,
-    announcementDeleteContext,
     announcementContext,
   } = useContext(DashboardContext);
   const [logs, setLogs] = logContext;
@@ -42,9 +46,15 @@ export default function Dashboard() {
     setMessage(e.target.value);
   }
 
+  //function to display input bar
+  function displayInputBar(){
+    document.getElementById("inputBody").style.display = "block";
+  }
   //submit button handler
 
   async function handleAnnouncementCreate() {
+    if(announcement.length !== 0){
+    }
     setIsProcessing(true);
     const { data, error } = await createAnnouncement(message);
     setIsProcessing(false);
@@ -56,46 +66,30 @@ export default function Dashboard() {
       document.getElementById("inputBody").style.display = "none";
       document.getElementById("delete").style.display = "block";
       document.getElementById("post").style.display = "none";
-      setMessage(data?.items.announcement);
-      console.log("announcement is", data?.items.announcement)
+      setAnnouncement(data?.items.message);
+      setId(data.items.id);
     } else {
       notifyError(error);
     }
   }
 
   async function handleEditAnnouncement(){
+    if(announcement.length !== 0){
+      document.getElementById("announce").style.display = "none";
+      document.getElementById("inputBody").style.display = "block";
+      document.getElementById("post").style.display = "block";
     
-    document.getElementById("announce").style.display = "none";
-    document.getElementById("edit").style.display = "block";
-    document.getElementById("inputBody").style.display = "block";
-    document.getElementById("post").style.display = "block";
-
     setIsProcessing(true);
-    const { data, error } = await updateAnnouncement(message.id, message);
-    console.log("announcementId is", )
+    const { data, error } = await updateAnnouncement(itemId, announcement);
     setIsProcessing(false);
-    console.log(data?.items.announcement)
+
+    console.log("announcement is", announcement)
+    console.log("announcementId is", itemId )
+
     if (data) {
-      notifySuccess(`Announcement successfully updated!`);
-      console.log(data);
-    } else {
-      notifyError(error);
+      setAnnouncement(announcement);
     }
   }
-
-  async function handleDeleteAnnouncement(){
-    setIsProcessing(true);
-    const { data, error } = await updateAnnouncement(announcementId);
-    
-    setIsProcessing(false);
-
-    if (data) {
-      notifySuccess(`Announcement successfully deleted!`);
-      console.log(data);
-      document.getElementById("inputBody").style.display = "block";
-    } else {
-      notifyError(error);
-    }
   }
 
   // Table Elements
@@ -146,8 +140,8 @@ export default function Dashboard() {
             message={message}
             handleAnnouncementCreate={handleAnnouncementCreate}
             handleEditAnnouncement={handleEditAnnouncement}
-            handleDeleteAnnouncement={handleDeleteAnnouncement}
             announcement={announcement}
+            displayInputBar={displayInputBar}
           />
         </div>
         <div className="checklist-container">
@@ -168,13 +162,14 @@ export default function Dashboard() {
 function Announcements({
   handleSubmittedAnnouncement,
   message, announcement,
-  handleAnnouncementCreate, handleEditAnnouncement, handleDeleteAnnouncement
-}) {
+  handleAnnouncementCreate, handleEditAnnouncement,
+displayInputBar}) {
   return (
     <div className="content">
       <div className="header">
         <h2 className="title"> Announcements </h2>
       </div>
+      {/* announcement.length===0 && */}
       <div className="body" id="inputBody">
         <input
           className="announcement-form"
@@ -184,18 +179,21 @@ function Announcements({
           onChange={handleSubmittedAnnouncement}
         />
       </div>
+
       <div id ="announce">
-        {message}
-        </div>
-      <div className="post" id="post">
-        <button className="submit-post" onClick={handleAnnouncementCreate}>Post</button>
+        {announcement}
       </div>
+      <div className="post" id="post">
+        <button className="submit-post" onClick={handleAnnouncementCreate}> New Post</button>
+      </div> 
       {/* Edit button will appear only if post is submitted */}
+      <div className = "buttnz">
+      <div className="post" id="post-2">
+        <button className="submit-post" onClick={displayInputBar}> Make a New Post</button>
+      </div> 
       <div className="edit" id="edit">
         <button className="edit-post" onClick={handleEditAnnouncement}> Edit </button>
       </div>
-      <div className="delete" id="delete">
-        <button className="delete-post" onClick={handleDeleteAnnouncement}> Delete </button>
       </div>
     </div>
   );

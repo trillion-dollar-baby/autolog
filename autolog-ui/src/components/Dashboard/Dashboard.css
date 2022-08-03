@@ -98,16 +98,33 @@
 }
 
 #announce{
-    display:block;
     background-color: #D9D9D9;
+    text-align: left;
+    border: none;
+    height: 30%;
+    width: 100%;
+    padding: 20px;
 }
-
-#edit{
-    display: none;
+.submit-post{
+    background-color: blue;
+    
 }
-#delete{
+#inputBody{
     display:none;
 }
+
+.edit-post{
+    background-color: blue;
+}
+.delete-post{
+    background-color: blue;
+    
+}
+.buttnz{
+    display:flex;
+    gap: 20px;
+}
+
 /****************************/
 
 

@@ -138,7 +138,7 @@ class Dashboard {
     const result = await db.query(
       `
             SELECT announcements.id AS "id",
-                announcements.announcement AS "item",
+                announcements.announcement AS "message",
                 announcements.created_at AS "createdAt",
 			    announcements.updated_at AS "updatedAt"
             FROM announcements

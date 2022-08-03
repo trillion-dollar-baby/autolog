@@ -13,7 +13,7 @@ export const DashboardContextProvider = ({ children }) => {
   //checklist
   const [checklist, setChecklist] = useState([]);
   //announcements
-  const [announcement, setAnnouncement] = useState([]);
+  const [announcement, setAnnouncement] = useState("");
   //is processing and error useStates
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState(null);
@@ -119,9 +119,16 @@ export const DashboardContextProvider = ({ children }) => {
         announcement: message,
       }
     const { data, error } = await apiClient.createAnnouncements(requestObj);
+    //send item id to backend
+
     console.log("Data is", data);
+    console.log("announcement id is", data.items.id);
+    const itemId = data.items.id;
+
     if (!error) {
       fetchAnnouncement();
+      updateAnnouncement(itemId)
+      
       return { data, error: null };
     } else {
       console.error("Error creating announcement, message:", error);
@@ -130,8 +137,9 @@ export const DashboardContextProvider = ({ children }) => {
   };
 
   //Delete announcement
-  const deleteAnnouncement = async (id) => {
-    const { data, error } = await apiClient.deleteAnnouncement(id);
+  const deleteAnnouncement = async (itemId) => {
+    const { data, error } = await apiClient.deleteAnnouncement(itemId);
+    console.log("data is:", data)
     if (!error) {
       fetchAnnouncement();
       return { data, error: null };
@@ -164,11 +172,11 @@ export const DashboardContextProvider = ({ children }) => {
     setIsProcessing(true);
     const { data, err } = await apiClient.getAnnouncement(selectedInventory?.inventoryId);
 
-    console.log('inventory id is:', selectedInventory?.inventoryId);
+    console.log('data is:', data);
 
     if (data) {
-      setAnnouncement(data?.announcement)
-      console.log("announcement is: ",data)
+      setAnnouncement(data?.item.message)
+      console.log("announcement is: ", data)
     } else if (err) {
       setError(err);
     }

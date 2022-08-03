@@ -205,7 +205,7 @@ class ApiClient {
     }
 
     async deleteAnnouncement(itemId) {
-        return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'DELETE', data: data})
+        return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'DELETE'})
     }
 
     /**
