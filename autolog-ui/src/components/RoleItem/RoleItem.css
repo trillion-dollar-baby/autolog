@@ -1,6 +1,75 @@
+#root {
+    --roleItemWidthOffset: 200px;
+    --roleItemHeight: 80px;
+}
+
 .role-item {
-    display: flex;
-    flex-direction: row;
-    max-width: 80%;
-    background-color: var(--backgroundInput);
+    max-width: calc(var(--maxWidth) - var(--roleItemWidthOffset));
+    height: var(--roleItemHeight);
+
+    background-color: var(--memberTableBgColor);
+    
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+
+    border-top: 1.5px solid var(--outlineGray);
+    border-bottom: 1.5px solid var(--outlineGray);
+    margin:0 auto;
+
+    color:black;
+}
+
+/* SECTIONS */
+.role-item>.section:nth-child(2) {
+    display:flex;
+}
+
+/* BORDERS BASED ON INDEX */
+
+.role-item.first {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.role-item.last {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.role-item>.section:nth-child(1) {
+    text-align: left;
+}
+
+.role-item-name {
+    padding-left: 10px;
+
+    display:flex;
+    flex-direction: column;
+    text-align:left;
+    color: black;
+}
+
+/* ROLE OPTIONS */
+
+.role-option {
+    margin-right: 20px;
+    cursor:pointer;
+    color: var(--actionBlueAccent);
+    font-weight: 500;
+}
+
+.role-option:nth-child(2) {
+    color: var(--actionRed);
+}
+
+.role-option:hover {
+    text-decoration: underline;
+}
+
+/* Styling for specific elements */
+
+.role-item>.section>h4 {
+    font-weight: 500;
 }

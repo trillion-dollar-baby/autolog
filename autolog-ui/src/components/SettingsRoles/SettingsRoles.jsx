@@ -8,6 +8,7 @@ import { ToastContext } from '../../contexts/toast';
 import RoleList from '../RoleList/RoleList';
 import InventoryContext from '../../contexts/inventory';
 
+import './SettingsRoles.css';
 function SettingsRoles() {
     const { notifySuccess, notifyError } = useContext(ToastContext);
     const { selectedInventoryContext } = useContext(InventoryContext);
@@ -60,12 +61,8 @@ function SettingsRoles() {
             variants={containerVariants}
             initial={"hidden"}
             animate={"visible"}
-            exit={"exit"}
-        >
-            <div className="content">
+            exit={"exit"}>
                 <RoleList roleArray={roleList} />
-            </div>
-
             <div className="content">
                 <ButtonAction label={"Create new role"} />
             </div>
