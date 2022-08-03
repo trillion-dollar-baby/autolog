@@ -1,6 +1,6 @@
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
-const Inventory = require("./inventory");
+const Inventory = require("./inventory")
 
 class Role {
     // function to create default user roles on every new inventory
@@ -200,19 +200,19 @@ class Role {
         // check if there are users that still have the role
         const memberList = await Inventory.getInventoryMembers(inventoryId);
         const membersWithRequestedRole = [];
-
+        
         memberList.forEach((member) => {
             // append into array and then tell admin all the users that contain this error
-            if (member.roleId === roleId) {
-                membersWithRequestedRole.push(member.email);
+            if (member.roleId === Number(roleId)) {
+                membersWithRequestedRole.push(member.userEmail);
+                console.log("it happened");
             }
         });
 
         // if any found, throw error with detailed information of users containing the role
         if (membersWithRequestedRole.length > 0) {
             throw new BadRequestError(
-                "There are still users with this role! Users: ",
-                membersWithRequestedRole
+                "There are still users with this role! Users: " + membersWithRequestedRole
             );
         }
 

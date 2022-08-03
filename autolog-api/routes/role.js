@@ -18,6 +18,19 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     }
 })
 
+// endpoint to delete a role based on query
+router.delete("/", security.requireAuthenticatedUser, async (req, res, next) => {
+    try {
+        const { inventoryId, roleId } = req.query;
+
+        const result = await Role.deleteRole(inventoryId, roleId);
+
+        return res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+})
+
 // endpoint to get user role of the user that is performing the request
 router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
@@ -25,7 +38,7 @@ router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
         const { inventoryId } = req.query;
 
         const result = await Role.getUserRole(inventoryId, user.id);
-        
+
         return res.status(200).json(result);
     } catch (error) {
         next(error);

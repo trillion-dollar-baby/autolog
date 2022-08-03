@@ -1,8 +1,6 @@
 const _ = require('lodash');
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
-const Role = require("./role");
-
 class Inventory {
     static async createInventory({ inventory, user }) {
         // first check for errors
@@ -27,9 +25,12 @@ class Inventory {
         	[inventory.name, user.email]
         );
 
-		// create default roles for every new inventory using the inventoryId provided
-		await Role.createDefaultRoles(newInventoryResult.rows[0].inventoryId);
+		// return inventory created
+        return newInventoryResult.rows[0];
+    }
 
+    // create user_to_inventory entry in db
+    static async createRelationship(user, inventoryId) {
 		// add user to inventory as an admin
         const relationshipQuery = await db.query(
             `INSERT INTO user_to_inventory(
@@ -38,11 +39,9 @@ class Inventory {
 				user_role_id
 				)
 				VALUES ((SELECT id FROM users WHERE email = $1), $2, (SELECT id FROM roles WHERE inventory_id = $2 AND role_name = 'admin'))`,
-            [user.email, newInventoryResult.rows[0].inventoryId]
+            [user.email, inventoryId]
         );
 		
-		// return inventory created
-        return newInventoryResult.rows[0];
     }
 
     // fetch list of inventories user has access to
