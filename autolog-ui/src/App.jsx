@@ -18,6 +18,7 @@ import Performance from './components/Performance/Performance'
 import CreateInventory from './components/CreateInventory/CreateInventory';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import ItemDetail from './components/ItemDetail/ItemDetail';
+import EmailConfirmation from './components/EmailConfirmation/EmailConfirmation';
 
 function App() {
   return (
@@ -32,8 +33,10 @@ function App() {
           <Routes >
             <Route path='/' element={<Landing />} />
 
+            <Route path='/email-confirmation' element={<EmailConfirmation />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Registration />} />
+            
 
             {/* Routes for only logged in users */}
             <Route path='/dashboard' element={<RequireAuth><Dashboard/></RequireAuth>} />

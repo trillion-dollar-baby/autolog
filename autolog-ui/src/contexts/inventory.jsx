@@ -42,7 +42,7 @@ export const InventoryContextProvider = ({ children }) => {
     }
 
     // fetch data only if there is a user logged in
-    if (user?.email) {
+    if (user?.email && user?.emailConfirmed) {
       fetchData();
     }
     setInitialized(true);

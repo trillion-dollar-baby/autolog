@@ -10,16 +10,18 @@ export default function RequireAuth({ children }) {
     const [error, setError] = errorContext;
 
     const notAuthorized = () => {
-        // make user know that he is unauthorized
+        // Sets an error and redirects if the user is not logged in (authorized)
         setError("Unauthorized error, please log in")
         return <Navigate to='/login' replace state={{path: location.pathname}}/>
     }
 
-    // if an user email is present in AuthContext, render page
-    // if not, redirect to login page with an error message
-    return (apiClient.getToken() ? 
-        children 
-        : 
-        notAuthorized()
-        );
+    // If the user has not logged in (been authorized) then redirect to login page
+    if (!apiClient.getToken()) {
+        return notAuthorized()
+    }
+    // If the user has done both of the above, then allow the user to proceed to authenticated pages
+    else {
+        return children;
+    }
+    
 }
