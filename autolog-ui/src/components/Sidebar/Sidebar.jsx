@@ -11,7 +11,7 @@ import settingsIcon from '../../assets/icons8-info.png';
 export default function Sidebar() {
   const location = useLocation();
   
-  if (location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/') {
+  if (location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/' && location.pathname !== '/email-confirmation') {
     return (
       <div className='sidebar-empty'>
         <nav className="sidebar">
