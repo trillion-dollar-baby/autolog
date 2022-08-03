@@ -31,7 +31,6 @@ function RoleItem({ role, index }) {
         setIsProcessing(false);
     }
 
-    console.log(role);
     return (
         <>
         { !isDeleted ?
