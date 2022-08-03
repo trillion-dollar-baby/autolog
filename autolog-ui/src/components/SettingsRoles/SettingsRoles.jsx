@@ -64,7 +64,7 @@ function SettingsRoles() {
             exit={"exit"}>
                 <RoleList roleArray={roleList} />
             <div className="content">
-                <ButtonAction label={"Create new role"} />
+                <ButtonAction label={"Create new role"} color={"#2EAF79"} />
             </div>
         </motion.div>
     )

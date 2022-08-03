@@ -21,9 +21,7 @@ function RoleItem({ role, index }) {
         if(result?.data) {
             notifySuccess("Successfully deleted role");
         } else {
-            notifyError(result?.error);
-            
-            console.error(result?.error);
+            notifyError(result);
         }
     }
 
