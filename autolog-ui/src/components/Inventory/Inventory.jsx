@@ -65,9 +65,6 @@ export default function Inventory() {
       // as it is a new search, reset page number
       setPageNumber(0);
 
-      setIsProcessing(false);
-
-
       if(result?.items){
         setItems(result?.items);
       }
@@ -75,6 +72,7 @@ export default function Inventory() {
       if (result.items.length === 0) {
         notifyError("No items were found!");
       }
+      setIsProcessing(false);
     }
   }
 

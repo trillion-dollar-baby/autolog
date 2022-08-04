@@ -92,7 +92,7 @@ class Item {
         // get offset if user wants to see more items of the same search
         // if there was no pageNumber received, offset is going to be 0
         let offset;
-        let limit = 30;
+        let limit = 20;
 
         // convert pageNumber to a Number in case it is going to be used in calculation
         if (pageNumber) {
