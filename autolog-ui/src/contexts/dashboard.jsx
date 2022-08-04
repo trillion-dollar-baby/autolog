@@ -121,8 +121,6 @@ export const DashboardContextProvider = ({ children }) => {
     const { data, error } = await apiClient.createAnnouncements(requestObj);
     //send item id to backend
 
-    console.log("Data is", data);
-    console.log("announcement id is", data.items.id);
     const itemId = data.items.id;
 
     if (!error) {
@@ -139,7 +137,6 @@ export const DashboardContextProvider = ({ children }) => {
   //Delete announcement
   const deleteAnnouncement = async (itemId) => {
     const { data, error } = await apiClient.deleteAnnouncement(itemId);
-    console.log("data is:", data)
     if (!error) {
       fetchAnnouncement();
       return { data, error: null };
@@ -153,8 +150,6 @@ export const DashboardContextProvider = ({ children }) => {
     const requestObj = {
         announcement: values
       }
-      console.log("itemId is", itemId)
-      console.log("values is", requestObj)
     const { data, error } = await apiClient.updateAnnouncement(itemId, requestObj);
     if (!error) {
       fetchAnnouncement();
@@ -168,15 +163,12 @@ export const DashboardContextProvider = ({ children }) => {
   //Fetch announcement given by item id
   async function fetchAnnouncement() {
     //return first item on the list (aka most recent)
-    console.log('inventory id is:', selectedInventory?.inventoryId)
     setIsProcessing(true);
     const { data, err } = await apiClient.getAnnouncement(selectedInventory?.inventoryId);
 
-    console.log('data is:', data);
-
     if (data) {
       setAnnouncement(data?.item.message)
-      console.log("announcement is: ", data)
+      
     } else if (err) {
       setError(err);
     }
