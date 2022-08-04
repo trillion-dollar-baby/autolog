@@ -131,26 +131,21 @@ class Dashboard {
     return results.rows;
   }
 
-  //fetch announcement by id
+  //fetch all announcements by id
 
-  static async fetchAnnouncementById(id) {
-    const idId = parseInt(id);
-    // error handling before querying
-    if (isNaN(idId)) {
-      throw new BadRequestError(`id:${id} received is not a number`);
-    } else if (idId < 0) {
-      throw new BadRequestError(`id:${id} cant be less than zero`);
-    }
+  static async fetchAnnouncementById(inventoryId) {
+    
     const result = await db.query(
       `
             SELECT announcements.id AS "id",
-                announcements.announcement AS "item",
+                announcements.announcement AS "message",
                 announcements.created_at AS "createdAt",
 			    announcements.updated_at AS "updatedAt"
             FROM announcements
                 JOIN inventory ON inventory.id = announcements.inventory_id
-            WHERE announcements.id = $1`,
-      [idId]
+            WHERE announcements.inventory_id = $1
+            ORDER BY id DESC`,
+      [inventoryId]
     );
 
     // return the only entry that exists

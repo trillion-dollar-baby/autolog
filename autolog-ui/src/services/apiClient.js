@@ -119,8 +119,8 @@ class ApiClient {
         return await this.request({endpoint: `item/id/${itemId}`, method: 'GET'});
     }
     
-    async getItemList(inventoryId, pageNumber, search) {
-        return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}`, method: 'GET'});
+    async getItemList(inventoryId, pageNumber, search, category) {
+        return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
     }
 
     async updateItem(itemId, data) {
@@ -171,9 +171,46 @@ class ApiClient {
     }
 
     /**
-     * Roles endpoints
+     * Dashboard endpoints
      */
 
+    //Checklist endpoints
+     async createCheckListItem(values) {
+        return await this.request({endpoint: 'dashboard/checklist', method: 'POST', data: values})
+    }
+
+    async getCheckList(itemId) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'GET'});
+    }
+
+    async updateCheckList(itemId, data) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'PATCH', data: data});
+    }
+
+    async deleteCheckListItem(itemId) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'DELETE', data: data})
+    }
+
+    //announcements endpoints
+    async createAnnouncements(values) {
+        return await this.request({endpoint: `dashboard/announcement/`, method: 'POST', data: values})
+    }
+
+    async getAnnouncement(inventoryId) {
+        return await this.request({endpoint: `dashboard/recent/?inventoryId=${inventoryId}`, method: 'GET'});
+    }
+
+    async updateAnnouncement(itemId, data) {
+        return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'PATCH', data: data});
+    }
+
+    async deleteAnnouncement(itemId) {
+        return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'DELETE'})
+    }
+
+    /**
+    * Roles endpoints
+    */
     async getRoles(inventoryId) {
         return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}`, method: 'GET'});
     }
