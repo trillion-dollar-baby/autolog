@@ -35,7 +35,7 @@ export const InventoryContextProvider = ({ children }) => {
         }
 
       } catch (error) {
-        console.log("useEffect inventory.jsx: ", error);
+        console.error("useEffect inventory.jsx: ", error);
       }
 
       setIsProcessing(false);
@@ -136,6 +136,18 @@ export const InventoryContextProvider = ({ children }) => {
     }
   }
 
+  // remove member from inventory
+  const removeInventoryMember = async (userEmail) => {
+    const {data, error} = await apiClient.removeInventoryMember(selectedInventory?.inventoryId, userEmail);
+
+    if (!error) {
+      return {data: data, error: null}
+    } else {
+      console.error("Error removing member from inventory, message:", error)
+      return {data: null, error: error}
+    }
+  }
+
   return (
     <InventoryContext.Provider value={{
       inventoryGetContext: [getAccessibleInventories, getOwnedInventories, getInventoryMembers],
@@ -148,7 +160,8 @@ export const InventoryContextProvider = ({ children }) => {
       errorContext: [error, setError],
       initializedContext: [initialized, setInitialized],
       addMemberContext: [addInventoryMembers],
-      updateInventoryMember
+      updateInventoryMember,
+      removeInventoryMember
     }}>
       {children}
     </InventoryContext.Provider>

@@ -11,7 +11,7 @@ import './Modal.css'
 import ModalButton from '../ModalButton/ModalButton';
 import Form from '../Form/Form';
 
-export default function Modal({ handleClose, title, body, onSubmit }) {
+export default function Modal({ handleClose, title, body, onSubmit, actionButtons }) {
     
 
     const dropIn = {
@@ -53,12 +53,16 @@ export default function Modal({ handleClose, title, body, onSubmit }) {
                 </ModalBody>
 
                 <ModalFooter>
-                    <ModalButton style={{ 'backgroundColor': 'var(--actionRed)', 'marginLeft': 'auto' }} onClick={handleClose}>Close</ModalButton>
+                    <ModalButton 
+                        style={{ 'backgroundColor': actionButtons?.close?.backgroundColor || 'var(--actionRed)', 'marginLeft': 'auto' }} 
+                        onClick={handleClose}>
+                            {actionButtons?.close?.label || "Close"}
+                        </ModalButton>
                     {onSubmit && 
                     <ModalButton 
-                        style={{ 'backgroundColor': 'var(--actionBlue)' }} 
+                        style={{ 'backgroundColor': actionButtons?.submit?.backgroundColor || 'var(--actionBlueAccent)' }} 
                         onClick={() => {onSubmit()}}>
-                            Create
+                            {actionButtons?.submit?.label || "Create"}
                     </ModalButton>}
                 </ModalFooter>
             </motion.div>
