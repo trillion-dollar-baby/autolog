@@ -83,9 +83,6 @@ export default function Dashboard() {
     const { data, error } = await updateAnnouncement(itemId, announcement);
     setIsProcessing(false);
 
-    console.log("announcement is", announcement)
-    console.log("announcementId is", itemId )
-
     if (data) {
       setAnnouncement(announcement);
     }

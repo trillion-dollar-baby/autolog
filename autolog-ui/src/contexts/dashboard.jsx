@@ -58,8 +58,8 @@ export const DashboardContextProvider = ({ children }) => {
   // Create checklist given data
   const createList = async (list) => {
     const requestObj = {
-        inventoryId: selectedInventory?.inventoryId,
-        announcement: list,
+        item: list,
+        inventoryId: selectedInventory?.inventoryId
       }
     const { data, error } = await apiClient.createCheckListItem(requestObj);
     if (!error) {

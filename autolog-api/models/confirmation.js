@@ -34,7 +34,6 @@ class Confirmation {
                 });
             }
         );
-        console.log("reached", receiverEmail)
     }
 
     static verifyConfirmationToken(token, secret) {

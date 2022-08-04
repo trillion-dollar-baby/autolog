@@ -79,7 +79,6 @@ router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
 router.post("/announcement", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         const { user } = res.locals;
-        console.log("request body", req.body)
         const items = await Dashboard.createAnnouncements({ announcement: req.body, user: user });
         
         return res.status(201).json({ items });
