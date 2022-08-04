@@ -25,7 +25,7 @@ class ApiClient {
      */
 
     async request({endpoint, method = "GET", data = {}}) {
-        const url = `${this.remoteHostUrl}/${endpoint}`;
+        const url = `${this.remoteHostUrl}${endpoint}`;
 
         const headers = {
             "Accept":"application/json, text/plain, /",
@@ -199,4 +199,4 @@ class ApiClient {
     }
 }
 
-export default new ApiClient("http://localhost:3001");
+export default new ApiClient(API_BASE_URL);
