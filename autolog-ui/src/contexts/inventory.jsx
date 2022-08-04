@@ -35,7 +35,7 @@ export const InventoryContextProvider = ({ children }) => {
         }
 
       } catch (error) {
-        console.log("useEffect inventory.jsx: ", error);
+        console.error("useEffect inventory.jsx: ", error);
       }
 
       setIsProcessing(false);
@@ -48,7 +48,7 @@ export const InventoryContextProvider = ({ children }) => {
     setInitialized(true);
   }, [user]);
 
-   // Loading message to stop any other children components to render
+  // Loading message to stop any other children components to render
   //  if ((isProcessing) || (initialized === false)) return (
   //   <div className="">
   //     {/* <Loading /> */}
@@ -62,13 +62,13 @@ export const InventoryContextProvider = ({ children }) => {
       setAccessibleInventories((prev) => [...prev, data.inventory]);
       setSelectedInventory(data.inventory);
       // return data for components using this to know it is successful
-      return {data: data, error: null}
+      return { data: data, error: null }
     }
     else {
       console.error("Error creating inventory, message:", error)
-      
+
       // return data for components using this to know it is not successful
-      return {data: null, error: error}
+      return { data: null, error: error }
     }
   }
 
@@ -105,21 +105,23 @@ export const InventoryContextProvider = ({ children }) => {
 
   // Get members of a given inventory
   const getInventoryMembers = async () => {
-    const { data, error } = await apiClient.getInventoryMembers(selectedInventory.inventoryId);
+    if (selectedInventory?.inventoryId) {
+      const { data, error } = await apiClient.getInventoryMembers(selectedInventory?.inventoryId);
 
-    if (!error) {
-      setInventoryMembers(data?.members);
-      return data?.members;
-    } else {
-      console.error("Error getting inventory members, message:", error)
+      if (!error) {
+        setInventoryMembers(data?.members);
+        return data?.members;
+      } else {
+        console.error("Error getting inventory members, message:", error)
+      }
     }
   }
 
   // Update member role
   const updateInventoryMember = async (memberEmail, roleName) => {
-    const {data, error} = await apiClient.updateInventoryMemberRole(selectedInventory?.inventoryId, memberEmail, roleName)
+    const { data, error } = await apiClient.updateInventoryMemberRole(selectedInventory?.inventoryId, memberEmail, roleName)
 
-    if(error) { 
+    if (error) {
       return error;
     }
   }
@@ -129,10 +131,22 @@ export const InventoryContextProvider = ({ children }) => {
     const { data, error } = await apiClient.addInventoryMember(inventoryId, userEmail, roleName);
 
     if (!error) {
-      return {data: data, error: null}
+      return { data: data, error: null }
     } else {
       console.error("Error adding member to inventory, message:", error)
-      return {data: null, error: error}
+      return { data: null, error: error }
+    }
+  }
+
+  // remove member from inventory
+  const removeInventoryMember = async (userEmail) => {
+    const { data, error } = await apiClient.removeInventoryMember(selectedInventory?.inventoryId, userEmail);
+
+    if (!error) {
+      return { data: data, error: null }
+    } else {
+      console.error("Error removing member from inventory, message:", error)
+      return { data: null, error: error }
     }
   }
 
@@ -148,7 +162,8 @@ export const InventoryContextProvider = ({ children }) => {
       errorContext: [error, setError],
       initializedContext: [initialized, setInitialized],
       addMemberContext: [addInventoryMembers],
-      updateInventoryMember
+      updateInventoryMember,
+      removeInventoryMember
     }}>
       {children}
     </InventoryContext.Provider>

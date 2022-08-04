@@ -7,11 +7,15 @@ import arrowExpand from '../../assets/icons8-expand-arrow-2.png'
 import arrowCollapse from '../../assets/icons8-collapse-arrow-2.png'
 import DropdownOverlay from '../DropdownOverlay/DropdownOverlay';
 
-export default function Dropdown({ value, items, onSelect }) {
+export default function Dropdown({ value, items, onSelect, disabled = false}) {
     const [open, setOpen] = useState(false);
     const [selected, setSelected] = useState(value);
 
-    const toggle = () => setOpen(!open);
+    const toggle = () => {
+        if(!disabled){
+            setOpen(!open);
+        }
+    };
 
     const handleOnClick = (value) => {
         //share value that user selected to the components above the dropdown component

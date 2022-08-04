@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import ButtonAction from '../Button/ButtonAction'
 import { RoleContext } from '../../contexts/role';
 import apiClient from '../../services/apiClient';
@@ -9,6 +9,8 @@ import RoleList from '../RoleList/RoleList';
 import InventoryContext from '../../contexts/inventory';
 
 import './SettingsRoles.css';
+import ModalCreateRole from '../ModalCreateRole/ModalCreateRole';
+import ModalWarning from '../ModalWarning/ModalWarning';
 function SettingsRoles() {
     const { notifySuccess, notifyError } = useContext(ToastContext);
     const { selectedInventoryContext } = useContext(InventoryContext);
@@ -19,23 +21,30 @@ function SettingsRoles() {
     const [roleList, setRoleList] = useState([]);
     const [isProcessing, setIsProcessing] = useState(false);
 
+    const [modalOpen, setModalOpen] = useState(false);
+    const [modalWarningOpen, setModalWarningOpen] = useState(false);
+
+    const openModal = () => setModalOpen(true);
+    const closeModal = () => setModalOpen(false);
+
+    //function that will refresh the list of roles
+    const fetchList = async () => {
+        setIsProcessing(true);
+        try {
+            const result = await getRoleList();
+
+            if (result?.data) {
+                setRoleList(result.data)
+            }
+        } catch (error) {
+            console.error(error);
+            notifyError(error);
+        }
+        setIsProcessing(false);
+    }
+
     // fetch list of roles available in inventory on mount
     useEffect(() => {
-        const fetchList = async () => {
-            setIsProcessing(true);
-            try {
-                const result = await getRoleList();
-
-                if (result?.data) {
-                    setRoleList(result.data)
-                }
-            } catch (error) {
-                console.error(error);
-                notifyError(error);
-            }
-            setIsProcessing(false);
-        }
-
         if (selectedInventory?.inventoryId) {
             fetchList();
         }
@@ -62,10 +71,19 @@ function SettingsRoles() {
             initial={"hidden"}
             animate={"visible"}
             exit={"exit"}>
-                <RoleList roleArray={roleList} />
-            <div className="content">
-                <ButtonAction label={"Create new role"} color={"#2EAF79"} />
+                <RoleList roleArray={roleList} fetchList={fetchList}/>
+            <div className="button-wrapper">
+                <ButtonAction onClick={openModal} label={"Create new role"} color={"#2EAF79"} />
             </div>
+            <AnimatePresence
+				initial={false}
+				exitBeforeEnter={true}
+				onExitComplete={() => null}>
+				{
+					(modalOpen &&
+					<ModalCreateRole fetchList={fetchList} closeModal={closeModal}/>)
+				}
+			</AnimatePresence>
         </motion.div>
     )
 }

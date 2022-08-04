@@ -179,11 +179,11 @@ class ApiClient {
     }
 
     async createRole(inventoryId, roleData) {
-        return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}`, method: 'POST', data: roleData});
+        return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}`, method: 'POST', data: {role: roleData}});
     }
 
     async updateRole(inventoryId, roleId, roleData) {
-        return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}`, method: 'PATCH', data: roleData});
+        return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}&roleId=${roleId}`, method: 'PATCH', data: {role: roleData}});
     }
 
     async deleteRole(inventoryId, roleId) {
@@ -192,6 +192,10 @@ class ApiClient {
 
     async getUserRole(inventoryId) {
         return await this.request({endpoint: `inventory/roles/me/?inventoryId=${inventoryId}`, method: 'GET'});
+    }
+
+    async getRoleById(inventoryId, roleId) {
+        return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}&roleId=${roleId}`, method: `GET`});
     }
 }
 
