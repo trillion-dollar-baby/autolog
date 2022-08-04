@@ -10,9 +10,10 @@ import { ToastContext } from '../../contexts/toast';
 import apiClient from '../../services/apiClient';
 import InventoryContext from '../../contexts/inventory';
 
-export default function MemberItem({ index, id, firstName, lastName, email, userRole, phoneNumber, roleOptions }) {
+export default function MemberItem({ index, id, firstName, lastName, email, userRole, roleOptions, currentUserRole }) {
 	const { notifySuccess, notifyError } = useContext(ToastContext);
-	const { updateInventoryMember, removeInventoryMember } = useContext(InventoryContext);
+	const { updateInventoryMember, removeInventoryMember, selectedInventoryContext } = useContext(InventoryContext);
+	const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 	const [isDeleted, setIsDeleted] = useState(false);
 	// get role value from the dropdown and change it in the backend 
 	const onDropdownClick = async (role) => {
@@ -43,13 +44,13 @@ export default function MemberItem({ index, id, firstName, lastName, email, user
 					<div className="user-section">
 						<img className='member-item-image' src={placeholderImage} />
 						<div className="member-item-name">
-							<span>{_.capitalize(firstName)} {_.capitalize(lastName)}</span>
+							<span>{_.capitalize(firstName)} {_.capitalize(lastName)} {selectedInventory?.ownerId === id ? "(Owner)" : ""}</span>
 							<span>{email}</span>
 						</div>
 					</div>
 					<div className='permissions-section'>
 						<div className='dropdown'>
-							<Dropdown value={userRole} onSelect={onDropdownClick} items={roleOptions} />
+							<Dropdown value={userRole} onSelect={onDropdownClick} items={roleOptions} disabled={currentUserRole?.roleName !== 'admin'} />
 						</div>
 						<div className='remove-btn'>
 							<img className={'member-item-delete'} title='Remove member from inventory' alt='remove button' onClick={onClickDelete} src={iconDelete} />

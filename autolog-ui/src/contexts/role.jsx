@@ -17,8 +17,8 @@ export const RoleContextProvider = ({ children }) => {
 
     // functionn to create a new role in the backend
     const createRole = async (roleData) => {
-        if(selectedInventory?.inventoryId) {
-            const {data, error} = await apiClient.createRole(selectedInventory?.inventoryId, roleData);
+        if (selectedInventory?.inventoryId) {
+            const { data, error } = await apiClient.createRole(selectedInventory?.inventoryId, roleData);
 
             if (data) {
                 return { data: data, error: null }
@@ -31,7 +31,7 @@ export const RoleContextProvider = ({ children }) => {
 
     // get role based on id provided
     const getRoleById = async (roleId) => {
-        if(selectedInventory?.inventoryId) {
+        if (selectedInventory?.inventoryId) {
             const { data, error } = await apiClient.getRoleById(selectedInventory?.inventoryId, roleId);
 
             if (data) {
@@ -59,37 +59,43 @@ export const RoleContextProvider = ({ children }) => {
 
     // getter function for roleList
     const getRoleList = async () => {
-        const { data, error } = await apiClient.getRoles(selectedInventory?.inventoryId);
+        if (selectedInventory?.inventoryId) {
+            const { data, error } = await apiClient.getRoles(selectedInventory?.inventoryId);
 
-        if (data) {
-            return { data: data, error: null }
-        } else {
-            console.error(error);
-            return { data: null, error: error }
+            if (data) {
+                return { data: data, error: null }
+            } else {
+                console.error(error);
+                return { data: null, error: error }
+            }
         }
     }
 
     // function to update a specific role
     const updateRole = async (roleId, updatedRole) => {
-        const { data, error } = await apiClient.updateRole(selectedInventory?.inventoryId, roleId, updatedRole);
+        if (selectedInventory?.inventoryId) {
+            const { data, error } = await apiClient.updateRole(selectedInventory?.inventoryId, roleId, updatedRole);
 
-        if (data) {
-            return { data: data, error: null }
-        } else {
-            console.error(error);
-            return { data: null, error: error }
+            if (data) {
+                return { data: data, error: null }
+            } else {
+                console.error(error);
+                return { data: null, error: error }
+            }
         }
     }
 
     // function to delete a specific role
     const deleteRole = async (roleId) => {
-        const { data, error } = await apiClient.deleteRole(selectedInventory?.inventoryId, roleId);
+        if (selectedInventory?.inventoryId) {
+            const { data, error } = await apiClient.deleteRole(selectedInventory?.inventoryId, roleId);
 
-        if (data) {
-            return data;
-        } else {
-            console.error(error)
-            return error;
+            if (data) {
+                return data;
+            } else {
+                console.error(error)
+                return error;
+            }
         }
     }
 

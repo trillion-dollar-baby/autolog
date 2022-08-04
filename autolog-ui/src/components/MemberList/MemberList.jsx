@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { RoleContext } from '../../contexts/role';
 import MemberItem from '../MemberItem/MemberItem';
 import './MemberList.css';
 
@@ -14,6 +15,29 @@ import './MemberList.css';
  */
 
 export default function MemberList({userArray, roleArray}) {
+	const {getUserRole} = useContext(RoleContext);
+
+	const [isProcessing, setIsProcessing] = useState(false);
+	const [currentUserRole, setCurrentUserRole] = useState({});
+
+	useEffect(() => {
+		const fetchUserRole = async () => {
+			setIsProcessing(true);
+			
+			const result = await getUserRole();
+			
+			if(result?.data) {
+				setCurrentUserRole(result?.data)
+			}
+
+			setIsProcessing(false);
+		} 
+
+		fetchUserRole();
+	}, [])
+
+	if(isProcessing) return <></>
+
 	return (
 		<div className="member-list">
 			{userArray?.map((item, idx) => {
@@ -30,7 +54,8 @@ export default function MemberList({userArray, roleArray}) {
 						lastName={item.lastName} 
 						email={item.userEmail} 
 						userRole={item.roleName}
-						roleOptions={roleArray} />
+						roleOptions={roleArray}
+						currentUserRole={currentUserRole}/>
 				)
 			})}
 		</div>
