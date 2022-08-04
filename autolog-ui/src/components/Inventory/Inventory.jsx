@@ -1,5 +1,4 @@
-import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { motion } from "framer-motion";
 import "./Inventory.css";
@@ -26,6 +25,13 @@ export default function Inventory() {
   const [searchItem] = searchContext;
   const [searchTerm, setSearchTerm] = searchTermContext;
 
+  // Categories constants
+  const [isFetching, setIsFetching] = useState(false);
+  const [categoryItems, setCategoryItems] = useState();
+  const [selectedCategory, setSelectedCategory] = useState('Search by');
+
+  const [sortItems, setSortItems] = useState();
+  const [selectedSort, setSelectedSort] = useState('Sort by');
 
   const settingsRoutes = [
     {
@@ -59,6 +65,14 @@ export default function Inventory() {
       }
     }
   }
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      
+    }
+
+    fetchCategories();
+  }, [])
 
   const containerVariants = {
 	hidden: {
@@ -101,6 +115,7 @@ export default function Inventory() {
             onkeypress={handle}
           />
         </div>
+        
       </div>
       <div className="table-container">
         {isProcessing || !initialized ? (
@@ -110,6 +125,7 @@ export default function Inventory() {
             tableLabel={"Results"}
             tableElementArray={items.length ? items : []}
             tableColumnLabelArray={columnLabel}
+            isItemTable={true}
           />
         )}
       </div>
