@@ -160,8 +160,8 @@ class Role {
     }
 
     // function to update role given all necessary fields to select and update values
-    static async updateRole(inventoryId, roleObj) {
-        const roleFields = ["roleName", "roleId", "create", "read", "update", "delete"];
+    static async updateRole(inventoryId, roleId, roleObj) {
+        const roleFields = ["name", "create", "read", "update", "delete"];
 
         if (isNaN(inventoryId)) {
             throw new BadRequestError("Inventory ID is NaN");
@@ -188,13 +188,13 @@ class Role {
 
         const result = await db.query(
             query, [
-            roleObj.roleName,
+            roleObj.name,
             roleObj.create,
             roleObj.read,
             roleObj.update,
             roleObj.delete,
             inventoryId,
-            roleObj.roleId]);
+            roleId]);
 
         if(result.rows[0]) {
             return {message: `Success updating role ${roleObj.roleName}`}

@@ -29,6 +29,20 @@ export const RoleContextProvider = ({ children }) => {
         }
     }
 
+    // get role based on id provided
+    const getRoleById = async (roleId) => {
+        if(selectedInventory?.inventoryId) {
+            const { data, error } = await apiClient.getRoleById(selectedInventory?.inventoryId, roleId);
+
+            if (data) {
+                return { data: data, error: null }
+            } else {
+                console.error(error);
+                return { data: null, error: error }
+            }
+        }
+    }
+
     // get current user role in whichever inventory the user is
     const getUserRole = async () => {
         if (selectedInventory?.inventoryId) {
@@ -82,6 +96,7 @@ export const RoleContextProvider = ({ children }) => {
     const values = {
         createRole,
         getRoleList,
+        getRoleById,
         getUserRole,
         updateRole,
         deleteRole,
