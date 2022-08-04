@@ -3,17 +3,22 @@ import _ from 'lodash';
 import React, { useContext, useState } from 'react'
 import { RoleContext } from '../../contexts/role';
 import { ToastContext } from '../../contexts/toast';
+import ModalModifyRole from '../ModalModifyRole/ModalModifyRole';
 import ModalWarning from '../ModalWarning/ModalWarning';
 import RoleAbility from '../RoleAbility/RoleAbility';
 
 import './RoleItem.css';
 
-function RoleItem({ role, index }) {
+function RoleItem({ role, index, fetchList }) {
     const { notifySuccess, notifyError } = useContext(ToastContext);
 
     const [isProcessing, setIsProcessing] = useState(false);
     const [isDeleted, setIsDeleted] = useState(false);
     const [modalWarningOpen, setModalWarningOpen] = useState(false);
+    const [modalModifyOpen, setModalModifyOpen] = useState(false);
+
+    const openModifyModal = () => setModalModifyOpen(true);
+    const closeModifyModal = () => setModalModifyOpen(false);
 
     const openWarningModal = () => setModalWarningOpen(true);
     const closeWarningModal = () => setModalWarningOpen(false);
@@ -21,7 +26,7 @@ function RoleItem({ role, index }) {
     const { deleteRole } = useContext(RoleContext);
 
     const onClickModify = async () => {
-        //TODO: IMPLEMENT
+        openModifyModal();
     }
 
     const onClickDelete = async () => {
@@ -64,8 +69,17 @@ function RoleItem({ role, index }) {
                         exitBeforeEnter={true}
                         onExitComplete={() => null}>
                         {
+
+                            (modalModifyOpen && <ModalModifyRole fetchList={fetchList} closeModal={closeModifyModal} roleData={role} />)
+                        }
+                    </AnimatePresence>
+                    <AnimatePresence
+                        initial={false}
+                        exitBeforeEnter={true}
+                        onExitComplete={() => null}>
+                        {
                             (modalWarningOpen &&
-                            <ModalWarning message={`Are you sure you want to delete the role ${role.roleName}?`} onSubmit={onClickDelete} closeModal={closeWarningModal} />)
+                                <ModalWarning message={`Are you sure you want to delete the role ${role.roleName}?`} onSubmit={onClickDelete} closeModal={closeWarningModal} />)
                         }
                     </AnimatePresence>
                 </>

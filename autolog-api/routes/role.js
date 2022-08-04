@@ -8,10 +8,16 @@ const router = express.Router()
 // endpoint to get roles in inventory
 router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
-        const { inventoryId } = req.query;
-
-        const result = await Role.getRoles(inventoryId);
+        const { inventoryId, roleId } = req.query;
         
+        let result;
+
+        if(roleId) {
+            result = await Role.getRoleById(roleId);
+        } else {
+            result = await Role.getRoles(inventoryId);
+        }
+
         return res.status(200).json(result);
     } catch (error) {
         next(error);
@@ -53,6 +59,22 @@ router.get("/me", security.requireAuthenticatedUser, async (req, res, next) => {
         const { inventoryId } = req.query;
 
         const result = await Role.getUserRole(inventoryId, user.id);
+
+        return res.status(200).json(result);
+    } catch (error) {
+        next(error);
+    }
+})
+
+// endpoint to update role
+router.patch("/", security.requireAuthenticatedUser, async (req,res,next) => {
+    try {
+
+        const { inventoryId, roleId } = req.query;
+
+        const { role } = req.body;
+
+        const result = await Role.updateRole(inventoryId, roleId, role);
 
         return res.status(200).json(result);
     } catch (error) {

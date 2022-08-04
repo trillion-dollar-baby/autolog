@@ -1,7 +1,7 @@
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
-const Inventory = require("./inventory")
 const _ = require('lodash');
+const Member = require("./member");
 class Role {
     // function to create default user roles on every new inventory
     static async createDefaultRoles(inventoryId) {
@@ -160,8 +160,8 @@ class Role {
     }
 
     // function to update role given all necessary fields to select and update values
-    static async updateRole(inventoryId, roleObj) {
-        const roleFields = ["roleName", "roleId", "create", "read", "update", "delete"];
+    static async updateRole(inventoryId, roleId, roleObj) {
+        const roleFields = ["name", "create", "read", "update", "delete"];
 
         if (isNaN(inventoryId)) {
             throw new BadRequestError("Inventory ID is NaN");
@@ -188,13 +188,13 @@ class Role {
 
         const result = await db.query(
             query, [
-            roleObj.roleName,
+            roleObj.name,
             roleObj.create,
             roleObj.read,
             roleObj.update,
             roleObj.delete,
             inventoryId,
-            roleObj.roleId]);
+            roleId]);
 
         if(result.rows[0]) {
             return {message: `Success updating role ${roleObj.roleName}`}
@@ -214,7 +214,7 @@ class Role {
         } 
 
         // check if there are users that still have the role
-        const memberList = await Inventory.getInventoryMembers(inventoryId);
+        const memberList = await Member.getInventoryMembers(inventoryId);
         const membersWithRequestedRole = [];
         
         memberList.forEach((member) => {
