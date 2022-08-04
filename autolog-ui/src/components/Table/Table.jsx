@@ -37,8 +37,6 @@ export default function Table({
                             
                             </>
                         ))}{" "}
-                            
-                        
                     </div>
                 ))}
                 {/* if it is a item table, leave a ItemDetail link for every item by their ID*/}
@@ -50,7 +48,7 @@ export default function Table({
                     {tableElementArray?.map((rowItems, index) => (
                         <li className="row-item" key={`row-item-detail-${index}`}>
                             {" "}
-                            <Link to={`/item/id/${rowItems["id"]}`}>Detail</Link>{" "}
+                            <Link to={`/item/id/${rowItems["id"]}`} key={index} >Detail</Link>{" "}
                         </li>
                     ))}{" "}
                 </div>
