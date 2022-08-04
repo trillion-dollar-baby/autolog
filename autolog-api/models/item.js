@@ -88,8 +88,7 @@ class Item {
     }
 
     // get inventory items by inventoryId
-    //TODO: implement sort by search
-    static async listInventoryItems(inventoryId, search = "", pageNumber = 0) {
+    static async listInventoryItems(inventoryId, search = "", pageNumber = 0, category = "") {
         // get offset if user wants to see more items of the same search
         // if there was no pageNumber received, offset is going to be 0
         let offset;
@@ -111,7 +110,7 @@ class Item {
 				items.quantity
 			FROM items
 				JOIN inventory ON inventory.id = items.inventory_id
-			WHERE items.inventory_id = $1 AND items.name ~ $4
+			WHERE items.inventory_id = $1 AND items.name ~ $4 AND items.category ~ $5
 			ORDER BY items.created_at DESC
 			LIMIT $2 OFFSET $3`;
 
@@ -120,6 +119,7 @@ class Item {
             limit,
             offset,
             search.toLowerCase(),
+            category.toLowerCase()
         ]);
 
         return results.rows;

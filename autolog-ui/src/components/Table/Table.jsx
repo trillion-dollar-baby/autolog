@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./Table.css";
+import { Link } from "react-router-dom";
 
 /**
  * Reusable Component for creating forms throughout the application
@@ -12,6 +13,7 @@ export default function Table({
     tableElementArray,
     tableColumnLabelArray,
     tableLabel,
+    isItemTable = false
 }) {
     return (
         <div className="table">
@@ -24,15 +26,33 @@ export default function Table({
                         <p className="column-label">
                             {" "}
                             {columnName.toUpperCase()}{" "}
+                            
                         </p>
                         {tableElementArray?.map((rowItems, index) => (
+                            <>
                             <li className="row-item" key={`row-item-${index}`}>
                                 {" "}
                                 {rowItems[columnName]}{" "}
                             </li>
+                            
+                            </>
                         ))}{" "}
                     </div>
                 ))}
+                {/* if it is a item table, leave a ItemDetail link for every item by their ID*/}
+                {isItemTable ?
+                    <div key={`column-detail`} className={`table-column`}>
+                    <p className="column-label">
+                        {" "}{" "}{" "}
+                    </p>
+                    {tableElementArray?.map((rowItems, index) => (
+                        <li className="row-item" key={`row-item-detail-${index}`}>
+                            {" "}
+                            <Link to={`/item/id/${rowItems["id"]}`} key={index} >Detail</Link>{" "}
+                        </li>
+                    ))}{" "}
+                </div>
+                :<></>} 
             </div>
         </div>
     );
