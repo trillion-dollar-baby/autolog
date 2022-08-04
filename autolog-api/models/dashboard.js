@@ -19,6 +19,7 @@ class Dashboard {
     const results = await db.query(
       ` SELECT checklist.id,
                checklist.item,
+               checklist.is_checked,
                i.id as "userId"
         FROM checklist
             RIGHT JOIN inventory AS i ON i.id = checklist.inventory_id
@@ -28,6 +29,22 @@ class Dashboard {
     );
     return results.rows;
   }
+  //list item for inventory id and user
+  static async listItemForUsertoInventory(user, inventoryId) {
+    const results = await db.query(
+      ` SELECT id,
+               item,
+               is_checked,
+               user_id,
+               inventory_id
+        FROM checklist
+        WHERE checklist.user_id = $1 AND checklist.inventory_id = $2
+    `,
+      [user.id, inventoryId]
+    );
+    return results.rows;
+  }
+
 
   //fetch checklist item by id
   static async fetchCheckItemById(id) {

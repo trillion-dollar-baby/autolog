@@ -11,7 +11,7 @@ export const DashboardContextProvider = ({ children }) => {
   //logs
   const [logs, setLogs] = useState([]);
   //checklist
-  const [checklist, setChecklist] = useState([]);
+  const [todos, setTodos] = useState([]);
   //announcements
   const [announcement, setAnnouncement] = useState("");
   //is processing and error useStates
@@ -62,8 +62,9 @@ export const DashboardContextProvider = ({ children }) => {
         inventoryId: selectedInventory?.inventoryId
       }
     const { data, error } = await apiClient.createCheckListItem(requestObj);
+    const listId = data.items.id;
     if (!error) {
-      fetchList();
+      fetchList(listId);
       return { data, error: null };
     } else {
       console.error("Error creating checklist, message:", error);
@@ -96,13 +97,13 @@ export const DashboardContextProvider = ({ children }) => {
   };
 
   // Fetch checklist given the user id
-  async function fetchList(itemId) {
+  async function fetchList(listId) {
     setIsProcessing(true);
 
-    const { data, err } = await apiClient.getCheckList(itemId);
+    const { data, err } = await apiClient.getCheckList(listId);
 
     if (data) {
-      setChecklist(data?.checklist);
+      setTodos(data?.item.todos);
     } else if (err) {
       setError(err);
     }
@@ -187,7 +188,7 @@ export const DashboardContextProvider = ({ children }) => {
     announcementDeleteContext: [deleteAnnouncement],
     errorContext: [error, setError],
     logContext: [logs, setLogs],
-    checklistContext: [checklist, setChecklist],
+    checklistContext: [todos, setTodos],
     announcementContext: [announcement, setAnnouncement],
     processingContext: [isProcessing, setIsProcessing],
   };
