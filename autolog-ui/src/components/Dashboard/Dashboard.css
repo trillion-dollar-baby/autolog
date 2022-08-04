@@ -1,202 +1,204 @@
 .dashboard {
-    max-height: calc(100vh - var(--navbarHeight));
-    max-width: calc(100vw - var(--sidebarWidth));
-    flex-direction: column;
-    display: flex;
-    flex-grow: 1;
-  }
+  max-height: calc(100vh - var(--navbarHeight));
+  max-width: calc(100vw - var(--sidebarWidth));
+  flex-direction: column;
+  display: flex;
+  flex-grow: 1;
+}
 
 /******** HEADER ***********/
 .dashboard-header {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    max-width: calc(100vw - 280px);
-    justify-content: center;
-    align-items: center;
-    color:black;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  max-width: calc(100vw - 280px);
+  justify-content: center;
+  align-items: center;
+  color: black;
 }
 
 .dashboard-header .greeting {
-    display: flex;
-    justify-content: flex-start;
-    width: 37.5vw;
-    padding: 5px;
+  display: flex;
+  justify-content: flex-start;
+  width: 37.5vw;
+  padding: 5px;
 }
 
- .dashboard-header .invite {
-    display: flex;
-    justify-content: flex-end;
-    width: 37.5vw;
-    padding: 5px;
-  }
+.dashboard-header .invite {
+  display: flex;
+  justify-content: flex-end;
+  width: 37.5vw;
+  padding: 5px;
+}
 
-  .dashboard-header .invite .invite-btn {
-    filter: drop-shadow(0px 2px 0px rgba(0, 0, 0, 0.25));
-    background: #2eaf79;
-    border-radius: 10px;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    text-align: center;
-    color: #f8f8f8;
-    width: 5vw;
-  }
+.dashboard-header .invite .invite-btn {
+  filter: drop-shadow(0px 2px 0px rgba(0, 0, 0, 0.25));
+  background: #2eaf79;
+  border-radius: 10px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  text-align: center;
+  color: #f8f8f8;
+  width: 5vw;
+}
 
 /**************************/
 
-
 /********* BODY ***********/
 .dashboard-body {
-    display: flex;
-    flex-direction: row;
-    flex: 2;
-    max-width: calc(100vw - 280px);
-    margin-bottom: 40px;
+  display: flex;
+  flex-direction: row;
+  flex: 2;
+  max-width: calc(100vw - 280px);
+  margin-bottom: 40px;
 }
 
 /********* ANNOUNCEMENT ***********/
 
 .dashboard-body .announcements-container {
-    display: flex;
-    flex: 1.50;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex: 1.5;
+  align-items: center;
+  justify-content: center;
 }
 
 .dashboard-body .announcements-container .content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 }
 
 .dashboard-body .announcements-container .content .header {
-    display: flex;
-    width: 80%;
+  display: flex;
+  width: 80%;
 }
 
 .dashboard-body .announcements-container .content .header .title {
-    font-weight: 500;
-    margin-bottom: 10px;
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 
 .dashboard-body .announcements-container .content .body {
-    background-color: #D9D9D9;
-    height: 80%;
-    width: 80%;
+  background-color: #d9d9d9;
+  height: 80%;
+  width: 80%;
 }
 
 .dashboard-body .announcements-container .content .body .announcement-form {
-    background-color: #D9D9D9;
-    text-align: left;
-    border: none;
-    height: 30%;
-    width: 100%;
-    padding: 20px;
-    /* border: 1px #BEBEBE solid; */
+  background-color: #d9d9d9;
+  text-align: left;
+  border: none;
+  height: 30%;
+  width: 100%;
+  padding: 20px;
+  /* border: 1px #BEBEBE solid; */
 }
 
-#announce{
-    background-color: #D9D9D9;
-    text-align: left;
-    border: none;
-    height: 30%;
-    width: 100%;
-    padding: 20px;
+#announce {
+  background-color: #d9d9d9;
+  text-align: left;
+  border: none;
+  height: 30%;
+  width: 100%;
+  padding: 20px;
 }
-.submit-post{
-    background-color: blue;
-    
+.submit-post {
+  background: rgb(15, 139, 231);
+  filter: drop-shadow(0px 2px 0px rgba(0, 0, 0, 0.25));
+  color: #f8f8f8;
+
 }
-#inputBody{
-    display:none;
+#post {
+  display: none;
+}
+#inputBody {
+  display: none;
+}
+#edit {
+  display: none;
 }
 
-.edit-post{
-    background-color: blue;
+.edit-post {
+  background: rgb(15, 139, 231);
+  filter: drop-shadow(0px 2px 0px rgba(0, 0, 0, 0.25));
+  color: #f8f8f8;
 }
-.delete-post{
-    background-color: blue;
-    
-}
-.buttnz{
-    display:flex;
-    gap: 20px;
+.buttnz {
+  display: flex;
+  gap: 20px;
 }
 
 /****************************/
-
 
 /******* CHECKLIST *********/
 
 .dashboard-body .checklist-container {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 }
 
 .dashboard-body .checklist-container .content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 }
 
 .dashboard-body .checklist-container .content .header {
-    display: flex;
-    width: 70%;
+  display: flex;
+  width: 70%;
 }
 
 .dashboard-body .checklist-container .content .header .title {
-    font-weight: 500;
-    margin-bottom: 10px;
+  font-weight: 500;
+  margin-bottom: 10px;
 }
 
 .dashboard-body .checklist-container .content .body {
-    background-color: #D9D9D9;
-    height: 80%;
-    width: 70%;
-    display: flex;
-    flex-direction: column;
+  background-color: #d9d9d9;
+  height: 80%;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
 }
 
 /****** CHECKLIST BODY *********/
 .dashboard-body .checklist-container .content .body .check-items {
-    padding: 15px;
+  padding: 15px;
 }
 
 .dashboard-body .checklist-container .content .body .checkmark {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10px;
 }
 
 .dashboard-body .checklist-container .content .body .textTodo {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 .dashboard-body .checklist-container .content .body .textTodo .todo-text {
-    margin: 0 10px;
+  margin: 0 10px;
 }
 
 .dashboard-body .checklist-container .content .body .more-items {
-    width: 50px;
-    font-size: 10px;
-    text-align: start;
+  width: 50px;
+  font-size: 10px;
+  text-align: start;
 }
-
 
 /****************************/
 
-
 /****** TABLE CONTAINER *****/
 .dashboard .table-container {
-    max-height: 375px;
-    min-height: 375px;
-    display: flex;
-    flex: 2;
+  max-height: 375px;
+  min-height: 375px;
+  display: flex;
+  flex: 2;
 }

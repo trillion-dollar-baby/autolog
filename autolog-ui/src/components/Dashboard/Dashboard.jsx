@@ -8,8 +8,6 @@ import DashboardContext from "../../contexts/dashboard";
 import ButtonInvite from "../ButtonInvite/ButtonInvite";
 import { ToastContext } from "../../contexts/toast";
 import Checklist from "./Checklist";
-import { EditText, EditTextarea } from 'react-edit-text';
-import 'react-edit-text/dist/index.css';
 
 export default function Dashboard() {
   //form handling
@@ -49,12 +47,14 @@ export default function Dashboard() {
   //function to display input bar
   function displayInputBar(){
     document.getElementById("inputBody").style.display = "block";
+    document.getElementById("post").style.display = "block";
+    document.getElementById("announce").style.display = "none";
+    document.getElementById("post-2").style.display = "none";
   }
   //submit button handler
 
   async function handleAnnouncementCreate() {
-    if(announcement.length !== 0){
-    }
+  
     setIsProcessing(true);
     const { data, error } = await createAnnouncement(message);
     setIsProcessing(false);
@@ -64,7 +64,6 @@ export default function Dashboard() {
       document.getElementById("announce").style.display = "block";
       document.getElementById("edit").style.display = "block";
       document.getElementById("inputBody").style.display = "none";
-      document.getElementById("delete").style.display = "block";
       document.getElementById("post").style.display = "none";
       setAnnouncement(data?.items.message);
       setId(data.items.id);
@@ -78,6 +77,7 @@ export default function Dashboard() {
       document.getElementById("announce").style.display = "none";
       document.getElementById("inputBody").style.display = "block";
       document.getElementById("post").style.display = "block";
+      document.getElementById("edit").style.display = "none";
     
     setIsProcessing(true);
     const { data, error } = await updateAnnouncement(itemId, announcement);
@@ -179,12 +179,11 @@ displayInputBar}) {
           onChange={handleSubmittedAnnouncement}
         />
       </div>
-
       <div id ="announce">
         {announcement}
       </div>
       <div className="post" id="post">
-        <button className="submit-post" onClick={handleAnnouncementCreate}> New Post</button>
+        <button className="submit-post" onClick={handleAnnouncementCreate}> Post</button>
       </div> 
       {/* Edit button will appear only if post is submitted */}
       <div className = "buttnz">
