@@ -8,9 +8,12 @@ import Dropdown from '../Dropdown/Dropdown';
 import { useContext, useState } from 'react';
 import { ToastContext } from '../../contexts/toast';
 import InventoryContext from '../../contexts/inventory';
+import AuthContext from '../../contexts/auth';
 
 export default function MemberItem({ index, id, firstName, lastName, email, userRole, roleOptions, currentUserRole }) {
 	const { notifySuccess, notifyError } = useContext(ToastContext);
+	const { userContext } = useContext(AuthContext);
+	const [user, setUser] = userContext;
 	const { updateInventoryMember, removeInventoryMember, selectedInventoryContext } = useContext(InventoryContext);
 	const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 	const [isDeleted, setIsDeleted] = useState(false);
@@ -43,7 +46,7 @@ export default function MemberItem({ index, id, firstName, lastName, email, user
 					<div className="user-section">
 						<img className='member-item-image' src={placeholderImage} />
 						<div className="member-item-name">
-							<span>{_.capitalize(firstName)} {_.capitalize(lastName)} {selectedInventory?.ownerId === id ? "(Owner)" : ""}</span>
+							<span>{_.capitalize(firstName)} {_.capitalize(lastName)} {selectedInventory?.ownerId === id ? "(Owner)" : ""} {id === user?.id? "(You)" : ""}</span>
 							<span>{email}</span>
 						</div>
 					</div>
