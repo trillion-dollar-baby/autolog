@@ -216,7 +216,7 @@ class ApiClient {
     }
 
     async createRole(inventoryId, roleData) {
-        return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}`, method: 'POST', data: roleData});
+        return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}`, method: 'POST', data: {role: roleData}});
     }
 
     async updateRole(inventoryId, roleId, roleData) {

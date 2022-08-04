@@ -82,17 +82,28 @@ class Inventory {
 
     // add user to inventory by using his email
     static async addUserToInventory(inventoryId, userEmail, roleName) {
+        // check if user exists
+        const existingUser = await db.query(`
+            SELECT id
+            FROM users
+            WHERE email = $1
+        `, [userEmail]);
+
+        if(!existingUser.rows[0]) {
+            throw new BadRequestError(`${userEmail} is not a valid email!`)
+        }
+        
         // check if user was already added to inventory
-        const existingResult = await db.query(`
+        const userInInventoryResult = await db.query(`
             SELECT user_id
             FROM user_to_inventory
             WHERE user_id = (SELECT id FROM users WHERE email = $1) AND inventory_id = $2
             `, [userEmail, inventoryId]);
 
         // if something was returned, throw error so users can't be added twice into the same inventory
-        if (existingResult.rows[0]) {
+        if (userInInventoryResult.rows[0]) {
             throw new BadRequestError(
-                `${userEmail} is already in inventory id:${inventoryId}!`
+                `${userEmail} is already in inventory ID ${inventoryId}!`
             );
         }
 
@@ -117,8 +128,7 @@ class Inventory {
             users.last_name AS "lastName",
             users.username AS "username",
             users.email AS "userEmail",
-			(SELECT roles.role_name AS "roleName" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
-			(SELECT roles.role_id AS "roleId" FROM roles WHERE roles.id = user_to_inventory.user_role_id)
+			(SELECT roles.role_name AS "roleName" FROM roles WHERE roles.id = user_to_inventory.user_role_id)
         FROM 
             user_to_inventory
         JOIN
@@ -149,6 +159,10 @@ class Inventory {
 
     // function to remove member from inventory
     static async removeMember(inventoryId, userEmail) {
+        const isOwner = await this.isUserInventoryOwner(inventoryId, userEmail);
+
+        if(isOwner) throw new BadRequestError("Owner of inventory can't be removed!");
+
         const query = `
             DELETE FROM user_to_inventory
             WHERE inventory_id = $1 AND user_id = (SELECT id FROM users WHERE email = $2)
@@ -159,7 +173,18 @@ class Inventory {
         if(result.rows[0]) {
             return {message: "success removing user"};
         }
-    }   
+    }
+    
+    // function to check if user is inventory owner
+    static async isUserInventoryOwner(inventoryId, userEmail) {
+        const queryAdminId = `SELECT admin_id AS "adminId" FROM inventory WHERE id = $1`
+        const queryUserId = `SELECT id FROM users WHERE email = $1`
+
+        const resultAdminId = await db.query(queryAdminId, [inventoryId]);
+        const resultUserId = await db.query(queryUserId, [userEmail]);
+
+        return resultAdminId.rows[0].adminId === resultUserId?.rows[0].id;
+    }
 }
 
 module.exports = Inventory;

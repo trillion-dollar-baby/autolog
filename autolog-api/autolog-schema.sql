@@ -24,7 +24,6 @@ CREATE TABLE inventory (
 CREATE TABLE roles (
     id SERIAL PRIMARY KEY,
     inventory_id INTEGER NOT NULL,
-    role_id INTEGER NOT NULL,
     role_name TEXT NOT NULL,
     item_create BOOLEAN NOT NULL,
     item_read BOOLEAN NOT NULL,

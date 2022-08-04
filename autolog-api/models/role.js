@@ -1,7 +1,7 @@
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 const Inventory = require("./inventory")
-
+const _ = require('lodash');
 class Role {
     // function to create default user roles on every new inventory
     static async createDefaultRoles(inventoryId) {
@@ -10,8 +10,7 @@ class Role {
                 "Internal error: No inventory ID received"
             );
 
-        const adminRoleResult = await this.createRole({
-            inventoryId: inventoryId,
+        const adminRoleResult = await this.createRole(inventoryId, {
             name: "admin",
             create: true,
             read: true,
@@ -19,8 +18,7 @@ class Role {
             delete: true,
         });
 
-        const employeeRoleResult = await this.createRole({
-            inventoryId: inventoryId,
+        const employeeRoleResult = await this.createRole(inventoryId, {
             name: "employee",
             create: false,
             read: true,
@@ -30,10 +28,9 @@ class Role {
     }
 
     // function to create roles
-    static async createRole(role) {
+    static async createRole(inventoryId, role) {
         // check for required fields
         const requiredFields = [
-            "inventoryId",
             "name",
             "create",
             "read",
@@ -49,25 +46,24 @@ class Role {
         });
 
         // check if duplicate
-        this.checkDuplicateRoleName(role.inventoryId, role.name);
+        this.checkDuplicateRoleName(inventoryId, role.name);
 
         const result = await db.query(
             `
             INSERT INTO roles(
             inventory_id,
-            role_id,
             role_name,
             item_create,
             item_read,
             item_update,
             item_delete
         )
-        VALUES($1, (SELECT COUNT(*) FROM roles WHERE inventory_id = $1), $2, $3, $4, $5, $6)
+        VALUES($1, $2, $3, $4, $5, $6)
         RETURNING *
         `,
             [
-                role.inventoryId,
-                role.name,
+                inventoryId,
+                _.toLower(role.name),
                 role.create,
                 role.read,
                 role.update,
@@ -82,8 +78,7 @@ class Role {
     static async getRoles(inventoryId) {
         const query = `
             SELECT 
-                id AS "id",
-                role_id AS "roleId",
+                id AS "roleId",
                 role_name AS "roleName",
                 item_create AS "create",
                 item_read AS "read",
@@ -103,7 +98,7 @@ class Role {
             SELECT 
                 users.id AS "id",
                 (SELECT roles.role_name AS "roleName" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
-                (SELECT roles.role_id AS "roleId" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
+                (SELECT roles.id AS "roleId" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
                 (SELECT roles.item_create AS "create" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
                 (SELECT roles.item_read AS "read" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
                 (SELECT roles.item_update AS "update" FROM roles WHERE roles.id = user_to_inventory.user_role_id),
@@ -145,6 +140,25 @@ class Role {
         return result.rows;
     }
 
+    // function to get role by id
+    static async getRoleById(id) {
+        const query = `
+            SELECT
+                id,
+                inventory_id AS "inventoryId",
+                role_name AS "roleName",
+                item_create AS "create", 
+                item_read AS "read",
+                item_update AS "update",
+                item_delete AS "delete"
+            FROM roles WHERE id = $1
+        `
+
+        const result = await db.query(query,[id]);
+
+        return result.rows[0];
+    }
+
     // function to update role given all necessary fields to select and update values
     static async updateRole(inventoryId, roleObj) {
         const roleFields = ["roleName", "roleId", "create", "read", "update", "delete"];
@@ -168,7 +182,7 @@ class Role {
                 item_read = $3,
                 item_update = $4,
                 item_delete = $5
-            WHERE inventory_id = $6 AND role_id = $7
+            WHERE inventory_id = $6 AND id = $7
             RETURNING *;
         `;
 
@@ -193,9 +207,11 @@ class Role {
         }
 
         // admin can't be deleted
-        if (roleId === 0) {
+        const checkAdminResult = await this.getRoleById(roleId);
+
+        if(checkAdminResult.roleName === "admin") {
             throw new BadRequestError("Admin role can't be deleted!");
-        }
+        } 
 
         // check if there are users that still have the role
         const memberList = await Inventory.getInventoryMembers(inventoryId);
@@ -218,7 +234,7 @@ class Role {
         // delete desired role if no error was thrown along the way
         const query = `
             DELETE FROM roles
-            WHERE roles.role_id = $1 AND roles.inventory_id = $2
+            WHERE roles.id = $1 AND roles.inventory_id = $2
         `;
 
         const result = await db.query(query, [roleId, inventoryId]);
