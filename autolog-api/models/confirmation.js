@@ -3,7 +3,7 @@ const { BadRequestError } = require("../utils/errors");
 const tokens = require("../utils/tokens");
 const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
-const { API_BASE_URL } = require("../constants");
+const { CLIENT_BASE_URL } = require("../constants");
 
 class Confirmation {
     // Send email confirmation to user
@@ -26,7 +26,7 @@ class Confirmation {
                 expiresIn: "1d",
             },
             (err, emailToken) => {
-                const url = `${API_BASE_URL}confirmation/${emailToken}`;
+                const url = `${CLIENT_BASE_URL}confirmation/${emailToken}`;
 
                 transporter.sendMail({
                     to: receiverEmail,
