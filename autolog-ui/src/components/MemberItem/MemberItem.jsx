@@ -7,7 +7,6 @@ import iconDelete from '../../assets/icons8-delete.png';
 import Dropdown from '../Dropdown/Dropdown';
 import { useContext, useState } from 'react';
 import { ToastContext } from '../../contexts/toast';
-import apiClient from '../../services/apiClient';
 import InventoryContext from '../../contexts/inventory';
 
 export default function MemberItem({ index, id, firstName, lastName, email, userRole, roleOptions, currentUserRole }) {
