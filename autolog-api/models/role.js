@@ -1,7 +1,7 @@
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
-const Inventory = require("./inventory")
 const _ = require('lodash');
+const Member = require("./member");
 class Role {
     // function to create default user roles on every new inventory
     static async createDefaultRoles(inventoryId) {
@@ -214,7 +214,7 @@ class Role {
         } 
 
         // check if there are users that still have the role
-        const memberList = await Inventory.getInventoryMembers(inventoryId);
+        const memberList = await Member.getInventoryMembers(inventoryId);
         const membersWithRequestedRole = [];
         
         memberList.forEach((member) => {

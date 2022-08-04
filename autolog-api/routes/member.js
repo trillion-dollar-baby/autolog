@@ -3,7 +3,8 @@ const Inventory = require("../models/inventory")
 const security = require("../middleware/security")
 const permissions = require("../middleware/permissions");
 const User = require("../models/user")
-const Role = require("../models/role")
+const Role = require("../models/role");
+const Member = require("../models/member");
 const router = express.Router()
 
 // endpoint to show member list
@@ -11,7 +12,7 @@ router.get("/list", security.requireAuthenticatedUser, async(req,res,next) => {
     try {
         const { inventoryId } = req.query;
 
-        const members = await Inventory.getInventoryMembers(inventoryId);
+        const members = await Member.getInventoryMembers(inventoryId);
 
         return res.status(201).json({members});
 
@@ -27,7 +28,7 @@ router.post("/", security.requireAuthenticatedUser, async (req,res,next) => {
         const { user } = res.locals;
         const { inventoryId } = req.query;
     
-        const addResult = await Inventory.addUserToInventory(inventoryId, req.body.userEmail, req.body.roleName);
+        const addResult = await Member.addUserToInventory(inventoryId, req.body.userEmail, req.body.roleName);
 
         return res.status(201).json({addResult});
 
@@ -41,7 +42,7 @@ router.patch("/", security.requireAuthenticatedUser, async(req,res,next) => {
     try {
         const { inventoryId } = req.query;
 
-        const updateResult = await Inventory.updateMember(inventoryId, req.body.userEmail, req.body.roleName);
+        const updateResult = await Member.updateMember(inventoryId, req.body.userEmail, req.body.roleName);
         
         res.status(200).json({message: "success!"})
     } catch (error) {
@@ -54,7 +55,7 @@ router.delete("/", security.requireAuthenticatedUser, async(req,res,next) => {
     try {
         const { inventoryId } = req.query;
 
-        const deleteResult = await Inventory.removeMember(inventoryId, req.body.userEmail);
+        const deleteResult = await Member.removeMember(inventoryId, req.body.userEmail);
 
         res.status(200).json({message: "success!"});
     } catch (error) {
