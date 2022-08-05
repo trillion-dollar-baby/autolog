@@ -55,7 +55,7 @@ function ModalModifyRole({ closeModal, roleData, fetchList }) {
         fetchRole();
     }, [])
 
-    // On modal "Create" button, perform API call via InventoryContext
+    // On modal "Modify" button, perform API call via InventoryContext
     const onSubmitModifyRole = async () => {
         setModalProcessing(true);
 

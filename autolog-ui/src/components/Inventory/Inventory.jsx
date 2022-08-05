@@ -11,10 +11,18 @@ import InventoryContext from "../../contexts/inventory";
 import Loading from "../Loading/Loading";
 import { ToastContext } from "../../contexts/toast";
 import apiClient from "../../services/apiClient";
+import ButtonAction from "../Button/ButtonAction";
+import { useNavigate } from "react-router";
 
 export default function Inventory() {
-  const { notifyError, notifySuccess } = useContext(ToastContext);
+  const navigate = useNavigate();
 
+  const { notifyError, notifySuccess } = useContext(ToastContext);
+  
+  // Items Context
+  const { selectedItemsContext } = useContext(ItemContext);
+  const [selectedItems, setSelectedItems] = selectedItemsContext; 
+  
   // Inventory Context
   const { processingContext, initializedContext, selectedInventoryContext } = useContext(InventoryContext);
   const [isProcessing, setIsProcessing] = processingContext;
@@ -31,25 +39,25 @@ export default function Inventory() {
   const [isFetching, setIsFetching] = useState(false);
   const [categoryItems, setCategoryItems] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
-
-  const [sortItems, setSortItems] = useState();
-  const [selectedSort, setSelectedSort] = useState('Sort by');
-
+  
   const [pageNumber, setPageNumber] = useState(0);
 
   const settingsRoutes = [
     {
-      name: "Inventory",
+      name: "Items",
       to: "./",
     },
     {
-      name: "Orders",
-      to: "/item/create",
+      name: "Purchases",
+      to: "/purchase/"
+    },
+    {
+      name: "Invoices",
+      to: "/invoice/",
     },
   ];
 
-  const searchFilters = ["name", "category", "createdAt", "updatedAt", "quantity"]
-  const columnLabel = ["id", "name", "category", "createdAt", "updatedAt", "inventoryId", "quantity"]
+  const columnLabel = ["id", "name", "category", "createdAt", "updatedAt", "quantity"]
 
   const onChangeSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -128,6 +136,22 @@ export default function Inventory() {
     }
   } 
 
+  const handleOnCreateInvoice = () => {
+    if(selectedItems.length > 0) {
+      navigate('/invoice/create');
+    } else {
+      notifyError("You need to first select items to create an invoice!")
+    }
+  }
+
+  const handleOnCreatePurchase = () => {
+    if(selectedItems.length > 0) {
+      navigate('/purchase/create');
+    } else {
+      notifyError("You need to first select items to create a purchase!")
+    }
+  }
+
   // framer-motion properties
   const containerVariants = {
     hidden: {
@@ -157,6 +181,7 @@ export default function Inventory() {
           buttonPath={"/item/create"}
         />
       </div>
+      
       <div className="filter-container">
         <div className="search-bar">
           <FormInput
@@ -173,6 +198,12 @@ export default function Inventory() {
           <Dropdown value={"Search by"} items={categoryItems} onSelect={fetchItemsByCategory} />
         </div>
       </div>
+
+      <div className="button-container">
+        <ButtonAction label={"Create Invoice"} color={"var(--actionGreen)"} onClick={handleOnCreateInvoice}/>
+        <ButtonAction label={"Create Purchase"} color={"var(--actionBlue)"} onClick={handleOnCreatePurchase}/>
+      </div>
+
       <div className="table-container">
         {isProcessing || !initialized ? (
           <Loading />
@@ -183,6 +214,8 @@ export default function Inventory() {
             tableColumnLabelArray={columnLabel}
             isItemTable={true}
             fetchMoreItems={fetchMoreItems}
+            selectedItems={selectedItems}
+            setSelectedItems={setSelectedItems}
           />
         )}
       </div>

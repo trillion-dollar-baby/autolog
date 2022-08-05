@@ -10,6 +10,7 @@ export const ItemContextProvider = ({children})=>{
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState("");
   const [searchFilter, setSearchFilter] = useState("");
+  const [selectedItems,setSelectedItems] = useState([]);
     
   //should call the useAuthContext
   const { userContext } = useContext(AuthContext);
@@ -112,6 +113,7 @@ export const ItemContextProvider = ({children})=>{
     itemGetContext: [getItem],
     itemUpdateContext: [updateItem],
     itemDeleteContext: [deleteItem],
+    selectedItemsContext: [selectedItems, setSelectedItems],
   };
 
 return(

@@ -1,0 +1,13 @@
+.create-invoice {
+    max-height: calc(100vh - var(--navbarHeight));
+    max-width: calc(100vw - 280px);
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+.create-invoice.form-container {
+    display:flex;
+    justify-content: center;
+}
