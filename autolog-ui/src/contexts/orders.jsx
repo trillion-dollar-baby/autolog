@@ -28,18 +28,6 @@ export const OrdersContextProvider = ({children})=>{
 
    }, [user, selectedInventory])
 
-  // Get id of a given item
-  // for when we are accessing the item through item details
-  const getOrders = async (itemId) => {
-    const { data, error } = await apiClient.getItem(itemId);
-    if (!error) {
-      return {data, error: null};
-    } else {
-      console.error("Error getting items, message:", error);
-      return {data: null, error};
-    }
-  };
-
 
   // Search item
   const searchOrders = async(search, pageNumber, category)=>{
@@ -55,7 +43,7 @@ export const OrdersContextProvider = ({children})=>{
   async function fetchOrdersList() {
     setIsLoading(true)
 
-    const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
+    const {data, err} = await apiClient.getOrdersItemList(selectedInventory?.inventoryId, 0, '')
     
     if(data){
       setOrders(data?.items) 
@@ -72,8 +60,7 @@ export const OrdersContextProvider = ({children})=>{
     searchContext : [searchOrders],
     searchTermContext: [searchTerm, setSearchTerm],
     loadingContext: [isLoading, setIsLoading],
-    getOrdersContext: [getOrders],
-
+    fetchOrdersContext: [fetchOrdersList],
   };
 
 return(

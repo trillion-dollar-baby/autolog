@@ -15,7 +15,7 @@ function getDatabaseUri() {
     const dbName = process.env.DATABASE_NAME || 'autolog'
 
     // if DATABASE_URL use it, otherwise use what is provided
-    return process.env.DATABASE_URL || `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}`;
+    return `postgresql://${dbUser}:${dbPass}@${dbHost}:${dbPort}/${dbName}`;
 }
 
 // work factor for hashing

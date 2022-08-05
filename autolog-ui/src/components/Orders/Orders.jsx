@@ -15,7 +15,7 @@ import apiClient from "../../services/apiClient";
 export default function Orders() {
   const { notifyError, notifySuccess } = useContext(ToastContext);
 
-  // Inventory Context
+  // Inventories Context
   const { processingContext, initializedContext, selectedInventoryContext } = useContext(InventoriesContext);
   const [isProcessing, setIsProcessing] = processingContext;
   const [initialized, setInitialized] = initializedContext;

@@ -87,8 +87,8 @@ class Item {
         return results.rows;
     }
 
-    // get inventory items by inventoryId
-    static async listInventoryItems(inventoryId, search = "", pageNumber = 0, category = "") {
+    // get order items by inventoryId
+    static async listOrderItems(inventoryId, search = "", pageNumber = 0, category = "") {
         // get offset if user wants to see more items of the same search
         // if there was no pageNumber received, offset is going to be 0
         let offset;
@@ -112,6 +112,42 @@ class Item {
 				JOIN inventory ON inventory.id = items.inventory_id
 			WHERE items.inventory_id = $1 AND items.name ~ $4 AND items.category ~ $5
 			ORDER BY items.created_at DESC
+			LIMIT $2 OFFSET $3`;
+
+        const results = await db.query(query, [
+            inventoryId,
+            limit,
+            offset,
+            search.toLowerCase(),
+            category.toLowerCase()
+        ]);
+
+        return results.rows;
+    }
+
+
+    // get inventory items by inventoryId
+    static async listInventoryItems(inventoryId, search = "", pageNumber = 0, category = "") {
+        // get offset if user wants to see more items of the same search
+        // if there was no pageNumber received, offset is going to be 0
+        let offset;
+        let limit = 30;
+
+        // convert pageNumber to a Number in case it is going to be used in calculation
+        if (pageNumber) {
+            offset = (Number(pageNumber) || 0) * limit;
+        }
+
+        const query = `
+			SELECT
+				items.name as "name",
+				items.category AS "category",
+				SUM(items.quantity) as "quantity"
+			FROM items
+				JOIN inventory ON inventory.id = items.inventory_id
+			WHERE items.inventory_id = $1 AND items.name ~ $4 AND items.category ~ $5
+            GROUP BY items.name, items.category
+			ORDER BY items.name DESC
 			LIMIT $2 OFFSET $3`;
 
         const results = await db.query(query, [

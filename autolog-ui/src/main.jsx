@@ -16,8 +16,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <AuthContextProvider>
             <InventoriesContextProvider>
-                <ItemContextProvider>
-                    <OrdersContextProvider>
+                <OrdersContextProvider>
+                    <ItemContextProvider>
                         <PerformanceContextProvider>
                             <InventoryContextProvider>
                                 <DashboardContextProvider>
@@ -29,8 +29,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                                 </DashboardContextProvider>
                             </InventoryContextProvider>
                         </PerformanceContextProvider>
-                    </OrdersContextProvider>
-                </ItemContextProvider>
+                    </ItemContextProvider>
+                </OrdersContextProvider>
             </InventoriesContextProvider>
         </AuthContextProvider>
     </React.StrictMode>

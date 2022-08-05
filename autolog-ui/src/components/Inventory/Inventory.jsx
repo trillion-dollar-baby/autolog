@@ -47,7 +47,7 @@ export default function Inventory() {
   ];
 
   const searchFilters = ["name", "category", "createdAt", "updatedAt", "quantity"]
-  const columnLabel = ["id", "name", "category", "createdAt", "updatedAt", "inventoryId", "quantity"]
+  const columnLabel = ["name", "category", "quantity"]
 
   const onChangeSearch = (event) => {
     setSearchTerm(event.target.value);

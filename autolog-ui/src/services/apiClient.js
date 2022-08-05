@@ -120,8 +120,12 @@ class ApiClient {
         return await this.request({endpoint: `item/id/${itemId}`, method: 'GET'});
     }
     
-    async getItemList(inventoryId, pageNumber, search, category) {
+    async getOrdersItemList(inventoryId, pageNumber, search, category) {
         return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
+    }
+
+    async getInventoryItemList(inventoryId, pageNumber, search, category) {
+        return await this.request({endpoint: `item/inventory/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
     }
 
     async updateItem(itemId, data) {
