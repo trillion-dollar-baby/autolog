@@ -9,8 +9,12 @@ const router = express.Router()
 
 // endpoint to show member list
 router.get("/list", security.requireAuthenticatedUser, async(req,res,next) => {
+    permissions.isAdminOfInventory(req,res,next);
     try {
         const { inventoryId } = req.query;
+        const { user } = res.locals;
+
+        
 
         const members = await Member.getInventoryMembers(inventoryId);
 
@@ -21,7 +25,7 @@ router.get("/list", security.requireAuthenticatedUser, async(req,res,next) => {
     }
 })
 
-// TODO: CHECK IF USER IS OWNER OF INVENTORY (create middleware function)
+// add member to inventory
 router.post("/", security.requireAuthenticatedUser, async (req,res,next) => {
     try {
         // get user that will be the "owner" of the inventory
