@@ -8,10 +8,10 @@ import { ToastContext } from '../../contexts/toast';
 import PermissionCheckbox from '../PermissionCheckbox/PermissionCheckbox';
 import { RoleContext } from '../../contexts/role';
 
-function ModalModifyRole({ closeModal, roleData }) {
+function ModalModifyRole({ closeModal, roleData, fetchList }) {
     const { notifySuccess, notifyError } = useContext(ToastContext);
     // contexts
-    const { updateRole } = useContext(RoleContext);
+    const { updateRole, getRoleById } = useContext(RoleContext);
     const { selectedInventoryContext } = useContext(InventoryContext);
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
@@ -31,6 +31,30 @@ function ModalModifyRole({ closeModal, roleData }) {
         },
     ]
 
+    useEffect(() => {
+        setModalError();
+
+        const fetchRole = async () => {
+            setModalProcessing(true);
+
+            const result = await getRoleById(roleData.roleId);
+
+            if(result.data) {
+                setFormState({
+                    name: result.data.roleName,
+                    create: result.data.create,
+                    update: result.data.update,
+                    read: result.data.read,
+                    delete: result.data.delete,
+                })
+            }
+
+            setModalProcessing(false);
+        }
+
+        fetchRole();
+    }, [])
+
     // On modal "Create" button, perform API call via InventoryContext
     const onSubmitModifyRole = async () => {
         setModalProcessing(true);
@@ -48,7 +72,7 @@ function ModalModifyRole({ closeModal, roleData }) {
             delete: formState.delete || false,
         } 
 
-        const { data, error } = await updateRole(roleData.id, newRoleData);
+        const { data, error } = await updateRole(roleData.roleId, newRoleData);
 
         if (error) {
             setModalError(error);
@@ -56,15 +80,16 @@ function ModalModifyRole({ closeModal, roleData }) {
         }
         // if it was successful and we got data back, close modal
         if (data) {
+            fetchList();
             closeModal();
         }
 
         setModalProcessing(false);
     }
-    
+
     return (
         <Modal
-            title={'Create New Category'}
+            title={`Modify ${roleData?.roleName} role`}
             body={<ModalBody
                 formState={formState}
                 setFormState={setFormState}
@@ -92,10 +117,10 @@ export function ModalBody({ formState, setFormState, formArray, setModalError, m
             <h3 style={{ color: 'red' }}>{modalError || ''}</h3>
             <Form formState={formState} setFormState={setFormState} formArray={formArray} />
             <div className="permissions-container">
-                <PermissionCheckbox label={"Create"} name={"create"} setForm={setFormState} />
-                <PermissionCheckbox label={"Read"} name={"read"} setForm={setFormState} />
-                <PermissionCheckbox label={"Update"} name={"update"} setForm={setFormState} />
-                <PermissionCheckbox label={"Delete"} name={"delete"} setForm={setFormState} />
+                <PermissionCheckbox label={"Create"} name={"create"} value={formState.create} setForm={setFormState} />
+                <PermissionCheckbox label={"Read"} name={"read"} value={formState.read} setForm={setFormState} />
+                <PermissionCheckbox label={"Update"} name={"update"} value={formState.update} setForm={setFormState} />
+                <PermissionCheckbox label={"Delete"} name={"delete"} value={formState.delete} setForm={setFormState} />
             </div>
             <h3 style={{ color: 'blue' }}>{modalProcessing ? 'Processing...' : ''}</h3>
         </>

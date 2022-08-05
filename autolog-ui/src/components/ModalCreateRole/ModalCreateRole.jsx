@@ -8,7 +8,7 @@ import { ToastContext } from '../../contexts/toast';
 import PermissionCheckbox from '../PermissionCheckbox/PermissionCheckbox';
 import { RoleContext } from '../../contexts/role';
 
-function ModalCreateRole({ closeModal }) {
+function ModalCreateRole({ closeModal, fetchList }) {
     const { notifySuccess, notifyError } = useContext(ToastContext);
     // contexts
     const { createRole } = useContext(RoleContext);
@@ -57,6 +57,7 @@ function ModalCreateRole({ closeModal }) {
         // if it was successful and we got data back, close modal
         if (data) {
             notifySuccess(`Role ${data.role_name} was successfully created!`)
+            fetchList();
             closeModal();
         }
 
@@ -93,10 +94,10 @@ export function ModalBody({ formState, setFormState, formArray, setModalError, m
             <h3 style={{ color: 'red' }}>{modalError || ''}</h3>
             <Form formState={formState} setFormState={setFormState} formArray={formArray} />
             <div className="permissions-container">
-                <PermissionCheckbox label={"Create"} name={"create"} setForm={setFormState} />
-                <PermissionCheckbox label={"Read"} name={"read"} setForm={setFormState} />
-                <PermissionCheckbox label={"Update"} name={"update"} setForm={setFormState} />
-                <PermissionCheckbox label={"Delete"} name={"delete"} setForm={setFormState} />
+                <PermissionCheckbox label={"Create"} name={"create"} setForm={setFormState} value={formState.create} />
+                <PermissionCheckbox label={"Read"} name={"read"} setForm={setFormState} value={formState.read}/>
+                <PermissionCheckbox label={"Update"} name={"update"} setForm={setFormState} value={formState.update}/>
+                <PermissionCheckbox label={"Delete"} name={"delete"} setForm={setFormState} value={formState.delete}/>
             </div>
             <h3 style={{ color: 'blue' }}>{modalProcessing ? 'Processing...' : ''}</h3>
         </>

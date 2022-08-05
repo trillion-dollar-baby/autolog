@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { CLIENT_BASE_URL } = require('../constants');
 const router = express.Router();
 const Confirmation = require('../models/confirmation')
 
@@ -10,7 +11,7 @@ router.get('/:token', async (req, res, next) => {
 
         // If verification and update was a success, send to login page.
         // Login will no longer fail because the user email_confirmed field is now TRUE instead of FALSE
-        return res.redirect('http://127.0.0.1:5173/login')
+        return res.redirect(`${CLIENT_BASE_URL}login`)
     }   
     catch (error) {
         next(error)

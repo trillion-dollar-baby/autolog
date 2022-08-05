@@ -27,23 +27,24 @@ function SettingsRoles() {
     const openModal = () => setModalOpen(true);
     const closeModal = () => setModalOpen(false);
 
+    //function that will refresh the list of roles
+    const fetchList = async () => {
+        setIsProcessing(true);
+        try {
+            const result = await getRoleList();
+
+            if (result?.data) {
+                setRoleList(result.data)
+            }
+        } catch (error) {
+            console.error(error);
+            notifyError(error);
+        }
+        setIsProcessing(false);
+    }
+
     // fetch list of roles available in inventory on mount
     useEffect(() => {
-        const fetchList = async () => {
-            setIsProcessing(true);
-            try {
-                const result = await getRoleList();
-
-                if (result?.data) {
-                    setRoleList(result.data)
-                }
-            } catch (error) {
-                console.error(error);
-                notifyError(error);
-            }
-            setIsProcessing(false);
-        }
-
         if (selectedInventory?.inventoryId) {
             fetchList();
         }
@@ -70,7 +71,7 @@ function SettingsRoles() {
             initial={"hidden"}
             animate={"visible"}
             exit={"exit"}>
-                <RoleList roleArray={roleList} />
+                <RoleList roleArray={roleList} fetchList={fetchList}/>
             <div className="button-wrapper">
                 <ButtonAction onClick={openModal} label={"Create new role"} color={"#2EAF79"} />
             </div>
@@ -80,7 +81,7 @@ function SettingsRoles() {
 				onExitComplete={() => null}>
 				{
 					(modalOpen &&
-					<ModalCreateRole closeModal={closeModal}/>)
+					<ModalCreateRole fetchList={fetchList} closeModal={closeModal}/>)
 				}
 			</AnimatePresence>
         </motion.div>

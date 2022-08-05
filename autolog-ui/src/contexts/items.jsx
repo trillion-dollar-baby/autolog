@@ -77,12 +77,11 @@ export const ItemContextProvider = ({children})=>{
   }
 
   // Search item
-  const searchItem = async(search, pageNumber)=>{
-    const {data, error} = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, search);
+  const searchItem = async(search, pageNumber, category)=>{
+    const {data, error} = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, search, category);
     if(!error){
       return data;
-    }
-    else{
+    } else {
       console.error("Error searching for items, message:", error)
     }
   }

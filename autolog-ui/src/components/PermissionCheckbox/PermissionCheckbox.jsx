@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 
-function PermissionCheckbox({label, name, setForm}) {
+function PermissionCheckbox({label, name, setForm, value}) {
 
     const onCheckboxClick = (event) => {
         setForm((prevForm) => ({
@@ -12,7 +12,7 @@ function PermissionCheckbox({label, name, setForm}) {
     return (
     <div className="permission-container">
         <span>{label}</span>
-        <input type={"checkbox"} onClick={onCheckboxClick} name={name} value={true}/>
+        <input type={"checkbox"}  onChange={onCheckboxClick} name={name} checked={value || false} value={!value || true}/>
     </div>
   )
 }

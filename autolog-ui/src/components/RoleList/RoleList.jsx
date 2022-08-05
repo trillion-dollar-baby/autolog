@@ -3,7 +3,7 @@ import RoleItem from '../RoleItem/RoleItem'
 import './RoleList.css';
 
 
-function RoleList({ roleArray }) {
+function RoleList({ roleArray, fetchList }) {
 
 	return (
 		<div className='role-list'>
@@ -12,7 +12,7 @@ function RoleList({ roleArray }) {
 				if (idx === 0) index += ' first';
 				if (idx === roleArray.length - 1) index += ' last'
 
-				return <RoleItem key={role.roleName} index={index} role={role} />
+				return <RoleItem fetchList={fetchList} key={role.roleName} index={index} role={role} />
 			})}
 		</div>
 	)

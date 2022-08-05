@@ -11,11 +11,10 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         // query parameters
         const inventoryId = req.query.inventoryId;
-        const page = req.query.page;
-        const search = req.query.search;
+        const {page, search, category} = req.query;
         const { user } = res.locals;
 
-        const items = await Item.listInventoryItems(inventoryId, search, page);
+        const items = await Item.listInventoryItems(inventoryId, search, page, category);
         return res.status(200).json({ items });
     } catch (err) {
         next(err);

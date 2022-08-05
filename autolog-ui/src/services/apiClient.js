@@ -25,7 +25,7 @@ class ApiClient {
      */
 
     async request({endpoint, method = "GET", data = {}}) {
-        const url = `${this.remoteHostUrl}/${endpoint}`;
+        const url = `${this.remoteHostUrl}${endpoint}`;
 
         const headers = {
             "Accept":"application/json, text/plain, /",
@@ -119,8 +119,8 @@ class ApiClient {
         return await this.request({endpoint: `item/id/${itemId}`, method: 'GET'});
     }
     
-    async getItemList(inventoryId, pageNumber, search) {
-        return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}`, method: 'GET'});
+    async getItemList(inventoryId, pageNumber, search, category) {
+        return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
     }
 
     async updateItem(itemId, data) {
@@ -224,7 +224,7 @@ class ApiClient {
     }
 
     async updateRole(inventoryId, roleId, roleData) {
-        return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}`, method: 'PATCH', data: roleData});
+        return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}&roleId=${roleId}`, method: 'PATCH', data: {role: roleData}});
     }
 
     async deleteRole(inventoryId, roleId) {
@@ -234,6 +234,10 @@ class ApiClient {
     async getUserRole(inventoryId) {
         return await this.request({endpoint: `inventory/roles/me/?inventoryId=${inventoryId}`, method: 'GET'});
     }
+
+    async getRoleById(inventoryId, roleId) {
+        return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}&roleId=${roleId}`, method: `GET`});
+    }
 }
 
-export default new ApiClient("http://localhost:3001");
+export default new ApiClient(API_BASE_URL);
