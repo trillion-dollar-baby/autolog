@@ -8,7 +8,6 @@ export default function Checklist() {
   const [todo, setTodo] = useState("");
   const [todoEditing, setTodoEditing] = useState(null);
   const [item, setItemUpdate] = useState("");
-  const [is_checked, setStatus] = useState(false)
   const todoInput = useRef();
   // Dashboard context
   const {
@@ -16,7 +15,6 @@ export default function Checklist() {
     checklistCreateContext,
     checklistUpdateContext,
     checklistDeleteContext,
-    checklistGetContext,
     checklistContext,
     processingContext,
     checklistUpdateStatusContext
@@ -24,10 +22,8 @@ export default function Checklist() {
   const [createList] = checklistCreateContext;
   const [updateChecklist]= checklistUpdateContext;
   const [todos, setTodos] = checklistContext;
-  const [fetchList] = checklistGetContext;
   const [deleteCheckListItem] = checklistDeleteContext
   const [updateStatus] = checklistUpdateStatusContext;
-
   const [isProcessing, setIsProcessing] = processingContext;
   //toast context
   const { notifyError, notifySuccess } = useContext(ToastContext);
@@ -57,8 +53,7 @@ export default function Checklist() {
     todoInput.current.focus();
   }, []);
 
-
-  //delete items once they are completed
+  // //handle completed checklist
   async function toggleComplete(id) {
 
     const updatedTodos = [...todos].map((todo) => {
@@ -97,7 +92,6 @@ export default function Checklist() {
   }
   }
 
-
   return (
     <div className="content">
       <div className="header">
@@ -134,6 +128,7 @@ export default function Checklist() {
                   <input
                     className="listForm"
                     type="text"
+                    defaultValue={todo.item}
                     onChange={(e) => setItemUpdate(e.target.value)}
                   />
                 ) : (
