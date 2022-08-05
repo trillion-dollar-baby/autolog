@@ -166,9 +166,8 @@ displayInputBar}) {
       <div className="header">
         <h2 className="title"> Announcements </h2>
       </div>
-      {/* announcement.length===0 && */}
       <div className="body" id="inputBody">
-        <input
+        <textarea
           className="announcement-form"
           name="label"
           placeholder="Make an announcement here..."

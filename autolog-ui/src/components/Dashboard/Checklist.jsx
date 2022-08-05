@@ -8,6 +8,7 @@ export default function Checklist() {
   const [todo, setTodo] = useState("");
   const [todoEditing, setTodoEditing] = useState(null);
   const [item, setItemUpdate] = useState("");
+  const [is_checked, setStatus] = useState(true)
   const todoInput = useRef();
   // Dashboard context
   const {
@@ -24,6 +25,7 @@ export default function Checklist() {
   const [todos, setTodos] = checklistContext;
   const [deleteCheckListItem] = checklistDeleteContext
   const [updateStatus] = checklistUpdateStatusContext;
+
   const [isProcessing, setIsProcessing] = processingContext;
   //toast context
   const { notifyError, notifySuccess } = useContext(ToastContext);
@@ -70,6 +72,21 @@ export default function Checklist() {
     }
 
   }
+  // function toggleComplete(id, checked) {
+  //     const updatedTodos = [...todos].map((todo) => {
+  //       if (todo.id === id) {
+  //         todo.is_checked = is_checked;
+  //       }
+  //       return todo;
+  //     });
+  //     // setIsProcessing(true);
+  //     // const { data, error } = await updateStatus(id, is_checked);
+  //     // setIsProcessing(false);
+  //     // if(data){
+  //       setTodos(updatedTodos);
+  //     // }
+  
+  //   }
   
 
   //handle edited todo checklist
@@ -91,6 +108,16 @@ export default function Checklist() {
     setTodoEditing(null);
   }
   }
+  // //handle deleted todo item
+  // async function deleteTodo(id) {
+  //   setIsProcessing(true);
+  //   const { data, error } = await deleteCheckListItem(id);
+  //   setIsProcessing(false);
+  //   if(data){
+  //   let updatedTodos = [...todos].filter((todo) => todo.id !== id);
+  //   setTodos(updatedTodos);
+  //   }
+  // }
 
   return (
     <div className="content">
