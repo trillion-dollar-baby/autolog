@@ -103,6 +103,36 @@ class Dashboard {
 
     return result.rows[0];
   }
+
+  //update checklist item
+  static async updateTodoStatus(itemId, {itemUpdate}) {
+    const results = await db.query(
+      `SELECT is_checked FROM checklist WHERE id = $1 `,
+      [itemId]
+    );
+    const is_checked = results.rows[0].is_checked;
+    let isChecked = false;
+    if (itemUpdate.is_checked == null) {
+      isChecked = is_checked;
+    } else {
+      isChecked = itemUpdate.is_checked;
+    }
+
+    const result = await db.query(
+      `
+        UPDATE checklist
+        SET is_checked = $1
+        WHERE id = $2
+        RETURNING id,
+                  item,
+                  is_checked
+
+    `,
+      [isChecked, itemId]
+    );
+
+    return result.rows[0];
+  }
   //delete checklist item
 
   static async deleteCheckItem(itemId) {

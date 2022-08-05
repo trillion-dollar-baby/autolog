@@ -42,6 +42,18 @@ router.patch("/id/:itemId", security.requireAuthenticatedUser, async (req, res, 
         }
     }
 );
+//// endpoint to update checklist todo status by ID
+router.patch("/checkStatus/:itemId", security.requireAuthenticatedUser, async (req, res, next) => {
+    try {
+        const { itemId } = req.params;
+        const updatedItem = await Dashboard.updateTodoStatus(itemId, {itemUpdate: req.body});
+
+        return res.status(200).json({ updatedItem });
+    } catch (error) {
+        next(error);
+    }
+}
+);
 
 // endpoint to delete checklist item by ID
 router.delete("/id/:itemId",security.requireAuthenticatedUser, async (req, res, next) => {

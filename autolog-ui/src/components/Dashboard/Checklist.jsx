@@ -7,7 +7,8 @@ import { ToastContext } from "../../contexts/toast";
 export default function Checklist() {
   const [todo, setTodo] = useState("");
   const [todoEditing, setTodoEditing] = useState(null);
-  const [editingText, setEditingText] = useState("");
+  const [item, setItemUpdate] = useState("");
+  const [is_checked, setStatus] = useState(false)
   const todoInput = useRef();
   // Dashboard context
   const {
@@ -18,10 +19,14 @@ export default function Checklist() {
     checklistGetContext,
     checklistContext,
     processingContext,
+    checklistUpdateStatusContext
   } = useContext(DashboardContext);
   const [createList] = checklistCreateContext;
+  const [updateChecklist]= checklistUpdateContext;
   const [todos, setTodos] = checklistContext;
   const [fetchList] = checklistGetContext;
+  const [deleteCheckListItem] = checklistDeleteContext
+  const [updateStatus] = checklistUpdateStatusContext;
 
   const [isProcessing, setIsProcessing] = processingContext;
   //toast context
@@ -36,8 +41,8 @@ export default function Checklist() {
     if (data) {
       const newTodo = {
         id: new Date().getTime(),
-        text: todo,
-        completed: false,
+        item: todo,
+        is_checked: false,
       };
       setTodos([...todos].concat(newTodo));
       setTodo("");
@@ -47,70 +52,51 @@ export default function Checklist() {
     }
   }
 
-  // // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   setIsProcessing(true);
-  //   const {data, error} = await createList(todo);
-  //   setIsProcessing(false);
-  //   if(data){
-  //   const newTodo = {
-  //     id: new Date().getTime(),
-  //     text: todo,
-  //     completed: false,
-  //   };
-  //   setTodos([...todos].concat(newTodo));
-  //   setTodo("");
-  //   todoInput.current.focus();
-  // }
-  // }
 
   useEffect(() => {
     todoInput.current.focus();
   }, []);
 
-  // get the details of the item
-  //    useEffect(() => {
-  //     const fetchItem = async () => {
-  //         const {data, error} = await fetchList(itemId);
 
-  //         if(data) {
-  //             setTodos(data.item);
-  //         } else{
-  //           console.error("Error getting items, message:", error)
-  //         }
+  //delete items once they are completed
+  async function toggleComplete(id) {
 
-  //     }
-
-  //     fetchItem();
-  // }, [])
-
-  //handle completed checklist
-  function toggleComplete(id) {
-    let updatedTodos = [...todos].map((todo) => {
-      if (todo.id === id) {
-        todo.completed = !todo.completed;
-      }
-      return todo;
-    });
-    setTodos(updatedTodos);
-  }
-
-  //handle edited todo checklist
-  function submitEdits(id) {
     const updatedTodos = [...todos].map((todo) => {
       if (todo.id === id) {
-        todo.text = editingText;
+        todo.is_checked = !todo.is_checked;
       }
       return todo;
     });
+    setIsProcessing(true);
+    const { data, error } = await deleteCheckListItem(id);
+    setIsProcessing(false);
+    if(data){
+      setTodos(updatedTodos);
+    }
+
+  }
+  
+
+  //handle edited todo checklist
+  async function submitEdits(id) {
+    const updatedTodos = [...todos].map((todo) => {
+      if (todo.id === id) {
+        todo.item = item;
+      }
+      return todo;
+    });
+
+    setIsProcessing(true);
+
+    const { data, error } = await updateChecklist(id, item);
+    setIsProcessing(false);
+
+    if(data){
     setTodos(updatedTodos);
     setTodoEditing(null);
   }
-  //handle deleted todo item
-  function deleteTodo(id) {
-    let updatedTodos = [...todos].filter((todo) => todo.id !== id);
-    setTodos(updatedTodos);
   }
+
 
   return (
     <div className="content">
@@ -141,17 +127,17 @@ export default function Checklist() {
                   className="list-form"
                   type="checkbox"
                   id="completed"
-                  checked={todo.completed}
+                  checked={todo.is_checked}
                   onChange={() => toggleComplete(todo.id)}
                 />
                 {todo.id === todoEditing ? (
                   <input
                     className="listForm"
                     type="text"
-                    onChange={(e) => setEditingText(e.target.value)}
+                    onChange={(e) => setItemUpdate(e.target.value)}
                   />
                 ) : (
-                  <div className="todo-text">{todo.text}</div>
+                  <div className="todo-text">{todo.item}</div>
                 )}
               </div>
               <div className="extraEditing">
@@ -170,13 +156,6 @@ export default function Checklist() {
                     Edit
                   </button>
                 )}
-
-                <button
-                  className="more-items"
-                  onClick={() => deleteTodo(todo.id)}
-                >
-                  Delete
-                </button>
               </div>
             </div>
           ))}
