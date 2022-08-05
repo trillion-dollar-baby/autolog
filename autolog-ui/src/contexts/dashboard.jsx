@@ -1,9 +1,9 @@
 import { useEffect, useContext } from "react";
 import { createContext, useState } from "react";
 import apiClient from "../services/apiClient";
-import InventoryContext from "./inventory";
+import InventoriesContext from "./inventories";
 import AuthContext from "./auth";
-import ItemContext from "./items";
+import OrdersContext from "./orders";
 
 const DashboardContext = createContext({});
 
@@ -23,12 +23,12 @@ export const DashboardContextProvider = ({ children }) => {
   const [user, setUser] = userContext;
 
   // Connect inventory context to get the current selected inventory
-  const { selectedInventoryContext } = useContext(InventoryContext);
+  const { selectedInventoryContext } = useContext(InventoriesContext);
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
   // Connect to item context to use the item list as a dependecy so logs update every time an item is created, updated, or deleted
-  const { itemContext } = useContext(ItemContext);
-  const [items, setItems] = itemContext;
+  const { ordersContext } = useContext(OrdersContext);
+  const [orders] = ordersContext;
 
   //lets comeback to this later
   //for now, leave as is
@@ -42,7 +42,7 @@ export const DashboardContextProvider = ({ children }) => {
     }
 
     setIsProcessing(false);
-  }, [selectedInventory, items]);
+  }, [selectedInventory, orders]);
 
   const getLogs = async () => {
     const { data, error } = await apiClient.getLogs(

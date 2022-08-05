@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { motion } from "framer-motion";
-import "./Inventory.css";
+import "./Orders.css";
 import Table from "../Table/Table";
 import Topbar from "../Topbar/Topbar";
 import Dropdown from "../Dropdown/Dropdown";
 import FormInput from "../FormInput/FormInput";
-import InventoryContext from "../../contexts/inventory";
+import OrdersContext from "../../contexts/orders";
 import InventoriesContext from "../../contexts/inventories";
 import Loading from "../Loading/Loading";
 import { ToastContext } from "../../contexts/toast";
 import apiClient from "../../services/apiClient";
 
-export default function Inventory() {
+export default function Orders() {
   const { notifyError, notifySuccess } = useContext(ToastContext);
 
   // Inventory Context
@@ -22,8 +22,8 @@ export default function Inventory() {
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
   // Item Context
-  const { inventoryItemContext, searchContext, searchTermContext } = useContext(InventoryContext);
-  const [inventoryItems] = inventoryItemContext;
+  const { ordersContext, searchContext, searchTermContext } = useContext(OrdersContext);
+  const [orders] = ordersContext;
   const [searchOrders] = searchContext;
   const [searchTerm, setSearchTerm] = searchTermContext;
 
@@ -60,7 +60,7 @@ export default function Inventory() {
       const result = await searchOrders(searchTerm, 0);
       setIsProcessing(false);
 
-      setInventoryItems(result?.items);
+      setOrders(result?.items);
 
       if (result.items.length === 0) {
         notifyError("No items were found!");
@@ -91,7 +91,7 @@ export default function Inventory() {
     const result = await searchItem(searchTerm, 0, searchCategory);
 
     if (result?.items) {
-      setInventoryItems(result?.items);
+      setOrders(result?.items);
     }
 
     if (result.items.length === 0) {
@@ -150,7 +150,7 @@ export default function Inventory() {
         ) : (
           <Table
             tableLabel={"Results"}
-            tableElementArray={inventoryItems.length ? inventoryItems : []}
+            tableElementArray={orders.length ? orders : []}
             tableColumnLabelArray={columnLabel}
             isItemTable={true}
           />

@@ -1,11 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect } from 'react';
-import { useContext } from 'react';
 import { useState } from 'react'
-import InventoryContext from '../../contexts/inventory';
-import Dropdown from '../Dropdown/Dropdown';
-import Form from '../Form/Form';
-import Modal from '../Modal/Modal';
 import ModalInvite from '../ModalInvite/ModalInvite';
 
 /**

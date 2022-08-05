@@ -6,7 +6,7 @@ import ItemContext from '../../contexts/items';
 import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { motion } from 'framer-motion';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import Form from '../Form/Form';
 import DropdownCategory from '../DropdownCategory/DropdownCategory';
 import TextArea from '../TextArea/TextArea';
@@ -28,7 +28,7 @@ function ItemDetail() {
     const [getItem] = itemGetContext;
     const [updateItem] = itemUpdateContext;
 
-    const { selectedInventoryContext } = useContext(InventoryContext);
+    const { selectedInventoryContext } = useContext(InventoriesContext);
     const [items, setItems] = itemContext;
 
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;

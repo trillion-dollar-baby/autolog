@@ -3,9 +3,9 @@ import apiClient from "../services/apiClient"
 import InventoriesContext from "./inventories"
 import AuthContext from "./auth"
 
-const InventoryContext = createContext({});
-export const InventoryContextProvider = ({children})=>{
-  const [inventoryItems, setInventoryItems] = useState([]);
+const OrdersContext = createContext({});
+export const OrdersContextProvider = ({children})=>{
+  const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
   const [searchTerm, setSearchTerm] = useState("");
@@ -23,14 +23,14 @@ export const InventoryContextProvider = ({children})=>{
 
  useEffect(()=>{
     if (user && selectedInventory?.inventoryId) {
-        fetchItemList()
+        fetchOrdersList()
     }
 
    }, [user, selectedInventory])
 
   // Get id of a given item
   // for when we are accessing the item through item details
-  const getItem = async (itemId) => {
+  const getOrders = async (itemId) => {
     const { data, error } = await apiClient.getItem(itemId);
     if (!error) {
       return {data, error: null};
@@ -40,8 +40,9 @@ export const InventoryContextProvider = ({children})=>{
     }
   };
 
+
   // Search item
-  const searchItem = async(search, pageNumber, category)=>{
+  const searchOrders = async(search, pageNumber, category)=>{
     const {data, error} = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, search, category);
     if(!error){
       return data;
@@ -50,15 +51,14 @@ export const InventoryContextProvider = ({children})=>{
     }
   }
 
-
   // Fetch item list given the inventory id
-  async function fetchItemList() {
+  async function fetchOrdersList() {
     setIsLoading(true)
 
     const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
     
     if(data){
-      setInventoryItems(data?.items) 
+      setOrders(data?.items) 
     } else if(err) {
       setError(err)
     }
@@ -68,18 +68,19 @@ export const InventoryContextProvider = ({children})=>{
 
   const values = {
     errorContext: [error, setError],
-    inventoryItemContext: [inventoryItems, setInventoryItems],
-    searchContext : [searchItem],
+    ordersContext: [orders],
+    searchContext : [searchOrders],
     searchTermContext: [searchTerm, setSearchTerm],
     loadingContext: [isLoading, setIsLoading],
-    itemGetContext: [getItem],
+    getOrdersContext: [getOrders],
+
   };
 
 return(
-        <InventoryContext.Provider value={values}>
+        <OrdersContext.Provider value={values}>
             {children}
-        </InventoryContext.Provider>
+        </OrdersContext.Provider>
     )
 }
 
-export default InventoryContext;
+export default OrdersContext;
