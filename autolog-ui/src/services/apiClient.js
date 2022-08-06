@@ -113,7 +113,7 @@ class ApiClient {
      */
 
     async createItem(values, inventoryId) {
-        return await this.request({endpoint: 'item/?inventoryId=${inventoryId}', method: 'POST', data: values})
+        return await this.request({endpoint: `item/?inventoryId=${inventoryId}`, method: 'POST', data: values})
     }
 
     async getItem(itemId, inventoryId) {
