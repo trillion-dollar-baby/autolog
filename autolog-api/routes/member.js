@@ -27,6 +27,7 @@ router.get("/list", security.requireAuthenticatedUser, async(req,res,next) => {
 
 // add member to inventory
 router.post("/", security.requireAuthenticatedUser, async (req,res,next) => {
+    permissions.isAdminOfInventory(req,res,next);
     try {
         // get user that will be the "owner" of the inventory
         const { user } = res.locals;
@@ -43,6 +44,7 @@ router.post("/", security.requireAuthenticatedUser, async (req,res,next) => {
 
 // endpoint to update member role within inventory specified in query param
 router.patch("/", security.requireAuthenticatedUser, async(req,res,next) => {
+    permissions.isAdminOfInventory(req,res,next);
     try {
         const { inventoryId } = req.query;
 
@@ -56,6 +58,7 @@ router.patch("/", security.requireAuthenticatedUser, async(req,res,next) => {
 
 // endpoint to remove member from inventory
 router.delete("/", security.requireAuthenticatedUser, async(req,res,next) => {
+    permissions.isAdminOfInventory(req,res,next);
     try {
         const { inventoryId } = req.query;
 

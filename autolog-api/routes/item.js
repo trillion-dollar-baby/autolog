@@ -8,9 +8,10 @@ const router = express.Router();
 // endpoint to get a generic list of items in inventory
 router.get("/", 
     security.requireAuthenticatedUser,
-    permissions.hasPermissions,
     async (req, res, next) => {
     try {
+        await permissions.hasPermissions(req,res,next);
+        
         // query parameters
         const inventoryId = req.query.inventoryId;
         const {page, search, category} = req.query;
@@ -27,9 +28,10 @@ router.get("/",
 router.get(
     "/id/:itemId",
     security.requireAuthenticatedUser,
-    permissions.hasPermissions,
     async (req, res, next) => {
         try {
+            await permissions.hasPermissions(req,res,next);
+
             const { itemId } = req.params;
 
             const item = await Item.getItemById(itemId);
@@ -45,9 +47,10 @@ router.get(
 router.patch(
     "/id/:itemId",
     security.requireAuthenticatedUser,
-    permissions.hasPermissions,
     async (req, res, next) => {
         try {
+            await permissions.hasPermissions(req,res,next);
+
             const { itemId } = req.params;
             const newValues = req.body;
             const item = await Item.getItemById(itemId);
@@ -65,9 +68,10 @@ router.patch(
 router.delete(
     "/id/:itemId",
     security.requireAuthenticatedUser,
-    permissions.hasPermissions,
     async (req, res, next) => {
         try {
+            await permissions.hasPermissions(req,res,next);
+
             const { itemId } = req.params;
 
             const result = await Item.deleteItem(itemId);
@@ -82,9 +86,10 @@ router.delete(
 // endpoint to create an item
 router.post("/", 
     security.requireAuthenticatedUser,
-    permissions.hasPermissions,
     async (req, res, next) => {
     try {
+        await permissions.hasPermissions(req,res,next);
+
         const { user } = res.locals;
         const items = await Item.createItem({ item: req.body, user: user });
 

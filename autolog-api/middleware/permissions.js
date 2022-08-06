@@ -62,11 +62,11 @@ const hasPermissions = async (req, res, next) => {
 
         const rolePermissions = await Role.getUserRole(inventoryId, user.id);
 
-        if(!rolePermissions.create  && req.method == "POST")    throw new UnauthorizedError("You don't have creation powers for this action!");
-        if(!rolePermissions.read    && req.method == "GET")     throw new UnauthorizedError("You don't have reading powers for this action!");
-        if(!rolePermissions.update  && req.method == "PATCH")   throw new UnauthorizedError("You don't have update powers for this action!");
-        if(!rolePermissions.delete  && req.method == "DELETE")  throw new UnauthorizedError("You don't have deletion powers for this action!");
-
+        if(!rolePermissions.create  && req.method === "POST")    throw new UnauthorizedError("You don't have creation powers for this action!");
+        if(!rolePermissions.read    && req.method === "GET")     throw new UnauthorizedError("You don't have reading powers for this action!");
+        if(!rolePermissions.update  && req.method === "PATCH")   throw new UnauthorizedError("You don't have update powers for this action!");
+        if(!rolePermissions.delete  && req.method === "DELETE")  throw new UnauthorizedError("You don't have deletion powers for this action!");
+        
     } catch (error) {
         return next(error);
     }
