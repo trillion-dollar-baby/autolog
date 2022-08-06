@@ -112,12 +112,12 @@ class ApiClient {
      * Item endpoints
      */
 
-    async createItem(values) {
-        return await this.request({endpoint: 'item/', method: 'POST', data: values})
+    async createItem(values, inventoryId) {
+        return await this.request({endpoint: 'item/?inventoryId=${inventoryId}', method: 'POST', data: values})
     }
 
-    async getItem(itemId) {
-        return await this.request({endpoint: `item/id/${itemId}`, method: 'GET'});
+    async getItem(itemId, inventoryId) {
+        return await this.request({endpoint: `item/id/${itemId}?inventoryId=${inventoryId}`, method: 'GET'});
     }
     
     async getOrdersItemList(inventoryId, pageNumber, search, category) {
@@ -128,12 +128,12 @@ class ApiClient {
         return await this.request({endpoint: `item/inventory/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
     }
 
-    async updateItem(itemId, data) {
-        return await this.request({endpoint: `item/id/${itemId}`, method: 'PATCH', data: data});
+    async updateItem(itemId, data, inventoryId) {
+        return await this.request({endpoint: `item/id/${itemId}?inventoryId=${inventoryId}`, method: 'PATCH', data: data});
     }
 
-    async deleteItem(itemId) {
-        return await this.request({endpoint: `item/id/${itemId}`, method: 'DELETE', data: data})
+    async deleteItem(itemId,inventoryId) {
+        return await this.request({endpoint: `item/id/${itemId}?inventoryId=${inventoryId}`, method: 'DELETE', data: data})
     }
 
     /**

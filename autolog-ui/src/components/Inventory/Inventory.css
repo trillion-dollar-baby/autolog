@@ -6,6 +6,7 @@
     justify-content: flex-start;
     align-items: center;
     flex-grow: 1;
+    overflow: hidden;
 }
 
 .inventory-content .topbar-container {
@@ -28,7 +29,7 @@
     flex-direction: row;
     max-width: var(--maxWidth);
     width: 100%;
-    margin-bottom: 50px;
+    
     align-items: center;
     justify-content: center;
 }
@@ -39,4 +40,13 @@
     max-width: 650px;
     height: 40px;
     margin: 0 15px;
+}
+
+.button-container {
+    width: 100%;
+    display:flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }

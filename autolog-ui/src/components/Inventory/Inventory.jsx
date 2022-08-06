@@ -11,10 +11,19 @@ import InventoriesContext from "../../contexts/inventories";
 import Loading from "../Loading/Loading";
 import { ToastContext } from "../../contexts/toast";
 import apiClient from "../../services/apiClient";
+import ButtonAction from "../Button/ButtonAction";
+import { useNavigate } from "react-router";
+import ItemContext from "../../contexts/items";
 
 export default function Inventory() {
-  const { notifyError, notifySuccess } = useContext(ToastContext);
+  const navigate = useNavigate();
 
+  const { notifyError, notifySuccess } = useContext(ToastContext);
+  
+  // Items Context
+  const { selectedItemsContext } = useContext(ItemContext);
+  const [selectedItems, setSelectedItems] = selectedItemsContext; 
+  
   // Inventory Context
   const { processingContext, initializedContext, selectedInventoryContext } = useContext(InventoriesContext);
   const [isProcessing, setIsProcessing] = processingContext;
@@ -30,24 +39,26 @@ export default function Inventory() {
   // Categories constants
   const [isFetching, setIsFetching] = useState(false);
   const [categoryItems, setCategoryItems] = useState();
-  const [selectedCategory, setSelectedCategory] = useState('Search by');
-
-  const [sortItems, setSortItems] = useState();
-  const [selectedSort, setSelectedSort] = useState('Sort by');
+  const [selectedCategory, setSelectedCategory] = useState();
+  
+  const [pageNumber, setPageNumber] = useState(0);
 
   const settingsRoutes = [
     {
-      name: "Inventory",
-      to: "/inventory",
+      name: "Items",
+      to: "./",
     },
     {
-      name: "Orders",
-      to: "/inventory/orders",
+      name: "Purchases",
+      to: "/purchase/"
+    },
+    {
+      name: "Invoices",
+      to: "/invoice/",
     },
   ];
 
-  const searchFilters = ["name", "category", "createdAt", "updatedAt", "quantity"]
-  const columnLabel = ["name", "category", "quantity"]
+  const columnLabel = ["name", "category", "createdAt", "updatedAt", "quantity"]
 
   const onChangeSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -57,14 +68,22 @@ export default function Inventory() {
     if (event.key === "Enter") {
       event.preventDefault();
       setIsProcessing(true);
+
+      // as it is a new search, reset page number
+      setPageNumber(0);
+
       const result = await searchOrders(searchTerm, 0);
       setIsProcessing(false);
 
       setInventoryItems(result?.items);
+      if(result?.items){
+        setInventoryItems(result?.items);
+      }
 
       if (result.items.length === 0) {
         notifyError("No items were found!");
       }
+      setIsProcessing(false);
     }
   }
 
@@ -86,8 +105,15 @@ export default function Inventory() {
 
   // Fetch list by category if user selects one in dropdown
   const fetchItemsByCategory = async (category) => {
+    setIsProcessing(true);
+    
+    // format value
     const searchCategory = category.toLowerCase() === 'all' ? '' : category.toLowerCase();
     
+    // save for infinite scrolling
+    setSelectedCategory(searchCategory);  
+    setPageNumber(0);
+
     const result = await searchItem(searchTerm, 0, searchCategory);
 
     if (result?.items) {
@@ -96,6 +122,36 @@ export default function Inventory() {
 
     if (result.items.length === 0) {
       notifyError("No items were found!");
+    }
+    setIsProcessing(false);
+  }
+
+  // Function triggered after reaching the bottom of table
+  const fetchMoreItems = async () => {
+    const searchCategory = selectedCategory?.toLowerCase() === 'all' ? '' : selectedCategory?.toLowerCase();
+
+    const result = await searchItem(searchTerm || '', (pageNumber + 1) || 1, searchCategory || '');
+
+    // append into array and increase page number for next request if user wants to keep scrolling
+    if (result?.items) {
+      setItems((prevItems) => ([...prevItems, ...result?.items]));
+      setPageNumber((prevNum) => prevNum+1);
+    }
+  } 
+
+  const handleOnCreateInvoice = () => {
+    if(selectedItems.length > 0) {
+      navigate('/invoice/create');
+    } else {
+      notifyError("You need to first select items to create an invoice!")
+    }
+  }
+
+  const handleOnCreatePurchase = () => {
+    if(selectedItems.length > 0) {
+      navigate('/purchase/create');
+    } else {
+      notifyError("You need to first select items to create a purchase!")
     }
   }
 
@@ -128,6 +184,7 @@ export default function Inventory() {
           buttonPath={"/item/create"}
         />
       </div>
+      
       <div className="filter-container">
         <div className="search-bar">
           <FormInput
@@ -141,9 +198,15 @@ export default function Inventory() {
             onkeypress={handleOnSearch}
           />
 
-          <Dropdown value={selectedCategory} items={categoryItems} onSelect={fetchItemsByCategory} />
+          <Dropdown value={"Search by"} items={categoryItems} onSelect={fetchItemsByCategory} />
         </div>
       </div>
+
+      <div className="button-container">
+        <ButtonAction label={"Create Invoice"} color={"var(--actionGreen)"} onClick={handleOnCreateInvoice}/>
+        <ButtonAction label={"Create Purchase"} color={"var(--actionBlue)"} onClick={handleOnCreatePurchase}/>
+      </div>
+
       <div className="table-container">
         {isProcessing || !initialized ? (
           <Loading />
@@ -153,6 +216,9 @@ export default function Inventory() {
             tableElementArray={inventoryItems.length ? inventoryItems : []}
             tableColumnLabelArray={columnLabel}
             isItemTable={true}
+            fetchMoreItems={fetchMoreItems}
+            selectedItems={selectedItems}
+            setSelectedItems={setSelectedItems}
           />
         )}
       </div>
