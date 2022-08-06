@@ -3,11 +3,11 @@ import { motion } from 'framer-motion';
 import Form from '../Form/Form'
 
 import './CreateInvoice.css';
+import Table from '../Table/Table';
 
 function CreateInvoice() {
-
   const [invoiceForm, setInvoiceForm] = useState({});
-
+  
   // form array for "item information" section
   const createInvoiceFormArray = [
     {
@@ -24,6 +24,8 @@ function CreateInvoice() {
     },
   ]
 
+  const columnLabel = ["id", "name", "category", "updatedAt", "quantity"]
+  
   const containerVariants = {
     hidden: {
       opacity: 0,
@@ -55,6 +57,14 @@ function CreateInvoice() {
       <div className="content">
         <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceFormArray} />
       </div>
+    <Table 
+      tableElementArray={selectedItems}
+      tableColumnLabelArray={columnLabel}
+      tableLabel={"Invoice items"}
+      isItemTable={true}
+      fetchMoreItems
+      setSelectedItems
+      selectedItems/>
     </motion.div>
   )
 }
