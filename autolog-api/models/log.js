@@ -2,11 +2,13 @@ const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 
 class Log {
-    static async createLog(inventoryId, itemId, userId, action) {
+    static async createLog(inventoryId, itemName, itemId, userId, action) {
         const query = `
             INSERT INTO logs (
                 inventory_id,
+                item_name,
                 item_id,
+                username,
                 user_id,
                 action
             )
@@ -14,15 +16,21 @@ class Log {
                 $1,
                 $2,
                 $3,
-                $4
+                $4,
+                $5,
+                $6
             )
-            RETURNING id, user_id, inventory_id, action, to_char(created_at,'MM-DD-YYYY') AS "createdAt"
+            RETURNING id, item_name, user_id, inventory_id, action, to_char(created_at,'MM-DD-YYYY') AS "createdAt"
         `;
+
+        const username = await this.fetchUserNameById(userId)
 
         try {
             const results = await db.query(query, [
                 inventoryId,
+                itemName,
                 itemId,
+                username,
                 userId,
                 action,
             ]);
@@ -37,12 +45,11 @@ class Log {
         const query = `
         SELECT 
             id AS "LOG ID",
-            user_id AS "USER",
-            item_id AS "ITEM ID",
-            inventory_id AS "INVENTORY ID",
+            item_name AS "ITEM NAME",
+            username AS "USERNAME",
+            action as "ACTION",
             to_char(logs.created_at, 'MM-DD-YYYY HH:MI:SS') AS "CREATEDAT",
-            logs.created_at,
-            action
+            logs.created_at
         FROM
             logs
         WHERE
@@ -54,6 +61,21 @@ class Log {
         const results = await db.query(query, [inventoryId]);
 
         return results.rows;
+    }
+
+    static async fetchUserNameById(id) {
+        const query = `
+        SELECT 
+            username
+        FROM 
+            users
+        WHERE
+            id = $1
+        `;
+
+        const results = await db.query(query, [id])
+
+        return results.rows[0].username;
     }
 }
 

@@ -98,7 +98,7 @@ router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
         if (items) {
             // The createLog method requires an inventory ID, an item ID, a user ID, and action
             const action = "Create"
-            const log = await Log.createLog(items.inventory_id, items.id, user.id, action)
+            const log = await Log.createLog(items.inventory_id, items.name, items.id, user.id, action)
         }
 
         return res.status(201).json({ items });
