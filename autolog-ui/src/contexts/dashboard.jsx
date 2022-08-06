@@ -11,7 +11,7 @@ export const DashboardContextProvider = ({ children }) => {
   //logs
   const [logs, setLogs] = useState([]);
   //checklist
-  const [checklist, setChecklist] = useState([]);
+  const [todos, setTodos] = useState([]);
   //announcements
   const [announcement, setAnnouncement] = useState("");
   //is processing and error useStates
@@ -72,9 +72,11 @@ export const DashboardContextProvider = ({ children }) => {
   };
 
   //update checklist
-  const updateChecklist = async (itemId, values) => {
-    
-    const { data, error } = await apiClient.updateCheckList(itemId, values);
+  const updateChecklist = async (itemId, values, status) => {
+    const requestObj = {
+      item: values
+    }
+    const { data, error } = await apiClient.updateCheckList(itemId, requestObj);
     if (!error) {
       fetchList();
       return { data, error: null };
@@ -83,6 +85,21 @@ export const DashboardContextProvider = ({ children }) => {
       return { data: null, error };
     }
   };
+  //update status of todo check item
+  const updateStatus = async (itemId, values) => {
+    const requestObj = {
+      is_checked: values
+    }
+    const { data, error } = await apiClient.updateStatus(itemId, requestObj);
+    if (!error) {
+      fetchList();
+      return { data, error: null };
+    } else {
+      console.error("Error updating checklist status, message:", error);
+      return { data: null, error };
+    }
+  };
+
   //delete checklist
   const deleteChecklist = async (id) => {
     const { data, error } = await apiClient.deleteCheckListItem(id);
@@ -96,21 +113,19 @@ export const DashboardContextProvider = ({ children }) => {
   };
 
   // Fetch checklist given the user id
-  async function fetchList(itemId) {
+  async function fetchList() {
     setIsProcessing(true);
 
-    const { data, err } = await apiClient.getCheckList(itemId);
-
+    const { data, err } = await apiClient.getCheckList(selectedInventory?.inventoryId);
     if (data) {
-      setChecklist(data?.checklist);
+      setTodos(data?.list);
+      
     } else if (err) {
       setError(err);
     }
 
     setIsProcessing(false);
   }
-
-  
 
   //Create announcement given data
   const createAnnouncement = async (message) => {
@@ -181,13 +196,14 @@ export const DashboardContextProvider = ({ children }) => {
     checklistGetContext: [fetchList],
     checklistUpdateContext: [updateChecklist],
     checklistDeleteContext: [deleteChecklist],
+    checklistUpdateStatusContext : [updateStatus],
     announcementCreateContext: [createAnnouncement],
     announcementGetContext: [fetchAnnouncement],
     announcementUpdateContext: [updateAnnouncement],
     announcementDeleteContext: [deleteAnnouncement],
     errorContext: [error, setError],
     logContext: [logs, setLogs],
-    checklistContext: [checklist, setChecklist],
+    checklistContext: [todos, setTodos],
     announcementContext: [announcement, setAnnouncement],
     processingContext: [isProcessing, setIsProcessing],
   };

@@ -19,6 +19,7 @@ class Dashboard {
     const results = await db.query(
       ` SELECT checklist.id,
                checklist.item,
+               checklist.is_checked,
                i.id as "userId"
         FROM checklist
             RIGHT JOIN inventory AS i ON i.id = checklist.inventory_id
@@ -28,6 +29,22 @@ class Dashboard {
     );
     return results.rows;
   }
+  //list item for inventory id and user
+  static async listItemForUsertoInventory(user, inventoryId) {
+    const results = await db.query(
+      ` SELECT id,
+               item,
+               is_checked,
+               user_id,
+               inventory_id
+        FROM checklist
+        WHERE checklist.user_id = $1 AND checklist.inventory_id = $2
+    `,
+      [user.id, inventoryId]
+    );
+    return results.rows;
+  }
+
 
   //fetch checklist item by id
   static async fetchCheckItemById(id) {
@@ -82,6 +99,36 @@ class Dashboard {
 
     `,
       [itemUpdate.item || item, isChecked, itemId]
+    );
+
+    return result.rows[0];
+  }
+
+  //update checklist item
+  static async updateTodoStatus(itemId, {itemUpdate}) {
+    const results = await db.query(
+      `SELECT is_checked FROM checklist WHERE id = $1 `,
+      [itemId]
+    );
+    const is_checked = results.rows[0].is_checked;
+    let isChecked = false;
+    if (itemUpdate.is_checked == null) {
+      isChecked = is_checked;
+    } else {
+      isChecked = itemUpdate.is_checked;
+    }
+
+    const result = await db.query(
+      `
+        UPDATE checklist
+        SET is_checked = $1
+        WHERE id = $2
+        RETURNING id,
+                  item,
+                  is_checked
+
+    `,
+      [isChecked, itemId]
     );
 
     return result.rows[0];
