@@ -13,14 +13,32 @@ export default function Table({
     tableElementArray,
     tableColumnLabelArray,
     tableLabel,
-    isItemTable = false
+    isItemTable = false,
+    fetchMoreItems,
+    isFetching
 }) {
+    const tableRef = React.useRef();
+    const onScroll = async() => {
+        if(isItemTable) {
+            if(tableRef.current) {
+                const {scrollTop, scrollHeight, clientHeight} = tableRef.current;
+                
+                // check if user reached to the bottom of the div
+                // check if is fetching already to prevent multiple requests
+                if((Math.ceil(scrollTop+clientHeight) === Math.floor(scrollHeight))) {
+                    await fetchMoreItems();
+                }
+            }
+
+        }
+    }
+
     return (
-        <div className="table">
+        <div  className="table">
             <div className="table-header">
                 <label className="table-header-label"> {tableLabel} </label>
             </div>
-            <div className="table-body">
+            <div onScroll={onScroll} ref={tableRef} className="table-body">
                 {tableColumnLabelArray?.map((columnName, index) => (
                     <div key={`column-${index}`} className={`table-column`}>
                         <p className="column-label">
@@ -43,7 +61,7 @@ export default function Table({
                 {isItemTable ?
                     <div key={`column-detail`} className={`table-column`}>
                     <p className="column-label">
-                        {" "}{" "}{" "}
+                        {" "}{"DETAIL"}{" "}
                     </p>
                     {tableElementArray?.map((rowItems, index) => (
                         <li className="row-item" key={`row-item-detail-${index}`}>
