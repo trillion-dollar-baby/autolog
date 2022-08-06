@@ -28,7 +28,7 @@ export default function Table({
 
                 // check if user reached to the bottom of the div
                 // check if is fetching already to prevent multiple requests
-                if ((Math.ceil(scrollTop + clientHeight) >= Math.floor(scrollHeight) - 2)) {
+                if ((Math.ceil(scrollTop + clientHeight) === Math.floor(scrollHeight) - 2)) {
                     await fetchMoreItems();
                 }
             }
@@ -55,7 +55,6 @@ export default function Table({
             removeItemFromSelected(item);
         }
     }
-    console.log(selectedItems);
     return (
         <div className="table">
             <div className="table-header">

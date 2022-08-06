@@ -48,8 +48,8 @@ export const DashboardContextProvider = ({ children }) => {
     const { data, error } = await apiClient.getLogs(
       selectedInventory?.inventoryId
     );
-    if (data) {
-      setLogs(data.logs);
+    if (Object.keys(data).length) {
+      setLogs(data?.logs);
     } else {
       console.error("Error getting items, message:", error);
     }
@@ -117,7 +117,7 @@ export const DashboardContextProvider = ({ children }) => {
     setIsProcessing(true);
 
     const { data, err } = await apiClient.getCheckList(selectedInventory?.inventoryId);
-    if (data) {
+    if (data.list.length) {
       setTodos(data?.list);
       
     } else if (err) {
@@ -179,10 +179,11 @@ export const DashboardContextProvider = ({ children }) => {
   async function fetchAnnouncement() {
     //return first item on the list (aka most recent)
     setIsProcessing(true);
+
     const { data, err } = await apiClient.getAnnouncement(selectedInventory?.inventoryId);
 
-    if (data) {
-      setAnnouncement(data?.item.message)
+    if (Object.keys(data).length) {
+      setAnnouncement(data?.item?.message)
       
     } else if (err) {
       setError(err);
