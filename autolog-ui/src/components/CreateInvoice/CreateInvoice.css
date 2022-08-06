@@ -11,3 +11,7 @@
     display:flex;
     justify-content: center;
 }
+
+.create-invoice>.content {
+    margin-bottom: 20px;
+}

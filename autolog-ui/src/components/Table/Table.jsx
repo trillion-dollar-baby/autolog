@@ -16,19 +16,20 @@ export default function Table({
     isItemTable = false,
     fetchMoreItems,
     setSelectedItems,
-    selectedItems
+    selectedItems,
+    isFetching
 }) {
     const tableRef = React.useRef();
     const [isSelected, setSelected] = React.useState(false);
 
     const onScroll = async () => {
         if (isItemTable) {
-            if (tableRef.current) {
+            if (tableRef.current && !isFetching) {
                 const { scrollTop, scrollHeight, clientHeight } = tableRef.current;
 
                 // check if user reached to the bottom of the div
                 // check if is fetching already to prevent multiple requests
-                if ((Math.ceil(scrollTop + clientHeight) === Math.floor(scrollHeight) - 2)) {
+                if ((Math.ceil(scrollTop + clientHeight) >= Math.floor(scrollHeight) - 1)) {
                     await fetchMoreItems();
                 }
             }
@@ -58,7 +59,7 @@ export default function Table({
     return (
         <div className="table">
             <div className="table-header">
-                <label className="table-header-label"> {tableLabel} </label>
+                <label className="table-header-label"> {tableLabel} </label> <label className="table-header-label" style={{color: "var(--actionRed)", fontWeight: "600"}}>{(selectedItems?.length ? `${selectedItems.length} item(s) selected` : '')}</label>
             </div>
             <div onScroll={onScroll} ref={tableRef} className="table-body">
                 {/* if it is a item table, create checkbox to select item */}

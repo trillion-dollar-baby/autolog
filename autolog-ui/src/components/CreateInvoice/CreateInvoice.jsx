@@ -4,10 +4,20 @@ import Form from '../Form/Form'
 
 import './CreateInvoice.css';
 import Table from '../Table/Table';
+import ItemContext from '../../contexts/items';
+import { useContext } from 'react';
+import InvoiceTable from '../Table/InvoiceTable';
 
 function CreateInvoice() {
+  // Items Context
+  const { itemContext, searchContext, searchTermContext, selectedItemsContext } = useContext(ItemContext);
+  const [items, setItems] = itemContext;
+  const [searchItem] = searchContext;
+  const [searchTerm, setSearchTerm] = searchTermContext;
+  const [selectedItems, setSelectedItems] = selectedItemsContext;
+
   const [invoiceForm, setInvoiceForm] = useState({});
-  
+
   // form array for "item information" section
   const createInvoiceFormArray = [
     {
@@ -22,10 +32,16 @@ function CreateInvoice() {
       type: 'text',
       placeholder: '1234'
     },
+    {
+      label: 'Labor Cost Total',
+      name: 'labor',
+      type: 'number',
+      placeholder: '1234'
+    },
   ]
 
-  const columnLabel = ["id", "name", "category", "updatedAt", "quantity"]
-  
+  const columnLabel = ["name", "category", "updatedAt", "quantity"]
+
   const containerVariants = {
     hidden: {
       opacity: 0,
@@ -48,23 +64,22 @@ function CreateInvoice() {
       exit={"exit"}
       className={"create-invoice"}>
       <div className="header">
-                <div className="header-title-wrapper">
-                    <label className="header-title"> Create a new invoice </label>
-                    {/* <label className='error-message'>{errorMessage}</label> */}
-                    {/* <label className='processing-message'>{isProcessing ? 'Processing...' : ''}</label> */}
-                </div>
-            </div>
+        <div className="header-title-wrapper">
+          <label className="header-title"> Create a new invoice </label>
+          {/* <label className='error-message'>{errorMessage}</label> */}
+          {/* <label className='processing-message'>{isProcessing ? 'Processing...' : ''}</label> */}
+        </div>
+      </div>
       <div className="content">
         <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceFormArray} />
       </div>
-    <Table 
-      tableElementArray={selectedItems}
-      tableColumnLabelArray={columnLabel}
-      tableLabel={"Invoice items"}
-      isItemTable={true}
-      fetchMoreItems
-      setSelectedItems
-      selectedItems/>
+        <InvoiceTable
+          tableElementArray={selectedItems}
+          tableColumnLabelArray={columnLabel}
+          tableLabel={"Invoice items"}
+          isItemTable={true}
+          setSelectedItems={setSelectedItems}
+          selectedItems={selectedItems} />
     </motion.div>
   )
 }
