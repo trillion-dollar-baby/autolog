@@ -26,12 +26,13 @@ router.get("/",
 
 router.get("/inventory", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
+        await permissions.hasPermissions(req,res,next);
         // query parameters
         const inventoryId = req.query.inventoryId;
         const {page, search, category} = req.query;
         const { user } = res.locals;
 
-        const items = await Item.listInventoryItems(inventoryId, search, page, category);
+        const items = await Item.listOrderItems(inventoryId, search, page, category);
         return res.status(200).json({ items });
     } catch (err) {
         next(err);
