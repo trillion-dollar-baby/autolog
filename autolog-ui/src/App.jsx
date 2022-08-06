@@ -13,6 +13,7 @@ import Navbar from './components/Navbar/Navbar';
 import Settings from './components/Settings/Settings';
 import Dashboard from './components/Dashboard/Dashboard';
 import Inventory from './components/Inventory/Inventory';
+import Orders from './components/Orders/Orders';
 import NotFound from './components/NotFound/NotFound';
 import Performance from './components/Performance/Performance'
 import CreateInventory from './components/CreateInventory/CreateInventory';

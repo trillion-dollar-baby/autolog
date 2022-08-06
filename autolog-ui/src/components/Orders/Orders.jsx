@@ -1,64 +1,53 @@
 import { useState, useEffect } from "react";
 import { useContext } from "react";
 import { motion } from "framer-motion";
-import "./Inventory.css";
+import "./Orders.css";
 import Table from "../Table/Table";
 import Topbar from "../Topbar/Topbar";
 import Dropdown from "../Dropdown/Dropdown";
 import FormInput from "../FormInput/FormInput";
-import InventoryContext from "../../contexts/inventory";
+import OrdersContext from "../../contexts/orders";
 import InventoriesContext from "../../contexts/inventories";
 import Loading from "../Loading/Loading";
 import { ToastContext } from "../../contexts/toast";
 import apiClient from "../../services/apiClient";
-import ButtonAction from "../Button/ButtonAction";
-import { useNavigate } from "react-router";
-import ItemContext from "../../contexts/items";
 
-export default function Inventory() {
-  const navigate = useNavigate();
-
+export default function Orders() {
   const { notifyError, notifySuccess } = useContext(ToastContext);
-  
-  // Items Context
-  const { selectedItemsContext } = useContext(ItemContext);
-  const [selectedItems, setSelectedItems] = selectedItemsContext; 
-  
-  // Inventory Context
+
+  // Inventories Context
   const { processingContext, initializedContext, selectedInventoryContext } = useContext(InventoriesContext);
   const [isProcessing, setIsProcessing] = processingContext;
   const [initialized, setInitialized] = initializedContext;
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
   // Item Context
-  const { inventoryItemContext, searchContext, searchTermContext } = useContext(InventoryContext);
-  const [inventoryItems] = inventoryItemContext;
+  const { ordersContext, searchContext, searchTermContext } = useContext(OrdersContext);
+  const [orders] = ordersContext;
   const [searchOrders] = searchContext;
   const [searchTerm, setSearchTerm] = searchTermContext;
 
   // Categories constants
   const [isFetching, setIsFetching] = useState(false);
   const [categoryItems, setCategoryItems] = useState();
-  const [selectedCategory, setSelectedCategory] = useState();
-  
-  const [pageNumber, setPageNumber] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState('Search by');
+
+  const [sortItems, setSortItems] = useState();
+  const [selectedSort, setSelectedSort] = useState('Sort by');
 
   const settingsRoutes = [
     {
-      name: "Items",
-      to: "./",
+      name: "Inventory",
+      to: "/inventory",
     },
     {
-      name: "Purchases",
-      to: "/purchase/"
-    },
-    {
-      name: "Invoices",
-      to: "/invoice/",
+      name: "Orders",
+      to: "/inventory/orders",
     },
   ];
 
-  const columnLabel = ["name", "category", "createdAt", "updatedAt", "quantity"]
+  const searchFilters = ["name", "category", "createdAt", "updatedAt", "quantity"]
+  const columnLabel = ["id", "name", "category", "createdAt", "updatedAt", "inventoryId", "quantity"]
 
   const onChangeSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -68,22 +57,14 @@ export default function Inventory() {
     if (event.key === "Enter") {
       event.preventDefault();
       setIsProcessing(true);
-
-      // as it is a new search, reset page number
-      setPageNumber(0);
-
       const result = await searchOrders(searchTerm, 0);
       setIsProcessing(false);
 
-      setInventoryItems(result?.items);
-      if(result?.items){
-        setInventoryItems(result?.items);
-      }
+      setOrders(result?.items);
 
       if (result.items.length === 0) {
         notifyError("No items were found!");
       }
-      setIsProcessing(false);
     }
   }
 
@@ -105,53 +86,16 @@ export default function Inventory() {
 
   // Fetch list by category if user selects one in dropdown
   const fetchItemsByCategory = async (category) => {
-    setIsProcessing(true);
-    
-    // format value
     const searchCategory = category.toLowerCase() === 'all' ? '' : category.toLowerCase();
     
-    // save for infinite scrolling
-    setSelectedCategory(searchCategory);  
-    setPageNumber(0);
-
     const result = await searchItem(searchTerm, 0, searchCategory);
 
     if (result?.items) {
-      setInventoryItems(result?.items);
+      setOrders(result?.items);
     }
 
     if (result.items.length === 0) {
       notifyError("No items were found!");
-    }
-    setIsProcessing(false);
-  }
-
-  // Function triggered after reaching the bottom of table
-  const fetchMoreItems = async () => {
-    const searchCategory = selectedCategory?.toLowerCase() === 'all' ? '' : selectedCategory?.toLowerCase();
-
-    const result = await searchItem(searchTerm || '', (pageNumber + 1) || 1, searchCategory || '');
-
-    // append into array and increase page number for next request if user wants to keep scrolling
-    if (result?.items) {
-      setItems((prevItems) => ([...prevItems, ...result?.items]));
-      setPageNumber((prevNum) => prevNum+1);
-    }
-  } 
-
-  const handleOnCreateInvoice = () => {
-    if(selectedItems.length > 0) {
-      navigate('/invoice/create');
-    } else {
-      notifyError("You need to first select items to create an invoice!")
-    }
-  }
-
-  const handleOnCreatePurchase = () => {
-    if(selectedItems.length > 0) {
-      navigate('/purchase/create');
-    } else {
-      notifyError("You need to first select items to create a purchase!")
     }
   }
 
@@ -184,7 +128,6 @@ export default function Inventory() {
           buttonPath={"/item/create"}
         />
       </div>
-      
       <div className="filter-container">
         <div className="search-bar">
           <FormInput
@@ -198,27 +141,18 @@ export default function Inventory() {
             onkeypress={handleOnSearch}
           />
 
-          <Dropdown value={"Search by"} items={categoryItems} onSelect={fetchItemsByCategory} />
+          <Dropdown value={selectedCategory} items={categoryItems} onSelect={fetchItemsByCategory} />
         </div>
       </div>
-
-      <div className="button-container">
-        <ButtonAction label={"Create Invoice"} color={"var(--actionGreen)"} onClick={handleOnCreateInvoice}/>
-        <ButtonAction label={"Create Purchase"} color={"var(--actionBlue)"} onClick={handleOnCreatePurchase}/>
-      </div>
-
       <div className="table-container">
         {isProcessing || !initialized ? (
           <Loading />
         ) : (
           <Table
             tableLabel={"Results"}
-            tableElementArray={inventoryItems.length ? inventoryItems : []}
+            tableElementArray={orders.length ? orders : []}
             tableColumnLabelArray={columnLabel}
             isItemTable={true}
-            fetchMoreItems={fetchMoreItems}
-            selectedItems={selectedItems}
-            setSelectedItems={setSelectedItems}
           />
         )}
       </div>

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_BASE_URL } from "../constants";
+import API_BASE_URL from "../constants";
 
 class ApiClient {
     constructor(remoteHostUrl) {
@@ -112,24 +112,28 @@ class ApiClient {
      * Item endpoints
      */
 
-    async createItem(values) {
-        return await this.request({endpoint: 'item/', method: 'POST', data: values})
+    async createItem(values, inventoryId) {
+        return await this.request({endpoint: 'item/?inventoryId=${inventoryId}', method: 'POST', data: values})
     }
 
-    async getItem(itemId) {
-        return await this.request({endpoint: `item/id/${itemId}`, method: 'GET'});
+    async getItem(itemId, inventoryId) {
+        return await this.request({endpoint: `item/id/${itemId}?inventoryId=${inventoryId}`, method: 'GET'});
     }
     
-    async getItemList(inventoryId, pageNumber, search, category) {
+    async getOrdersItemList(inventoryId, pageNumber, search, category) {
         return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
     }
 
-    async updateItem(itemId, data) {
-        return await this.request({endpoint: `item/id/${itemId}`, method: 'PATCH', data: data});
+    async getInventoryItemList(inventoryId, pageNumber, search, category) {
+        return await this.request({endpoint: `item/inventory/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
     }
 
-    async deleteItem(itemId) {
-        return await this.request({endpoint: `item/id/${itemId}`, method: 'DELETE', data: data})
+    async updateItem(itemId, data, inventoryId) {
+        return await this.request({endpoint: `item/id/${itemId}?inventoryId=${inventoryId}`, method: 'PATCH', data: data});
+    }
+
+    async deleteItem(itemId,inventoryId) {
+        return await this.request({endpoint: `item/id/${itemId}?inventoryId=${inventoryId}`, method: 'DELETE', data: data})
     }
 
     /**
@@ -172,9 +176,46 @@ class ApiClient {
     }
 
     /**
-     * Roles endpoints
+     * Dashboard endpoints
      */
 
+    //Checklist endpoints
+     async createCheckListItem(values) {
+        return await this.request({endpoint: 'dashboard/checklist', method: 'POST', data: values})
+    }
+
+    async getCheckList(itemId) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'GET'});
+    }
+
+    async updateCheckList(itemId, data) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'PATCH', data: data});
+    }
+
+    async deleteCheckListItem(itemId) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'DELETE', data: data})
+    }
+
+    //announcements endpoints
+    async createAnnouncements(values) {
+        return await this.request({endpoint: `dashboard/announcement/`, method: 'POST', data: values})
+    }
+
+    async getAnnouncement(inventoryId) {
+        return await this.request({endpoint: `dashboard/recent/?inventoryId=${inventoryId}`, method: 'GET'});
+    }
+
+    async updateAnnouncement(itemId, data) {
+        return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'PATCH', data: data});
+    }
+
+    async deleteAnnouncement(itemId) {
+        return await this.request({endpoint: `dashboard/announcementId/${itemId}`, method: 'DELETE'})
+    }
+
+    /**
+    * Roles endpoints
+    */
     async getRoles(inventoryId) {
         return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}`, method: 'GET'});
     }

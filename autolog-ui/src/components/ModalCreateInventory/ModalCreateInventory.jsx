@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useContext } from 'react';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import { ToastContext } from '../../contexts/toast';
 import Form from '../Form/Form';
 import Modal from '../Modal/Modal';
@@ -11,7 +11,7 @@ function ModalCreateInventory({closeModal}) {
     const {notifySuccess, notifyError} = useContext(ToastContext);
 
     // contexts
-    const { accessibleInventoriesContext, selectedInventoryContext, inventoryPostContext } = useContext(InventoryContext);
+    const { accessibleInventoriesContext, selectedInventoryContext, inventoryPostContext } = useContext(InventoriesContext);
     const [createInventory] = inventoryPostContext;
     const [accessibleInventories, setAccessibleInventories] = accessibleInventoriesContext;
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;

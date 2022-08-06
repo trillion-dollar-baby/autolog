@@ -1,198 +1,218 @@
 .landing-page {
     display: flex;
-    justify-content: flex-start;
     flex-direction: column;
-    padding-top: 70px;
-    margin: auto;
     font-family: 'Inter';
     font-style: normal;
+    height: 100%;
+    width: 100%;
+    align-items: center;
 }
 
-.hero {
+/***** HERO ******/
+.landing-page .hero {
     display: flex;
     flex-direction: row;
-    gap:20px;  
+    margin-top: 50px;
+    max-width: calc(100vw - 100px);
 }
 
-.description {
+.landing-page .hero .hero-description {
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+    justify-content: start;
+    padding-top: 65px;
+    gap: 25px;
+}
+
+.landing-page .hero .hero-message {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 20px;
     line-height: 33px;
-    padding-top: 20px;
     color: #6B6B6B;
 }
 
-.title-hero {
+.landing-page .hero .hero-description .hero-title {
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
-    font-size: 30px;
+    font-size: 35px;
     line-height: 48px;
 }
 
-.heading {
-    font-size: 30px;
-    font-style:normal; 
-    font-weight: 700;
-    padding-bottom: 20px;
-    
+
+.landing-page .hero .hero-image {
+    width:50%;
 }
 
-.heros {
-    max-width: 700px;
+.landing-page .hero .hero-image .yellowCar {
     width:100%;
+    height:auto;
 }
 
-.image {
-    width:100%;
+/****** BODY ********/
+.landing-page .landing-page-body {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Inter';
+    font-style: normal;
+    max-width: calc(100vw - 100px);
+    margin: 40px auto;
 }
-.product-reviews {
-    padding-top:40px;
+
+
+.landing-page .product-reviews {
     font-size: 30px;
     font-style:normal;
-    padding-bottom: 20px;
+    margin: 30px;
+}
 
-}
-.rev {
-    display:flex;
-    flex-direction: row;
-}
-.review {
-    font-size: 35px;
+.landing-page .product-reviews .product-review-title {
+    font-size: 25px;
     font-style:normal;
     font-weight:700;
-    padding-bottom: 20px;
-}
-.info {
-    display:flex;
-    background: #d4d4d4;
-    width: 50%;
-    height: 300px;
-    justify-content: center;
-    text-align: center;
-    padding-top:90px;
-    font-weight: 400;
-    font-size: 30px;
-    color: #6B6B6B;
-}
-.info-2 {
-    display:flex;
-    background: #B3B3B3;
-    width: 50%;
-    height: 300px;
-    justify-content: center;
-    text-align: center;
-    padding-top:90px;
-    font-weight: 400;
-    font-size: 30px;
-    color: #6B6B6B;
-    
-}
-.image-1 {
-    display:flex;
-    background: #B3B3B3;
-    width: 50%;
-    height: 300px;
-    align-content:center;
-    justify-content: center;
-    padding-top:90px;
-    font-weight: 400;
-    font-size: 30px;
-    color: #6B6B6B;
-}
-.contact-info {
-    display:flex;
-    flex-direction: row;
-    margin-top:30px;
-    margin-bottom:30px;
-    
-}
-.heading {
-    font-size: 35px;
-    padding-bottom:40px;
 }
 
-.about-description {
+.landing-page .product-reviews .product-review-body {
+    display:flex;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.landing-page .product-reviews .product-review-body .review-1 {
+    display:flex;
+    flex-grow: 1;
+    height: 300px;
+    background: #d4d4d4;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 30px;
+    color: #6B6B6B;
+}
+.landing-page .product-reviews .product-review-body .review-2 {
+    display:flex;
+    flex-grow: 1;
+    height: 300px;
+    background: #B3B3B3;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 30px;
+    color: #6B6B6B;
+    
+}
+
+
+/**** CONTACT INFO *****/
+.landing-page .contact-info {
+    font-size: 30px;
+    margin: 30px;
+}
+
+.landing-page .contact-info .contact-info-title {
+    font-size: 25px;
+    font-style:normal;
+    font-weight:700;
+}
+
+.landing-page .contact-info .contact-info-body {
+    display:flex;
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.landing-page .contact-info .contact-info-body .contact-info-1 {
+    display:flex;
+    flex-grow: 1;
+    background: #d4d4d4;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+    font-size: 30px;
+    color: #6B6B6B;
+}
+
+
+/***** ABOUT US ******/
+
+.about-us {
+    display:flex;
+    flex-direction: column;
+    background-color:#B3B3B3;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin: 30px;
+    padding: 30px;
+}
+
+.about-us .about-us-title {
+    font-size: 25px;
+    margin-bottom: 25px;
+}
+
+.about-us .about-description {
     font-weight: 300;
     font-size: 20px;
     line-height: 33px;
     padding-top: 20px;
-    color: #6B6B6B;
     margin:20px;
     text-align: center;
 }
 
-.about-us {
-    padding-top:20px;
-    padding-bottom:20px;
-    background-color:#B3B3B3;
-    margin-top: 20px;
-    margin-bottom: 30px;
-    align-items: center;
-    justify-content: center;
-    display:flex;
-    flex-direction: column;
-}
-.about-images {
+.about-us .about-images {
     flex-direction: row;
     display:flex;
-    max-width:200px;
+    flex-grow: 1;
+    width: 100%;
     max-height:200px;
-    width:100%;
-    gap:20px;
+    gap:25px;
     justify-content: center;
 }
 
-.yellowCar {
-    width:100%;
-    height:auto;
-
-}
-.photo {
+.about-us .about-images .photo {
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
-    width:100%;
-    height:auto;
 }
 
-.footers {
-    margin-top:20px;
+
+/***** Footer *****/
+footer {
+    margin-top:50px;
     background-color: #303550;
-    border-radius: 40px 40px 0px 0px;
-    height: 150px;
-    /* align-items:flex-start; */
+    height: 125px;
+    width: 100%;
     flex-direction:row;
     display:flex;
-    gap:20px;
 }
 
-.footer-description {
+footer .footer-description {
+    width:45%;
+}
+
+footer .footer-description .footer-message {
     color: #FFFFFF;
     margin-left: 50px;
     margin-top: 40px;
 }
 
-.foot {
-    width:45%;
-}
-
-.socials {
+footer .socials {
     margin-top: 40px;
     width: 50%;
 }
 
-.imgs {
+footer .socials .imgs {
     display: flex;
     float:right;
-
+    gap: 25px;
 }
 
-.icons {
+.footers .socials .icons {
     margin-left:10px;
     margin-right:10px;
 }
-
-
-
-

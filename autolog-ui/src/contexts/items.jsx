@@ -1,38 +1,33 @@
+import { get } from "lodash";
 import { createContext, useState, useEffect, useContext} from "react"
 import apiClient from "../services/apiClient"
-import InventoryContext from "./inventory"
-import AuthContext from "./auth"
+import AuthContext from "./auth";
+import InventoriesContext from "./inventories";
+import OrdersContext from "./orders";
 
 const ItemContext = createContext({});
+
 export const ItemContextProvider = ({children})=>{
-  const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchFilter, setSearchFilter] = useState("");
+
   const [selectedItems,setSelectedItems] = useState([]);
-    
+  
+  const {accessibleInventoriesContext, selectedInventoryContext} = useContext(InventoriesContext);
+  const [accessibleInventories, setAccessibleInventories]= accessibleInventoriesContext;
+  const [selectedInventory, setSelectedInventory] = selectedInventoryContext
+
   //should call the useAuthContext
   const { userContext } = useContext(AuthContext);
   const [user, setUser] = userContext;
 
-  //connect inventory context
-  const {accessibleInventoriesContext, selectedInventoryContext} = useContext(InventoryContext);
-  const [accessibleInventories, setAccessibleInventories]= accessibleInventoriesContext;
-  const [selectedInventory, setSelectedInventory] = selectedInventoryContext
+  const { fetchOrdersContext } = useContext(OrdersContext);
+  const [fetchOrdersList] = fetchOrdersContext;
 
-
- useEffect(()=>{
-    if (user && selectedInventory?.inventoryId) {
-        fetchItemList()
-    }
-
-   }, [user, selectedInventory])
-
-  // Get id of a given item
+// Get id of a given item
   // for when we are accessing the item through item details
   const getItem = async (itemId) => {
-    const { data, error } = await apiClient.getItem(itemId);
+    const { data, error } = await apiClient.getItem(itemId, selectedInventory?.inventoryId);
     if (!error) {
       return {data, error: null};
     } else {
@@ -43,9 +38,9 @@ export const ItemContextProvider = ({children})=>{
 
   // Create item given data
   const createItem = async (values) => {
-    const { data, error } = await apiClient.createItem(values);
+    const { data, error } = await apiClient.createItem(values, selectedInventory?.inventoryId);
     if (!error) {
-      fetchItemList();
+      fetchOrdersList();
       return {data, error: null};
     } else {
       console.error("Error creating items, message:", error);
@@ -55,9 +50,9 @@ export const ItemContextProvider = ({children})=>{
 
   // delete item given the id
   const deleteItem = async(id) => {
-    const {data, error} = await apiClient.deleteItem(id);
+    const {data, error} = await apiClient.deleteItem(id, selectedInventory?.inventoryId);
     if (!error) {
-      fetchItemList();
+      fetchOrdersList();
       return {data, error: null};
     } else {
       console.error("Error deleting item, message:", error);
@@ -67,9 +62,9 @@ export const ItemContextProvider = ({children})=>{
 
   // Update item by given id
   const updateItem = async (itemId, values) => {
-    const {data, error} = await apiClient.updateItem(itemId,values);
+    const {data, error} = await apiClient.updateItem(itemId,values, selectedInventory?.inventoryId);
     if (!error) {
-      fetchItemList();
+      fetchOrdersList();
       return {data, error: null};
     } else {
       console.error("Error getting items, message:", error);
@@ -77,43 +72,14 @@ export const ItemContextProvider = ({children})=>{
     }
   }
 
-  // Search item
-  const searchItem = async(search, pageNumber, category)=>{
-    const {data, error} = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, search, category);
-    if(!error){
-      return data;
-    } else {
-      console.error("Error searching for items, message:", error)
-    }
-  }
-
-
-  // Fetch item list given the inventory id
-  async function fetchItemList() {
-    setIsLoading(true)
-
-    const {data, err} = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
-    
-    if(data){
-      setItems(data?.items) 
-    } else if(err) {
-      setError(err)
-    }
-
-    setIsLoading(false)
-  }
-
   const values = {
     errorContext: [error, setError],
-    itemContext: [items, setItems],
-    searchContext : [searchItem],
-    searchTermContext: [searchTerm, setSearchTerm],
     loadingContext: [isLoading, setIsLoading],
     itemCreateContext: [createItem],
-    itemGetContext: [getItem],
     itemUpdateContext: [updateItem],
     itemDeleteContext: [deleteItem],
     selectedItemsContext: [selectedItems, setSelectedItems],
+    itemGetContext: [getItem],
   };
 
 return(

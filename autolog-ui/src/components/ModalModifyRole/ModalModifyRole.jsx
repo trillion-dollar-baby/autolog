@@ -1,7 +1,7 @@
 import React from 'react'
 import _ from 'lodash';
 import { useState, useContext, useEffect } from 'react';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import Form from '../Form/Form';
 import Modal from '../Modal/Modal';
 import { ToastContext } from '../../contexts/toast';
@@ -12,7 +12,7 @@ function ModalModifyRole({ closeModal, roleData, fetchList }) {
     const { notifySuccess, notifyError } = useContext(ToastContext);
     // contexts
     const { updateRole, getRoleById } = useContext(RoleContext);
-    const { selectedInventoryContext } = useContext(InventoryContext);
+    const { selectedInventoryContext } = useContext(InventoriesContext);
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
     // new inventory modal hooks
