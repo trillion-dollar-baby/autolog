@@ -70,12 +70,6 @@ export default function CreateItem() {
             placeholder: '1234'
         },
         {
-            label: 'Measures (Optional)',
-            name: 'measures',
-            type: 'text',
-            placeholder: '12x12x12'
-        },
-        {
             label: 'Located At (Optional)',
             name: 'locatedAt',
             type: 'text',
