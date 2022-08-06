@@ -184,16 +184,20 @@ class ApiClient {
         return await this.request({endpoint: 'dashboard/checklist', method: 'POST', data: values})
     }
 
-    async getCheckList(itemId) {
-        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'GET'});
+    async getCheckList(inventoryId) {
+        return await this.request({endpoint: `dashboard/user/?inventoryId=${inventoryId}`, method: 'GET'});
     }
 
-    async updateCheckList(itemId, data) {
-        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'PATCH', data: data});
+    async updateCheckList(itemId, values) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'PATCH', data: values});
     }
 
     async deleteCheckListItem(itemId) {
-        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'DELETE', data: data})
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'DELETE'})
+    }
+
+    async updateStatus(itemId, values) {
+        return await this.request({endpoint: `dashboard/id/${itemId}`, method: 'PATCH', data: values});
     }
 
     //announcements endpoints
