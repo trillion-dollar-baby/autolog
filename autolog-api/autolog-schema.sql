@@ -97,4 +97,40 @@ CREATE TABLE announcements(
     updated_at timestamp WITHOUT TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+
+CREATE TABLE invoices (
+    id SERIAL PRIMARY KEY,
+    sender_id INTEGER NOT NULL,
+    sender_name TEXT NOT NULL,
+    sender_email TEXT NOT NULL,
+    receiver_first_name TEXT NOT NULL,
+    receiver_last_name TEXT NOT NULL,
+    receiver_email TEXT NOT NULL,
+    receiver_address TEXT NOT NULL,
+    created_at timestamp NOT NULL default CURRENT_DATE,
+
+    total_labor_cost INTEGER NOT NULL,
+    total_material_cost INTEGER NOT NULL,
+
+    FOREIGN KEY (sender_id) REFERENCES users(id),
+    FOREIGN KEY (sender_email) REFERENCES users(email)
+);
+
+CREATE TABLE sold_item (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    category TEXT NOT NULL,
+    quantity INTEGER NOT NULL DEFAULT 1,
+    sold_date timestamp WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP(0),
+)
+
+CREATE TABLE invoice_to_sold_item (
+    id SERIAL PRIMARY KEY,
+    quantity INTEGER NOT NULL,
+    invoice_id INTEGER NOT NULL,
+    sold_item_id INTEGER NOT NULL,
+    FOREIGN KEY (invoice_id) REFERENCES invoices(id),
+    FOREIGN KEY (item_id) REFERENCES item_id(id)
 )

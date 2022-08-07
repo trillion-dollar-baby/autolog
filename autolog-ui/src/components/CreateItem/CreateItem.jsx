@@ -58,35 +58,42 @@ export default function CreateItem() {
     // form array for "item information" section
     const formArray = [
         {
-            label: 'Name',
+            label: 'Name *',
             name: 'name',
             type: 'text',
             placeholder: 'The alternator is shot Saul'
         },
         {
-            label: 'Quantity',
+            label: 'Quantity *',
             name: 'quantity',
             type: 'text',
-            placeholder: '1234'
+            placeholder: '99'
         },
         {
-            label: 'Measures (Optional)',
-            name: 'measures',
+            label: 'Cost *',
+            name: 'cost',
             type: 'text',
-            placeholder: '12x12x12'
+            placeholder: '2.49'
         },
         {
-            label: 'Located At (Optional)',
-            name: 'locatedAt',
+            label: 'Sell Price *',
+            name: 'sellPrice',
             type: 'text',
-            placeholder: 'Shelve 12'
+            placeholder: '9.99'
         },
         {
             label: 'Part Number (Optional)',
             name: 'partNumber',
             type: 'text',
-            placeholder: '1234'
+            placeholder: '033 131 925'
         },
+        {
+            label: 'Located At (Optional)',
+            name: 'locatedAt',
+            type: 'text',
+            placeholder: 'Shelf 12'
+        },
+    
     ]
 
     // form array for "additional details" section
@@ -151,7 +158,7 @@ export default function CreateItem() {
                         <DropdownCategory categoryValue={categoryValue} setCategoryValue={setCategoryValue} />
                     </div>
                     <div className="form-container text-area">
-                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Hello World" }} onChange={handleChange} inputValue={itemForm['description']} />
+                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Write a description" }} onChange={handleChange} inputValue={itemForm['description']} />
                     </div>
                     <div className="content">
                         <ButtonAction onClick={handleItemCreate} color={'#3F5BE8'} label={"Create"} />
