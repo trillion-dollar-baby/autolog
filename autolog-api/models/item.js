@@ -113,7 +113,8 @@ class Item {
 				to_char(items.updated_at, 'MM-DD-YYYY') AS "updatedAt",
                 items.created_at,
 				items.inventory_id AS "inventoryId",
-				items.quantity
+				items.quantity AS "quantity",
+                items.supplier as "supplier"
 			FROM items
 				JOIN inventory ON inventory.id = items.inventory_id
 			WHERE items.inventory_id = $1 AND items.name ~ $4 AND items.category ~ $5
@@ -150,11 +151,12 @@ class Item {
 				items.category AS "category",
 				SUM(items.quantity) as "quantity",
                 CAST(items.cost as DECIMAL(5,2)) as "cost",
-                CAST(items.retail_price as DECIMAL(5,2)) as "retail price"
+                CAST(items.retail_price as DECIMAL(5,2)) as "retail price",
+                items.supplier as "supplier"
 			FROM items
 				JOIN inventory ON inventory.id = items.inventory_id
 			WHERE items.inventory_id = $1 AND items.name ~ $4 AND items.category ~ $5
-            GROUP BY items.name, items.category, items.cost, items.retail_price
+            GROUP BY items.name, items.category, items.cost, items.retail_price, items.supplier
 			ORDER BY items.name DESC
 			LIMIT $2 OFFSET $3`;
 

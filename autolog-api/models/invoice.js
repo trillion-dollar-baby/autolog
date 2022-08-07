@@ -76,7 +76,7 @@ class Invoice {
         return results.rows[0];
     }
 
-    static async createSoldItemsRecord(items, invoiceId) {
+    static async createSoldItemRecords(items, invoiceId) {
         const queryResults = [];
 
         // Loop through each item selected for the invoice
