@@ -143,6 +143,7 @@ class ApiClient {
     /**
      * Performance endpoints
      */
+    
     async getPerformanceByCategory(inventoryId) {
         return await this.request({endpoint: `performance/?inventoryId=${inventoryId}`, method: 'GET'})
     }

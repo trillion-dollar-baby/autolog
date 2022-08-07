@@ -7,6 +7,7 @@ import Table from '../Table/Table';
 import ItemContext from '../../contexts/items';
 import { useContext } from 'react';
 import InvoiceTable from '../Table/InvoiceTable';
+import ButtonAction from '../Button/ButtonAction';
 
 function CreateInvoice() {
   // Items Context
@@ -40,7 +41,7 @@ function CreateInvoice() {
     },
   ]
 
-  const columnLabel = ["name", "category", "updatedAt", "quantity"]
+  const columnLabel = ["name", "category", "quantity"]
 
   const containerVariants = {
     hidden: {
@@ -71,15 +72,29 @@ function CreateInvoice() {
         </div>
       </div>
       <div className="content">
-        <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceFormArray} />
+        <div className="divider">
+          <label className="title"> Details </label>
+        </div>
+        <div className="content">
+          <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceFormArray} />
+        </div>
+        <div className="total-price-container">
+          <span id='subtotal-price'>Total without labor: $9999</span>
+          <span id="subtotal-labor-price">Total with labor: $9999</span>
+          <span id="grandtotal-price">Grand total: $9999</span>
+        </div>
+        <div className="button-container">
+          <ButtonAction label={"Create Invoice"} color={"var(--actionBlueAccent)"} />
+        </div>
       </div>
-        <InvoiceTable
-          tableElementArray={selectedItems}
-          tableColumnLabelArray={columnLabel}
-          tableLabel={"Invoice items"}
-          isItemTable={true}
-          setSelectedItems={setSelectedItems}
-          selectedItems={selectedItems} />
+
+      <InvoiceTable
+        tableElementArray={selectedItems}
+        tableColumnLabelArray={columnLabel}
+        tableLabel={"Invoice Items"}
+        isItemTable={true}
+        setSelectedItems={setSelectedItems}
+        selectedItems={selectedItems} />
     </motion.div>
   )
 }
