@@ -47,6 +47,8 @@ CREATE TABLE items (
     name TEXT NOT NULL,
     category TEXT NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 1,
+    cost INTEGER NOT NULL,
+    sell_price INTEGER NOT NULL,
     located_at TEXT,
     part_number TEXT,
     description TEXT,
@@ -105,10 +107,10 @@ CREATE TABLE invoices (
     sender_id INTEGER NOT NULL,
     sender_name TEXT NOT NULL,
     sender_email TEXT NOT NULL,
-    receiver_first_name TEXT NOT NULL,
-    receiver_last_name TEXT NOT NULL,
-    receiver_email TEXT NOT NULL,
-    receiver_address TEXT NOT NULL,
+    recipient_first_name TEXT NOT NULL,
+    recipient_last_name TEXT NOT NULL,
+    recipient_email TEXT NOT NULL,
+    recipient_address TEXT NOT NULL,
     created_at timestamp NOT NULL default CURRENT_DATE,
 
     total_labor_cost INTEGER NOT NULL,
@@ -118,13 +120,13 @@ CREATE TABLE invoices (
     FOREIGN KEY (sender_email) REFERENCES users(email)
 );
 
-CREATE TABLE sold_item (
+CREATE TABLE sold_items (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     category TEXT NOT NULL,
     quantity INTEGER NOT NULL DEFAULT 1,
-    sold_date timestamp WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP(0),
-)
+    sold_date timestamp WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP(0)
+);
 
 CREATE TABLE invoice_to_sold_item (
     id SERIAL PRIMARY KEY,
@@ -132,5 +134,38 @@ CREATE TABLE invoice_to_sold_item (
     invoice_id INTEGER NOT NULL,
     sold_item_id INTEGER NOT NULL,
     FOREIGN KEY (invoice_id) REFERENCES invoices(id),
-    FOREIGN KEY (item_id) REFERENCES item_id(id)
-)
+    FOREIGN KEY (sold_item_id) REFERENCES sold_items(id)
+);
+
+
+CREATE TABLE purchases (
+    id SERIAL PRIMARY KEY,
+    vendor_name TEXT NOT NULL
+    recipient_first_name TEXT NOT NULL,
+    recipient_last_name TEXT NOT NULL,
+    recipient_email TEXT NOT NULL,
+    recipient_address TEXT NOT NULL,
+    created_at timestamp NOT NULL default CURRENT_DATE,
+
+    purchase_order_total_cost INTEGER NOT NULL,
+
+    FOREIGN KEY (sender_id) REFERENCES users(id),
+    FOREIGN KEY (sender_email) REFERENCES users(email)
+);
+
+CREATE TABLE bought_items (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    category TEXT NOT NULL,
+    quantity INTEGER NOT NULL DEFAULT 1,
+    bought_date timestamp WITHOUT TIME ZONE DEFAULT CURRENT_TIMESTAMP(0)
+);
+
+CREATE TABLE purchases_to_bought_item (
+    id SERIAL PRIMARY KEY,
+    quantity INTEGER NOT NULL,
+    purchase_order_id INTEGER NOT NULL,
+    bought_item_id INTEGER NOT NULL,
+    FOREIGN KEY (purchase_order_id) REFERENCES purchases(id),
+    FOREIGN KEY (bought_item_id) REFERENCES bought_items(id)
+);
