@@ -55,7 +55,34 @@ export default function Inventory() {
     },
   ];
 
-  const columnLabel = ["name", "category", "createdAt", "updatedAt", "quantity"];
+  const columnLabel = ["name", "category", "quantity", "average cost", "average sell price"]
+
+  const onChangeSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  async function handleOnSearch(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      setIsProcessing(true);
+
+      // as it is a new search, reset page number
+      setPageNumber(0);
+
+      const result = await searchOrders(searchTerm, 0);
+      setIsProcessing(false);
+
+      setInventoryItems(result?.items);
+      if(result?.items){
+        setInventoryItems(result?.items);
+      }
+
+      if (result.items.length === 0) {
+        notifyError("No items were found!");
+      }
+      setIsProcessing(false);
+    }
+  }
 
   // On mount get categories
   useEffect(() => {
@@ -73,11 +100,7 @@ export default function Inventory() {
       setPageNumber(0);
     }
   }, [selectedInventory?.inventoryId]);
-
-  const onChangeSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
+  
   async function handleOnSearch(event) {
     if (event.key === "Enter") {
       event.preventDefault();

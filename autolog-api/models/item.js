@@ -4,16 +4,16 @@ const { BadRequestError, NotFoundError } = require("../utils/errors");
 
 class Item {
     // Create item function
-    static async createItem({ item, user, inventoryId }) {
-        const requiredFields = ["name", "category", "quantity"];
+    static async createItem({ item, user }) {
+        const requiredFields = ["name", "quantity", "cost", "sellPrice", "category"];
 
         if (parseInt(item.quantity) === NaN) {
-            throw new BadRequestError("quantity is NaN");
+            throw new BadRequestError("Quantity is not a number");
         }
 
         requiredFields.forEach((field) => {
             if (!item?.hasOwnProperty(field)) {
-                throw new BadRequestError(`Missing ${field} in request body.`);
+                throw new BadRequestError(`Missing ${field} in form.`);
             }
         });
 
@@ -30,6 +30,8 @@ class Item {
             name, 
             category, 
             quantity,
+            cost,
+            sell_price,
             located_at,
             part_number,
             description,
@@ -42,7 +44,9 @@ class Item {
                     $4,
                     $5,
                     $6,
-                    $7, 
+                    $7,
+                    $8,
+                    $9, 
                       (SELECT 
                           inventory.id 
                       FROM 
@@ -50,7 +54,7 @@ class Item {
                       JOIN 
                           user_to_inventory AS uti ON uti.inventory_id = inventory.id
                       WHERE 
-                          uti.user_id = $8 AND uti.inventory_id = $9))
+                          uti.user_id = $10 AND uti.inventory_id = $11))
             RETURNING id, name, category, quantity, to_char(created_at,'MM-DD-YYYY') AS "createdAt"
             , inventory_id
      `,
@@ -58,6 +62,8 @@ class Item {
                 item.name,
                 item.category,
                 item.quantity,
+                item.cost,
+                item.sellPrice,
                 item.locatedAt || "", // only non required fields can have empty strings
                 item.partNumber || "",
                 item.description || "",
@@ -142,7 +148,9 @@ class Item {
 			SELECT
 				items.name as "name",
 				items.category AS "category",
-				SUM(items.quantity) as "quantity"
+				SUM(items.quantity) as "quantity",
+                CAST(AVG(items.cost) as DECIMAL(5,2)) as "average cost",
+                CAST(AVG(items.sell_price) as DECIMAL(5,2)) as "average sell price"
 			FROM items
 				JOIN inventory ON inventory.id = items.inventory_id
 			WHERE items.inventory_id = $1 AND items.name ~ $4 AND items.category ~ $5
