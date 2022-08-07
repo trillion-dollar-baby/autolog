@@ -40,7 +40,7 @@ export default function Table({
     const addItemToSelected = (item) => {
         setSelectedItems((prevSelectedItems) => ([
             ...prevSelectedItems,
-            { ...item }
+            { ...item, price: 0 }
         ]));
     }
 
