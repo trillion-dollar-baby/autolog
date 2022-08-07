@@ -45,7 +45,7 @@ function App() {
             <Route path='/inventory' element={<RequireAuth><Inventory /></RequireAuth>} />
             <Route path='/invoice/create' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
             <Route path='/purchase/create' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
-            <Route path='/purchase/' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
+            <Route path='/purchase/' element={<RequireAuth><Orders /></RequireAuth>} />
             <Route path='/invoice/' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
             <Route path='/item/create' element={<RequireAuth><CreateItem /></RequireAuth>} />
             <Route path='/item/id/:itemId' element={<RequireAuth><ItemDetail/></RequireAuth>}/>
