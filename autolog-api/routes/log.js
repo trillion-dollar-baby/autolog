@@ -4,13 +4,13 @@ const security = require("../middleware/security")
 const router = express.Router()
 
 
-// Endpoint to get default performance
+// Endpoint to get logs
 router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         // Get the user and selected inventory
         const inventoryId = req.query.inventoryId;
 
-        // Query for performance array sorted by category
+        // Query for logs related to given inventory
         const logs = await Log.fetchLogs(inventoryId);
         return res.status(200).json({ logs });
     } 

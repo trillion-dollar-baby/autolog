@@ -55,7 +55,7 @@ export default function Inventory() {
     },
   ];
 
-  const columnLabel = ["name", "category", "quantity", "average cost", "average sell price"]
+  const columnLabel = ["name", "category", "quantity", "cost", "retail price"]
 
   const onChangeSearch = (event) => {
     setSearchTerm(event.target.value);

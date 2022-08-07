@@ -78,8 +78,8 @@ export default function CreateItem() {
             placeholder: '2.49'
         },
         {
-            label: 'Sell Price *',
-            name: 'sellPrice',
+            label: 'Retail Price *',
+            name: 'retailPrice',
             type: 'text',
             placeholder: '9.99'
         },
