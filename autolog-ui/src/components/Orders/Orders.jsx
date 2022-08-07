@@ -37,17 +37,20 @@ export default function Orders() {
 
   const settingsRoutes = [
     {
-      name: "Inventory",
-      to: "/inventory",
-    },
-    {
       name: "Orders",
       to: "/inventory/orders",
     },
+    {
+      name: "Stock",
+      to: "/inventory/stock"
+    },
+    {
+      name: "Invoices",
+      to: "/inventory/invoice",
+    },
   ];
 
-  const searchFilters = ["name", "category", "createdAt", "updatedAt", "quantity"]
-  const columnLabel = ["id", "name", "category", "createdAt", "updatedAt", "inventoryId", "quantity"]
+  const columnLabel = ["id", "name", "category", "quantity", "createdAt", "updatedAt"]
 
   const onChangeSearch = (event) => {
     setSearchTerm(event.target.value);
