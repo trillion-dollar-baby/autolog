@@ -214,7 +214,7 @@ export default function Inventory() {
           <Loading />
         ) : (
           <Table
-            tableLabel={"Results"}
+            tableLabel={"Items"}
             tableElementArray={items.length ? items : []}
             tableColumnLabelArray={columnLabel}
             isItemTable={true}
