@@ -42,16 +42,16 @@ export default function Inventory() {
 
   const settingsRoutes = [
     {
-      name: "Items",
-      to: "/inventory/",
+      name: "Orders",
+      to: "/inventory/orders",
     },
     {
-      name: "Purchases",
-      to: "/purchase/"
+      name: "Stock", 
+      to: "/inventory/stock"
     },
     {
       name: "Invoices",
-      to: "/invoice/",
+      to: "/inventory/invoice",
     },
   ];
 
