@@ -13,7 +13,7 @@ router.post("/create", security.requireAuthenticatedUser, async (req, res, next)
 
         // Query for performance array sorted by category
         const invoice = await Invoice.createInvoice(invoiceFields, inventoryId);
-        const soldItems = await Invoice.soldItems(itemFields, invoice.id)
+        const soldItems = await Invoice.createSoldItemRecords(itemFields, invoice.id)
         const results = [invoice, ...soldItems]
         return res.status(201).json({ results });
     } 

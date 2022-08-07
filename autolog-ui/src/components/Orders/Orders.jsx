@@ -50,7 +50,7 @@ export default function Orders() {
     },
   ];
 
-  const columnLabel = ["id", "name", "category", "quantity", "createdAt", "updatedAt"]
+  const columnLabel = ["id", "name", "category", "supplier", "quantity", "createdAt", "updatedAt"]
 
   const onChangeSearch = (event) => {
     setSearchTerm(event.target.value);
