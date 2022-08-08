@@ -1,7 +1,8 @@
 const { parse } = require("dotenv");
 const db = require("../db");
-const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
+const nodemailer = require('nodemailer');
+
 
 class Invoice {
     static async createInvoice(invoice, inventoryId) {
@@ -107,7 +108,7 @@ class Invoice {
         return queryResults;
     }
 
-    
+
     static async listInvoices(inventoryId) {
         if (parseInt(inventoryId) == NaN) {
             throw new BadRequestError("Inventory ID is not a number")
@@ -132,6 +133,116 @@ class Invoice {
         const results = await db.query(query, inventoryId);
 
         return results.rows[0];
+    }
+
+    static async sendInvoicePdf(userId, receiverEmail) {
+        // Initialize the transporter with email (and password) used to send the invoice
+        const transporter = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: process.env.GMAIL_USER,
+                pass: process.env.GMAIL_PASS,
+            },
+        });
+
+        const res = await this.createInvoicePdf();
+
+        jwt.sign(
+            {
+                user: userId,
+            },
+            process.env.EMAIL_SECRET_KEY,
+            {
+                expiresIn: "1d",
+            },
+            (err, emailToken) => {
+                const url = `${API_BASE_URL}confirmation/${emailToken}`;
+
+                transporter.sendMail({
+                    from: process.env.GMAIL_USER,
+                    to: receiverEmail,
+                    subject: "Autolog Invoice",
+                    html: `Attatched to this email is the invoice from your recent autoshop job`,
+                    attachments: [
+                        { filename: 'invoice.pdf', encoding: 'base64', content: res.pdf}
+                    ]
+                });
+            }
+        );
+    }
+
+    static async createInvoicePdf({ invoice, purchases }) {
+        let data = {
+            // Customize enables you to provide your own templates
+            // Please review the documentation for instructions and examples
+            "customize": {
+                //  "template": fs.readFileSync('template.html', 'base64') // Must be base64 encoded html 
+            },
+            "images": {
+                // The logo on top of your invoice
+                "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
+                // The invoice background
+                // "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
+            },
+            // Your own data
+            "sender": {
+                "company": "Sample Corp",
+                "address": "Sample Street 123",
+                "zip": "1234 AB",
+                "city": "Sampletown",
+                "country": "Samplecountry"
+                //"custom1": "custom value 1",
+            },
+            // Your recipient
+            "client": {
+                "name": `${invoice.recipient_first_name} ${invoice.recipient_last_name}`,
+                "address": "Clientstreet 456",
+                "zip": "4567 CD",
+                "city": "Clientcity",
+                "country": "Clientcountry"
+                // "custom1": "custom value 1",
+            },
+            "information": {
+                // Invoice number
+                "number": invoice.id,
+                // Invoice data
+                "date": invoice.created_at,
+                // Invoice due date
+                "due-date": invoice.due_date
+            },
+            // The products you would like to see on your invoice
+            // Total values are being calculated automatically
+            "products": [
+                ...purchases 
+                // {
+                //     "quantity": 2,
+                //     "description": "Product 1",
+                //     "tax-rate": 6,
+                //     "price": 33.87
+                // },   
+            ],
+            // The message you would like to display on the bottom of your invoice
+            "bottom-notice": "Please pay your invoice within 15 days. Thank you for your support!",
+            // Settings to customize your invoice
+            "settings": {
+                "currency": "USD"
+            },
+            // Translate your invoice to your preferred language
+            "translate": {
+                // "invoice": "FACTUUR",  // Default to 'INVOICE'
+                // "number": "Nummer", // Defaults to 'Number'
+                // "date": "Datum", // Default to 'Date'
+                // "due-date": "Verloopdatum", // Defaults to 'Due Date'
+                // "subtotal": "Subtotaal", // Defaults to 'Subtotal'
+                // "products": "Producten", // Defaults to 'Products'
+                // "quantity": "Aantal", // Default to 'Quantity'
+                // "price": "Prijs", // Defaults to 'Price'
+                // "product-total": "Totaal", // Defaults to 'Total'
+                // "total": "Totaal" // Defaults to 'Total'
+            },
+        };
+
+        return await easyinvoice.createInvoice(data)
     }
 }
 
