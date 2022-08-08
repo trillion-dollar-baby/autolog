@@ -30,10 +30,12 @@ export default function Inventory() {
   // Categories constants
   const [isFetching, setIsFetching] = useState(false);
   const [categoryItems, setCategoryItems] = useState();
-  const [selectedCategory, setSelectedCategory] = useState('Search by');
+  const [selectedCategory, setSelectedCategory] = useState();
 
   const [sortItems, setSortItems] = useState();
   const [selectedSort, setSelectedSort] = useState('Sort by');
+
+  const [pageNumber, setPageNumber] = useState(0);
 
   const settingsRoutes = [
     {
@@ -57,14 +59,20 @@ export default function Inventory() {
     if (event.key === "Enter") {
       event.preventDefault();
       setIsProcessing(true);
-      const result = await searchItem(searchTerm, 0);
-      setIsProcessing(false);
 
-      setItems(result?.items);
+      const result = await searchItem(searchTerm, 0, selectedCategory);
+
+      // as it is a new search, reset page number
+      setPageNumber(0);
+
+      if(result?.items){
+        setItems(result?.items);
+      }
 
       if (result.items.length === 0) {
         notifyError("No items were found!");
       }
+      setIsProcessing(false);
     }
   }
 
@@ -86,8 +94,15 @@ export default function Inventory() {
 
   // Fetch list by category if user selects one in dropdown
   const fetchItemsByCategory = async (category) => {
+    setIsProcessing(true);
+    
+    // format value
     const searchCategory = category.toLowerCase() === 'all' ? '' : category.toLowerCase();
     
+    // save for infinite scrolling
+    setSelectedCategory(searchCategory);  
+    setPageNumber(0);
+
     const result = await searchItem(searchTerm, 0, searchCategory);
 
     if (result?.items) {
@@ -97,7 +112,21 @@ export default function Inventory() {
     if (result.items.length === 0) {
       notifyError("No items were found!");
     }
+    setIsProcessing(false);
   }
+
+  // Function triggered after reaching the bottom of table
+  const fetchMoreItems = async () => {
+    const searchCategory = selectedCategory?.toLowerCase() === 'all' ? '' : selectedCategory?.toLowerCase();
+
+    const result = await searchItem(searchTerm || '', (pageNumber + 1) || 1, searchCategory || '');
+
+    // append into array and increase page number for next request if user wants to keep scrolling
+    if (result?.items) {
+      setItems((prevItems) => ([...prevItems, ...result?.items]));
+      setPageNumber((prevNum) => prevNum+1);
+    }
+  } 
 
   // framer-motion properties
   const containerVariants = {
@@ -141,7 +170,7 @@ export default function Inventory() {
             onkeypress={handleOnSearch}
           />
 
-          <Dropdown value={selectedCategory} items={categoryItems} onSelect={fetchItemsByCategory} />
+          <Dropdown value={"Search by"} items={categoryItems} onSelect={fetchItemsByCategory} />
         </div>
       </div>
       <div className="table-container">
@@ -153,6 +182,7 @@ export default function Inventory() {
             tableElementArray={items.length ? items : []}
             tableColumnLabelArray={columnLabel}
             isItemTable={true}
+            fetchMoreItems={fetchMoreItems}
           />
         )}
       </div>
