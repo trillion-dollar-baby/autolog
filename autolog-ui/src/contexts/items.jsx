@@ -82,7 +82,7 @@ export const ItemContextProvider = ({ children }) => {
 
   // Search item
   const searchItem = async (search, pageNumber, category) => {
-    const { data, error } = await apiClient.getItemList(selectedInventory?.inventoryId, pageNumber, search, category);
+    const { data, error } = await apiClient.getInventoryItemList(selectedInventory?.inventoryId, pageNumber, search, category);
     if (!error) {
       return data;
     } else {
@@ -93,7 +93,7 @@ export const ItemContextProvider = ({ children }) => {
   const fetchGenericItemList = async () => {
     setIsLoading(true)
 
-    const { data, err } = await apiClient.getItemList(selectedInventory?.inventoryId, 0, '')
+    const { data, err } = await apiClient.getInventoryItemList(selectedInventory?.inventoryId, 0, '')
 
     if (data) {
       setItems(data?.items)
