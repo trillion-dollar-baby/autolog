@@ -44,7 +44,6 @@ function App() {
             <Route path='/dashboard' element={<RequireAuth><Dashboard/></RequireAuth>} />
             <Route path='/inventory/stock' element={<RequireAuth><Inventory /></RequireAuth>} />
             <Route path='/invoice/create' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
-            <Route path='/inventory' element={<RequireAuth><Orders /></RequireAuth>} />
             <Route path='/inventory/orders' element={<RequireAuth><Orders /></RequireAuth>} />
             <Route path='/inventory/invoice' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
             <Route path='/item/create' element={<RequireAuth><CreateItem /></RequireAuth>} />
