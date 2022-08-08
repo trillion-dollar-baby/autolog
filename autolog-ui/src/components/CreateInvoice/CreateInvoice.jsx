@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion';
+import nhtsa from 'nhtsa';
 import Form from '../Form/Form'
 
 import './CreateInvoice.css';
@@ -26,32 +27,50 @@ function CreateInvoice() {
   // form array for "item information" section
   const createInvoiceFormArray = [
     {
-      label: 'Client Name',
-      name: 'clientName',
+      label: 'Client First Name',
+      name: 'recipientFirstName',
       type: 'text',
       placeholder: 'Pollos Hermanos'
     },
     {
+      label: 'Client Last Name',
+      name: 'recipientLastName',
+      type: 'text',
+      placeholder: 'Pollos Hermanos'
+    },
+    {
+      label: 'Client Phone',
+      name: 'recipientPhone',
+      type: 'text',
+      placeholder: '1234567890'
+    },
+    {
       label: 'Date',
       name: 'date',
-      type: 'date',
+      type: 'text',
       placeholder: 'DD-MM-YYYY'
     },
     {
-      label: 'Address',
-      name: 'address',
+      label: 'Client Address',
+      name: 'recipientAddress',
       type: 'text',
       placeholder: 'Pollos Hermanos'
     },
     {
       label: 'Total Labor Cost',
-      name: 'labor',
+      name: 'totalLabor',
       type: 'number',
       placeholder: '1234'
     },
   ]
 
   const createInvoiceVehicleFormArray = [
+    {
+      label: 'VIN Number',
+      name: 'vehicleVin',
+      type: 'text',
+      placeholder: 'Pollos Hermanos'
+    },
     {
       label: 'Vehicle Year',
       name: 'vehicleYear',
@@ -60,19 +79,19 @@ function CreateInvoice() {
     },
     {
       label: 'Make',
-      name: 'make',
+      name: 'vehicleMake',
       type: 'text',
       placeholder: 'Pollos Hermanos'
     },
     {
       label: 'Model',
-      name: 'model',
+      name: 'vehicleModel',
       type: 'text',
       placeholder: 'Pollos Hermanos'
     },
     {
       label: 'Plate Number',
-      name: 'plateNumber',
+      name: 'vehiclePlateNumber',
       type: 'text',
       placeholder: 'Pollos Hermanos'
     },
@@ -82,16 +101,34 @@ function CreateInvoice() {
       type: 'text',
       placeholder: 'Pollos Hermanos'
     },
-    {
-      label: 'Vin Number',
-      name: 'color',
-      type: 'text',
-      placeholder: 'Pollos Hermanos'
-    },
-
   ]
 
   const columnLabel = ["name", "in stock", "quantity", "cost", "retail price"]
+
+  const handleOnSearchVin = async () => {
+    const {data} = await nhtsa.decodeVin(invoiceForm.vehicleVin);
+
+    data?.Results.forEach((obj) => {
+      if(obj.Variable == "Model") {
+        setInvoiceForm((prevForm) => ({
+          ...prevForm,
+          ['vehicleModel']: obj.Value
+        }));
+      }
+      if(obj.Variable == "Model Year") {
+        setInvoiceForm((prevForm) => ({
+          ...prevForm,
+          ['vehicleYear']: obj.Value
+        }));
+      }
+      if(obj.Variable == "Make") {
+        setInvoiceForm((prevForm) => ({
+          ...prevForm,
+          ['vehicleMake']: obj.Value
+        }));
+      }
+    })
+  }
 
   // calculate table with summary of total costs
   const calculateTotals = () => {
@@ -101,7 +138,7 @@ function CreateInvoice() {
     })
 
     setTotal(accumulatorTotal);
-    setTotalWithLabor(parseFloat(invoiceForm.labor || 0) + accumulatorTotal);
+    setTotalWithLabor(parseFloat(invoiceForm.totalLabor || 0) + accumulatorTotal);
   }
 
   // on mount calculate prices
@@ -143,13 +180,13 @@ function CreateInvoice() {
       </div>
       <div className="content">
         <div className="divider">
-          <label className="title"> Details </label>
+          <label className="title"> Client Details and Labor </label>
         </div>
         <div className="content">
           <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceFormArray} />
         </div>
         <div className="divider">
-          <label className="title"> Details </label>
+          <label className="title"> Vehicle Details </label>
         </div>
         <div className="content">
           <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceVehicleFormArray} />
@@ -163,6 +200,7 @@ function CreateInvoice() {
 
         <div className="button-container">
           <ButtonAction label={"Create Invoice"} color={"var(--actionBlueAccent)"} onClick={handleOnSubmit} />
+          <ButtonAction label={"Load VIN"} color={"var(--actionBlue)"} onClick={handleOnSearchVin} />
         </div>
       </div>
 
