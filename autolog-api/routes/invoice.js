@@ -22,6 +22,19 @@ router.post("/create", security.requireAuthenticatedUser, async (req, res, next)
     }
 })
 
+router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
+    try {
+        const inventoryId = req.query.inventoryId;
+
+        const invoices = Invoice.listInvoices(inventoryId);
+
+        return res.status(200).json({ invoices });
+    }
+    catch(err) {
+        next(err);
+    }
+})
+
 
 
 module.exports = router
