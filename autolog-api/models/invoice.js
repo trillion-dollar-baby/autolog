@@ -1,3 +1,5 @@
+const { parse } = require("dotenv");
+const db = require("../db");
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 
@@ -103,6 +105,33 @@ class Invoice {
         })
 
         return queryResults;
+    }
+
+    
+    static async listInvoices(inventoryId) {
+        if (parseInt(inventoryId) == NaN) {
+            throw new BadRequestError("Inventory ID is not a number")
+        }
+
+        const query = `
+        SELECT
+            sender_name,
+            sender_email,
+            recipient_first_name,
+            recipient_last_name,
+            recipient_email,
+            recipient_address,
+            created_at,
+            total_labor_cost,
+            total_material_cost
+        FROM
+            invoices
+        WHERE invoices.inventory_id = $1
+        `
+
+        const results = await db.query(query, inventoryId);
+
+        return results.rows[0];
     }
 }
 
