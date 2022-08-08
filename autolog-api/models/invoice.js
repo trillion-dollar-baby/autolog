@@ -135,7 +135,7 @@ class Invoice {
         return results.rows[0];
     }
 
-    static async sendInvoicePdf(userId, receiverEmail) {
+    static async sendInvoicePdf({userId, receiverEmail, invoiceValues, purchases}) {
         // Initialize the transporter with email (and password) used to send the invoice
         const transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -145,7 +145,7 @@ class Invoice {
             },
         });
 
-        const res = await this.createInvoicePdf();
+        const invoice = await this.createInvoicePdf({ invoiceValues, purchases });
 
         jwt.sign(
             {
@@ -164,7 +164,7 @@ class Invoice {
                     subject: "Autolog Invoice",
                     html: `Attatched to this email is the invoice from your recent autoshop job`,
                     attachments: [
-                        { filename: 'invoice.pdf', encoding: 'base64', content: res.pdf}
+                        { filename: 'invoice.pdf', encoding: 'base64', content: invoice.pdf}
                     ]
                 });
             }
