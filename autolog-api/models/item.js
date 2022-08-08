@@ -150,8 +150,8 @@ class Item {
 				items.name as "name",
 				items.category AS "category",
 				SUM(items.quantity) as "quantity",
-                CAST(items.cost as DECIMAL(5,2)) as "cost",
-                CAST(items.retail_price as DECIMAL(5,2)) as "retail price",
+                CAST(items.cost as DECIMAL(9,2)) as "cost",
+                CAST(items.retail_price as DECIMAL(9,2)) as "retail price",
                 items.supplier as "supplier"
 			FROM items
 				JOIN inventory ON inventory.id = items.inventory_id
@@ -167,7 +167,7 @@ class Item {
             search.toLowerCase(),
             category.toLowerCase()
         ]);
-
+        console.log(results.rows);
         return results.rows;
     }
 

@@ -20,12 +20,12 @@ export const OrdersContextProvider = ({children})=>{
   const [accessibleInventories, setAccessibleInventories]= accessibleInventoriesContext;
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext
 
-//  useEffect(()=>{
-//     if (user && selectedInventory?.inventoryId) {
-//         fetchOrdersList()
-//     }
+ useEffect(()=>{
+    if (user && selectedInventory?.inventoryId) {
+        fetchOrdersList()
+    }
 
-//    }, [user, selectedInventory])
+   }, [user, selectedInventory])
 
   // Search item
   const searchOrders = async(search, pageNumber, category)=>{
@@ -54,9 +54,9 @@ export const OrdersContextProvider = ({children})=>{
 
   const values = {
     errorContext: [error, setError],
-    ordersContext: [orders],
     searchContext : [searchOrders],
     searchTermContext: [searchTerm, setSearchTerm],
+    ordersContext: [orders, setOrders],
     loadingContext: [isLoading, setIsLoading],
     fetchOrdersContext: [fetchOrdersList],
   };

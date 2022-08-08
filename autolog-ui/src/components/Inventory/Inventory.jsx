@@ -69,12 +69,11 @@ export default function Inventory() {
       // as it is a new search, reset page number
       setPageNumber(0);
 
-      const result = await searchOrders(searchTerm, 0);
+      const result = await searchItem(searchTerm, 0);
       setIsProcessing(false);
-
-      setInventoryItems(result?.items);
+      
       if(result?.items){
-        setInventoryItems(result?.items);
+        setItems(result?.items);
       }
 
       if (result.items.length === 0) {
@@ -83,7 +82,7 @@ export default function Inventory() {
       setIsProcessing(false);
     }
   }
-
+  
   // On mount get categories
   useEffect(() => {
     const fetchCategories = async () => {
@@ -119,7 +118,7 @@ export default function Inventory() {
         setItems(result?.items);
       }
 
-      if (result.items.length === 0) {
+      if (result?.items.length === 0) {
         notifyError("No items were found!");
       }
       setIsProcessing(false);
@@ -244,6 +243,7 @@ export default function Inventory() {
             fetchMoreItems={fetchMoreItems}
             selectedItems={selectedItems}
             setSelectedItems={setSelectedItems}
+            isSelectable={true}
             isFetching={isFetching}
           />
         )}
