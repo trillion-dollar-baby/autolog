@@ -8,7 +8,7 @@ import './Form.css'
  * @param {useState} setFormState useState setter
  * @param {Array} formArray array of objects in each containing: label, name, type, and placeholder for the component to render
  */
-export default function Form({ formState, setFormState, formArray, onSubmit }) {
+export default function Form({ formState, setFormState, formArray }) {
   const onChange = (event) => {
     setFormState((prevForm) => ({
       ...prevForm,

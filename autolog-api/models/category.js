@@ -44,8 +44,8 @@ class Category {
             }
         });
 
-		// normalize data before inserting into database
-		const normalizedCategoryName = data.categoryName.toLowerCase();
+        // normalize data before inserting into database
+        const normalizedCategoryName = data.categoryName.toLowerCase();
 
         const query = `
             INSERT INTO categories (

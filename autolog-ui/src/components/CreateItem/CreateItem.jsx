@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import { ToastContext } from '../../contexts/toast';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import Form from '../Form/Form';
 import DropdownCategory from '../DropdownCategory/DropdownCategory';
 import TextArea from '../TextArea/TextArea';
@@ -16,9 +16,8 @@ export default function CreateItem() {
     const navigate = useNavigate();
     // contexts
     const {notifySuccess, notifyError} = useContext(ToastContext);
-    const { itemContext, itemCreateContext } = useContext(ItemContext);
-    const { selectedInventoryContext } = useContext(InventoryContext);
-    const [items, setItems] = itemContext;
+    const { itemCreateContext } = useContext(ItemContext);
+    const { selectedInventoryContext } = useContext(InventoriesContext);
     const [createItem] = itemCreateContext;
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
@@ -42,8 +41,11 @@ export default function CreateItem() {
     const handleItemCreate = async () => {
         // TODO: APPEND TO INVENTORY LOOKUP ARRAY
         setIsProcessing(true);
-        itemForm['category'] = categoryValue;
-        const {data, error} = await createItem(itemForm, itemForm.inventoryId = selectedInventory.inventoryId);
+        if (categoryValue != "") {
+            itemForm['category'] = categoryValue;
+        }
+        itemForm.inventoryId = selectedInventory.inventoryId
+        const {data, error} = await createItem(itemForm);
 
         setIsProcessing(false);
 
@@ -58,35 +60,42 @@ export default function CreateItem() {
     // form array for "item information" section
     const formArray = [
         {
-            label: 'Name',
+            label: 'Name *',
             name: 'name',
             type: 'text',
             placeholder: 'The alternator is shot Saul'
         },
         {
-            label: 'Quantity',
+            label: 'Quantity *',
             name: 'quantity',
             type: 'text',
-            placeholder: '1234'
+            placeholder: '99'
         },
         {
-            label: 'Measures (Optional)',
-            name: 'measures',
+            label: 'Cost *',
+            name: 'cost',
             type: 'text',
-            placeholder: '12x12x12'
+            placeholder: '2.49'
         },
         {
-            label: 'Located At (Optional)',
-            name: 'locatedAt',
+            label: 'Retail Price *',
+            name: 'retailPrice',
             type: 'text',
-            placeholder: 'Shelve 12'
+            placeholder: '9.99'
         },
         {
             label: 'Part Number (Optional)',
             name: 'partNumber',
             type: 'text',
-            placeholder: '1234'
+            placeholder: '033 131 925'
         },
+        {
+            label: 'Located At (Optional)',
+            name: 'locatedAt',
+            type: 'text',
+            placeholder: 'Shelf 12'
+        },
+    
     ]
 
     // form array for "additional details" section
@@ -151,7 +160,7 @@ export default function CreateItem() {
                         <DropdownCategory categoryValue={categoryValue} setCategoryValue={setCategoryValue} />
                     </div>
                     <div className="form-container text-area">
-                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Hello World" }} onChange={handleChange} inputValue={itemForm['description']} />
+                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Write a description" }} onChange={handleChange} inputValue={itemForm['description']} />
                     </div>
                     <div className="content">
                         <ButtonAction onClick={handleItemCreate} color={'#3F5BE8'} label={"Create"} />

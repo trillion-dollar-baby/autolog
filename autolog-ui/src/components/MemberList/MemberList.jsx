@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { RoleContext } from '../../contexts/role';
 import MemberItem from '../MemberItem/MemberItem';
 import './MemberList.css';
 
@@ -13,28 +14,50 @@ import './MemberList.css';
  *  )
  */
 
+export default function MemberList({userArray, roleArray}) {
+	const {getUserRole} = useContext(RoleContext);
 
-export default function MemberList({ userArray, userRoles, setUserRoles }) {
+	const [isProcessing, setIsProcessing] = useState(false);
+	const [currentUserRole, setCurrentUserRole] = useState({});
 
-  // get useState to manage single roles depending on what is choosen in each item's dropdown
-  const setUserRole = (id, role) => {
-    setUserRoles((prevRoles) => ({
-      ...prevRoles,
-      [id]: role
-    }))
-  };
+	useEffect(() => {
+		const fetchUserRole = async () => {
+			setIsProcessing(true);
+			
+			const result = await getUserRole();
+			
+			if(result?.data) {
+				setCurrentUserRole(result?.data)
+			}
 
-  return (
-    <div className="member-list">
-      {userArray?.map((item, idx) => {
-        let index = '';
-        if(idx === 0) index += ' first';
-        if(idx === userArray.length-1) index += ' last'
+			setIsProcessing(false);
+		} 
 
-        return (
-          <MemberItem key={idx} index={index} id={item.id} firstName={item.firstName} lastName={item.lastName} email={item.userEmail} userRole={userRoles[item.id]} setUserRole={setUserRole}/>
-        )
-      })}
-    </div>
-  )
+		fetchUserRole();
+	}, [])
+
+	if(isProcessing) return <></>
+
+	return (
+		<div className="member-list">
+			{userArray?.map((item, idx) => {
+				let index = '';
+				if (idx === 0) index += ' first';
+				if (idx === userArray.length - 1) index += ' last'
+
+				return (
+					<MemberItem
+						key={idx} 
+						index={index} 
+						id={item.id} 
+						firstName={item.firstName} 
+						lastName={item.lastName} 
+						email={item.userEmail} 
+						userRole={item.roleName}
+						roleOptions={roleArray}
+						currentUserRole={currentUserRole}/>
+				)
+			})}
+		</div>
+	)
 }

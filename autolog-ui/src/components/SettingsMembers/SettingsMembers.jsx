@@ -1,39 +1,49 @@
 import { useContext, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import Form from '../Form/Form';
 
 import './SettingsMembers.css';
 import MemberList from '../MemberList/MemberList';
-import Dropdown from '../Dropdown/Dropdown';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import apiClient from '../../services/apiClient';
+import ButtonAction from '../Button/ButtonAction';
+import { useNavigate } from 'react-router';
 
 export default function SettingsMembers() {
-  const { inventoryGetContext, inventoryMembersContext, selectedInventoryContext } = useContext(InventoryContext);
+  const { inventoryGetContext, inventoryMembersContext, selectedInventoryContext } = useContext(InventoriesContext);
   const [getAccessibleInventories, getOwnedInventories, getInventoryMembers] = inventoryGetContext;
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext
   const [inventoryMembers, setInventoryMembers] = inventoryMembersContext;
 
-  const data = {
-    0: 'admin',
-    1: 'manager',
-    2: 'employee',
-    3: 'viewer'
-  }
-
   const [isProcessing, setIsProcessing] = useState(false);
-  const [userRoles, setUserRoles] = useState(data);
+  const [userRoles, setUserRoles] = useState([]);
+
+  const navigate = useNavigate();
 
   // when mounted fetch list of members
   useEffect(() => {
     const fetchData = async () => {
       setIsProcessing(true);
-      const result = await getInventoryMembers();
+      const resultMembers = await getInventoryMembers();
+      const resultRoles = await apiClient.getRoles(selectedInventory?.inventoryId);
+
+      if (resultRoles?.data) {
+        const roleNameArray = [];
+        // append in array only the names as we don't need the ID and Dropdown component only accepts array of strings
+        resultRoles?.data.forEach((item) => {
+          roleNameArray.push(item?.roleName);
+        })
+        setUserRoles(roleNameArray);
+      }
+
       setIsProcessing(false)
     }
 
     fetchData();
   }, [selectedInventory])
+
+  const onClickRedirect = () => {
+    navigate('../roles')
+  }
 
   if (isProcessing) return (<></>)
 
@@ -57,7 +67,7 @@ export default function SettingsMembers() {
       animate={"visible"}
       exit={"exit"}
     >
-        <MemberList userArray={inventoryMembers} userRoles={userRoles} setUserRoles={setUserRoles} />
+      <MemberList userArray={inventoryMembers} roleArray={userRoles} />
     </motion.div>
   )
 }

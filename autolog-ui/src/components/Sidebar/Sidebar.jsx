@@ -11,7 +11,7 @@ import settingsIcon from '../../assets/icons8-info.png';
 export default function Sidebar() {
   const location = useLocation();
   
-  if (location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/') {
+  if (location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/' && location.pathname !== '/email-confirmation') {
     return (
       <div className='sidebar-empty'>
         <nav className="sidebar">
@@ -26,7 +26,7 @@ export default function Sidebar() {
             <img className='icon' src={performanceIcon} alt="icon" />
             <span>Performance</span>
           </NavLink>
-          <NavLink className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`} to='/inventory/'>
+          <NavLink className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`} to='/inventory/orders'>
             <img className='icon' src={inventoryIcon} alt="icon" />
             <span>Inventory</span>
           </NavLink>

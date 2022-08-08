@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { createContext, useState } from "react";
 import apiClient from "../services/apiClient";
-import Loading from "../components/Loading/Loading";
 
 const AuthContext = createContext({});
 
@@ -58,15 +57,38 @@ export const AuthContextProvider = ({ children }) => {
   // login user function
   const loginUser = async (loginForm) => {
     const { data, error: errorLogin } = await apiClient.loginUser(loginForm);
-    // handle data sent
-    setUserData(data, errorLogin);
+
+    // If the login was successful, check if the email has been confirmed
+    if (data) {
+      if (!data.user.emailConfirmed) {
+        setError(`Your email has not been confirmed, please check your inbox`);
+      }
+      // If the user email has been confirmed, then allow access
+      else {
+        setUserData(data)
+      }
+    }
+    // If the login was unsuccessful, then set an error
+    else {
+      setError(errorLogin)
+    }
+    
   }
 
   // register user function
   const registerUser = async (registrationForm) => {
     const { data, error: errorRegistration } = await apiClient.registerUser(registrationForm);
-    // handle data sent
-    setUserData(data, errorRegistration);
+
+    // If user has successfully been created, set the user data 
+    if (data?.user) {
+      setUser(data?.user)
+
+      return { data, error: null};
+    }
+    // If registration failed, then return the empty data object and the error message
+    else {
+      return { data, error: errorRegistration}
+    }
   }
 
   // set user data after any initial authentication method
@@ -87,9 +109,10 @@ export const AuthContextProvider = ({ children }) => {
     // reset token from local storage
     localStorage.removeItem(apiClient.tokenName);
     apiClient.setToken(null);
-    
-    // reload page to reset all states after logging out
-    window.location.reload();
+
+    // Redirect to landing page (base url)
+    const base_url = window.location.origin;
+    window.location.replace(base_url);
   }
 
   // update user information
