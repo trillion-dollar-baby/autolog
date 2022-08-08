@@ -23,7 +23,7 @@ export default function Orders() {
 
   // Item Context
   const { ordersContext, searchContext, searchTermContext } = useContext(OrdersContext);
-  const [orders] = ordersContext;
+  const [orders, setOrders] = ordersContext;
   const [searchOrders] = searchContext;
   const [searchTerm, setSearchTerm] = searchTermContext;
 
