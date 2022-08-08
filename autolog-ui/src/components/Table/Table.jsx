@@ -17,7 +17,8 @@ export default function Table({
     fetchMoreItems,
     setSelectedItems,
     selectedItems,
-    isFetching
+    isFetching,
+    isSelectable
 }) {
     const tableRef = React.useRef();
     const [isSelected, setSelected] = React.useState(false);
@@ -38,9 +39,14 @@ export default function Table({
 
     // with provided useState, add/remove itself's only instance
     const addItemToSelected = (item) => {
+        // when adding a new item, create default values for invoice table
         setSelectedItems((prevSelectedItems) => ([
             ...prevSelectedItems,
-            { ...item, price: 0 }
+            { ...item, 
+            'sell price': item['retail price'],
+            'in stock': item.quantity, 
+            quantity: 1
+            }
         ]));
     }
 
@@ -63,7 +69,7 @@ export default function Table({
             </div>
             <div onScroll={onScroll} ref={tableRef} className="table-body">
                 {/* if it is a item table, create checkbox to select item */}
-                {isItemTable ?
+                {isSelectable ?
                     <div key={`column-selected`} className={`table-column`}>
                         <p className="column-label">
                             {" "}{"SELECT"}{" "}

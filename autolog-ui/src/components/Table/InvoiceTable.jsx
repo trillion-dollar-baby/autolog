@@ -18,7 +18,8 @@ export default function InvoiceTable({
     fetchMoreItems,
     setSelectedItems,
     selectedItems,
-    isFetching
+    isFetching,
+    calculateTotals
 }) {
     const tableRef = React.useRef();
     const [isSelected, setSelected] = React.useState(false);
@@ -49,8 +50,14 @@ export default function InvoiceTable({
         setSelectedItems((prevSelectedItems) => (prevSelectedItems.filter(prevItem => prevItem.id !== item.id)));
     }
 
-    const handleOnTableInputChange = (event, id,) => {
-        
+    // for sell price we want to change its value manually when creating invoice
+    const handleOnTableInputChange = (event, name) => {
+        for (const item of selectedItems) {
+            if(item.name === name) {
+                item[event.target.name] = event.target.value
+            }
+        }
+        calculateTotals();
     }
 
     // handle on select
@@ -94,12 +101,17 @@ export default function InvoiceTable({
                             {columnName.toUpperCase()}{" "}
                         </p>
                         {tableElementArray?.map((rowItems, index) => {
+                            // all quantity columns will be an input element instead
                             if (columnName === "quantity") {
                                 return (
                                     <>
                                         <li className="row-item" key={`row-item-${index}`}>
                                             {" "}
-                                            <input className={"row-item-retail-price"} type={"text"} name={"quantity"} value={rowItems[columnName]}/>
+                                            <input className={"row-item-input"} 
+                                                   type={"text"} 
+                                                   name={"quantity"} 
+                                                   defaultValue={1}
+                                                   onChange={(e) => handleOnTableInputChange(e,rowItems.name)} />
                                             {" "}
                                         </li>
                                     </>)
@@ -121,12 +133,17 @@ export default function InvoiceTable({
                 {isItemTable ?
                     <div key={`column-detail`} className={`table-column`}>
                         <p className="column-label">
-                            {" "}{"RETAIL PRICE"}{" "}
+                            {" "}{"SELL PRICE"}{" "}
                         </p>
                         {tableElementArray?.map((rowItems, index) => (
                             <li className="row-item" key={`row-item-detail-${index}`}>
                                 {" "}
-                                <input className="row-item-retail-price" type={'text'} name={"retailPrice"} placeholder={"Input price"}></input>
+                                <input className="row-item-input" 
+                                       type={'text'} 
+                                       name={"sell price"}
+                                       defaultValue={rowItems['sell price']} 
+                                       onChange={(e) => handleOnTableInputChange(e,rowItems.name)}
+                                       placeholder={"Input price"}></input>
                                 {" "}
                             </li>
                         ))}{" "}
