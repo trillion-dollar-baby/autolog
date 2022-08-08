@@ -8,13 +8,14 @@ const router = express.Router()
 router.post("/create", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         // Get the selected inventory's ID
-        const inventoryId = req.query.inventoryId;
+        const { inventoryId } = req.query;
         const { itemFields, invoiceFields } = req.body;
 
         // Query for performance array sorted by category
-        const invoice = await Invoice.createInvoice(invoiceFields, inventoryId);
-        const soldItems = await Invoice.createSoldItemRecords(itemFields, invoice.id)
-        const results = [invoice, ...soldItems]
+        const invoice = await Invoice.createInvoice(inventoryId, invoiceFields);
+        const soldItems = await Invoice.createSoldItemRecords(itemFields, invoice.id);
+
+        const results = {invoice, soldItems: [...soldItems]}
         return res.status(201).json({ results });
     } 
     catch(err) {
@@ -32,6 +33,16 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     }
     catch(err) {
         next(err);
+    }
+})
+
+router.get("/id/:invoiceId", security.requireAuthenticatedUser, async(req,res,next) => {
+    try {
+        const { inventoryId } = req.query;
+        const { invoiceId } = req.params;
+
+    } catch (error) {
+        next(error);
     }
 })
 

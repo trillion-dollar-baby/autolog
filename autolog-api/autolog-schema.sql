@@ -68,9 +68,9 @@ CREATE TABLE logs (
     inventory_id INTEGER NOT NULL,
     action TEXT NOT NULL,
     created_at timestamp NOT NULL default CURRENT_DATE,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (item_id) REFERENCES items(id),
-    FOREIGN KEY (inventory_id) REFERENCES inventory(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (item_id) REFERENCES items(id) ON DELETE CASCADE,
+    FOREIGN KEY (inventory_id) REFERENCES inventory(id) ON DELETE CASCADE
 );
 
 CREATE TABLE categories (
@@ -101,24 +101,30 @@ CREATE TABLE announcements(
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-
 CREATE TABLE invoices (
     id SERIAL PRIMARY KEY,
+    -- 
     inventory_id INTEGER NOT NULL,
     sender_id INTEGER NOT NULL,
-    sender_name TEXT NOT NULL,
-    sender_email TEXT NOT NULL,
+    -- RECIPIENT FIELDS
     recipient_first_name TEXT NOT NULL,
     recipient_last_name TEXT NOT NULL,
-    recipient_email TEXT NOT NULL,
+    recipient_phone TEXT NOT NULL,
     recipient_address TEXT NOT NULL,
+    -- VEHICLE FIELDS
+    vehicle_vin TEXT NOT NULL,
+    vehicle_year TEXT NOT NULL,
+    vehicle_make TEXT NOT NULL,
+    vehicle_model TEXT NOT NULL,
+    vehicle_plate_number TEXT NOT NULL,
+    -- 
     created_at timestamp NOT NULL default CURRENT_DATE,
-
+    -- 
     total_labor_cost INTEGER NOT NULL,
-    total_material_cost INTEGER NOT NULL,
+    -- total_material_cost INTEGER NOT NULL,
 
     FOREIGN KEY (sender_id) REFERENCES users(id),
-    FOREIGN KEY (sender_email) REFERENCES users(email),
+    -- FOREIGN KEY (sender_email) REFERENCES users(email),
     FOREIGN KEY (inventory_id) REFERENCES inventory(id)
 );
 
