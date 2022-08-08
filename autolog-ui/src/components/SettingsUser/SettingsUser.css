@@ -12,3 +12,47 @@
     color: #FFF !important;
     padding-left: 35px;
 }
+.settings-user{
+    position: relative;
+}
+.settings-user::before,
+.settings-user::after {
+  --scale: 0;
+  --arrow-size: 15px;
+  --tooltip-color: var(--darkBlueAccentFocused);
+  position: absolute;
+  left: 55%;
+  top: 85%;
+  transform: translate(10%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  transition: 160ms transform;
+  transform-origin:right;
+  opacity:0.8;
+}
+.settings-user::before{
+  --translate-y: calc(-30% - var(--arrow-size));
+  content: attr(data-tooltip);
+  color: white;
+  background: var(--darkBlueAccentFocused);
+  text-align: center;
+  /* width: max-content; */
+  max-width: 29%;
+  padding: .5rem;
+  border-radius: .3rem;
+  opacity:0.8;
+
+}
+.settings-user:hover::before,
+.settings-user:hover::after{
+  --scale: 1;
+}
+
+.settings-user::after {
+  --translate-y: calc(-1 * var(--arrow-size));
+  content: '';
+  border: var(--arrow-size) solid transparent;
+  opacity:0.8;
+  border-right-color: var(--tooltip-color);
+  transform-origin: right;
+}
+
+
