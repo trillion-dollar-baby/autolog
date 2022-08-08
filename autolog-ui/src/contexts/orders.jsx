@@ -20,14 +20,12 @@ export const OrdersContextProvider = ({children})=>{
   const [accessibleInventories, setAccessibleInventories]= accessibleInventoriesContext;
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext
 
+//  useEffect(()=>{
+//     if (user && selectedInventory?.inventoryId) {
+//         fetchOrdersList()
+//     }
 
- useEffect(()=>{
-    if (user && selectedInventory?.inventoryId) {
-        fetchOrdersList()
-    }
-
-   }, [user, selectedInventory])
-
+//    }, [user, selectedInventory])
 
   // Search item
   const searchOrders = async(search, pageNumber, category)=>{

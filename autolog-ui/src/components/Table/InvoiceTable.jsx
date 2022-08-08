@@ -9,7 +9,8 @@ import { Link } from "react-router-dom";
  * @param {Array} tableColumnLabelArray array of string that holds the column labels
  * @param {String} tableLabel a string for the table label
  */
-export default function Table({
+
+export default function InvoiceTable({
     tableElementArray,
     tableColumnLabelArray,
     tableLabel,
@@ -24,11 +25,11 @@ export default function Table({
 
     const onScroll = async () => {
         if (isItemTable) {
+            // check if is fetching already to prevent multiple requests
             if (tableRef.current && !isFetching) {
                 const { scrollTop, scrollHeight, clientHeight } = tableRef.current;
 
                 // check if user reached to the bottom of the div
-                // check if is fetching already to prevent multiple requests
                 if ((Math.ceil(scrollTop + clientHeight) >= Math.floor(scrollHeight) - 1)) {
                     await fetchMoreItems();
                 }
@@ -36,11 +37,11 @@ export default function Table({
         }
     }
 
-    // with provided useState, add/remove itself's only instance
+    // with provided useState setter, add/remove itself's only instance
     const addItemToSelected = (item) => {
         setSelectedItems((prevSelectedItems) => ([
             ...prevSelectedItems,
-            { ...item, price: 0 }
+            { ...item }
         ]));
     }
 
@@ -48,18 +49,22 @@ export default function Table({
         setSelectedItems((prevSelectedItems) => (prevSelectedItems.filter(prevItem => prevItem.id !== item.id)));
     }
 
+    const handleOnTableInputChange = (event, id,) => {
+        
+    }
+
     // handle on select
     const onCheckboxClick = (event, item) => {
-        if (event.target.checked) {
-            addItemToSelected(item);
-        } else {
-            removeItemFromSelected(item);
-        }
+        // if (event.target.checked) {
+        // addItemToSelected(item);
+        // } else {
+        removeItemFromSelected(item);
+        // }
     }
     return (
         <div className="table">
             <div className="table-header">
-                <label className="table-header-label"> {tableLabel} </label> <label className="table-header-label" style={{color: "var(--actionRed)", fontWeight: "600"}}>{(selectedItems?.length ? `${selectedItems.length} item(s) selected` : '')}</label>
+                <label className="table-header-label"> {tableLabel} </label>
             </div>
             <div onScroll={onScroll} ref={tableRef} className="table-body">
                 {/* if it is a item table, create checkbox to select item */}
@@ -71,7 +76,13 @@ export default function Table({
                         {tableElementArray?.map((rowItems, index) => (
                             <li className="row-item" key={`row-item-detail-${index}`}>
                                 {" "}
-                                <input type={"checkbox"} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "}
+                                <span
+                                    onClick={(event) => { onCheckboxClick(event, rowItems) }}
+                                    key={`row-item-checkbox-${index}`}
+                                    name={`selected-${rowItems['id']}`}
+                                    className="row-remove-button">Remove</span>
+                                {" "}
+                                {/* <input type={"checkbox"} checked={true} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "} */}
                             </li>
                         ))}{" "}
                     </div>
@@ -82,32 +93,46 @@ export default function Table({
                             {" "}
                             {columnName.toUpperCase()}{" "}
                         </p>
-                        {tableElementArray?.map((rowItems, index) => (
-                            <>
-                                <li className="row-item" key={`row-item-${index}`}>
-                                    {" "}
-                                    {rowItems[columnName]}{" "}
-                                </li>
-
-                            </>
-                        ))}{" "}
+                        {tableElementArray?.map((rowItems, index) => {
+                            if (columnName === "quantity") {
+                                return (
+                                    <>
+                                        <li className="row-item" key={`row-item-${index}`}>
+                                            {" "}
+                                            <input className={"row-item-retail-price"} type={"text"} name={"quantity"} value={rowItems[columnName]}/>
+                                            {" "}
+                                        </li>
+                                    </>)
+                            } else {
+                                return (
+                                    <>
+                                        <li className="row-item" key={`row-item-${index}`}>
+                                            {" "}
+                                            {rowItems[columnName]}{" "}
+                                        </li>
+                                    </>)
+                            }
+                        })
+                        }
+                        {" "}
                     </div>
                 ))}
                 {/* if it is a item table, leave a ItemDetail link for every item by their ID*/}
                 {isItemTable ?
                     <div key={`column-detail`} className={`table-column`}>
                         <p className="column-label">
-                            {" "}{"DETAIL"}{" "}
+                            {" "}{"RETAIL PRICE"}{" "}
                         </p>
                         {tableElementArray?.map((rowItems, index) => (
                             <li className="row-item" key={`row-item-detail-${index}`}>
                                 {" "}
-                                <Link to={`/item/id/${rowItems["id"]}`} key={index} >Detail</Link>{" "}
+                                <input className="row-item-retail-price" type={'text'} name={"retailPrice"} placeholder={"Input price"}></input>
+                                {" "}
                             </li>
                         ))}{" "}
                     </div>
                     : <></>}
             </div>
-        </div>
+        </div >
     );
 }

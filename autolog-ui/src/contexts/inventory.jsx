@@ -27,11 +27,11 @@ export const InventoryContextProvider = ({ children }) => {
     const { ordersContext } = useContext(OrdersContext);
     const [orders] = ordersContext;
 
-    useEffect(() => {
-        if (user && selectedInventory?.inventoryId) {
-            fetchItemList();
-        }
-    }, [user, selectedInventory, orders]);
+    // useEffect(() => {
+    //     if (user && selectedInventory?.inventoryId) {
+    //         fetchItemList();
+    //     }
+    // }, [user, selectedInventory]);
 
     // Get id of a given item
     // for when we are accessing the item through item details
@@ -47,7 +47,7 @@ export const InventoryContextProvider = ({ children }) => {
 
     // Search item
     const searchItem = async (search, pageNumber, category) => {
-        const { data, error } = await apiClient.getItemList(
+        const { data, error } = await apiClient.getOrdersItemList(
             selectedInventory?.inventoryId,
             pageNumber,
             search,

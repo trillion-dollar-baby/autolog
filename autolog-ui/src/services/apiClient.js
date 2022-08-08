@@ -123,6 +123,10 @@ class ApiClient {
     async getOrdersItemList(inventoryId, pageNumber, search, category) {
         return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
     }
+    
+    async getItemList(inventoryId, pageNumber, search, category) {
+        return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
+    }
 
     async getInventoryItemList(inventoryId, pageNumber, search, category) {
         return await this.request({endpoint: `item/inventory/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
@@ -139,6 +143,7 @@ class ApiClient {
     /**
      * Performance endpoints
      */
+    
     async getPerformanceByCategory(inventoryId) {
         return await this.request({endpoint: `performance/?inventoryId=${inventoryId}`, method: 'GET'})
     }
