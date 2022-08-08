@@ -38,11 +38,57 @@ function CreateInvoice() {
       placeholder: 'DD-MM-YYYY'
     },
     {
+      label: 'Address',
+      name: 'address',
+      type: 'text',
+      placeholder: 'Pollos Hermanos'
+    },
+    {
       label: 'Total Labor Cost',
       name: 'labor',
       type: 'number',
       placeholder: '1234'
-    }
+    },
+  ]
+
+  const createInvoiceVehicleFormArray = [
+    {
+      label: 'Vehicle Year',
+      name: 'vehicleYear',
+      type: 'text',
+      placeholder: 'Pollos Hermanos'
+    },
+    {
+      label: 'Make',
+      name: 'make',
+      type: 'text',
+      placeholder: 'Pollos Hermanos'
+    },
+    {
+      label: 'Model',
+      name: 'model',
+      type: 'text',
+      placeholder: 'Pollos Hermanos'
+    },
+    {
+      label: 'Plate Number',
+      name: 'plateNumber',
+      type: 'text',
+      placeholder: 'Pollos Hermanos'
+    },
+    {
+      label: 'Color',
+      name: 'color',
+      type: 'text',
+      placeholder: 'Pollos Hermanos'
+    },
+    {
+      label: 'Vin Number',
+      name: 'color',
+      type: 'text',
+      placeholder: 'Pollos Hermanos'
+    },
+
   ]
 
   const columnLabel = ["name", "in stock", "quantity", "cost", "retail price"]
@@ -102,11 +148,19 @@ function CreateInvoice() {
         <div className="content">
           <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceFormArray} />
         </div>
+        <div className="divider">
+          <label className="title"> Details </label>
+        </div>
+        <div className="content">
+          <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceVehicleFormArray} />
+        </div>
         <div className="total-price-container">
           <span id='subtotal-price'>Total without labor: ${total}</span>
           <span id="subtotal-labor-price">Total with labor: ${totalWithLabor}</span>
           <span id="grandtotal-price">Grand total: $9999</span>
         </div>
+        
+
         <div className="button-container">
           <ButtonAction label={"Create Invoice"} color={"var(--actionBlueAccent)"} onClick={handleOnSubmit} />
         </div>
