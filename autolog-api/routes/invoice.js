@@ -9,11 +9,12 @@ router.post("/create", security.requireAuthenticatedUser, async (req, res, next)
     try {
         // Get the selected inventory's ID
         const { inventoryId } = req.query;
-        const { itemFields, invoiceFields } = req.body;
+        const { itemsFields, invoiceFields } = req.body;
+        const { user } = res.locals;
 
         // Query for performance array sorted by category
-        const invoice = await Invoice.createInvoice(inventoryId, invoiceFields);
-        const soldItems = await Invoice.createSoldItemRecords(itemFields, invoice.id);
+        const invoice = await Invoice.createInvoice(inventoryId, invoiceFields, user);
+        const soldItems = await Invoice.createSoldItemRecords(itemsFields, invoice.id);
 
         const results = {invoice, soldItems: [...soldItems]}
         return res.status(201).json({ results });
@@ -25,9 +26,9 @@ router.post("/create", security.requireAuthenticatedUser, async (req, res, next)
 
 router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
-        const inventoryId = req.query.inventoryId;
+        const { inventoryId }= req.query;
 
-        const invoices = Invoice.listInvoices(inventoryId);
+        const invoices = await Invoice.listInvoices(inventoryId);
 
         return res.status(200).json({ invoices });
     }

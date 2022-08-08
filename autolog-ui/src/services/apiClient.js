@@ -244,6 +244,15 @@ class ApiClient {
     async getRoleById(inventoryId, roleId) {
         return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}&roleId=${roleId}`, method: `GET`});
     }
+
+    /*
+    Invoice endpoints
+    */
+
+    async createInvoice(inventoryId, invoiceFields, itemsFields) {
+        return await this.request({endpoint: `invoice/create/?inventoryId=${inventoryId}`, method: `POST`, data: {invoiceFields, itemsFields}});
+    }
+
 }
 
 export default new ApiClient(API_BASE_URL);

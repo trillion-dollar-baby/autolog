@@ -10,8 +10,15 @@ import { useContext } from 'react';
 import InvoiceTable from '../Table/InvoiceTable';
 import ButtonAction from '../Button/ButtonAction';
 import { useEffect } from 'react';
+import apiClient from '../../services/apiClient';
+import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 
 function CreateInvoice() {
+  // Inventory Context
+  const {selectedInventoryContext} = useContext(InventoriesContext);
+  const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
+
   // Items Context
   const { itemContext, searchContext, searchTermContext, selectedItemsContext } = useContext(ItemContext);
   const [items, setItems] = itemContext;
@@ -47,7 +54,7 @@ function CreateInvoice() {
     {
       label: 'Date',
       name: 'date',
-      type: 'text',
+      type: 'date',
       placeholder: 'DD-MM-YYYY'
     },
     {
@@ -97,7 +104,7 @@ function CreateInvoice() {
     },
     {
       label: 'Color',
-      name: 'color',
+      name: 'vehicleColor',
       type: 'text',
       placeholder: 'Pollos Hermanos'
     },
@@ -146,10 +153,12 @@ function CreateInvoice() {
     calculateTotals();
   }, [selectedItems, invoiceForm])
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = async() => {
+    const {data, error} = await apiClient.createInvoice(selectedInventory?.inventoryId, invoiceForm, selectedItems);
 
+    console.log(data, error);
   }
-  console.log(selectedItems);
+
   const containerVariants = {
     hidden: {
       opacity: 0,

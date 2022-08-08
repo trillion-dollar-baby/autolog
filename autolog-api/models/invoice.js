@@ -2,10 +2,9 @@ const { parse } = require("dotenv");
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 const nodemailer = require('nodemailer');
-
-
+const _ = require("lodash");
 class Invoice {
-    static async createInvoice(inventoryId, invoice) {
+    static async createInvoice(inventoryId, invoice, user) {
         // Required fields for a successful query
         const requiredFields = [
             "recipientFirstName",
@@ -32,12 +31,12 @@ class Invoice {
         // }
 
         // Check if input values fulfills all required fields
+        
         requiredFields.forEach((field) => {
             if (!invoice?.hasOwnProperty(field)) {
                 throw new BadRequestError(`Missing ${field} in form.`);
             }
         });
-
         // Normalize invoice values
         Object.keys(invoice).forEach((field) => {
             if (isNaN(invoice[field])) {
@@ -101,7 +100,7 @@ class Invoice {
 
     static async createSoldItemRecords(items, invoiceId) {
         const queryResults = [];
-
+        console.log(arguments)
         // Loop through each item selected for the invoice
         items.forEach(async (item) => {
             let query = `
@@ -109,18 +108,22 @@ class Invoice {
                 invoice_id,
                 name,
                 category,
-                quantity
+                quantity,
+                cost,
+                sell_price
             )
             VALUES (
                 $1,
                 $2,
                 $3,
-                $4
+                $4,
+                $5,
+                $6
             )
             RETURNING id, name, category, quantity, sold_date
             `
 
-            let result = await db.query(query, [invoiceId, item.name, item.category, item.quantity])
+            let result = await db.query(query, [invoiceId, item.name, item.category, item.quantity, parseInt(item.cost), parseInt(item['retail price'])])
 
             queryResults.push(result.rows[0]);
         })
@@ -147,9 +150,9 @@ class Invoice {
         WHERE invoices.inventory_id = $1
         `
 
-        const results = await db.query(query, inventoryId);
-
-        return results.rows[0];
+        const results = await db.query(query, [inventoryId]);
+        console.log(results.rows);
+        return results.rows;
     }
 
     static async sendInvoicePdf({userId, receiverEmail, invoiceValues, purchases}) {
