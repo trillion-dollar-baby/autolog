@@ -92,10 +92,9 @@ export default function Dashboard() {
   // Table Elements
   const columnLabelArr = [
     "LOG ID",
-    "action",
-    "USER",
-    "ITEM ID",
-    "INVENTORY ID",
+    "ACTION",
+    "USERNAME",
+    "ITEM NAME",
     "CREATEDAT",
   ];
   const tableLabel = "Latest Editions";

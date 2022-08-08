@@ -110,8 +110,9 @@ export const AuthContextProvider = ({ children }) => {
     localStorage.removeItem(apiClient.tokenName);
     apiClient.setToken(null);
 
-    // Redirect to landing page
-    window.location.replace("http://127.0.0.1:5173");
+    // Redirect to landing page (base url)
+    const base_url = window.location.origin;
+    window.location.replace(base_url);
   }
 
   // update user information

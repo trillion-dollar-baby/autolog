@@ -18,7 +18,7 @@ export default function Landing() {
                         <h3> Affordable and easy-to-use solutions for automotive businesses. </h3> 
                     </div>
                     <div className="hero-message">
-                        <p> Increase the efficiency of business by using <b>Autolog</b>, a cloud-based inventory management system which will improve the performance of small businesses with plug-and-play tools to quickly get started. </p>
+                        <p> Increase the efficiency of your business by using <b>Autolog</b>, a cloud-based inventory management system which will improve the performance of small businesses with plug-and-play applications for quick and smooth integrations. </p>
                     </div>
                 </div>
                 <div className="hero-image">

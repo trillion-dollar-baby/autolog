@@ -14,6 +14,20 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
         const {page, search, category} = req.query;
         const { user } = res.locals;
 
+        const items = await Item.listOrderItems(inventoryId, search, page, category);
+        return res.status(200).json({ items });
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.get("/inventory", security.requireAuthenticatedUser, async (req, res, next) => {
+    try {
+        // query parameters
+        const inventoryId = req.query.inventoryId;
+        const {page, search, category} = req.query;
+        const { user } = res.locals;
+
         const items = await Item.listInventoryItems(inventoryId, search, page, category);
         return res.status(200).json({ items });
     } catch (err) {
@@ -84,7 +98,7 @@ router.post("/", security.requireAuthenticatedUser, async (req, res, next) => {
         if (items) {
             // The createLog method requires an inventory ID, an item ID, a user ID, and action
             const action = "Create"
-            const log = await Log.createLog(items.inventory_id, items.id, user.id, action)
+            const log = await Log.createLog(items.inventory_id, items.name, items.id, user.id, action)
         }
 
         return res.status(201).json({ items });

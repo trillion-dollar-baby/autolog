@@ -1,18 +1,15 @@
 import { useContext, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import Form from '../Form/Form';
 
 import './SettingsMembers.css';
 import MemberList from '../MemberList/MemberList';
-import Dropdown from '../Dropdown/Dropdown';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import apiClient from '../../services/apiClient';
-import Loading from '../Loading/Loading';
 import ButtonAction from '../Button/ButtonAction';
 import { useNavigate } from 'react-router';
 
 export default function SettingsMembers() {
-  const { inventoryGetContext, inventoryMembersContext, selectedInventoryContext } = useContext(InventoryContext);
+  const { inventoryGetContext, inventoryMembersContext, selectedInventoryContext } = useContext(InventoriesContext);
   const [getAccessibleInventories, getOwnedInventories, getInventoryMembers] = inventoryGetContext;
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext
   const [inventoryMembers, setInventoryMembers] = inventoryMembersContext;

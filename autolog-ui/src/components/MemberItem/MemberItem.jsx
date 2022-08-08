@@ -7,14 +7,14 @@ import iconDelete from '../../assets/icons8-delete.png';
 import Dropdown from '../Dropdown/Dropdown';
 import { useContext, useState } from 'react';
 import { ToastContext } from '../../contexts/toast';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import AuthContext from '../../contexts/auth';
 
 export default function MemberItem({ index, id, firstName, lastName, email, userRole, roleOptions, currentUserRole }) {
 	const { notifySuccess, notifyError } = useContext(ToastContext);
 	const { userContext } = useContext(AuthContext);
 	const [user, setUser] = userContext;
-	const { updateInventoryMember, removeInventoryMember, selectedInventoryContext } = useContext(InventoryContext);
+	const { updateInventoryMember, removeInventoryMember, selectedInventoryContext } = useContext(InventoriesContext);
 	const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 	const [isDeleted, setIsDeleted] = useState(false);
 	// get role value from the dropdown and change it in the backend 
