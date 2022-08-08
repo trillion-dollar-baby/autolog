@@ -121,7 +121,7 @@ export default function Checklist() {
 
   return (
     <div className="content">
-      <div className="header">
+      <div className="header" data-tooltip="Use Checklist to make a quick todo list">
         <h2 className="title"> Checklist </h2>
       </div>
       <div className="body">

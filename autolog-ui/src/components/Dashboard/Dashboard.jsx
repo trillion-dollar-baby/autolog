@@ -126,7 +126,7 @@ export default function Dashboard() {
         <div className="greeting">
           <h2 className="welcome"> Welcome Back, {user.firstName}</h2>
         </div>
-        <div className="invite">
+        <div className="invite" data-tooltip="Invite a new user">
           <ButtonInvite />
         </div>
       </div>
@@ -145,7 +145,7 @@ export default function Dashboard() {
           <Checklist/>
         </div>
       </div>
-      <div className="table-container">
+      <div className="table-container" data-tooltip="Logs keeps track of actions made by users in the inventory">
         <Table
           tableElementArray={logs.length ? logs : []}
           tableColumnLabelArray={columnLabelArr}
@@ -163,8 +163,8 @@ function Announcements({
 displayInputBar}) {
   return (
     <div className="content">
-      <div className="header">
-        <h2 className="title"> Announcements </h2>
+      <div className="header" data-tooltip="Use Announcements to post quick updates or news for users">
+        <h2 className="title" > Announcements </h2>
       </div>
       <div className="body" id="inputBody">
         <textarea
@@ -178,6 +178,7 @@ displayInputBar}) {
       <div id ="announce">
         {announcement}
       </div>
+      
       <div className="post" id="post">
         <button className="submit-post" onClick={handleAnnouncementCreate}> Post</button>
       </div> 
