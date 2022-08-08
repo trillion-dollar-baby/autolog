@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useContext,useEffect } from 'react';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import _ from 'lodash';
 import apiClient from '../../services/apiClient';
 import Form from '../Form/Form';
@@ -10,7 +10,7 @@ import { ToastContext } from '../../contexts/toast';
 function ModalCreateCategory({closeModal, setCategory}) {
     const {notifySuccess, notifyError} = useContext(ToastContext);
     // contexts
-    const { selectedInventoryContext } = useContext(InventoryContext);
+    const { selectedInventoryContext } = useContext(InventoriesContext);
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
     // new inventory modal hooks

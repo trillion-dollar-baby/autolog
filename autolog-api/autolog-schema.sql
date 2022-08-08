@@ -60,7 +60,9 @@ CREATE TABLE items (
 CREATE TABLE logs (
     id SERIAL PRIMARY KEY,
     user_id INTEGER NOT NULL,
+    username TEXT NOT NULL,
     item_id INTEGER NOT NULL,
+    item_name TEXT NOT NULL,
     inventory_id INTEGER NOT NULL,
     action TEXT NOT NULL,
     created_at timestamp NOT NULL default CURRENT_DATE,

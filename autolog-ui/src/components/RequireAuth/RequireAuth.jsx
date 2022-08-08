@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Navigate, useLocation } from "react-router";
 import AuthContext from "../../contexts/auth";
-import InventoryContext from "../../contexts/inventory";
+import InventoriesContext from "../../contexts/inventories";
 import apiClient from "../../services/apiClient";
 
 export default function RequireAuth({ children }) {
@@ -9,7 +9,7 @@ export default function RequireAuth({ children }) {
     const [user, setUser] = userContext;
     const [error, setError] = errorContext;
     
-    const {accessibleInventoriesContext} = useContext(InventoryContext);
+    const {accessibleInventoriesContext} = useContext(InventoriesContext);
     const [accessibleInventories, setAccessibleInventories] = accessibleInventoriesContext;
 
     const location = useLocation();

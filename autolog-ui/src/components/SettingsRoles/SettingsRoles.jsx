@@ -6,14 +6,14 @@ import { RoleContext } from '../../contexts/role';
 import apiClient from '../../services/apiClient';
 import { ToastContext } from '../../contexts/toast';
 import RoleList from '../RoleList/RoleList';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 
 import './SettingsRoles.css';
 import ModalCreateRole from '../ModalCreateRole/ModalCreateRole';
 import ModalWarning from '../ModalWarning/ModalWarning';
 function SettingsRoles() {
     const { notifySuccess, notifyError } = useContext(ToastContext);
-    const { selectedInventoryContext } = useContext(InventoryContext);
+    const { selectedInventoryContext } = useContext(InventoriesContext);
     const { getRoleList, updateRole, deleteRole } = useContext(RoleContext);
 
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;

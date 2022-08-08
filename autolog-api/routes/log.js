@@ -19,5 +19,15 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     }
 })
 
+router.get("/test", security.requireAuthenticatedUser, async (req, res, next) => {
+    try {
+        const logs = await Log.fetchUserNameById(1);
+        return res.status(200).json({ logs });
+    } 
+    catch(err) {
+        next(err)
+    }
+})
+
 
 module.exports = router

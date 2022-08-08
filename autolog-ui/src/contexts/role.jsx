@@ -1,14 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import apiClient from "../services/apiClient";
 import AuthContext from "./auth";
-import InventoryContext from "./inventory";
+import InventoriesContext from "./inventories";
 
 
 export const RoleContext = createContext({})
 
 export const RoleContextProvider = ({ children }) => {
     const { userContext } = useContext(AuthContext);
-    const { selectedInventoryContext } = useContext(InventoryContext);
+    const { selectedInventoryContext } = useContext(InventoriesContext);
 
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 

@@ -1,12 +1,13 @@
 import * as React from 'react';
 import './CreateInventory.css';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router';
+
 export default function CreateInventory() {
     const navigate = useNavigate();
     const [ field, setField ] = React.useState({name: "", password: ""});
-    const { inventoryPostContext, errorContext} = useContext(InventoryContext);
+    const { inventoryPostContext, errorContext} = useContext(InventoriesContext);
     const [error, setError] = errorContext;
     const [createInventory]= inventoryPostContext;
     

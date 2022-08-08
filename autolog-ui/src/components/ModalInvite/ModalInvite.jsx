@@ -2,7 +2,7 @@ import React from 'react'
 import { useContext } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import { ToastContext } from '../../contexts/toast';
 import apiClient from '../../services/apiClient';
 import Dropdown from '../Dropdown/Dropdown';
@@ -16,7 +16,7 @@ import Modal from '../Modal/Modal';
 export function ModalInvite({ closeModal }) {
     const {notifySuccess, notifyError} = useContext(ToastContext);
     // contexts
-    const { addMemberContext, selectedInventoryContext } = useContext(InventoryContext);
+    const { addMemberContext, selectedInventoryContext } = useContext(InventoriesContext);
     const [addInventoryMembers] = addMemberContext;
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 

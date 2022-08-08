@@ -35,7 +35,7 @@ const isOwnerOfInventory = async (req, res, next) => {
         return next(error);
     }
 };
-
+// check if user is allowed to make changes
 const hasPermissions = async (req, res, next) => {
     try {
         const { user } = res.locals;
