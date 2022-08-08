@@ -6,9 +6,7 @@ const permissions = require("../middleware/permissions");
 const router = express.Router();
 
 // endpoint to get a generic list of items in inventory
-router.get("/", 
-    security.requireAuthenticatedUser,
-    async (req, res, next) => {
+router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
         await permissions.hasPermissions(req,res,next);
         
@@ -31,8 +29,8 @@ router.get("/inventory", security.requireAuthenticatedUser, async (req, res, nex
         const inventoryId = req.query.inventoryId;
         const {page, search, category} = req.query;
         const { user } = res.locals;
-
-        const items = await Item.listOrderItems(inventoryId, search, page, category);
+        
+        const items = await Item.listInventoryItems(inventoryId, search, page, category);
         return res.status(200).json({ items });
     } catch (err) {
         next(err);
