@@ -1,5 +1,5 @@
 const db = require("../db");
-const _ = require('lodash');
+const _ = require("lodash");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 
 class Item {
@@ -16,12 +16,12 @@ class Item {
                 throw new BadRequestError(`Missing ${field} in request body.`);
             }
         });
-		
-		Object.keys(item).forEach(field => {
-			if(isNaN(item[field])){
-				item[field] = _.toLower(item[field]);
-			}
-		})
+
+        Object.keys(item).forEach((field) => {
+            if (isNaN(item[field])) {
+                item[field] = _.toLower(item[field]);
+            }
+        });
 
         // Insert into items and perform subquery to make sure this inventory id matches with user
         const results = await db.query(
@@ -72,7 +72,7 @@ class Item {
     // listItemForUser
     static async listItemForUser(user) {
         const results = await db.query(
-          ` SELECT items.id,
+            ` SELECT items.id,
                    items.name,
                    items.category,
                    items.quantity,
@@ -87,13 +87,12 @@ class Item {
         return results.rows;
     }
 
-    // get inventory items by inventoryId
-    //TODO: implement sort by search
-    static async listInventoryItems(inventoryId, search = "", pageNumber = 0) {
+    // get order items by inventoryId
+    static async listOrderItems(inventoryId, search = "", pageNumber = 0, category = "") {
         // get offset if user wants to see more items of the same search
         // if there was no pageNumber received, offset is going to be 0
         let offset;
-        let limit = 30;
+        let limit = 20;
 
         // convert pageNumber to a Number in case it is going to be used in calculation
         if (pageNumber) {
@@ -111,7 +110,7 @@ class Item {
 				items.quantity
 			FROM items
 				JOIN inventory ON inventory.id = items.inventory_id
-			WHERE items.inventory_id = $1 AND items.name ~ $4
+			WHERE items.inventory_id = $1 AND items.name ~ $4 AND items.category ~ $5
 			ORDER BY items.created_at DESC
 			LIMIT $2 OFFSET $3`;
 
@@ -120,6 +119,43 @@ class Item {
             limit,
             offset,
             search.toLowerCase(),
+            category.toLowerCase()
+        ]);
+
+        return results.rows;
+    }
+
+
+    // get inventory items by inventoryId
+    static async listInventoryItems(inventoryId, search = "", pageNumber = 0, category = "") {
+        // get offset if user wants to see more items of the same search
+        // if there was no pageNumber received, offset is going to be 0
+        let offset;
+        let limit = 30;
+
+        // convert pageNumber to a Number in case it is going to be used in calculation
+        if (pageNumber) {
+            offset = (Number(pageNumber) || 0) * limit;
+        }
+
+        const query = `
+			SELECT
+				items.name as "name",
+				items.category AS "category",
+				SUM(items.quantity) as "quantity"
+			FROM items
+				JOIN inventory ON inventory.id = items.inventory_id
+			WHERE items.inventory_id = $1 AND items.name ~ $4 AND items.category ~ $5
+            GROUP BY items.name, items.category
+			ORDER BY items.name DESC
+			LIMIT $2 OFFSET $3`;
+
+        const results = await db.query(query, [
+            inventoryId,
+            limit,
+            offset,
+            search.toLowerCase(),
+            category.toLowerCase()
         ]);
 
         return results.rows;
@@ -202,20 +238,22 @@ class Item {
     /**
      * Delete item function based by itemId provided
      */
-	static async deleteItem(itemId) {
-		// TODO: check if user has access to inventory in order to perform this
-		if(isNaN(itemId)) {
-			throw new BadRequestError(`deleteItem, itemId: ${itemId} is not a number`);
-		}
+    static async deleteItem(itemId) {
+        // TODO: check if user has access to inventory in order to perform this
+        if (isNaN(itemId)) {
+            throw new BadRequestError(
+                `deleteItem, itemId: ${itemId} is not a number`
+            );
+        }
 
-		const query = `
+        const query = `
 			DELETE FROM items WHERE id = $1
-		`
+		`;
 
-		const result = await db.query(query,[itemId])
+        const result = await db.query(query, [itemId]);
 
-		return result.rows[0];
-	}
+        return result.rows[0];
+    }
 }
 
 module.exports = Item;

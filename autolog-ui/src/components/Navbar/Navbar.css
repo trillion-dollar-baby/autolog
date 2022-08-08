@@ -7,7 +7,7 @@
   margin: 0 auto;
   padding: 0 30px;
   align-items: center;
-
+  z-index: 10;
 }
 
 .navbar .section {

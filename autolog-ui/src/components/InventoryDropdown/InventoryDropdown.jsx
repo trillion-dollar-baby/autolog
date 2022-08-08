@@ -7,7 +7,7 @@ import _ from 'lodash';
 import arrowExpand from '../../assets/icons8-expand-arrow-2.png'
 import arrowCollapse from '../../assets/icons8-collapse-arrow-2.png'
 import { useContext } from 'react';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import { motion, AnimatePresence } from 'framer-motion';
 import DropdownOverlay from '../DropdownOverlay/DropdownOverlay';
 import ModalCreateInventory from '../ModalCreateInventory/ModalCreateInventory';
@@ -18,7 +18,7 @@ import ModalCreateInventory from '../ModalCreateInventory/ModalCreateInventory';
  */
 export default function InventoryDropdown() {
     // contexts
-    const { accessibleInventoriesContext, selectedInventoryContext, inventoryPostContext } = useContext(InventoryContext);
+    const { accessibleInventoriesContext, selectedInventoryContext, inventoryPostContext } = useContext(InventoriesContext);
     const [createInventory] = inventoryPostContext;
     const [accessibleInventories, setAccessibleInventories] = accessibleInventoriesContext;
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;

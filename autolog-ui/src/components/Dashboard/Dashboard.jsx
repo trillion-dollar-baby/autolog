@@ -4,206 +4,191 @@ import { motion } from "framer-motion";
 import { useState, useEffect, useContext } from "react";
 import Table from "../Table/Table";
 import AuthContext from "../../contexts/auth";
+import DashboardContext from "../../contexts/dashboard";
 import ButtonInvite from "../ButtonInvite/ButtonInvite";
+import { ToastContext } from "../../contexts/toast";
+import Checklist from "./Checklist";
 
 export default function Dashboard() {
-  const [todos, setTodos] = useState([]);
-  const [todo, setTodo] = useState("");
-  const [todoEditing, setTodoEditing] = useState(null);
-  const [editingText, setEditingText] = useState("");
+  //form handling
+  const [message, setMessage] = useState("");
 
-  const { userContext } = useContext(AuthContext)
-  const [ user, setUser ] = userContext
+  //setting item id
+  const [itemId, setId]= useState("");
 
-  useEffect(() => {
-    const json = localStorage.getItem("todos");
-    const loadedTodos = JSON.parse(json);
-    if (loadedTodos) {
-      setTodos(loadedTodos);
+  // Auth context
+  const { userContext } = useContext(AuthContext);
+  const [user, setUser] = userContext;
+
+  // Dashboard context
+  const {
+    logContext,
+    announcementCreateContext,
+    processingContext,
+    announcementUpdateContext,
+    announcementGetContext,
+    announcementContext,
+  } = useContext(DashboardContext);
+  const [logs, setLogs] = logContext;
+  const [fetchAnnouncement] = announcementGetContext;
+  const [createAnnouncement] = announcementCreateContext;
+  const [updateAnnouncement] = announcementUpdateContext;
+  const [announcement, setAnnouncement] = announcementContext;
+  const [isProcessing, setIsProcessing] = processingContext;
+
+  //Toast context
+  const { notifyError, notifySuccess } = useContext(ToastContext);
+
+  //announcement handler
+  function handleSubmittedAnnouncement(e) {
+    setMessage(e.target.value);
+  }
+
+  //function to display input bar
+  function displayInputBar(){
+    document.getElementById("inputBody").style.display = "block";
+    document.getElementById("post").style.display = "block";
+    document.getElementById("announce").style.display = "none";
+    document.getElementById("post-2").style.display = "none";
+  }
+  //submit button handler
+
+  async function handleAnnouncementCreate() {
+  
+    setIsProcessing(true);
+    const { data, error } = await createAnnouncement(message);
+    setIsProcessing(false);
+
+    if (data) {
+      notifySuccess(`Announcement successfully created!`);
+      document.getElementById("announce").style.display = "block";
+      document.getElementById("edit").style.display = "block";
+      document.getElementById("inputBody").style.display = "none";
+      document.getElementById("post").style.display = "none";
+      setAnnouncement(data?.items.message);
+      setId(data.items.id);
+    } else {
+      notifyError(error);
     }
-  }, []);
-
-  useEffect(() => {
-    const json = JSON.stringify(todos);
-    localStorage.setItem("todos", json);
-  }, [todos]);
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    const newTodo = {
-      id: new Date().getTime(),
-      text: todo,
-      completed: false,
-    };
-    setTodos([...todos].concat(newTodo));
-    setTodo("");
   }
 
-  function toggleComplete(id) {
-    let updatedTodos = [...todos].map((todo) => {
-      if (todo.id === id) {
-        todo.completed = !todo.completed;
-      }
-      return todo;
-    });
-    setTodos(updatedTodos);
-  }
+  async function handleEditAnnouncement(){
+    if(announcement.length !== 0){
+      document.getElementById("announce").style.display = "none";
+      document.getElementById("inputBody").style.display = "block";
+      document.getElementById("post").style.display = "block";
+      document.getElementById("edit").style.display = "none";
+    
+    setIsProcessing(true);
+    const { data, error } = await updateAnnouncement(itemId, announcement);
+    setIsProcessing(false);
 
-  function submitEdits(id) {
-    const updatedTodos = [...todos].map((todo) => {
-      if (todo.id === id) {
-        todo.text = editingText;
-      }
-      return todo;
-    });
-    setTodos(updatedTodos);
-    setTodoEditing(null);
+    if (data) {
+      setAnnouncement(announcement);
+    }
   }
-
-  function deleteTodo(id) {
-    let updatedTodos = [...todos].filter((todo) => todo.id !== id);
-    setTodos(updatedTodos);
   }
 
   // Table Elements
-  const columnLabelArr = ["ID", "DATE", "USER", "ITEM ID"];
-  const rowItemArr = [{ID: "123456789", DATE: "01-23-45", USER: "Moe Elias", "ITEM ID": 5}]
-  const tableLabel = "Latest Editions"
-  
+  const columnLabelArr = [
+    "LOG ID",
+    "ACTION",
+    "USERNAME",
+    "ITEM NAME",
+    "CREATEDAT",
+  ];
+  const tableLabel = "Latest Editions";
+
   const containerVariants = {
     hidden: {
-        opacity: 0,
+      opacity: 0,
     },
     visible: {
-        opacity: 1,
-        transition: { delay: 0.3, duration: 0.3 }
+      opacity: 1,
+      transition: { delay: 0.3, duration: 0.3 },
     },
     exit: {
-        opacity: 0,
-        transition: { ease: 'easeInOut' }
-    }
-  }
+      opacity: 0,
+      transition: { ease: "easeInOut" },
+    },
+  };
 
   return (
-      <motion.div
-          variants={containerVariants}
-          initial={"hidden"}
-          animate={"visible"}
-          exit={"exit"}
-          className="dashboard">
+    <motion.div
+      variants={containerVariants}
+      initial={"hidden"}
+      animate={"visible"}
+      exit={"exit"}
+      className="dashboard"
+    >
       <div className="dashboard-header">
         <div className="greeting">
           <h2 className="welcome"> Welcome Back, {user.firstName}</h2>
         </div>
         <div className="invite">
-          <ButtonInvite/>
+          <ButtonInvite />
         </div>
       </div>
       <div className="dashboard-body">
         <div className="announcements-container">
-          <Announcements />
+          <Announcements
+            handleSubmittedAnnouncement={handleSubmittedAnnouncement}
+            message={message}
+            handleAnnouncementCreate={handleAnnouncementCreate}
+            handleEditAnnouncement={handleEditAnnouncement}
+            announcement={announcement}
+            displayInputBar={displayInputBar}
+          />
         </div>
         <div className="checklist-container">
-          <Checklist handleSubmit={handleSubmit} todos={todos} todo={todo} setTodo={setTodo} deleteTodo={deleteTodo} todoEditing={todoEditing} 
-          toggleComplete={toggleComplete} submitEdits={submitEdits} setTodoEditing={setTodoEditing} setEditingText={setEditingText}/>
+          <Checklist/>
         </div>
       </div>
       <div className="table-container">
-        <Table tableElementArray={rowItemArr} tableColumnLabelArray={columnLabelArr} tableLabel={tableLabel}/>                    
+        <Table
+          tableElementArray={logs.length ? logs : []}
+          tableColumnLabelArray={columnLabelArr}
+          tableLabel={tableLabel}
+        />
       </div>
     </motion.div>
   );
 }
 
-
-function Checklist({handleSubmit, todo, todos, setTodo, deleteTodo, toggleComplete, 
-                  submitEdits, setTodoEditing, setEditingText, todoEditing}) {
-  return (
-    <div 
-    className="content">
-      <div className="header">
-       <h2 className="title"> Checklist </h2>
-      </div>
-      <div className="body">
-        <div className="check-items">
-          <form className="checkbox" onSubmit={handleSubmit}>
-            <input
-              className="list-form"
-              type="text"
-              name="checklist"
-              onChange={(e) => setTodo(e.target.value)}
-              value={todo}
-              placeholder="Enter a new list item..."
-            />
-            <button type="submit" className="submit-items">
-              +
-            </button>
-          </form>
-          {todos.map((todo) => (
-            <div key={todo.id} className="checkmark">
-              <div className="textTodo">
-                <input
-                  className="list-form"
-                  type="checkbox"
-                  id="completed"
-                  checked={todo.completed}
-                  onChange={() => toggleComplete(todo.id)}
-                />
-                {todo.id === todoEditing ? (
-                  <input
-                    className="listForm"
-                    type="text"
-                    onChange={(e) => setEditingText(e.target.value)}
-                  />
-                ) : (
-                  <div className="todo-text">{todo.text}</div>
-                )}
-              </div>
-              <div className="extraEditing">
-                {todo.id === todoEditing ? (
-                  <button
-                    className="more-items"
-                    onClick={() => submitEdits(todo.id)}
-                  >
-                    Submit Edits
-                  </button>
-                ) : (
-                  <button
-                    className="more-items"
-                    onClick={() => setTodoEditing(todo.id)}
-                  >
-                    Edit
-                  </button>
-                )}
-
-                <button
-                  className="more-items"
-                  onClick={() => deleteTodo(todo.id)}
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function Announcements() {
+function Announcements({
+  handleSubmittedAnnouncement,
+  message, announcement,
+  handleAnnouncementCreate, handleEditAnnouncement,
+displayInputBar}) {
   return (
     <div className="content">
       <div className="header">
-       <h2 className="title"> Announcements </h2>
+        <h2 className="title"> Announcements </h2>
       </div>
-      <div className="body">
-      <input
-        className="announcement-form"
-        name="label"
-        placeholder="Make an announcement here..."
-      />
+      {/* announcement.length===0 && */}
+      <div className="body" id="inputBody">
+        <input
+          className="announcement-form"
+          name="label"
+          placeholder="Make an announcement here..."
+          value={message}
+          onChange={handleSubmittedAnnouncement}
+        />
+      </div>
+      <div id ="announce">
+        {announcement}
+      </div>
+      <div className="post" id="post">
+        <button className="submit-post" onClick={handleAnnouncementCreate}> Post</button>
+      </div> 
+      {/* Edit button will appear only if post is submitted */}
+      <div className = "buttnz">
+      <div className="post" id="post-2">
+        <button className="submit-post" onClick={displayInputBar}> Make a New Post</button>
+      </div> 
+      <div className="edit" id="edit">
+        <button className="edit-post" onClick={handleEditAnnouncement}> Edit </button>
+      </div>
       </div>
     </div>
   );

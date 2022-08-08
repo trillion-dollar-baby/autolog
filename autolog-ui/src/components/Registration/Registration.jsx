@@ -45,20 +45,19 @@ export default function Registration() {
             return;
         }
 
-        const { error: errorLogin } = await registerUser(credentials);
+        const { data, error } = await registerUser(credentials);
 
-        if (errorLogin) {
-            console.error("auth error:", error);
-            // let user know what happened
-            setError(error);
-        } else {
-            navigate('/inventory/create');
+        if (error) {
+            setError(error)
         }
-    }
+        else {
+            navigate('/email-confirmation')
+        }
+}
+
 
     return (
         <div className='registration'>
-            {(user?.email && <Navigate to={state?.path || '/dashboard'} />)}
             <div className='registration-page'>
                 <div className='content'>
                     <div className='header'>

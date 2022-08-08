@@ -1,0 +1,35 @@
+.confirmation-content {
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - var(--navbarHeight));
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirmation-content .red-car-image {
+    display: flex;
+    height: 275px;
+    width: 275px;
+    margin: 0 35px;
+
+}
+.confirmation-content .red-car-image > img {
+    display: flex;
+    flex-grow: 1;
+}
+
+.confirmation-content .confirmation-body {
+    display: flex;
+    flex-direction: column;
+    margin: 0 35px;
+    gap: 20px;
+}
+
+.confirmation-content .confirmation-body > h2 {
+    font-size: 30px;
+}
+
+.confirmation-content .confirmation-body > p {
+    font-size: 20px;
+}

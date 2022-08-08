@@ -13,6 +13,7 @@ class User {
             firstName: user.first_name,
             lastName: user.last_name,
             phoneNumber: user.phone_number,
+            emailConfirmed: user.email_confirmed,
         };
     }
 
@@ -87,12 +88,11 @@ class User {
         const lastName = credentials.lastName;
         const phoneNumber = credentials.phoneNumber;
         const role = "admin";
-        const isVerified = true;
 
         const userResult = await db.query(
-            `INSERT INTO users (email, username, first_name, last_name, password, phone_number, role, is_verified)
-	   VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
-	   RETURNING id, email, username, first_name, last_name, phone_number, created_at;
+            `INSERT INTO users (email, username, first_name, last_name, password, phone_number, role)
+	   VALUES ($1, $2, $3, $4, $5, $6, $7)
+	   RETURNING id, email, username, first_name, last_name, email_confirmed, phone_number, created_at;
 	  `,
             [
                 normalizedEmail,
@@ -102,7 +102,6 @@ class User {
                 hashedPassword,
                 phoneNumber,
                 role,
-                isVerified,
             ]
         );
         const user = User.makePublicUser(userResult.rows[0]);
@@ -128,21 +127,21 @@ class User {
         return false;
     }
 
-	static async fetchUserById(id) {
-		if(!id || isNaN(id)) {
-			throw new BadRequestError("invalid ID");
-		}
+    static async fetchUserById(id) {
+        if (!id || isNaN(id)) {
+            throw new BadRequestError("invalid ID");
+        }
 
-		const query = `SELECT * FROM users WHERE id = $1`
+        const query = `SELECT * FROM users WHERE id = $1`;
 
-		const result = await db.query(query, [id]);
+        const result = await db.query(query, [id]);
 
-		const user = result.rows[0]
+        const user = result.rows[0];
 
-		if(user) {
-			return user;
-		}
-	}
+        if (user) {
+            return user;
+        }
+    }
 
     static async fetchUserByUsername(username) {
         if (!username) {
@@ -167,8 +166,6 @@ class User {
      */
 
     static async updateCredentials(userId, newCredentials, credentials) {
-        
-
         if (_.toLower(newCredentials.email) !== _.toLower(credentials.email)) {
             const existingUser = await User.fetchUserByEmail(
                 newCredentials.email
@@ -180,7 +177,10 @@ class User {
             }
         }
 
-        if (_.toLower(newCredentials.username) !== _.toLower(credentials.username)) {
+        if (
+            _.toLower(newCredentials.username) !==
+            _.toLower(credentials.username)
+        ) {
             const existingUserWithUsername = await User.fetchUserByUsername(
                 newCredentials.username
             );
@@ -224,7 +224,7 @@ class User {
             _.toLower(credentials.username),
             _.toLower(credentials.phoneNumber),
         ]);
-		
+
         return result.rows[0];
     }
 

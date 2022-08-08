@@ -5,7 +5,7 @@ import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import { ToastContext } from '../../contexts/toast';
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import Form from '../Form/Form';
 import DropdownCategory from '../DropdownCategory/DropdownCategory';
 import TextArea from '../TextArea/TextArea';
@@ -16,9 +16,8 @@ export default function CreateItem() {
     const navigate = useNavigate();
     // contexts
     const {notifySuccess, notifyError} = useContext(ToastContext);
-    const { itemContext, itemCreateContext } = useContext(ItemContext);
-    const { selectedInventoryContext } = useContext(InventoryContext);
-    const [items, setItems] = itemContext;
+    const { itemCreateContext } = useContext(ItemContext);
+    const { selectedInventoryContext } = useContext(InventoriesContext);
     const [createItem] = itemCreateContext;
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
@@ -43,7 +42,8 @@ export default function CreateItem() {
         // TODO: APPEND TO INVENTORY LOOKUP ARRAY
         setIsProcessing(true);
         itemForm['category'] = categoryValue;
-        const {data, error} = await createItem(itemForm, itemForm.inventoryId = selectedInventory.inventoryId);
+        itemForm.inventoryId = selectedInventory.inventoryId
+        const {data, error} = await createItem(itemForm);
 
         setIsProcessing(false);
 

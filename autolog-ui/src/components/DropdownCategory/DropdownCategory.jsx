@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import searchIcon from '../../assets/search.png'
 
-import InventoryContext from '../../contexts/inventory';
+import InventoriesContext from '../../contexts/inventories';
 import DropdownOverlay from '../DropdownOverlay/DropdownOverlay';
 import DropdownCategoryItem from './DropdownCategoryItem';
 import ModalCreateCategory from '../ModalCreateCategory/ModalCreateCategory';
@@ -21,7 +21,7 @@ import Loading from '../Loading/Loading';
  */
 export default function DropdownCategory({categoryValue, setCategoryValue}) {
     // get inventory context in order to add/get towards an inventory
-    const { selectedInventoryContext } = useContext(InventoryContext);
+    const { selectedInventoryContext } = useContext(InventoriesContext);
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
     const [isFetching, setIsFetching] = useState(false);

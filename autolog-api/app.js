@@ -17,7 +17,12 @@ const authRoutes = require("./routes/user");
 const itemRoutes = require("./routes/item");
 const categoryRoutes = require("./routes/category");
 const inventoryRoutes = require("./routes/inventory");
+const memberRoutes = require("./routes/member");
+const rolesRoutes = require("./routes/role")
 const performanceRoutes = require("./routes/performance");
+const dashboardRoutes = require("./routes/dashboard");
+const logRoutes = require("./routes/log");
+const confirmationRoutes = require('./routes/confirmation');
 
 /**
  * End of imports
@@ -42,12 +47,17 @@ app.use(security.extractUserFromJwt);
  * Application routes
  */
 
-
 app.use("/auth", authRoutes)
+app.use("/confirmation", confirmationRoutes);
 app.use("/item", itemRoutes)
 app.use("/category", categoryRoutes)
 app.use("/inventory", inventoryRoutes)
+app.use("/inventory/member", memberRoutes)
+app.use("/inventory/roles", rolesRoutes)
 app.use("/performance", performanceRoutes)
+app.use("/dashboard", dashboardRoutes)
+app.use("/logs", logRoutes)
+
 
 // health check
 app.get("/", (req, res, next) => {
