@@ -198,3 +198,12 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+#pdf {
+  text-align: center;
+}
+
+#pdf canvas {
+  border: 1px solid black;
+  width: 95%;
+}

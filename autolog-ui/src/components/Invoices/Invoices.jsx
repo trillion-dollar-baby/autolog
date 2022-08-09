@@ -10,6 +10,7 @@ import InventoriesContext from "../../contexts/inventories";
 import Loading from "../Loading/Loading";
 import { ToastContext } from "../../contexts/toast";
 import apiClient from "../../services/apiClient";
+import easyinvoice from 'easyinvoice';
 
 export default function Invoices() {
   const { notifyError, notifySuccess } = useContext(ToastContext);
@@ -54,6 +55,13 @@ export default function Invoices() {
     }
 
     }, [selectedInventory?.inventoryId]);
+
+
+    const renderPdfInBrowser = async (base64PdfString) => {
+      const div = 'pdf'
+      easyinvoice.render(div, base64PdfString.pdf)
+    }
+
 
   // framer-motion properties
   const containerVariants = {
