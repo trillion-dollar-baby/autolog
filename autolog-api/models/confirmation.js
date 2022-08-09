@@ -4,10 +4,12 @@ const tokens = require("../utils/tokens");
 const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
 const { CLIENT_BASE_URL, API_BASE_URL } = require("../constants");
+var easyinvoice = require('easyinvoice');
+const { create } = require("lodash");
 
 class Confirmation {
     // Send email confirmation to user
-    static sendConfirmationEmail(userId, receiverEmail) {
+    static async sendConfirmationEmail(userId, receiverEmail) {
         // Initialize the transporter with email (and password) used to send the confirmation email
         const transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -16,6 +18,7 @@ class Confirmation {
                 pass: process.env.GMAIL_PASS,
             },
         });
+
 
         jwt.sign(
             {
@@ -29,9 +32,10 @@ class Confirmation {
                 const url = `${API_BASE_URL}confirmation/${emailToken}`;
 
                 transporter.sendMail({
+                    from: process.env.GMAIL_USER,
                     to: receiverEmail,
                     subject: "Confirm Autolog Email",
-                    html: `Please click this link to confirm your email: <a href=${url}>${url}</a>`,
+                    html: `Please click this link to confirm your email: <a href=${url}>${url}</a>`
                 });
             }
         );
