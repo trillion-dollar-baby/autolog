@@ -10,12 +10,8 @@ import InventoriesContext from "../../contexts/inventories";
 import Loading from "../Loading/Loading";
 import { ToastContext } from "../../contexts/toast";
 import apiClient from "../../services/apiClient";
-import ButtonAction from "../Button/ButtonAction";
-import { useNavigate } from "react-router";
 
 export default function Invoices() {
-  const navigate = useNavigate();
-
   const { notifyError, notifySuccess } = useContext(ToastContext);
 
   // Inventory Context
@@ -57,7 +53,7 @@ export default function Invoices() {
         fetchInvoiceList();
     }
 
-    }, [])
+    }, [selectedInventory?.inventoryId]);
 
   // framer-motion properties
   const containerVariants = {
@@ -90,16 +86,7 @@ export default function Invoices() {
       </div>
 
       <div className="filter-container">
-        <div className="search-bar">
-          <FormInput
-            data={{
-              name: "search",
-              type: "text",
-              placeholder: "Search for items...",
-            }}
-          />
-
-        </div>
+        
       </div>
 
       <div className="table-container">
