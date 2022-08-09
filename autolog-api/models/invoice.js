@@ -19,6 +19,7 @@ class Invoice {
             "vehicleModel",
             "vehiclePlateNumber",
             "vehicleColor",
+            "totalMaterial"
         ];
 
         // Check if inputs for INTEGER fields are correct
@@ -59,7 +60,8 @@ class Invoice {
             vehicle_model,
             vehicle_plate_number,
             total_labor_cost,
-            created_at
+            created_at,
+            total_material_cost
         ) 
         VALUES (
             $1,
@@ -74,7 +76,8 @@ class Invoice {
             $10,
             $11,
             $12,
-            $13
+            $13,
+            $14
         )
         RETURNING *
         `
@@ -92,7 +95,8 @@ class Invoice {
              invoice.vehicleModel,
              invoice.vehiclePlateNumber,
              invoice.totalLabor,
-             invoice.date
+             invoice.date,
+             invoice.totalMaterial
             ])
 
         return results.rows[0];
@@ -139,19 +143,21 @@ class Invoice {
 
         const query = `
         SELECT
-            sender_id,
-            recipient_first_name,
-            recipient_last_name,
-            recipient_address,
-            created_at,
-            total_labor_cost
+            id,
+            sender_id AS "senderId",
+            recipient_first_name AS "recipientFirstName",
+            recipient_last_name AS "recipientLastName",
+            recipient_address AS "recipientAddress",
+            created_at AS "createdAt",
+            total_labor_cost AS "totalLabor",
+            total_material_cost AS "totalMaterial"
         FROM
             invoices
         WHERE invoices.inventory_id = $1
         `
 
         const results = await db.query(query, [inventoryId]);
-        console.log(results.rows);
+        
         return results.rows;
     }
 
@@ -189,6 +195,16 @@ class Invoice {
                 });
             }
         );
+    }
+
+    static async getSoldItems(invoiceId) {
+        const query = `
+            SELECT *
+        FROM sold_items
+        WHERE invoice_id = $1
+        `
+
+        const result = await db.query(query, [invoiceId]);
     }
 
     static async createInvoicePdf({ invoice, purchases }) {

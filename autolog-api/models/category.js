@@ -33,6 +33,7 @@ class Category {
 
     // function to create a new category
     static async createItem(data) {
+        console.log(data);
         // check for null values/existing parameters before querying
         const requiredFields = ["inventoryId", "categoryName"];
 
