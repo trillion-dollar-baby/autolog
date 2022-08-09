@@ -16,6 +16,10 @@ CREATE TABLE inventory (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
     admin_id INTEGER NOT NULL,
+    company_name TEXT NOT NULL,
+    company_address TEXT NOT NULL,
+    company_phone TEXT NOT NULL,
+    company_email TEXT NOT NULL,
     created_at timestamp DEFAULT NOW(),
     updated_at timestamp NOT NULL DEFAULT NOW(),
     FOREIGN KEY (admin_id) REFERENCES users(id) ON DELETE CASCADE
@@ -122,6 +126,8 @@ CREATE TABLE invoices (
     -- 
     total_labor_cost INTEGER NOT NULL,
     total_material_cost INTEGER NOT NULL,
+
+    base_64_pdf_string TEXT NOT NULL,
 
     FOREIGN KEY (sender_id) REFERENCES users(id),
     -- FOREIGN KEY (sender_email) REFERENCES users(email),
