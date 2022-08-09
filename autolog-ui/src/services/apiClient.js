@@ -123,7 +123,7 @@ class ApiClient {
     async getOrdersItemList(inventoryId, pageNumber, search, category) {
         return await this.request({endpoint: `item/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
     }
-
+    
     async getInventoryItemList(inventoryId, pageNumber, search, category) {
         return await this.request({endpoint: `item/inventory/?inventoryId=${inventoryId}&page=${pageNumber || 0}&search=${search || ''}&category=${category || ''}`, method: 'GET'});
     }
@@ -139,6 +139,7 @@ class ApiClient {
     /**
      * Performance endpoints
      */
+    
     async getPerformanceByCategory(inventoryId) {
         return await this.request({endpoint: `performance/?inventoryId=${inventoryId}`, method: 'GET'})
     }
@@ -243,6 +244,15 @@ class ApiClient {
     async getRoleById(inventoryId, roleId) {
         return await this.request({endpoint: `inventory/roles/?inventoryId=${inventoryId}&roleId=${roleId}`, method: `GET`});
     }
+
+    /*
+    Invoice endpoints
+    */
+
+    async createInvoice(inventoryId, invoiceFields, itemsFields) {
+        return await this.request({endpoint: `invoice/create/?inventoryId=${inventoryId}`, method: `POST`, data: {invoiceFields, itemsFields}});
+    }
+
 }
 
 export default new ApiClient(API_BASE_URL);

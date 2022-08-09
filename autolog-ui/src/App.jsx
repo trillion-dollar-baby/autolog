@@ -42,11 +42,10 @@ function App() {
 
             {/* Routes for only logged in users */}
             <Route path='/dashboard' element={<RequireAuth><Dashboard/></RequireAuth>} />
-            <Route path='/inventory' element={<RequireAuth><Inventory /></RequireAuth>} />
+            <Route path='/inventory/stock' element={<RequireAuth><Inventory /></RequireAuth>} />
             <Route path='/invoice/create' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
-            <Route path='/purchase/create' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
-            <Route path='/purchase/' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
-            <Route path='/invoice/' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
+            <Route path='/inventory/orders' element={<RequireAuth><Orders /></RequireAuth>} />
+            <Route path='/inventory/invoice' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
             <Route path='/item/create' element={<RequireAuth><CreateItem /></RequireAuth>} />
             <Route path='/item/id/:itemId' element={<RequireAuth><ItemDetail/></RequireAuth>}/>
             <Route path='/inventory/create' element={<RequireAuth><CreateInventory/></RequireAuth>} />
