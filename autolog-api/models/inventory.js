@@ -21,7 +21,7 @@ class Inventory {
             company_name,
             company_email,
             company_address,
-            company_phone,
+            company_phone
 			)
 			VALUES ($1, (SELECT id FROM users WHERE email = $2), $3, $4, $5, $6)
 			RETURNING id AS "inventoryId",
