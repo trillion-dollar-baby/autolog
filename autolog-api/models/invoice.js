@@ -2,7 +2,9 @@ const { parse } = require("dotenv");
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 const nodemailer = require('nodemailer');
+var easyinvoice = require('easyinvoice');
 const _ = require("lodash");
+
 class Invoice {
     static async createInvoice(inventoryId, invoice, user) {
         // Required fields for a successful query
