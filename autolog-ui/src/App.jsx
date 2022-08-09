@@ -21,6 +21,7 @@ import RequireAuth from './components/RequireAuth/RequireAuth';
 import ItemDetail from './components/ItemDetail/ItemDetail';
 import EmailConfirmation from './components/EmailConfirmation/EmailConfirmation';
 import CreateInvoice from './components/CreateInvoice/CreateInvoice';
+import Invoices from './components/Invoices/Invoices';
 
 function App() {
   return (
@@ -45,7 +46,7 @@ function App() {
             <Route path='/inventory/stock' element={<RequireAuth><Inventory /></RequireAuth>} />
             <Route path='/invoice/create' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
             <Route path='/inventory/orders' element={<RequireAuth><Orders /></RequireAuth>} />
-            <Route path='/inventory/invoice' element={<RequireAuth><CreateInvoice /></RequireAuth>} />
+            <Route path='/inventory/invoice' element={<RequireAuth><Invoices /></RequireAuth>} />
             <Route path='/item/create' element={<RequireAuth><CreateItem /></RequireAuth>} />
             <Route path='/item/id/:itemId' element={<RequireAuth><ItemDetail/></RequireAuth>}/>
             <Route path='/inventory/create' element={<RequireAuth><CreateInventory/></RequireAuth>} />

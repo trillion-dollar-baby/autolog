@@ -41,6 +41,10 @@ router.get("/id/:invoiceId", security.requireAuthenticatedUser, async(req,res,ne
     try {
         const { inventoryId } = req.query;
         const { invoiceId } = req.params;
+        
+        const invoice = await Invoice.getInvoice(invoiceId);
+
+        return res.status(200).json({invoice})
 
     } catch (error) {
         next(error);

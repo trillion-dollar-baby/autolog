@@ -121,7 +121,7 @@ CREATE TABLE invoices (
     created_at timestamp NOT NULL default CURRENT_DATE,
     -- 
     total_labor_cost INTEGER NOT NULL,
-    -- total_material_cost INTEGER NOT NULL,
+    total_material_cost INTEGER NOT NULL,
 
     FOREIGN KEY (sender_id) REFERENCES users(id),
     -- FOREIGN KEY (sender_email) REFERENCES users(email),

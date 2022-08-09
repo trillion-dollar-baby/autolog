@@ -154,7 +154,7 @@ function CreateInvoice() {
   }, [selectedItems, invoiceForm])
 
   const handleOnSubmit = async() => {
-    const {data, error} = await apiClient.createInvoice(selectedInventory?.inventoryId, invoiceForm, selectedItems);
+    const {data, error} = await apiClient.createInvoice(selectedInventory?.inventoryId, {...invoiceForm, totalMaterial: total}, selectedItems);
 
     console.log(data, error);
   }
