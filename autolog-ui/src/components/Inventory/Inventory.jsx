@@ -6,7 +6,6 @@ import Table from "../Table/Table";
 import Topbar from "../Topbar/Topbar";
 import Dropdown from "../Dropdown/Dropdown";
 import FormInput from "../FormInput/FormInput";
-import InventoryContext from "../../contexts/inventory";
 import InventoriesContext from "../../contexts/inventories";
 import Loading from "../Loading/Loading";
 import { ToastContext } from "../../contexts/toast";

@@ -1,6 +1,6 @@
 .performance-content {
     max-height: calc(100vh - var(--navbarHeight));
-    max-width: calc(100vw - 280px);
+    max-width: 100%;
     flex-direction: column;
     display: flex;
     justify-content: center;
@@ -42,6 +42,7 @@
 
 .performance-content .table-container {
     display: flex;
+    width: 100%;
     flex-grow: 2.5;
     min-height: 425px;
     max-height: 425px;
