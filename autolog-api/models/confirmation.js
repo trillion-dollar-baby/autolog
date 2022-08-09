@@ -4,7 +4,6 @@ const tokens = require("../utils/tokens");
 const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
 const { CLIENT_BASE_URL, API_BASE_URL } = require("../constants");
-var easyinvoice = require('easyinvoice');
 const { create } = require("lodash");
 
 class Confirmation {

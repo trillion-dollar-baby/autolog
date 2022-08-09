@@ -12,6 +12,8 @@ import { ToastContext } from "../../contexts/toast";
 import apiClient from "../../services/apiClient";
 import ButtonAction from "../Button/ButtonAction";
 import { useNavigate } from "react-router";
+import easyinvoice from 'easyinvoice';
+
 
 export default function Invoices() {
   const navigate = useNavigate();
@@ -58,6 +60,13 @@ export default function Invoices() {
     }
 
     }, [])
+
+
+    const renderPdfInBrowser = async (base64PdfString) => {
+      const div = 'pdf'
+      easyinvoice.render(div, base64PdfString.pdf)
+    }
+
 
   // framer-motion properties
   const containerVariants = {

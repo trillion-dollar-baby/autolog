@@ -6,7 +6,7 @@ var easyinvoice = require('easyinvoice');
 const _ = require("lodash");
 
 class Invoice {
-    static async createInvoice(inventoryId, invoice, user) {
+    static async createInvoice(inventoryId, invoice, user, pdfString) {
         // Required fields for a successful query
         const requiredFields = [
             "recipientFirstName",
@@ -63,7 +63,8 @@ class Invoice {
             vehicle_plate_number,
             total_labor_cost,
             created_at,
-            total_material_cost
+            total_material_cost,
+            base_64_pdf_string
         ) 
         VALUES (
             $1,
@@ -79,7 +80,8 @@ class Invoice {
             $11,
             $12,
             $13,
-            $14
+            $14,
+            $15
         )
         RETURNING *
         `
@@ -98,7 +100,8 @@ class Invoice {
              invoice.vehiclePlateNumber,
              invoice.totalLabor,
              invoice.date,
-             invoice.totalMaterial
+             invoice.totalMaterial,
+             pdfString
             ])
 
         return results.rows[0];
