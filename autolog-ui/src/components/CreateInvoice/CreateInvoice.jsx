@@ -228,7 +228,7 @@ function CreateInvoice() {
           <ButtonAction label={"Load VIN"} color={"var(--actionBlue)"} onClick={handleOnSearchVin} />
         </div>
       </div>
-
+      <div className="invoice-table-container">
       <InvoiceTable
         tableElementArray={selectedItems}
         tableColumnLabelArray={columnLabel}
@@ -237,6 +237,7 @@ function CreateInvoice() {
         setSelectedItems={setSelectedItems}
         selectedItems={selectedItems}
         calculateTotals={calculateTotals} />
+      </div>
     </motion.div>
   )
 }
