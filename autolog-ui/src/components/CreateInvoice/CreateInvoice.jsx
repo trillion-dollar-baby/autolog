@@ -25,7 +25,7 @@ function CreateInvoice() {
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
   // Items Context
-  const { itemContext, searchContext, searchTermContext, selectedItemsContext } = useContext(ItemContext);
+  const { itemContext, searchContext, searchTermContext, selectedItemsContext, fetchGenericItemList } = useContext(ItemContext);
   const [items, setItems] = itemContext;
   const [searchItem] = searchContext;
   const [searchTerm, setSearchTerm] = searchTermContext;
@@ -120,6 +120,12 @@ function CreateInvoice() {
   const handleOnSearchVin = async () => {
     const {data} = await nhtsa.decodeVin(invoiceForm.vehicleVin);
 
+    if(data) {
+      notifySuccess("Successfully loaded data from VIN!");
+    } else {
+      notifyError("Invalid VIN. No information found");
+    }
+
     data?.Results.forEach((obj) => {
       if(obj.Variable == "Model") {
         setInvoiceForm((prevForm) => ({
@@ -162,7 +168,15 @@ function CreateInvoice() {
     const {data, error} = await apiClient.createInvoice(selectedInventory?.inventoryId, {...invoiceForm, totalMaterial: total}, selectedItems);
     console.log(data, error);
     if(data) {
+      // let user know
       notifySuccess("Success creating invoice!");
+
+      fetchGenericItemList();
+
+      //reset selected items
+      setSelectedItems([]);
+
+      // go back to invoice list
       navigate('/inventory/invoice');
     }
 

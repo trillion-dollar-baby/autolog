@@ -122,8 +122,14 @@ class Invoice {
     }
 
     static async createSoldItemRecords(items, invoiceId) {
-        console.log("items is", items)
         const queryResults = [];
+        
+        items.forEach((item) => {
+            if(item.quantity > item['in stock']) {
+                throw new BadRequestError(`${item.name} would fall into negative!`)
+            }
+        })
+
         // Loop through each item selected for the invoice
         items.forEach(async (item) => {
             let query = `
@@ -145,8 +151,18 @@ class Invoice {
             )
             RETURNING id, name, category, quantity, sold_date
             `
-
+            
             let result = await db.query(query, [invoiceId, item.name, item.category, item.quantity, parseInt(item.cost), parseInt(item['retail price'])])
+            
+            const queryUpdate = `
+                UPDATE items
+                SET quantity = $2
+                WHERE id = $1
+                RETURNING *;
+            `
+            const newQuantity = item['in stock'] - item.quantity;
+
+            const resultUpdate = await db.query(queryUpdate, [item.id, newQuantity]);
 
             queryResults.push(result.rows[0]);
         })

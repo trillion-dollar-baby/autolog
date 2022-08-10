@@ -18,7 +18,7 @@ router.post("/create", security.requireAuthenticatedUser, async (req, res, next)
 
         const results = {invoice, soldItems: [...soldItems]}
         return res.status(201).json({ results });
-    } 
+    }
     catch(err) {
         next(err)
     }
