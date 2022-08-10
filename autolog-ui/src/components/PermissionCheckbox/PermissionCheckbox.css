@@ -1,0 +1,34 @@
+.permissions-container{
+    display:flex;
+    gap: 10px;
+    text-align: center;
+    margin-top: 20px;
+
+}
+
+.permissions-container .checkbox-container{
+    display:flex;
+    margin: 5px;
+    flex-direction: column;
+    
+}
+
+.permissions-container .checkboxes{
+   display: block; 
+   height: 25px;
+   width: 25px;   
+}
+
+.permissions-container .checkbox-text{
+   display: flex;
+   flex-direction: column;
+   color: var(--white);
+
+}
+
+.permissions-container .text-container{
+    display:flex;
+    margin: 5px;
+    flex-direction: column;
+    
+}

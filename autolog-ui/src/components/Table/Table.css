@@ -82,8 +82,15 @@
     padding-left: 4px;
 }
 
+.checking{
+    display: block; 
+   height: 25px;
+   width: 25px;  
+}
+
 .content>.form-container {
     display:flex;
     align-items: center;
     justify-content: center;
+
 }
