@@ -122,7 +122,6 @@ class Invoice {
     }
 
     static async createSoldItemRecords(items, invoiceId) {
-        console.log("items is", items)
         const queryResults = [];
         // Loop through each item selected for the invoice
         items.forEach(async (item) => {
@@ -181,7 +180,7 @@ class Invoice {
         FROM
             invoices
         WHERE invoices.inventory_id = $1
-        ORDER BY invoices.created_at DESC;
+        ORDER BY invoices.created_at ASC;
         `
 
         const results = await db.query(query, [inventoryId]);
@@ -247,7 +246,6 @@ class Invoice {
 
     static async createInvoicePdf({ invoice, purchases }) {
         const updatedNames = this.convertNamingConvention(purchases);
-        console.log(updatedNames);
 
         let data = {
             // Customize enables you to provide your own templates

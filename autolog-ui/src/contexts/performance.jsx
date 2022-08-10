@@ -8,6 +8,7 @@ const PerformanceContext = createContext({});
 
 export const PerformanceContextProvider = ({children})=>{
     const [performance, setPerformance] =useState([]);
+    const [visualPerformance, setVisualPerformance] = useState([])
     const [filter, setFilter] = useState("");
     const [sort, setSort] = useState("");
     const [error, setError] = useState(null);
@@ -44,8 +45,24 @@ useEffect(()=>{
         setIsLoading(false)
     }
 
+    const fetchVisualPerformanceList = async () => {
+        setIsLoading(true)
+        const {data, err} = await apiClient.getVisualPerformance(selectedInventory?.inventoryId)
+        
+        if (data) {
+            setVisualPerformance(data?.performance) 
+            
+        }
+        else if(err) {
+            setError(err)
+        }
+
+        setIsLoading(false)
+    }
+
     if (user && selectedInventory?.inventoryId != undefined) {
         fetchPerformanceList()
+        fetchVisualPerformanceList()
     }
 }, [user, selectedInventory, orders])
 
@@ -110,7 +127,7 @@ const getPerformanceSortedByQuantityDesc = async (inventoryId, month) => {
 
 
 const values= { loadingContext: [isLoading, setIsLoading], errorContext: [error, setError], performanceContext: [performance, setPerformance], 
-                filterContext: [filter, setFilter], sortContext: [sort, setSort]}
+                filterContext: [filter, setFilter], sortContext: [sort, setSort], visualPerformanceContext: [visualPerformance]}
    
 return (
         <PerformanceContext.Provider value={values}>
