@@ -27,7 +27,8 @@ export default function Performance() {
     // Labels to render for the dropdown
     const sortItems = ["Quantity ↑", "Quantity ↓"]
     const filterItems = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "December"]
-    const columnLabel = ["category", "total quantity", "month"]
+    const columnLabel = ["name", "category", "total quantity", "total cost", "total sell price", "total profit", "month"]
+    console.log(performance);
 
     const containerVariants = {
       hidden: {
@@ -54,9 +55,9 @@ export default function Performance() {
                 <div className='bar-chart-container'>
                     <BarChart data={data} options={{responsive:true}}/>
                 </div>
-                <div className='pie-chart-container'>
+                {/* <div className='pie-chart-container'>
                     <PieChart data={data} options={{responsive:true}}/>
-                </div>
+                </div> */}
             </div>
 
             <div className='filter-container'>
