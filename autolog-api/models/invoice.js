@@ -109,7 +109,6 @@ class Invoice {
 
     static async createSoldItemRecords(items, invoiceId) {
         const queryResults = [];
-        console.log(arguments)
         // Loop through each item selected for the invoice
         items.forEach(async (item) => {
             let query = `
@@ -213,6 +212,7 @@ class Invoice {
     }
 
     static async createInvoicePdf({ invoice, purchases }) {
+        console.log(invoice, purchases);
         let data = {
             // Customize enables you to provide your own templates
             // Please review the documentation for instructions and examples
@@ -236,7 +236,7 @@ class Invoice {
             },
             // Your recipient
             "client": {
-                "name": `${invoice.recipient_first_name} ${invoice.recipient_last_name}`,
+                "name": `${invoice.recipientFirstName} ${invoice.recipientLastName}`,
                 "address": "Clientstreet 456",
                 "zip": "4567 CD",
                 "city": "Clientcity",
@@ -247,20 +247,20 @@ class Invoice {
                 // Invoice number
                 "number": invoice.id,
                 // Invoice data
-                "date": invoice.created_at,
+                "date": invoice.date,
                 // Invoice due date
-                "due-date": invoice.due_date
+                "due-date": 1//invoice?.due_date
             },
             // The products you would like to see on your invoice
             // Total values are being calculated automatically
             "products": [
-                ...purchases 
-                // {
-                //     "quantity": 2,
-                //     "description": "Product 1",
-                //     "tax-rate": 6,
-                //     "price": 33.87
-                // },   
+                //...purchases 
+                 {
+                    "quantity": 2,
+                    "description": "Product 1",
+                    "tax-rate": 6,
+                    "price": 33.87
+                },   
             ],
             // The message you would like to display on the bottom of your invoice
             "bottom-notice": "Please pay your invoice within 15 days. Thank you for your support!",
