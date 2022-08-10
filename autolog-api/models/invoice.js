@@ -6,7 +6,24 @@ var easyinvoice = require('easyinvoice');
 const _ = require("lodash");
 
 class Invoice {
-    static async createInvoice(inventoryId, invoice, user, pdfString) {
+    static convertNamingConvention(items) {
+        const updatedNames = [];
+
+        items.forEach((item) => {
+            updatedNames.push(
+                {
+                    description: item.name,
+                    price: item.sell_price,
+                    quantity: item.quantity,
+                    "tax-rate": 8.75
+                }
+            )
+        })
+
+        return updatedNames;
+    }
+
+    static async createInvoice(inventoryId, invoice, user) {
         // Required fields for a successful query
         const requiredFields = [
             "recipientFirstName",
@@ -63,8 +80,7 @@ class Invoice {
             vehicle_plate_number,
             total_labor_cost,
             created_at,
-            total_material_cost,
-            base_64_pdf_string
+            total_material_cost
         ) 
         VALUES (
             $1,
@@ -80,8 +96,7 @@ class Invoice {
             $11,
             $12,
             $13,
-            $14,
-            $15
+            $14
         )
         RETURNING *
         `
@@ -100,14 +115,14 @@ class Invoice {
              invoice.vehiclePlateNumber,
              invoice.totalLabor,
              invoice.date,
-             invoice.totalMaterial,
-             pdfString
+             invoice.totalMaterial
             ])
 
         return results.rows[0];
     }
 
     static async createSoldItemRecords(items, invoiceId) {
+        console.log("items is", items)
         const queryResults = [];
         // Loop through each item selected for the invoice
         items.forEach(async (item) => {
@@ -147,17 +162,26 @@ class Invoice {
 
         const query = `
         SELECT
+            to_char(created_at, 'MM-DD-YYYY') AS "createdAt",
             id,
-            sender_id AS "senderId",
+            inventory_id AS "inventoryId",
+            recipient_address AS "recipientAddress",
             recipient_first_name AS "recipientFirstName",
             recipient_last_name AS "recipientLastName",
-            recipient_address AS "recipientAddress",
-            created_at AS "createdAt",
-            total_labor_cost AS "totalLabor",
-            total_material_cost AS "totalMaterial"
+            recipient_phone AS "recipientPhone",
+            sender_id AS "senderId",
+            CAST(total_labor_cost as money) AS "totalLabor",
+            CAST(total_material_cost as money) AS "totalMaterial",
+            vehicle_make AS "vehicleMake",
+            vehicle_model AS "vehicleModel",
+            vehicle_plate_number AS "vehiclePlateNumber",
+            vehicle_vin AS "vehicleVin",
+            vehicle_year AS "vehicleYear",
+            invoices.created_at
         FROM
             invoices
         WHERE invoices.inventory_id = $1
+        ORDER BY invoices.created_at DESC;
         `
 
         const results = await db.query(query, [inventoryId]);
@@ -201,6 +225,14 @@ class Invoice {
         );
     }
 
+
+    static async renderPdfInBrowser(invoice) {
+        const purchases = await this.getSoldItems(invoice.id)
+
+        return await this.createInvoicePdf({ invoice, purchases });
+    }
+
+
     static async getSoldItems(invoiceId) {
         const query = `
             SELECT *
@@ -209,10 +241,14 @@ class Invoice {
         `
 
         const result = await db.query(query, [invoiceId]);
+
+        return result.rows;
     }
 
     static async createInvoicePdf({ invoice, purchases }) {
-        console.log(invoice, purchases);
+        const updatedNames = this.convertNamingConvention(purchases);
+        console.log(updatedNames);
+
         let data = {
             // Customize enables you to provide your own templates
             // Please review the documentation for instructions and examples
@@ -237,15 +273,15 @@ class Invoice {
             // Your recipient
             "client": {
                 "name": `${invoice.recipientFirstName} ${invoice.recipientLastName}`,
-                "address": "Clientstreet 456",
-                "zip": "4567 CD",
+                "address": invoice.recipientAddress,
+                "zip": "11552",
                 "city": "Clientcity",
                 "country": "Clientcountry"
                 // "custom1": "custom value 1",
             },
             "information": {
                 // Invoice number
-                "number": invoice.id,
+                "number": invoice.createdAt,
                 // Invoice data
                 "date": invoice.date,
                 // Invoice due date
@@ -254,13 +290,13 @@ class Invoice {
             // The products you would like to see on your invoice
             // Total values are being calculated automatically
             "products": [
-                //...purchases 
-                 {
-                    "quantity": 2,
-                    "description": "Product 1",
-                    "tax-rate": 6,
-                    "price": 33.87
-                },   
+                ...updatedNames
+                //  {
+                //     "quantity": 2,
+                //     "description": "Product 1",
+                //     "tax-rate": 6,
+                //     "price": 33.87
+                // },   
             ],
             // The message you would like to display on the bottom of your invoice
             "bottom-notice": "Please pay your invoice within 15 days. Thank you for your support!",

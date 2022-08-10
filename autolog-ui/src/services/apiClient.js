@@ -257,6 +257,10 @@ class ApiClient {
         return await this.request({endpoint: `invoice/?inventoryId=${inventoryId}`, method: `GET`});
     }
 
+    async getPdfString(invoice) {
+        return await this.request({endpoint: 'invoice/pdf', method: 'POST', data: { invoice }})
+    }
+
 }
 
 export default new ApiClient(API_BASE_URL);
