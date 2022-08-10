@@ -10,18 +10,31 @@ import PerformanceContext from '../../contexts/performance';
 
 
 export default function Performance() {
-    const { performanceContext, filterContext, sortContext } = useContext(PerformanceContext)
+    const { performanceContext, filterContext, sortContext, visualPerformanceContext } = useContext(PerformanceContext)
     
     const [ performance, setPerformance ] = performanceContext
+    const [ visualPerformance ] = visualPerformanceContext
     const [ filter, setFilter ] = filterContext
     const [ sort, setSort ] = sortContext
 
-    const data = {
-        labels: [2017, 2018], datasets: [{
-            label: "Users Gained",
-            data: [200, 300],
-            backgroundColor: "lightblue"
-        }]
+    let graphData = {};
+
+    if (visualPerformance?.length) {
+        const labels = [];
+        const data = [];
+
+        visualPerformance.forEach((item) => {
+            labels.push(item.month);
+            data.push(parseInt(item["total profit"]))
+        })
+
+        graphData = {
+            labels: [...labels], datasets: [{
+                label: "Monthly Profit",
+                data: [...data],
+                backgroundColor: "lightblue"
+            }]
+        }
     }
 
     // Labels to render for the dropdown
@@ -53,7 +66,7 @@ export default function Performance() {
             className="performance-content">
             <div className='visual-data-container'>
                 <div className='bar-chart-container'>
-                    <BarChart data={data} options={{responsive:true}}/>
+                    <BarChart data={graphData} options={{responsive:true}}/>
                 </div>
                 {/* <div className='pie-chart-container'>
                     <PieChart data={data} options={{responsive:true}}/>

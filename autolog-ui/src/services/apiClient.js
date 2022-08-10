@@ -156,6 +156,10 @@ class ApiClient {
         return await this.request({endpoint: `performance/sort/descending/?inventoryId=${inventoryId}&month=${month}`, method: "GET"})
     }
 
+    async getVisualPerformance(inventoryId) {
+        return await this.request({endpoint: `performance/visual/?inventoryId=${inventoryId}`, method: 'GET'})
+    }
+
     /**
      * Category endpoints
      */

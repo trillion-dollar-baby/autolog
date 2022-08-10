@@ -1,6 +1,6 @@
 .sidebar {
     max-width: var(--sidebarWidth);
-    height: calc(100vh - var(--navbarHeight));
+    max-height: calc(100vh - var(--navbarHeight));
 
     display: flex;
     
