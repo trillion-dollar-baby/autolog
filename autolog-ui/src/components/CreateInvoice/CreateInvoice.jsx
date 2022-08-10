@@ -160,14 +160,14 @@ function CreateInvoice() {
 
   const handleOnSubmit = async() => {
     const {data, error} = await apiClient.createInvoice(selectedInventory?.inventoryId, {...invoiceForm, totalMaterial: total}, selectedItems);
-
+    console.log(data, error);
     if(data) {
       notifySuccess("Success creating invoice!");
       navigate('/inventory/invoice');
     }
 
     if(error) {
-      notifyError("Error: ", error)
+      notifyError(`Error: ${error}`);
     }
   }
 
@@ -217,11 +217,13 @@ function CreateInvoice() {
           </div>
         </div>
         <div className="total-price-container">
-          <span id='subtotal-price'>Total without labor: ${total}</span>
-          <span id="subtotal-labor-price">Total with labor: ${totalWithLabor}</span>
-          <span id="grandtotal-price">Grand total: $9999</span>
+          <div className="section">
+            <span id='subtotal-price'>Total without labor: ${total}</span>
+          </div>
+          <div className="section">
+            <span id="subtotal-labor-price">Total with labor: ${totalWithLabor}</span>
+          </div>
         </div>
-        
 
         <div className="button-container">
           <ButtonAction label={"Create Invoice"} color={"var(--actionBlueAccent)"} onClick={handleOnSubmit} />
@@ -229,14 +231,14 @@ function CreateInvoice() {
         </div>
       </div>
       <div className="invoice-table-container">
-      <InvoiceTable
-        tableElementArray={selectedItems}
-        tableColumnLabelArray={columnLabel}
-        tableLabel={"Items in invoice"}
-        isItemTable={true}
-        setSelectedItems={setSelectedItems}
-        selectedItems={selectedItems}
-        calculateTotals={calculateTotals} />
+        <InvoiceTable
+          tableElementArray={selectedItems}
+          tableColumnLabelArray={columnLabel}
+          tableLabel={"Items in invoice"}
+          isItemTable={true}
+          setSelectedItems={setSelectedItems} 
+          selectedItems={selectedItems}
+          calculateTotals={calculateTotals} />
       </div>
     </motion.div>
   )
