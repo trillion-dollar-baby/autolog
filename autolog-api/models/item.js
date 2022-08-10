@@ -151,8 +151,8 @@ class Item {
 				items.name as "name",
 				items.category AS "category",
 				items.quantity as "quantity",
-                CAST(items.cost as money) as "cost",
-                CAST(items.retail_price as money) as "retail price",
+                items.cost as "cost",
+                items.retail_price as "retail price",
                 items.supplier as "supplier"
 			FROM items
 				JOIN inventory ON inventory.id = items.inventory_id
