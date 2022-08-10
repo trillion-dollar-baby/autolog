@@ -111,44 +111,52 @@
 .dashboard-body .announcements-container .content .header {
   display: flex;
   width: 80%;
+}
+.dashboard-body .announcements-container .content .header .help-icon {
   position: relative;
 }
-.dashboard-body .announcements-container .content .header::before,
-.dashboard-body .announcements-container .content .header::after {
+.dashboard-body .announcements-container .content .header .help-icon .question-icon {
+  width: 40px;
+  top:-12px;
+  left:20px;
+  position:relative;
+}
+
+.dashboard-body .announcements-container .content .header .help-icon::before,
+.dashboard-body .announcements-container .content .header .help-icon::after {
   --scale: 0;
   --arrow-size: 15px;
   --tooltip-color: var(--darkBlueAccentFocused);
   position: absolute;
-  left: 35%;
-  top: 30;
-  transform: translate(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  left: 100%;
+  top: 25%;
+  transform: translate(15%) translateY(var(--translate-y, 0)) scale(var(--scale));
   transition: 160ms transform;
-  transform-origin:bottom center;
+  transform-origin:right;
 }
-.dashboard-body .announcements-container .content .header::before{
-  --translate-y: calc(-100% - var(--arrow-size));
+.dashboard-body .announcements-container .content .header .help-icon::before{
+  --translate-y: calc(-35% - var(--arrow-size));
   content: attr(data-tooltip);
   color: white;
   background: var(--darkBlueAccentFocused);
   text-align: center;
-  width: max-content;
-  max-width: 100%;
+  width:200px;
   padding: .5rem;
   border-radius: .3rem;
   
 
 }
-.dashboard-body .announcements-container .content .header:hover::before,
-.dashboard-body .announcements-container .content .header:hover::after{
+.dashboard-body .announcements-container .content .header .help-icon:hover::before,
+.dashboard-body .announcements-container .content .header .help-icon:hover::after{
   --scale: 1;
 }
 
-.dashboard-body .announcements-container .content .header::after {
+.dashboard-body .announcements-container .content .header .help-icon::after {
   --translate-y: calc(-1 * var(--arrow-size));
   content: '';
   border: var(--arrow-size) solid transparent;
-  border-top-color: var(--tooltip-color);
-  transform-origin: top center;
+  border-right-color: var(--tooltip-color);
+  transform-origin: right;
 }
 
 
@@ -238,39 +246,47 @@
 .dashboard-body .checklist-container .content .header {
   display: flex;
   width: 70%;
+}
+.dashboard-body .checklist-container .content .header .help-con{
   position: relative;
 }
-.dashboard-body .checklist-container .content .header::before,
-.dashboard-body .checklist-container .content .header::after {
+.dashboard-body .checklist-container .content .header .help-con .question-icon{
+  position: relative;
+  width:40px;
+  top:-12px;
+  left:20px;
+
+}
+.dashboard-body .checklist-container .content .header .help-con::before,
+.dashboard-body .checklist-container .content .header .help-con::after {
   --scale: 0;
   --arrow-size: 15px;
   --tooltip-color: var(--darkBlueAccentFocused);
   position: absolute;
-  left: 40%;
-  top: 25;
-  transform: translate(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  left: 100%;
+  top: -20%;
+  transform: translate(-40%) translateY(var(--translate-y, 0)) scale(var(--scale));
   transition: 160ms transform;
   transform-origin: bottom center;
 }
-.dashboard-body .checklist-container .content .header::before{
+.dashboard-body .checklist-container .content .header .help-con::before{
   --translate-y: calc(-100% - var(--arrow-size));
   content: attr(data-tooltip);
   color: white;
   background: var(--darkBlueAccentFocused);
   text-align: center;
-  width: max-content;
-  max-width: 100%;
+  width: 240px;
   padding: .5rem;
   border-radius: .3rem;
   
 
 }
-.dashboard-body .checklist-container .content .header:hover::before,
-.dashboard-body .checklist-container .content .header:hover::after{
+.dashboard-body .checklist-container .content .header .help-con:hover::before,
+.dashboard-body .checklist-container .content .header .help-con:hover::after{
   --scale: 1;
 }
 
-.dashboard-body .checklist-container .content .header::after {
+.dashboard-body .checklist-container .content .header .help-con::after {
   --translate-y: calc(-1 * var(--arrow-size));
   content: '';
   border: var(--arrow-size) solid transparent;
@@ -336,42 +352,48 @@
   min-height: 375px;
   display: flex;
   flex: 2;
+}
+
+.dashboard .help{
   position: relative;
 }
-.dashboard .table-container::before,
-.dashboard .table-container::after {
+.dashboard .help .question-icon{
+  width:40px;
+}
+.dashboard .help::before,
+.dashboard .help::after {
   --scale: 0;
   --arrow-size: 15px;
   --tooltip-color: var(--darkBlueAccentFocused);
   position: absolute;
-  left: 17%;
-  top: 25;
-  transform: translate(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  left: 3%;
+  top: 60%;
+  transform: translate(7%) translateY(var(--translate-y, 0)) scale(var(--scale));
   transition: 160ms transform;
-  transform-origin:bottom center;
+  transform-origin:right;
 }
-.dashboard .table-container::before{
-  --translate-y: calc(-100% - var(--arrow-size));
+.dashboard .help::before{
+  --translate-y: calc(-30% - var(--arrow-size));
   content: attr(data-tooltip);
   color: white;
   background: var(--darkBlueAccentFocused);
   text-align: center;
-  width: max-content;
-  max-width: 100%;
+  max-width: 30%;
+
   padding: .5rem;
   border-radius: .3rem;
   
 
 }
-.dashboard .table-container:hover::before,
-.dashboard .table-container:hover::after{
+.dashboard .help:hover::before,
+.dashboard .help:hover::after{
   --scale: 1;
 }
 
-.dashboard .table-container::after {
+.dashboard .help::after {
   --translate-y: calc(-1 * var(--arrow-size));
   content: '';
   border: var(--arrow-size) solid transparent;
-  border-top-color: var(--tooltip-color);
-  transform-origin: top center;
+  border-right-color: var(--tooltip-color);
+  transform-origin: right;
 }

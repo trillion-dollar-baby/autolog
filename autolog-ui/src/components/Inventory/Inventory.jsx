@@ -14,6 +14,7 @@ import apiClient from "../../services/apiClient";
 import ButtonAction from "../Button/ButtonAction";
 import { useNavigate } from "react-router";
 import ItemContext from "../../contexts/items";
+import QuestionMark from "../../assets/question-mark-icon.png"
 
 export default function Inventory() {
   const navigate = useNavigate();
@@ -210,6 +211,9 @@ export default function Inventory() {
       </div>
 
       <div className="filter-container">
+        <div className="question-mark" data-tooltip="Want to search for a part faster? Search for it here.">
+          <img className="question-icon" src={QuestionMark} ></img>
+        </div>
         <div className="search-bar">
           <FormInput
             data={{
@@ -231,6 +235,10 @@ export default function Inventory() {
         <ButtonAction label={"Create Purchase"} color={"var(--actionBlue)"} onClick={handleOnCreatePurchase} />
       </div>
 
+      <div className="question-m" data-tooltip="This table displays the current items in stock, first select items from the table, next either choose to create an invoice or purchase">
+          <img className="question-icon" src={QuestionMark} ></img>
+        </div>
+        
       <div className="table-container">
         {isProcessing || !initialized ? (
           <Loading />

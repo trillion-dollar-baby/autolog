@@ -8,6 +8,7 @@ import DashboardContext from "../../contexts/dashboard";
 import ButtonInvite from "../ButtonInvite/ButtonInvite";
 import { ToastContext } from "../../contexts/toast";
 import Checklist from "./Checklist";
+import QuestionMark from "../../assets/question-mark-icon.png"
 
 export default function Dashboard() {
   //form handling
@@ -144,7 +145,10 @@ export default function Dashboard() {
           <Checklist/>
         </div>
       </div>
-      <div className="table-container" data-tooltip="Logs keeps track of actions made by users in the inventory">
+      <div className="help" data-tooltip="Logs keeps track of actions made by users in the inventory">
+        <img className="question-icon" src={QuestionMark}></img>
+      </div>
+      <div className="table-container" >
         <Table
           tableElementArray={logs.length ? logs : []}
           tableColumnLabelArray={columnLabelArr}
@@ -162,8 +166,11 @@ function Announcements({
 displayInputBar}) {
   return (
     <div className="content">
-      <div className="header" data-tooltip="Use Announcements to post quick updates or news for users">
+      <div className="header">
         <h2 className="title" > Announcements </h2>
+        <div className="help-icon" data-tooltip="Use Announcements to post quick updates or news for users">
+          <img className="question-icon" src={QuestionMark}></img>
+        </div>
       </div>
       <div className="body" id="inputBody">
         <textarea

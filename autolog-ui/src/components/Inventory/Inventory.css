@@ -23,6 +23,54 @@
     max-height: 600px;
 }
 
+.inventory-content .question-m{
+    position: relative;
+    left: -47%;
+
+}
+.inventory-content .question-m .question-icon{
+    width:50%;
+}
+
+.inventory-content .question-m::before,
+.inventory-content .question-m::after {
+  --scale: 0;
+  --arrow-size: 15px;
+  --tooltip-color: var(--darkBlueAccentFocused);
+  position: absolute;
+  left: 55%;
+  top: 85%;
+  transform: translate(10%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  transition: 160ms transform;
+  transform-origin:right;
+  /* opacity:0.8; */
+}
+.inventory-content .question-m::before{
+  --translate-y: calc(-30% - var(--arrow-size));
+  content: attr(data-tooltip);
+  color: white;
+  background: var(--darkBlueAccentFocused);
+  text-align: center;
+  /* width: max-content; */
+  width: 300px;
+  padding: .5rem;
+  border-radius: .3rem;
+  /* opacity:0.8; */
+
+}
+.inventory-content .question-m:hover::before,
+.inventory-content .question-m:hover::after{
+  --scale: 1;
+}
+
+.inventory-content .question-m::after {
+  --translate-y: calc(-1 * var(--arrow-size));
+  content: '';
+  border: var(--arrow-size) solid transparent;
+  /* opacity:0.8; */
+  border-right-color: var(--tooltip-color);
+  transform-origin: right;
+}
 .inventory-content .filter-container {
     display: flex;
     flex-grow: 1;
@@ -40,7 +88,53 @@
     max-width: 650px;
     height: 40px;
     margin: 0 15px;
+    
 }
+
+.inventory-content .filter-container .question-mark{
+    position: relative; 
+}
+.inventory-content .filter-container .question-mark .question-icon{
+    width:50%;
+}
+
+.inventory-content .filter-container .question-mark::before,
+.inventory-content .filter-container .question-mark::after {
+  --scale: 0;
+  --arrow-size: 15px;
+  --tooltip-color: var(--darkBlueAccentFocused);
+  position: absolute;
+  left: 1%;
+  top: 90%;
+  transform: translate(-120%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  transition: 160ms transform;
+  transform-origin:right;
+}
+.inventory-content .filter-container .question-mark::before{
+  --translate-y: calc(-35% - var(--arrow-size));
+  content: attr(data-tooltip);
+  color: white;
+  background: var(--darkBlueAccentFocused);
+  text-align: center;
+  width: 160px;
+  padding: .5rem;
+  border-radius: .3rem;
+  
+
+}
+.inventory-content .filter-container .question-mark:hover::before,
+.inventory-content .filter-container .question-mark:hover::after{
+  --scale: 1;
+}
+
+.inventory-content .filter-container .question-mark::after {
+  --translate-y: calc(-1 * var(--arrow-size));
+  content: '';
+  border: var(--arrow-size) solid transparent;
+  border-left-color: var(--tooltip-color);
+  transform-origin: right;
+}
+
 
 .button-container {
     width: 100%;

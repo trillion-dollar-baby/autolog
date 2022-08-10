@@ -3,6 +3,7 @@ import "./Dashboard.css";
 import DashboardContext from "../../contexts/dashboard";
 import { useState, useEffect, useContext, useRef } from "react";
 import { ToastContext } from "../../contexts/toast";
+import QuestionMark from "../../assets/question-mark-icon.png"
 
 export default function Checklist() {
   const [todo, setTodo] = useState("");
@@ -72,21 +73,6 @@ export default function Checklist() {
     }
 
   }
-  // function toggleComplete(id, checked) {
-  //     const updatedTodos = [...todos].map((todo) => {
-  //       if (todo.id === id) {
-  //         todo.is_checked = is_checked;
-  //       }
-  //       return todo;
-  //     });
-  //     // setIsProcessing(true);
-  //     // const { data, error } = await updateStatus(id, is_checked);
-  //     // setIsProcessing(false);
-  //     // if(data){
-  //       setTodos(updatedTodos);
-  //     // }
-  
-  //   }
   
 
   //handle edited todo checklist
@@ -108,21 +94,14 @@ export default function Checklist() {
     setTodoEditing(null);
   }
   }
-  // //handle deleted todo item
-  // async function deleteTodo(id) {
-  //   setIsProcessing(true);
-  //   const { data, error } = await deleteCheckListItem(id);
-  //   setIsProcessing(false);
-  //   if(data){
-  //   let updatedTodos = [...todos].filter((todo) => todo.id !== id);
-  //   setTodos(updatedTodos);
-  //   }
-  // }
 
   return (
     <div className="content">
-      <div className="header" data-tooltip="Use Checklist to make a quick todo list">
+      <div className="header">
         <h2 className="title"> Checklist </h2>
+        <div className="help-con" data-tooltip="Use Checklist to make a quick todo list">
+          <img className="question-icon" src={QuestionMark}></img>
+        </div>
       </div>
       <div className="body">
         <div className="check-items">
