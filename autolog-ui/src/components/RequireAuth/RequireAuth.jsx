@@ -21,20 +21,18 @@ export default function RequireAuth({ children }) {
     }
 
     const redirectAuthorized = () => {
-        if(accessibleInventories?.length){
-            return children
-        } 
         
-        if((!accessibleInventories?.length) && (location.pathname !== '/inventory/create')) {
+
+        if(accessibleInventories?.length > 0) {
+            return children
+        } else {
             return <Navigate to='/inventory/create' replace={true}/>
         }
-
-        return children
     }
 
     // If the user does not have a JWT token (has not been authenticated), show application
     return (apiClient.getToken() ? 
-        redirectAuthorized()
+        redirectAuthorized()    
         : 
         notAuthorized()
         );

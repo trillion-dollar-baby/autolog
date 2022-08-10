@@ -113,6 +113,7 @@ export const ItemContextProvider = ({ children }) => {
     itemGetContext: [getItem],
     itemUpdateContext: [updateItem],
     itemDeleteContext: [deleteItem],
+    fetchGenericItemList
   };
 
   return (

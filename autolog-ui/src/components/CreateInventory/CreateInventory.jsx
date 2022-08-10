@@ -64,10 +64,13 @@ export default function CreateInventory() {
     /// Add code for onclick to create inventory
   };
 
+  if(accessibleInventories.length > 0) {
+    navigate('/dashboard');
+  }
+
   return (
 
     <div className="create-inventory-page">
-        (accessibleInventories.length && <Navigate to={'/dashboard/'} replace={true}/>)
       <div className="content">
         <h1 className="header-instruction"> Create a new inventory! </h1>
         <div className="create-inventory-form">

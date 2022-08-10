@@ -41,6 +41,7 @@ export default function Table({
     // with provided useState, add/remove itself's only instance
     const addItemToSelected = (item) => {
         // when adding a new item, create default values for invoice table
+        console.log(selectedItems);
         setSelectedItems((prevSelectedItems) => ([
             ...prevSelectedItems,
             { ...item, 

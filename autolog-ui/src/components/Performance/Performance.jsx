@@ -41,7 +41,6 @@ export default function Performance() {
     const sortItems = ["Quantity ↑", "Quantity ↓"]
     const filterItems = ["January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "December"]
     const columnLabel = ["name", "category", "total quantity", "total cost", "total sell price", "total profit", "month"]
-    console.log(performance);
 
     const containerVariants = {
       hidden: {
@@ -56,7 +55,7 @@ export default function Performance() {
           transition: { ease: 'easeInOut' }
       }
   	}
-
+    
     return (
         <motion.div
 			      variants={containerVariants}
@@ -66,7 +65,9 @@ export default function Performance() {
             className="performance-content">
             <div className='visual-data-container'>
                 <div className='bar-chart-container'>
+                    {graphData.datasets ?
                     <BarChart data={graphData} options={{responsive:true}}/>
+                    : <></> }
                 </div>
                 {/* <div className='pie-chart-container'>
                     <PieChart data={data} options={{responsive:true}}/>
@@ -85,7 +86,7 @@ export default function Performance() {
             <div className='table-container'>
                 <Table 
                 tableLabel={"Results"} 
-                tableElementArray={(performance.length) ? performance : []} 
+                tableElementArray={(performance.length) ? performance : ['No results...']} 
                 tableColumnLabelArray={columnLabel}/>
             </div>
         </motion.div>
