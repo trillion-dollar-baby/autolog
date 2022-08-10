@@ -90,9 +90,9 @@ export default function Table({
                             <li className="row-item" key={`row-item-detail-${index}`}>
                                 {" "}
 
-                                <input className="checking" type={"checkbox"} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "}
+                                {/* <input  type={"checkbox"} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "} */}
 
-                                <input type={"checkbox"} defaultChecked={isSelected(rowItems)} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "}
+                                <input className="checking" type={"checkbox"} defaultChecked={isSelected(rowItems)} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "}
 
                             </li>
                         ))}{" "}
