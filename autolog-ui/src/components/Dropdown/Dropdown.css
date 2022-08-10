@@ -17,6 +17,7 @@
     user-select: none;
     flex: 1;
     flex-grow: 1;
+    
 }
 
 .dropdown-wrapper.active{
@@ -24,10 +25,12 @@
     border-bottom-right-radius: 0;
 
     outline: 3px rgb(100, 100, 100) solid;
+    
 }
 
 .dropdown-wrapper.active .dropdown-list {
     outline: 3px  rgb(100, 100, 100) solid;
+    overflow-x: hidden;
 }
 
 .dropdown-header {

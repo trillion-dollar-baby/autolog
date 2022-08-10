@@ -3,12 +3,13 @@ import "./Dashboard.css";
 import DashboardContext from "../../contexts/dashboard";
 import { useState, useEffect, useContext, useRef } from "react";
 import { ToastContext } from "../../contexts/toast";
+import QuestionMark from "../../assets/question-mark-icon.png"
 
 export default function Checklist() {
   const [todo, setTodo] = useState("");
   const [todoEditing, setTodoEditing] = useState(null);
   const [item, setItemUpdate] = useState("");
-  const [is_checked, setStatus] = useState(false)
+  const [is_checked, setStatus] = useState(true)
   const todoInput = useRef();
   // Dashboard context
   const {
@@ -16,7 +17,6 @@ export default function Checklist() {
     checklistCreateContext,
     checklistUpdateContext,
     checklistDeleteContext,
-    checklistGetContext,
     checklistContext,
     processingContext,
     checklistUpdateStatusContext
@@ -24,7 +24,6 @@ export default function Checklist() {
   const [createList] = checklistCreateContext;
   const [updateChecklist]= checklistUpdateContext;
   const [todos, setTodos] = checklistContext;
-  const [fetchList] = checklistGetContext;
   const [deleteCheckListItem] = checklistDeleteContext
   const [updateStatus] = checklistUpdateStatusContext;
 
@@ -57,8 +56,7 @@ export default function Checklist() {
     todoInput.current.focus();
   }, []);
 
-
-  //delete items once they are completed
+  // //handle completed checklist
   async function toggleComplete(id) {
 
     const updatedTodos = [...todos].map((todo) => {
@@ -97,11 +95,13 @@ export default function Checklist() {
   }
   }
 
-
   return (
     <div className="content">
       <div className="header">
         <h2 className="title"> Checklist </h2>
+        <div className="help-con" data-tooltip="Use Checklist to make a quick todo list">
+          <img className="question-icon" src={QuestionMark}></img>
+        </div>
       </div>
       <div className="body">
         <div className="check-items">
@@ -134,6 +134,7 @@ export default function Checklist() {
                   <input
                     className="listForm"
                     type="text"
+                    defaultValue={todo.item}
                     onChange={(e) => setItemUpdate(e.target.value)}
                   />
                 ) : (
