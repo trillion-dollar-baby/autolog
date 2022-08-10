@@ -24,13 +24,13 @@ export default function Invoices() {
   const [invoicesList, setInvoicesList] = useState([]);
 
   const settingsRoutes = [
-    {
-      name: "Orders",
-      to: "/inventory/orders",
-    },
+    // {
+    //   name: "Orders",
+    //   to: "/inventory/orders",
+    // },
     {
       name: "Stock", 
-      to: "/inventory/stock"
+      to: "/inventory/"
     },
     {
       name: "Invoices",
