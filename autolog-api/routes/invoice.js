@@ -40,9 +40,9 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
 
 router.post("/pdf", security.requireAuthenticatedUser, async (req, res, next) => {
     try {
-        const { invoice } = req.body;
+        const { invoice, selectedInventory } = req.body;
 
-        const pdfString = await Invoice.renderPdfInBrowser(invoice);
+        const pdfString = await Invoice.renderPdfInBrowser(invoice, selectedInventory);
 
         return res.status(200).json({ pdfString });
     }

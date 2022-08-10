@@ -171,6 +171,7 @@ class Invoice {
             sender_id AS "senderId",
             CAST(total_labor_cost as money) AS "totalLabor",
             CAST(total_material_cost as money) AS "totalMaterial",
+            CAST((total_labor_cost + total_material_cost) as money) AS "totalProfit",
             vehicle_make AS "vehicleMake",
             vehicle_model AS "vehicleModel",
             vehicle_plate_number AS "vehiclePlateNumber",
@@ -225,10 +226,11 @@ class Invoice {
     }
 
 
-    static async renderPdfInBrowser(invoice) {
+    static async renderPdfInBrowser(invoice, selectedInventory) {
         const purchases = await this.getSoldItems(invoice.id)
+        console.log("get purchases:", purchases)
 
-        return await this.createInvoicePdf({ invoice, purchases });
+        return await this.createInvoicePdf({ invoice, purchases, selectedInventory});
     }
 
 
@@ -244,7 +246,11 @@ class Invoice {
         return result.rows;
     }
 
-    static async createInvoicePdf({ invoice, purchases }) {
+    static async createInvoicePdf({ invoice, purchases, selectedInventory }) {
+        console.log("invoice:", invoice);
+        console.log("selected:", selectedInventory);
+
+
         const updatedNames = this.convertNamingConvention(purchases);
 
         let data = {
@@ -255,7 +261,7 @@ class Invoice {
             },
             "images": {
                 // The logo on top of your invoice
-                "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
+                // "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
                 // The invoice background
                 // "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
             },
@@ -267,23 +273,27 @@ class Invoice {
                 "city": "Sampletown",
                 "country": "Samplecountry"
                 //"custom1": "custom value 1",
+                //"custom2": "custom value 2",
+                //"custom3": "custom value 3"
             },
             // Your recipient
             "client": {
-                "name": `${invoice.recipientFirstName} ${invoice.recipientLastName}`,
-                "address": invoice.recipientAddress,
-                "zip": "11552",
+                "company": "Client Corp",
+                "address": "Clientstreet 456",
+                "zip": "4567 CD",
                 "city": "Clientcity",
                 "country": "Clientcountry"
                 // "custom1": "custom value 1",
+                // "custom2": "custom value 2",
+                // "custom3": "custom value 3"
             },
             "information": {
                 // Invoice number
-                "number": invoice.createdAt,
+                "number": invoice.id,
                 // Invoice data
-                "date": invoice.date,
+                "date": invoice.createdAt,
                 // Invoice due date
-                "due-date": 1//invoice?.due_date
+                "due-date": invoice?.due_date
             },
             // The products you would like to see on your invoice
             // Total values are being calculated automatically

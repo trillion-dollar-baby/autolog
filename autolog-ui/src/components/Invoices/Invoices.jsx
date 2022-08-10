@@ -39,7 +39,7 @@ export default function Invoices() {
     },
   ];
 
-  const columnLabel = ["id", "recipientFirstName", "recipientLastName", "totalLabor", "totalMaterial"];
+  const columnLabel = ["id", "recipientFirstName", "recipientLastName", "totalLabor", "totalMaterial", "totalProfit"];
 
   useEffect(() => {
     const fetchInvoiceList = async () => {
@@ -60,7 +60,7 @@ export default function Invoices() {
   
   const handleRenderPdfInBrowser = async (invoice) => {
     setIsLoading(true);
-    const { data, error } = await apiClient.getPdfString(invoice);
+    const { data, error } = await apiClient.getPdfString(invoice, selectedInventory);
 
     if (!error) {
       // Create a div w/ id of pdf
@@ -102,7 +102,8 @@ export default function Invoices() {
   }
 
   return (
-    (loading) ? <Loading /> :
+    (loading) ? <div className="invoice-loading">
+      <Loading />  </div>:
     <motion.div
       variants={containerVariants}
       initial={"hidden"}
