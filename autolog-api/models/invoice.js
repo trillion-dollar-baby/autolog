@@ -162,10 +162,26 @@ class Invoice {
 
         const query = `
         SELECT
-            *
+            to_char(created_at, 'MM-DD-YYYY') AS "createdAt",
+            id,
+            inventory_id AS "inventoryId",
+            recipient_address AS "recipientAddress",
+            recipient_first_name AS "recipientFirstName",
+            recipient_last_name AS "recipientLastName",
+            recipient_phone AS "recipientPhone",
+            sender_id AS "senderId",
+            CAST(total_labor_cost as money) AS "totalLabor",
+            CAST(total_material_cost as money) AS "totalMaterial",
+            vehicle_make AS "vehicleMake",
+            vehicle_model AS "vehicleModel",
+            vehicle_plate_number AS "vehiclePlateNumber",
+            vehicle_vin AS "vehicleVin",
+            vehicle_year AS "vehicleYear",
+            invoices.created_at
         FROM
             invoices
         WHERE invoices.inventory_id = $1
+        ORDER BY invoices.created_at DESC;
         `
 
         const results = await db.query(query, [inventoryId]);
@@ -257,15 +273,15 @@ class Invoice {
             // Your recipient
             "client": {
                 "name": `${invoice.recipientFirstName} ${invoice.recipientLastName}`,
-                "address": "Clientstreet 456",
-                "zip": "4567 CD",
+                "address": invoice.recipientAddress,
+                "zip": "11552",
                 "city": "Clientcity",
                 "country": "Clientcountry"
                 // "custom1": "custom value 1",
             },
             "information": {
                 // Invoice number
-                "number": invoice.id,
+                "number": invoice.createdAt,
                 // Invoice data
                 "date": invoice.date,
                 // Invoice due date
