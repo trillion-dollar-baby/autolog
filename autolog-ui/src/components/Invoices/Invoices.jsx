@@ -30,7 +30,7 @@ export default function Invoices() {
     // },
     {
       name: "Stock", 
-      to: "/inventory/stock"
+      to: "/inventory/"
     },
     {
       name: "Invoices",

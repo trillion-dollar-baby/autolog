@@ -46,7 +46,7 @@ export default function Inventory() {
   // },
     {
       name: "Stock", 
-      to: "/inventory/stock"
+      to: "/inventory/"
     },
     {
       name: "Invoices",
@@ -151,7 +151,6 @@ export default function Inventory() {
   const fetchMoreItems = async () => {
     setIsFetching(true);
       const result = await searchItem(searchTerm || '', (pageNumber + 1) || 1, selectedCategory || '');
-      console.log("result fetchmoreitems", result?.items, "pageNumber", pageNumber);
       // append into array and increase page number for next request if user wants to keep scrolling
       if (result?.items) {
         setItems([...items, ...result?.items]);

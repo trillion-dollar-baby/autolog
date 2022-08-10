@@ -78,7 +78,7 @@ function ItemDetail() {
                 setCategoryValue(data.item.category);
             }
         }
-
+        
         fetchItem();
     }, [])
 

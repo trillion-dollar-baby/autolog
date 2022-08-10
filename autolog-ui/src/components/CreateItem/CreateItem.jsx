@@ -50,7 +50,7 @@ export default function CreateItem() {
         setIsProcessing(false);
 
         if(data) {
-            navigate("/inventory/stock");
+            navigate("/inventory/");
             notifySuccess(`Item successfully created!`);
         } else {
             notifyError(error);
@@ -63,7 +63,7 @@ export default function CreateItem() {
             label: 'Name *',
             name: 'name',
             type: 'text',
-            placeholder: 'The alternator is shot Saul'
+            placeholder: 'Alternator'
         },
         {
             label: 'Quantity *',
@@ -81,7 +81,7 @@ export default function CreateItem() {
             label: 'Retail Price *',
             name: 'retailPrice',
             type: 'text',
-            placeholder: '9.99'
+            placeholder: '3.00'
         },
         {
             label: 'Part Number (Optional)',
@@ -162,7 +162,7 @@ export default function CreateItem() {
                     <div className="form-container text-area">
                         <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Write a description" }} onChange={handleChange} inputValue={itemForm['description']} />
                     </div>
-                    <div className="content">
+                    <div className="content button-container">
                         <ButtonAction onClick={handleItemCreate} color={'#3F5BE8'} label={"Create"} />
                     </div>
                 </div>

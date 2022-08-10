@@ -58,7 +58,7 @@ export const ItemContextProvider = ({ children }) => {
   const deleteItem = async (id) => {
     const { data, error } = await apiClient.deleteItem(id, selectedInventory?.inventoryId);
     if (!error) {
-      fetchItemList();
+      fetchGenericItemList();
       return { data, error: null };
     } else {
       console.error("Error deleting item, message:", error);
@@ -70,7 +70,7 @@ export const ItemContextProvider = ({ children }) => {
   const updateItem = async (itemId, values) => {
     const { data, error } = await apiClient.updateItem(itemId, values, selectedInventory?.inventoryId);
     if (!error) {
-      fetchItemList();
+      fetchGenericItemList();
       return { data, error: null };
     } else {
       console.error("Error getting items, message:", error);

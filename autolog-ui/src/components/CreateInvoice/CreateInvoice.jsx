@@ -81,37 +81,37 @@ function CreateInvoice() {
       label: 'VIN Number',
       name: 'vehicleVin',
       type: 'text',
-      placeholder: 'Pollos Hermanos'
+      placeholder: '1FALP52U5TG297077'
     },
     {
       label: 'Vehicle Year',
       name: 'vehicleYear',
       type: 'text',
-      placeholder: 'Pollos Hermanos'
+      placeholder: '2022'
     },
     {
       label: 'Make',
       name: 'vehicleMake',
       type: 'text',
-      placeholder: 'Pollos Hermanos'
+      placeholder: 'Hyundai'
     },
     {
       label: 'Model',
       name: 'vehicleModel',
       type: 'text',
-      placeholder: 'Pollos Hermanos'
+      placeholder: 'Elantra'
     },
     {
       label: 'Plate Number',
       name: 'vehiclePlateNumber',
       type: 'text',
-      placeholder: 'Pollos Hermanos'
+      placeholder: 'XXX-XXX'
     },
     {
       label: 'Color',
       name: 'vehicleColor',
       type: 'text',
-      placeholder: 'Pollos Hermanos'
+      placeholder: 'Blue'
     },
   ]
 

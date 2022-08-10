@@ -25,7 +25,7 @@ export default function Sidebar() {
             <img className='icon' src={performanceIcon} alt="icon" />
             <span>Performance</span>
           </NavLink>
-          <NavLink className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`} to='/inventory/orders'>
+          <NavLink className={({ isActive }) => `sidebar-item ${isActive ? 'active' : ''}`} to='/inventory/'>
             <img className='icon' src={inventoryIcon} alt="icon" />
             <span>Inventory</span>
           </NavLink>
