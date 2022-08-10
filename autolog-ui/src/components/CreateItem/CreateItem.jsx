@@ -50,7 +50,7 @@ export default function CreateItem() {
         setIsProcessing(false);
 
         if(data) {
-            navigate("/inventory/");
+            navigate("/inventory/stock");
             notifySuccess(`Item successfully created!`);
         } else {
             notifyError(error);

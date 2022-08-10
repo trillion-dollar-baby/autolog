@@ -40,10 +40,10 @@ export default function Inventory() {
   const [pageNumber, setPageNumber] = useState(0);
 
   const settingsRoutes = [
-    {
-      name: "Orders",
-      to: "/inventory/orders",
-    },
+  // {
+  //   name: "Orders",
+  //   to: "/inventory/orders",
+  // },
     {
       name: "Stock", 
       to: "/inventory/stock"

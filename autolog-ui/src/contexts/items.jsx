@@ -24,8 +24,6 @@ export const ItemContextProvider = ({ children }) => {
 
 
   useEffect(() => {
-    
-
     if (user && selectedInventory?.inventoryId) {
       fetchGenericItemList()
     }

@@ -204,13 +204,17 @@ function CreateInvoice() {
           <label className="title"> Client Details and Labor </label>
         </div>
         <div className="content">
-          <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceFormArray} />
+          <div className="form-container">
+            <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceFormArray} />
+          </div>
         </div>
         <div className="divider">
           <label className="title"> Vehicle Details </label>
         </div>
         <div className="content">
-          <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceVehicleFormArray} />
+          <div className="form-container">
+           <Form formState={invoiceForm} setFormState={setInvoiceForm} formArray={createInvoiceVehicleFormArray} />
+          </div>
         </div>
         <div className="total-price-container">
           <span id='subtotal-price'>Total without labor: ${total}</span>
