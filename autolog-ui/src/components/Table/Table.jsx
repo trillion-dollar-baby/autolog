@@ -78,7 +78,7 @@ export default function Table({
                         {tableElementArray?.map((rowItems, index) => (
                             <li className="row-item" key={`row-item-detail-${index}`}>
                                 {" "}
-                                <input type={"checkbox"} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "}
+                                <input className="checking" type={"checkbox"} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "}
                             </li>
                         ))}{" "}
                     </div>

@@ -80,3 +80,8 @@
     font-size: 16px;
     padding-left: 4px;
 }
+.checking{
+    display: block; 
+   height: 25px;
+   width: 25px;  
+}
