@@ -23,7 +23,6 @@ export default function Table({
     handleOnClick
 }) {
     const tableRef = React.useRef();
-    const [isSelected, setSelected] = React.useState(false);
 
     const onScroll = async () => {
         if (isItemTable) {
@@ -64,6 +63,18 @@ export default function Table({
             removeItemFromSelected(item);
         }
     }
+
+    // check if row is selected
+    const isSelected = (rowItem) => {
+        let isMatched = false;
+        selectedItems.forEach((item) => {
+            if(item.id == rowItem.id) {
+                isMatched = true;
+            }
+        })
+        return isMatched; 
+    }
+
     return (
         <div className="table">
             <div className="table-header">
@@ -79,7 +90,7 @@ export default function Table({
                         {tableElementArray?.map((rowItems, index) => (
                             <li className="row-item" key={`row-item-detail-${index}`}>
                                 {" "}
-                                <input type={"checkbox"} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "}
+                                <input type={"checkbox"} defaultChecked={isSelected(rowItems)} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "}
                             </li>
                         ))}{" "}
                     </div>

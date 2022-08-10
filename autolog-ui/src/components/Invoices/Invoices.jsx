@@ -25,13 +25,13 @@ export default function Invoices() {
   const [loading, setIsLoading] = useState(false);
 
   const settingsRoutes = [
-    {
-      name: "Orders",
-      to: "/inventory/orders",
-    },
+    // {
+    //   name: "Orders",
+    //   to: "/inventory/orders",
+    // },
     {
       name: "Stock", 
-      to: "/inventory/stock"
+      to: "/inventory/"
     },
     {
       name: "Invoices",

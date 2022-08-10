@@ -22,7 +22,7 @@ export const OrdersContextProvider = ({children})=>{
 
  useEffect(()=>{
     if (user && selectedInventory?.inventoryId) {
-        fetchOrdersList()
+        // fetchOrdersList()
     }
 
    }, [user, selectedInventory])
