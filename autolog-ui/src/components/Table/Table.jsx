@@ -19,7 +19,8 @@ export default function Table({
     setSelectedItems,
     selectedItems,
     isFetching,
-    isSelectable = false
+    isSelectable = false,
+    handleOnClick
 }) {
     const tableRef = React.useRef();
     const [isSelected, setSelected] = React.useState(false);
@@ -121,8 +122,7 @@ export default function Table({
                         </p>
                         {tableElementArray?.map((rowItems, index) => (
                             <li className="row-item" key={`row-item-detail-${index}`}>
-                                {" "}
-                                <Link to={`/invoice/id/${rowItems["id"]}`} key={index} >Detail</Link>{" "}
+                                <Link onClick={() => handleOnClick(rowItems)} to={'/inventory/invoice'} key={index} >Detail</Link>{" "}
                             </li>
                         ))}{" "}
                     </div>
