@@ -253,6 +253,10 @@ class ApiClient {
         return await this.request({endpoint: `invoice/create/?inventoryId=${inventoryId}`, method: `POST`, data: {invoiceFields, itemsFields}});
     }
 
+    async getInvoiceList(inventoryId) {
+        return await this.request({endpoint: `invoice/?inventoryId=${inventoryId}`, method: `GET`});
+    }
+
 }
 
 export default new ApiClient(API_BASE_URL);

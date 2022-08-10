@@ -1,10 +1,10 @@
 .dashboard {
-  max-height: calc(100vh - var(--navbarHeight));
-  max-width: calc(100vw - var(--sidebarWidth));
+  max-height: 100%;
+  max-width: 100%;
   flex-direction: column;
   display: flex;
   flex-grow: 1;
-  overflow-x: hidden;
+  border: 2px red solid;
 }
 
 /******** HEADER ***********/
@@ -350,8 +350,8 @@
 .dashboard .table-container {
   max-height: 375px;
   min-height: 375px;
+  width: 100%;
   display: flex;
-  flex: 2;
 }
 
 .dashboard .help{

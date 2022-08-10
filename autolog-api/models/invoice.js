@@ -2,9 +2,11 @@ const { parse } = require("dotenv");
 const db = require("../db");
 const { BadRequestError, NotFoundError } = require("../utils/errors");
 const nodemailer = require('nodemailer');
+var easyinvoice = require('easyinvoice');
 const _ = require("lodash");
+
 class Invoice {
-    static async createInvoice(inventoryId, invoice, user) {
+    static async createInvoice(inventoryId, invoice, user, pdfString) {
         // Required fields for a successful query
         const requiredFields = [
             "recipientFirstName",
@@ -19,6 +21,7 @@ class Invoice {
             "vehicleModel",
             "vehiclePlateNumber",
             "vehicleColor",
+            "totalMaterial"
         ];
 
         // Check if inputs for INTEGER fields are correct
@@ -59,7 +62,9 @@ class Invoice {
             vehicle_model,
             vehicle_plate_number,
             total_labor_cost,
-            created_at
+            created_at,
+            total_material_cost,
+            base_64_pdf_string
         ) 
         VALUES (
             $1,
@@ -74,7 +79,9 @@ class Invoice {
             $10,
             $11,
             $12,
-            $13
+            $13,
+            $14,
+            $15
         )
         RETURNING *
         `
@@ -92,7 +99,9 @@ class Invoice {
              invoice.vehicleModel,
              invoice.vehiclePlateNumber,
              invoice.totalLabor,
-             invoice.date
+             invoice.date,
+             invoice.totalMaterial,
+             pdfString
             ])
 
         return results.rows[0];
@@ -100,7 +109,6 @@ class Invoice {
 
     static async createSoldItemRecords(items, invoiceId) {
         const queryResults = [];
-        console.log(arguments)
         // Loop through each item selected for the invoice
         items.forEach(async (item) => {
             let query = `
@@ -139,19 +147,21 @@ class Invoice {
 
         const query = `
         SELECT
-            sender_id,
-            recipient_first_name,
-            recipient_last_name,
-            recipient_address,
-            created_at,
-            total_labor_cost
+            id,
+            sender_id AS "senderId",
+            recipient_first_name AS "recipientFirstName",
+            recipient_last_name AS "recipientLastName",
+            recipient_address AS "recipientAddress",
+            created_at AS "createdAt",
+            total_labor_cost AS "totalLabor",
+            total_material_cost AS "totalMaterial"
         FROM
             invoices
         WHERE invoices.inventory_id = $1
         `
 
         const results = await db.query(query, [inventoryId]);
-        console.log(results.rows);
+        
         return results.rows;
     }
 
@@ -191,7 +201,18 @@ class Invoice {
         );
     }
 
+    static async getSoldItems(invoiceId) {
+        const query = `
+            SELECT *
+        FROM sold_items
+        WHERE invoice_id = $1
+        `
+
+        const result = await db.query(query, [invoiceId]);
+    }
+
     static async createInvoicePdf({ invoice, purchases }) {
+        console.log(invoice, purchases);
         let data = {
             // Customize enables you to provide your own templates
             // Please review the documentation for instructions and examples
@@ -215,7 +236,7 @@ class Invoice {
             },
             // Your recipient
             "client": {
-                "name": `${invoice.recipient_first_name} ${invoice.recipient_last_name}`,
+                "name": `${invoice.recipientFirstName} ${invoice.recipientLastName}`,
                 "address": "Clientstreet 456",
                 "zip": "4567 CD",
                 "city": "Clientcity",
@@ -226,20 +247,20 @@ class Invoice {
                 // Invoice number
                 "number": invoice.id,
                 // Invoice data
-                "date": invoice.created_at,
+                "date": invoice.date,
                 // Invoice due date
-                "due-date": invoice.due_date
+                "due-date": 1//invoice?.due_date
             },
             // The products you would like to see on your invoice
             // Total values are being calculated automatically
             "products": [
-                ...purchases 
-                // {
-                //     "quantity": 2,
-                //     "description": "Product 1",
-                //     "tax-rate": 6,
-                //     "price": 33.87
-                // },   
+                //...purchases 
+                 {
+                    "quantity": 2,
+                    "description": "Product 1",
+                    "tax-rate": 6,
+                    "price": 33.87
+                },   
             ],
             // The message you would like to display on the bottom of your invoice
             "bottom-notice": "Please pay your invoice within 15 days. Thank you for your support!",

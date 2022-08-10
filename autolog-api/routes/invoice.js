@@ -13,7 +13,8 @@ router.post("/create", security.requireAuthenticatedUser, async (req, res, next)
         const { user } = res.locals;
 
         // Query for performance array sorted by category
-        const invoice = await Invoice.createInvoice(inventoryId, invoiceFields, user);
+        const base64PdfString = await Invoice.createInvoicePdf({invoice: invoiceFields, purchases: itemsFields})
+        const invoice = await Invoice.createInvoice(inventoryId, invoiceFields, user, base64PdfString);
         const soldItems = await Invoice.createSoldItemRecords(itemsFields, invoice.id);
 
         const results = {invoice, soldItems: [...soldItems]}
@@ -41,6 +42,10 @@ router.get("/id/:invoiceId", security.requireAuthenticatedUser, async(req,res,ne
     try {
         const { inventoryId } = req.query;
         const { invoiceId } = req.params;
+        
+        const invoice = await Invoice.getInvoice(invoiceId);
+
+        return res.status(200).json({invoice})
 
     } catch (error) {
         next(error);

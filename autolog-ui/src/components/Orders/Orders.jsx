@@ -123,7 +123,7 @@ export default function Orders() {
       initial={"hidden"}
       animate={"visible"}
       exit={"exit"}
-      className="inventory-content">
+      className="orders-content">
       <div className="topbar-container">
         <Topbar
           routes={settingsRoutes}

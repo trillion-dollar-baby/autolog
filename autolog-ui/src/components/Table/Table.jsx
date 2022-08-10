@@ -14,11 +14,12 @@ export default function Table({
     tableColumnLabelArray,
     tableLabel,
     isItemTable = false,
+    isInvoiceTable = false,
     fetchMoreItems,
     setSelectedItems,
     selectedItems,
     isFetching,
-    isSelectable
+    isSelectable = false
 }) {
     const tableRef = React.useRef();
     const [isSelected, setSelected] = React.useState(false);
@@ -109,6 +110,19 @@ export default function Table({
                             <li className="row-item" key={`row-item-detail-${index}`}>
                                 {" "}
                                 <Link to={`/item/id/${rowItems["id"]}`} key={index} >Detail</Link>{" "}
+                            </li>
+                        ))}{" "}
+                    </div>
+                    : <></>}
+                {isInvoiceTable ?
+                    <div key={`column-detail`} className={`table-column`}>
+                        <p className="column-label">
+                            {" "}{"DETAIL"}{" "}
+                        </p>
+                        {tableElementArray?.map((rowItems, index) => (
+                            <li className="row-item" key={`row-item-detail-${index}`}>
+                                {" "}
+                                <Link to={`/invoice/id/${rowItems["id"]}`} key={index} >Detail</Link>{" "}
                             </li>
                         ))}{" "}
                     </div>

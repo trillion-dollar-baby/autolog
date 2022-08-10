@@ -31,10 +31,28 @@ function ModalCreateInventory({closeModal}) {
             placeholder: 'This is a placeholder'
         },
         {
-            label: 'Inventory Password',
-            name: 'password',
-            type: 'password',
-            placeholder: '********'
+            label: 'Company Name',
+            name: 'companyName',
+            type: 'text',
+            placeholder: 'Pollos Hermanos'
+        },
+        {
+            label: 'Company Email',
+            name: 'companyEmail',
+            type: 'text',
+            placeholder: 'Pollos Hermanos'
+        },
+        {
+            label: 'Company Address',
+            name: 'companyAddress',
+            type: 'text',
+            placeholder: '1234 NW 5th St'
+        },
+        {
+            label: 'Company Phone',
+            name: 'companyPhone',
+            type: 'text',
+            placeholder: '(123) 456-7890'
         }
     ]
 

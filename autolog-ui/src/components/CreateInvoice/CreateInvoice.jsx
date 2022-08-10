@@ -13,8 +13,13 @@ import { useEffect } from 'react';
 import apiClient from '../../services/apiClient';
 import InventoryContext from '../../contexts/inventory';
 import InventoriesContext from '../../contexts/inventories';
+import { useNavigate } from 'react-router';
+import { ToastContext } from '../../contexts/toast';
 
 function CreateInvoice() {
+  const {notifySuccess, notifyError} = useContext(ToastContext);
+
+  const navigate = useNavigate();
   // Inventory Context
   const {selectedInventoryContext} = useContext(InventoriesContext);
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
@@ -154,9 +159,16 @@ function CreateInvoice() {
   }, [selectedItems, invoiceForm])
 
   const handleOnSubmit = async() => {
-    const {data, error} = await apiClient.createInvoice(selectedInventory?.inventoryId, invoiceForm, selectedItems);
+    const {data, error} = await apiClient.createInvoice(selectedInventory?.inventoryId, {...invoiceForm, totalMaterial: total}, selectedItems);
 
-    console.log(data, error);
+    if(data) {
+      notifySuccess("Success creating invoice!");
+      navigate('/inventory/invoice');
+    }
+
+    if(error) {
+      notifyError("Error: ", error)
+    }
   }
 
   const containerVariants = {
