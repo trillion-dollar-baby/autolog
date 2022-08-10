@@ -127,8 +127,6 @@ CREATE TABLE invoices (
     total_labor_cost INTEGER NOT NULL,
     total_material_cost INTEGER NOT NULL,
 
-    base_64_pdf_string TEXT NOT NULL,
-
     FOREIGN KEY (sender_id) REFERENCES users(id),
     -- FOREIGN KEY (sender_email) REFERENCES users(email),
     FOREIGN KEY (inventory_id) REFERENCES inventory(id)

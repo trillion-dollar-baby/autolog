@@ -38,6 +38,22 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     }
 })
 
+
+router.post("/pdf", security.requireAuthenticatedUser, async (req, res, next) => {
+    try {
+        const { invoice } = req.body;
+
+        const pdfString = await Invoice.renderPdfInBrowser(invoice);
+
+        return res.status(200).json({ pdfString });
+    }
+    catch(err) {
+        next(err);
+    }
+})
+
+
+
 router.get("/id/:invoiceId", security.requireAuthenticatedUser, async(req,res,next) => {
     try {
         const { inventoryId } = req.query;
