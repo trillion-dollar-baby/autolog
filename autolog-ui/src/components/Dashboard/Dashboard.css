@@ -4,7 +4,6 @@
   flex-direction: column;
   display: flex;
   flex-grow: 1;
-  border: 2px red solid;
 }
 
 /******** HEADER ***********/
@@ -315,8 +314,20 @@
 .dashboard-body .checklist-container .content .body .checkmark {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  margin: 10px;
+  /* margin: 10px; */
+}
+
+.dashboard-body .checklist-container .content .body .checkmark .textTodo .list-form {
+   display: block; 
+   height: 25px;
+   width: 25px;
+
+}
+.dashboard-body .checklist-container .content .body .checkmark .textTodo .listForm {
+  display: block; 
+  width:30%;
+  height:30%;
+
 }
 
 .dashboard-body .checklist-container .content .body .textTodo {
@@ -326,6 +337,11 @@
 
 .dashboard-body .checklist-container .content .body .textTodo .todo-text {
   margin: 0 10px;
+}
+
+.dashboard-body .checklist-container .content .body .extraEditing {
+  width: 30%;
+
 }
 
 .dashboard-body .checklist-container .content .body .more-items {
