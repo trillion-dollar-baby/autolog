@@ -13,13 +13,12 @@ router.post("/create", security.requireAuthenticatedUser, async (req, res, next)
         const { user } = res.locals;
 
         // Query for performance array sorted by category
-        const base64PdfString = await Invoice.createInvoicePdf({invoice: invoiceFields, purchases: itemsFields})
-        const invoice = await Invoice.createInvoice(inventoryId, invoiceFields, user, base64PdfString);
+        const invoice = await Invoice.createInvoice(inventoryId, invoiceFields, user);
         const soldItems = await Invoice.createSoldItemRecords(itemsFields, invoice.id);
 
         const results = {invoice, soldItems: [...soldItems]}
         return res.status(201).json({ results });
-    } 
+    }
     catch(err) {
         next(err)
     }
@@ -37,6 +36,22 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
         next(err);
     }
 })
+
+
+router.post("/pdf", security.requireAuthenticatedUser, async (req, res, next) => {
+    try {
+        const { invoice, selectedInventory } = req.body;
+
+        const pdfString = await Invoice.renderPdfInBrowser(invoice, selectedInventory);
+
+        return res.status(200).json({ pdfString });
+    }
+    catch(err) {
+        next(err);
+    }
+})
+
+
 
 router.get("/id/:invoiceId", security.requireAuthenticatedUser, async(req,res,next) => {
     try {

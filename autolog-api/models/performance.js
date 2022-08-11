@@ -11,12 +11,17 @@ class Performance {
     // Grab all items within the selected inventory and group by category while summing up the quantities
       const query = `
       SELECT 
-        items.category AS category,
-        SUM(items.quantity) AS "total quantity",
-        TO_CHAR(items.created_at, 'Month YYYY') as month
-      FROM items
-      WHERE items.inventory_id = $1
-      GROUP BY category, month
+        sold_items.name AS name,
+        sold_items.category AS category,
+        SUM(sold_items.quantity) AS "total quantity",
+        CAST(SUM(sold_items.cost) as money) AS "total cost",
+        CAST(SUM(sold_items.sell_price) as money) AS "total sell price",
+        CAST((SUM(sold_items.sell_price) - SUM(sold_items.cost)) as money) as "total profit",
+        TO_CHAR(sold_items.created_at, 'Month YYYY') as month
+      FROM sold_items
+      JOIN invoices ON sold_items.invoice_id = invoices.id
+      WHERE invoices.inventory_id = $1
+      GROUP BY name, category, month
       ORDER BY month ASC`;
 
       const results = await db.query(query, [
@@ -38,13 +43,18 @@ class Performance {
 
     // Do a query for every item within the selected inventory and sum the quantities
       const query = `
-        SELECT 
-          items.category AS category,
-          SUM(items.quantity) AS "total quantity",
-          TO_CHAR(items.created_at, 'Month YYYY') as month
-        FROM items
-        WHERE items.inventory_id = $1
-        GROUP BY category, month
+      SELECT 
+      sold_items.name AS name,
+      sold_items.category AS category,
+      SUM(sold_items.quantity) AS "total quantity",
+      CAST(SUM(sold_items.cost) as money) AS "total cost",
+      CAST(SUM(sold_items.sell_price) as money) AS "total sell price",
+      CAST((SUM(sold_items.sell_price) - SUM(sold_items.cost)) as money) as "total profit",
+      TO_CHAR(sold_items.created_at, 'Month YYYY') as month
+      FROM sold_items
+      JOIN invoices ON sold_items.invoice_id = invoices.id
+      WHERE invoices.inventory_id = $1
+        GROUP BY name, category, month
         ORDER BY month ASC`;
 
       const results = await db.query(query, [
@@ -68,13 +78,17 @@ class Performance {
       SELECT *
       FROM (
         SELECT 
-          items.category AS category,
-          SUM(items.quantity) AS "total quantity",
-          TO_CHAR(items.created_at, 'Month YYYY') as month
-        FROM items
-        WHERE items.inventory_id = $1
-        GROUP BY category, month
-        ORDER BY month ASC
+        sold_items.name AS name,
+        sold_items.category AS category,
+        SUM(sold_items.quantity) AS "total quantity",
+        CAST(SUM(sold_items.cost) as money) AS "total cost",
+        CAST(SUM(sold_items.sell_price) as money) AS "total sell price",
+        CAST((SUM(sold_items.sell_price) - SUM(sold_items.cost)) as money) as "total profit",
+        TO_CHAR(sold_items.created_at, 'Month YYYY') as month
+      FROM sold_items
+      JOIN invoices ON sold_items.invoice_id = invoices.id
+      WHERE invoices.inventory_id = $1
+        GROUP BY name, category, month
       ) AS sorted
       ORDER BY "total quantity" DESC`;
 
@@ -105,13 +119,17 @@ class Performance {
       SELECT *
       FROM (
         SELECT 
-          items.category AS category,
-          SUM(items.quantity) AS "total quantity",
-          TO_CHAR(items.created_at, 'Month YYYY') as month
-        FROM items
-        WHERE items.inventory_id = $1
-        GROUP BY category, month
-        ORDER BY month ASC
+          sold_items.name AS name,
+          sold_items.category AS category,
+          SUM(sold_items.quantity) AS "total quantity",
+          CAST(SUM(sold_items.cost) as money) AS "total cost",
+          CAST(SUM(sold_items.sell_price) as money) AS "total sell price",
+          CAST((SUM(sold_items.sell_price) - SUM(sold_items.cost)) as money) as "total profit",
+          TO_CHAR(sold_items.created_at, 'Month YYYY') as month
+        FROM sold_items
+        JOIN invoices ON sold_items.invoice_id = invoices.id
+        WHERE invoices.inventory_id = $1
+        GROUP BY name, category, month
       ) AS sorted
       ORDER BY "total quantity" ASC`;
 
@@ -129,6 +147,31 @@ class Performance {
       else {
         return results.rows;
       }
+    }
+
+    static async getVisualData(inventoryId) {
+      console.log(inventoryId)
+      if (!inventoryId) {
+        throw new BadRequestError("Missing inventory ID for graph performance")
+      }
+  
+      // Query for every item within a selected inventory and sum the quantities
+      const query = `
+        SELECT
+            (SUM(sold_items.sell_price) - SUM(sold_items.cost)) as "total profit",
+            TO_CHAR(sold_items.created_at, 'Month YYYY') as month
+          FROM sold_items
+          JOIN invoices ON sold_items.invoice_id = invoices.id
+          WHERE invoices.inventory_id = $1
+          GROUP BY month
+          ORDER BY month ASC
+          `
+  
+        const results = await db.query(query, [
+          inventoryId
+        ]);
+        
+        return results.rows;
     }
 }
 

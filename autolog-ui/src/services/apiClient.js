@@ -156,6 +156,10 @@ class ApiClient {
         return await this.request({endpoint: `performance/sort/descending/?inventoryId=${inventoryId}&month=${month}`, method: "GET"})
     }
 
+    async getVisualPerformance(inventoryId) {
+        return await this.request({endpoint: `performance/visual/?inventoryId=${inventoryId}`, method: 'GET'})
+    }
+
     /**
      * Category endpoints
      */
@@ -255,6 +259,10 @@ class ApiClient {
 
     async getInvoiceList(inventoryId) {
         return await this.request({endpoint: `invoice/?inventoryId=${inventoryId}`, method: `GET`});
+    }
+
+    async getPdfString(invoice, selectedInventory) {
+        return await this.request({endpoint: 'invoice/pdf', method: 'POST', data: { invoice, selectedInventory }})
     }
 
 }

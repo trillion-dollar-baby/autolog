@@ -1,6 +1,6 @@
 .create-invoice {
     max-height: calc(100vh - var(--navbarHeight));
-    max-width: calc(100vw - 280px);
+    width: 100%;
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -38,4 +38,8 @@
 
     display:flex;
     flex-direction: column;
+}
+
+.invoice.table.container {
+    min-height: 200px;
 }

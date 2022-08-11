@@ -168,7 +168,6 @@ class Item {
             search.toLowerCase(),
             category.toLowerCase()
         ]);
-        console.log(results.rows);
         return results.rows;
     }
 

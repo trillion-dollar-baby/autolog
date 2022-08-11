@@ -19,6 +19,21 @@ router.get("/", security.requireAuthenticatedUser, async (req, res, next) => {
     }
 })
 
+// Endpoint to get visual performance
+router.get("/visual", security.requireAuthenticatedUser, async (req, res, next) => {
+    try {
+        // Get the user and selected inventory
+        const inventoryId  = req.query.inventoryId;
+
+        // Query for performance array sorted by category
+        const performance = await Performance.getVisualData(inventoryId);
+        return res.status(200).json({ performance });
+    } 
+    catch(err) {
+        next(err)
+    }
+})
+
 // Endpoint to get performance filtered by month
 router.get("/filter", security.requireAuthenticatedUser, async (req, res, next) => {
     try {

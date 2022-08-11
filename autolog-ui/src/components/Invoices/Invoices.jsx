@@ -22,6 +22,7 @@ export default function Invoices() {
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
   
   const [invoicesList, setInvoicesList] = useState([]);
+  const [loading, setIsLoading] = useState(false);
 
   const settingsRoutes = [
     // {
@@ -38,7 +39,7 @@ export default function Invoices() {
     },
   ];
 
-  const columnLabel = ["id", "recipientFirstName", "recipientLastName", "totalLabor", "totalMaterial"];
+  const columnLabel = ["id", "recipientFirstName", "recipientLastName", "totalLabor", "totalMaterial", "totalProfit"];
 
   useEffect(() => {
     const fetchInvoiceList = async () => {
@@ -56,12 +57,34 @@ export default function Invoices() {
 
     }, [selectedInventory?.inventoryId]);
 
+  
+  const handleRenderPdfInBrowser = async (invoice) => {
+    setIsLoading(true);
+    const { data, error } = await apiClient.getPdfString(invoice, selectedInventory);
 
-    const renderPdfInBrowser = async (base64PdfString) => {
-      const div = 'pdf'
-      easyinvoice.render(div, base64PdfString.pdf)
+    if (!error) {
+      // Create a div w/ id of pdf
+      const pdfDiv = document.createElement('div')
+      pdfDiv.setAttribute('id', 'pdf')
+
+      // Add it to the body of index.html
+      document.body.appendChild(pdfDiv)
+
+      // Onclick to get rid of pdf after clicking
+      pdfDiv.addEventListener('click', (e) => { 
+        document.body.removeChild(pdfDiv);
+      })
+
+      // Render the pdf to the created div
+      const id = 'pdf'
+      easyinvoice.render(id, data.pdfString.pdf)
+
+      setIsLoading(false);
     }
-
+    else {
+      console.error(error);
+    }
+  }
 
   // framer-motion properties
   const containerVariants = {
@@ -79,6 +102,8 @@ export default function Invoices() {
   }
 
   return (
+    (loading) ? <div className="invoice-loading">
+      <Loading />  </div>:
     <motion.div
       variants={containerVariants}
       initial={"hidden"}
@@ -106,6 +131,7 @@ export default function Invoices() {
             tableElementArray={invoicesList.length ? invoicesList : []}
             tableColumnLabelArray={columnLabel}
             isInvoiceTable={true}
+            handleOnClick={handleRenderPdfInBrowser}
           />
         )}
       </div>
