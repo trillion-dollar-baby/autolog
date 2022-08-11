@@ -3,7 +3,8 @@ import "./Dashboard.css";
 import DashboardContext from "../../contexts/dashboard";
 import { useState, useEffect, useContext, useRef } from "react";
 import { ToastContext } from "../../contexts/toast";
-import QuestionMark from "../../assets/question-mark-icon.png"
+import QuestionMark from "../../assets/question-mark-icon.png";
+import EditIcon from "../../assets/edit-icon.png";
 
 export default function Checklist() {
   const [todo, setTodo] = useState("");
@@ -106,8 +107,8 @@ export default function Checklist() {
       <div className="body">
         <div className="check-items">
           <form className="checkbox" onSubmit={handleSubmit}>
-            <input
-              className="list-form"
+            <textarea
+              className="listing"
               id="todos"
               type="text"
               name="todos"
@@ -131,7 +132,7 @@ export default function Checklist() {
                   onChange={() => toggleComplete(todo.id)}
                 />
                 {todo.id === todoEditing ? (
-                  <input
+                  <textarea
                     className="listForm"
                     type="text"
                     defaultValue={todo.item}
@@ -144,17 +145,17 @@ export default function Checklist() {
               <div className="extraEditing">
                 {todo.id === todoEditing ? (
                   <button
-                    className="more-items"
+                    className="more-button"
                     onClick={() => submitEdits(todo.id)}
                   >
-                    Submit Edits
+                    Submit
                   </button>
                 ) : (
                   <button
                     className="more-items"
                     onClick={() => setTodoEditing(todo.id)}
                   >
-                    Edit
+                    <img className="editpic" src={EditIcon}></img>
                   </button>
                 )}
               </div>
