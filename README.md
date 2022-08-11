@@ -19,10 +19,11 @@ Project Code Repository Links
 
 Add a quick summary of what your project theme and objectives are. 
 
-Deployment Website: **Add Link to Deployed Project**
+Deployment Website: **http://ratty-lumber.surge.sh/**
 
 ### Open-source libraries used
 
 - [lodash](https://www.npmjs.com/package/lodash)
 - [react-hot-toast](https://react-hot-toast.com/)
 - [framer-motion](https://www.npmjs.com/package/framer-motion)
+- [easyinvoice](https://www.npmjs.com/package/easyinvoice)

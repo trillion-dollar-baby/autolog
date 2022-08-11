@@ -9,5 +9,11 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <!-- Only include when rendering is required -->
+<script src="https://unpkg.com/pdfjs-dist/build/pdf.min.js"></script>
+<script src="https://unpkg.com/pdfjs-dist/build/pdf.worker.min.js"></script>
+
+<!-- Include pdfjs version 2.3.200 for Internet Explorer compatibility, no worker required -->
+<!-- <script src="https://unpkg.com/pdfjs-dist@2.3.200/build/pdf.min.js"></script> -->
   </body>
 </html>
