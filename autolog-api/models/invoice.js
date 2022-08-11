@@ -152,7 +152,7 @@ class Invoice {
             RETURNING id, name, category, quantity, sold_date
             `
             
-            let result = await db.query(query, [invoiceId, item.name, item.category, item.quantity, parseInt(item.cost), parseInt(item['retail price'])])
+            let result = await db.query(query, [invoiceId, item.name, item.category, item.quantity, parseInt(item.cost), parseInt(item['sell price'])])
             
             const queryUpdate = `
                 UPDATE items
@@ -198,7 +198,7 @@ class Invoice {
         FROM
             invoices
         WHERE invoices.inventory_id = $1
-        ORDER BY invoices.created_at ASC;
+        ORDER BY invoices.id DESC;
         `
 
         const results = await db.query(query, [inventoryId]);
@@ -315,7 +315,13 @@ class Invoice {
             // The products you would like to see on your invoice
             // Total values are being calculated automatically
             "products": [
-                ...updatedNames
+                ...updatedNames,
+                {
+                    "quantity": 1,
+                    "description": "labor",
+                    "tax-rate": 0,
+                    "price": invoice.totalLabor.substring(1)
+                }
                 //  {
                 //     "quantity": 2,
                 //     "description": "Product 1",
