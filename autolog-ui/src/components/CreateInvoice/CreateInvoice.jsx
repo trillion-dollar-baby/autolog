@@ -184,7 +184,7 @@ function CreateInvoice() {
       notifyError(`Error: ${error}`);
     }
   }
-
+  console.log(selectedItems);
   const containerVariants = {
     hidden: {
       opacity: 0,
