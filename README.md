@@ -24,3 +24,4 @@ Deployment Website: **http://ratty-lumber.surge.sh/**
 - [lodash](https://www.npmjs.com/package/lodash)
 - [react-hot-toast](https://react-hot-toast.com/)
 - [framer-motion](https://www.npmjs.com/package/framer-motion)
+- [easyinvoice](https://www.npmjs.com/package/easyinvoice)

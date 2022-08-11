@@ -14,21 +14,23 @@ export default function Table({
     tableColumnLabelArray,
     tableLabel,
     isItemTable = false,
+    isInvoiceTable = false,
     fetchMoreItems,
     setSelectedItems,
-    selectedItems
+    selectedItems,
+    isFetching,
+    isSelectable = false
 }) {
     const tableRef = React.useRef();
-    const [isSelected, setSelected] = React.useState(false);
 
     const onScroll = async () => {
         if (isItemTable) {
-            if (tableRef.current) {
+            if (tableRef.current && !isFetching) {
                 const { scrollTop, scrollHeight, clientHeight } = tableRef.current;
 
                 // check if user reached to the bottom of the div
                 // check if is fetching already to prevent multiple requests
-                if ((Math.ceil(scrollTop + clientHeight) === Math.floor(scrollHeight) - 2)) {
+                if ((Math.ceil(scrollTop + clientHeight) >= Math.floor(scrollHeight) - 1)) {
                     await fetchMoreItems();
                 }
             }
@@ -37,9 +39,14 @@ export default function Table({
 
     // with provided useState, add/remove itself's only instance
     const addItemToSelected = (item) => {
+        // when adding a new item, create default values for invoice table
         setSelectedItems((prevSelectedItems) => ([
             ...prevSelectedItems,
-            { ...item }
+            { ...item, 
+            'sell price': item['retail price'],
+            'in stock': item.quantity, 
+            quantity: 1
+            }
         ]));
     }
 
@@ -55,14 +62,26 @@ export default function Table({
             removeItemFromSelected(item);
         }
     }
+
+    // check if row is selected
+    const isSelected = (rowItem) => {
+        let isMatched = false;
+        selectedItems.forEach((item) => {
+            if(item.id == rowItem.id) {
+                isMatched = true;
+            }
+        })
+        return isMatched; 
+    }
+
     return (
         <div className="table">
             <div className="table-header">
-                <label className="table-header-label"> {tableLabel} </label>
+                <label className="table-header-label"> {tableLabel} </label> <label className="table-header-label" style={{color: "var(--actionRed)", fontWeight: "600"}}>{(selectedItems?.length ? `${selectedItems.length} item(s) selected` : '')}</label>
             </div>
             <div onScroll={onScroll} ref={tableRef} className="table-body">
                 {/* if it is a item table, create checkbox to select item */}
-                {isItemTable ?
+                {isSelectable ?
                     <div key={`column-selected`} className={`table-column`}>
                         <p className="column-label">
                             {" "}{"SELECT"}{" "}
@@ -70,7 +89,11 @@ export default function Table({
                         {tableElementArray?.map((rowItems, index) => (
                             <li className="row-item" key={`row-item-detail-${index}`}>
                                 {" "}
-                                <input type={"checkbox"} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "}
+
+                                {/* <input  type={"checkbox"} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "} */}
+
+                                <input className="checking" type={"checkbox"} defaultChecked={isSelected(rowItems)} onChange={(event) => { onCheckboxClick(event, rowItems) }} key={`row-item-checkbox-${index}`} name={`selected-${rowItems['id']}`} /> {" "}
+
                             </li>
                         ))}{" "}
                     </div>
@@ -102,6 +125,19 @@ export default function Table({
                             <li className="row-item" key={`row-item-detail-${index}`}>
                                 {" "}
                                 <Link to={`/item/id/${rowItems["id"]}`} key={index} >Detail</Link>{" "}
+                            </li>
+                        ))}{" "}
+                    </div>
+                    : <></>}
+                {isInvoiceTable ?
+                    <div key={`column-detail`} className={`table-column`}>
+                        <p className="column-label">
+                            {" "}{"DETAIL"}{" "}
+                        </p>
+                        {tableElementArray?.map((rowItems, index) => (
+                            <li className="row-item" key={`row-item-detail-${index}`}>
+                                {" "}
+                                <Link to={`/invoice/id/${rowItems["id"]}`} key={index} >Detail</Link>{" "}
                             </li>
                         ))}{" "}
                     </div>

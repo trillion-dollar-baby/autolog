@@ -186,7 +186,9 @@ export const DashboardContextProvider = ({ children }) => {
       setAnnouncement(data?.item?.message)
       
     } else if (err) {
+      
       setError(err);
+      
     }
 
     setIsProcessing(false);

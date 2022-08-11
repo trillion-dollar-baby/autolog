@@ -1,6 +1,6 @@
 .performance-content {
     max-height: calc(100vh - var(--navbarHeight));
-    max-width: calc(100vw - 280px);
+    max-width: 100%;
     flex-direction: column;
     display: flex;
     justify-content: center;
@@ -39,9 +39,96 @@
     gap: 30px;
     margin-top: 15px;
 }
+.performance-content .filter-container .filter-by-week{
+position: relative;
+}
+.performance-content .filter-container .filter-by-week::before,
+.performance-content .filter-container .filter-by-week::after {
+  --scale: 0;
+  --arrow-size: 15px;
+  --tooltip-color: var(--darkBlueAccentFocused);
+  position: absolute;
+  left: 12%;
+  top: 65%;
+  transform: translate(-118%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  transition: 160ms transform;
+  transform-origin:right;
+  opacity:0.8;
+}
+.performance-content .filter-container .filter-by-week::before{
+  --translate-y: calc(-26% - var(--arrow-size));
+  content: attr(data-tooltip);
+  color: white;
+  background: var(--darkBlueAccentFocused);
+  text-align: center;
+  width: max-content;
+  max-width: 100%;
+  padding: .5rem;
+  border-radius: .3rem;
+  opacity:0.8;
+
+}
+.performance-content .filter-container .filter-by-week:hover::before,
+.performance-content .filter-container .filter-by-week:hover::after{
+  --scale: 1;
+}
+
+.performance-content .filter-container .filter-by-week::after {
+  --translate-y: calc(-1 * var(--arrow-size));
+  content: '';
+  border: var(--arrow-size) solid transparent;
+  border-left-color: var(--tooltip-color);
+  transform-origin: right;
+  opacity:0.8;
+}
+
+.performance-content .filter-container .filter-by-month{
+    position: relative;
+}
+
+.performance-content .filter-container .filter-by-month::before,
+.performance-content .filter-container .filter-by-month::after {
+  --scale: 0;
+  --arrow-size: 15px;
+  --tooltip-color: var(--darkBlueAccentFocused);
+  position: absolute;
+  left: 40%;
+  top: -40%;
+  transform: translate(-50%) translateY(var(--translate-y, 0)) scale(var(--scale));
+  transition: 160ms transform;
+  transform-origin: bottom center;
+  opacity:0.8;
+}
+.performance-content .filter-container .filter-by-month::before{
+  --translate-y: calc(-100% - var(--arrow-size));
+  content: attr(data-tooltip);
+  color: white;
+  background: var(--darkBlueAccentFocused);
+  text-align: center;
+  width: max-content;
+  max-width: 100%;
+  padding: .5rem;
+  border-radius: .3rem;
+  opacity:0.8;
+
+}
+.performance-content .filter-container .filter-by-month:hover::before,
+.performance-content .filter-container .filter-by-month:hover::after{
+  --scale: 1;
+}
+
+.performance-content .filter-container .filter-by-month::after {
+  --translate-y: calc(-1 * var(--arrow-size));
+  content: '';
+  border: var(--arrow-size) solid transparent;
+  border-top-color: var(--tooltip-color);
+  transform-origin: top center;
+  opacity:0.8;
+}
 
 .performance-content .table-container {
     display: flex;
+    width: 100%;
     flex-grow: 2.5;
     min-height: 425px;
     max-height: 425px;

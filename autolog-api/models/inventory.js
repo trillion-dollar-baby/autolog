@@ -4,7 +4,7 @@ const { BadRequestError, NotFoundError } = require("../utils/errors");
 class Inventory {
     static async createInventory({ inventory, user }) {
         // first check for errors
-		const requiredFields = ["name", "password"];
+		const requiredFields = ["name", "companyName", "companyPhone", "companyAddress", "companyEmail"];
 
         requiredFields.forEach((field) => {
             if (!inventory.hasOwnProperty(field)) {
@@ -17,12 +17,23 @@ class Inventory {
             `
 			INSERT INTO inventory(
 			name, 
-			admin_id
+			admin_id,
+            company_name,
+            company_email,
+            company_address,
+            company_phone
 			)
-			VALUES ($1, (SELECT id FROM users WHERE email = $2))
-			RETURNING id AS "inventoryId", name AS "inventoryName", created_at, admin_id 
+			VALUES ($1, (SELECT id FROM users WHERE email = $2), $3, $4, $5, $6)
+			RETURNING id AS "inventoryId",
+                     name AS "inventoryName", 
+                     company_name AS "companyName",
+                     company_phone AS "companyPhone",
+                     company_address AS "companyAddress",
+                     company_email AS "companyEmail", 
+                     created_at, 
+                     admin_id 
 		  	`,
-        	[inventory.name, user.email]
+        	[inventory.name, user.email, inventory.companyName, inventory.companyEmail, inventory.companyAddress, inventory.companyPhone]
         );
 
 		// return inventory created
@@ -52,7 +63,11 @@ class Inventory {
 			SELECT 
                 inventory.id as "inventoryId",
 				inventory.name as "inventoryName",
-                inventory.admin_id as "ownerId"
+                inventory.admin_id as "ownerId",
+                inventory.company_name AS "companyName",
+                inventory.company_phone AS "companyPhone",
+                inventory.company_address AS "companyAddress",
+                inventory.company_email AS "companyEmail"
             FROM user_to_inventory
 			JOIN
 				users ON users.id = user_to_inventory.user_id

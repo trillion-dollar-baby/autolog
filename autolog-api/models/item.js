@@ -4,16 +4,16 @@ const { BadRequestError, NotFoundError } = require("../utils/errors");
 
 class Item {
     // Create item function
-    static async createItem({ item, user, inventoryId }) {
-        const requiredFields = ["name", "category", "quantity"];
+    static async createItem({ item, user }) {
+        const requiredFields = ["name", "quantity", "cost", "retailPrice", "category"];
 
         if (parseInt(item.quantity) === NaN) {
-            throw new BadRequestError("quantity is NaN");
+            throw new BadRequestError("Quantity is not a number");
         }
 
         requiredFields.forEach((field) => {
             if (!item?.hasOwnProperty(field)) {
-                throw new BadRequestError(`Missing ${field} in request body.`);
+                throw new BadRequestError(`Missing ${field} in form.`);
             }
         });
 
@@ -30,6 +30,8 @@ class Item {
             name, 
             category, 
             quantity,
+            cost,
+            retail_price,
             located_at,
             part_number,
             description,
@@ -42,7 +44,9 @@ class Item {
                     $4,
                     $5,
                     $6,
-                    $7, 
+                    $7,
+                    $8,
+                    $9, 
                       (SELECT 
                           inventory.id 
                       FROM 
@@ -50,14 +54,16 @@ class Item {
                       JOIN 
                           user_to_inventory AS uti ON uti.inventory_id = inventory.id
                       WHERE 
-                          uti.user_id = $8 AND uti.inventory_id = $9))
-            RETURNING id, name, category, quantity, to_char(created_at,'MM-DD-YYYY') AS "createdAt"
-            , inventory_id
-     `,
+                          uti.user_id = $10 AND uti.inventory_id = $11))
+            RETURNING id, name, category, cost, retail_price, quantity, 
+            to_char(created_at,'MM-DD-YYYY') AS "createdAt", inventory_id
+            `,
             [
                 item.name,
                 item.category,
                 item.quantity,
+                item.cost,
+                item.retailPrice,
                 item.locatedAt || "", // only non required fields can have empty strings
                 item.partNumber || "",
                 item.description || "",
@@ -107,7 +113,8 @@ class Item {
 				to_char(items.updated_at, 'MM-DD-YYYY') AS "updatedAt",
                 items.created_at,
 				items.inventory_id AS "inventoryId",
-				items.quantity
+				items.quantity AS "quantity",
+                items.supplier as "supplier"
 			FROM items
 				JOIN inventory ON inventory.id = items.inventory_id
 			WHERE items.inventory_id = $1 AND items.name ~ $4 AND items.category ~ $5
@@ -140,13 +147,17 @@ class Item {
 
         const query = `
 			SELECT
+                items.id,
 				items.name as "name",
 				items.category AS "category",
-				SUM(items.quantity) as "quantity"
+				items.quantity as "quantity",
+                items.cost as "cost",
+                items.retail_price as "retail price",
+                items.supplier as "supplier"
 			FROM items
 				JOIN inventory ON inventory.id = items.inventory_id
 			WHERE items.inventory_id = $1 AND items.name ~ $4 AND items.category ~ $5
-            GROUP BY items.name, items.category
+            --GROUP BY items.name, items.category, items.cost, items.retail_price, items.supplier
 			ORDER BY items.name DESC
 			LIMIT $2 OFFSET $3`;
 
@@ -157,7 +168,7 @@ class Item {
             search.toLowerCase(),
             category.toLowerCase()
         ]);
-
+        console.log(results.rows);
         return results.rows;
     }
 

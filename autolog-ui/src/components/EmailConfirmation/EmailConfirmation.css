@@ -5,6 +5,7 @@
     flex-grow: 1;
     align-items: center;
     justify-content: center;
+    color:black;
 }
 
 .confirmation-content .red-car-image {
@@ -28,8 +29,10 @@
 
 .confirmation-content .confirmation-body > h2 {
     font-size: 30px;
+    color: black;
 }
 
 .confirmation-content .confirmation-body > p {
     font-size: 20px;
+    color: black;
 }
