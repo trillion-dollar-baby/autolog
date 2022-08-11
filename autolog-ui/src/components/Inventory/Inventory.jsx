@@ -230,7 +230,7 @@ export default function Inventory() {
 
       <div className="button-container">
         <ButtonAction label={"Create Invoice"} color={"var(--actionGreen)"} onClick={handleOnCreateInvoice} />
-        <ButtonAction label={"Create Purchase"} color={"var(--actionBlue)"} onClick={handleOnCreatePurchase} />
+        {/* <ButtonAction label={"Create Purchase"} color={"var(--actionBlue)"} onClick={handleOnCreatePurchase} /> */}
       </div>
 
       <div className="question-m" data-tooltip="This table displays the current items in stock, first select items from the table, next either choose to create an invoice or purchase">

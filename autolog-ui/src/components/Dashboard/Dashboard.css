@@ -179,6 +179,7 @@
   width: 100%;
   padding: 20px;
   font-size: 19px;
+  color: black;
 }
 
 #announce {
@@ -351,6 +352,7 @@
   height: 35px;
   font-size: 16px;
   line-height: 29px;
+  color:black;
 
 }
 
@@ -366,6 +368,8 @@
 .dashboard-body .checklist-container .content .body .textTodo .todo-text {
   margin: 0 10px;
   height: 35px;
+  color: black;
+
 }
 
 /* .dashboard-body .checklist-container .content .body .extraEditing {
