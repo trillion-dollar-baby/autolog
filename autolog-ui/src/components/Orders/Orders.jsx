@@ -23,7 +23,7 @@ export default function Orders() {
 
   // Item Context
   const { ordersContext, searchContext, searchTermContext } = useContext(OrdersContext);
-  const [orders, setOrders] = ordersContext;
+  const [orders] = ordersContext;
   const [searchOrders] = searchContext;
   const [searchTerm, setSearchTerm] = searchTermContext;
 
@@ -37,20 +37,17 @@ export default function Orders() {
 
   const settingsRoutes = [
     {
+      name: "Inventory",
+      to: "/inventory",
+    },
+    {
       name: "Orders",
       to: "/inventory/orders",
     },
-    {
-      name: "Stock",
-      to: "/inventory/stock"
-    },
-    {
-      name: "Invoices",
-      to: "/inventory/invoice",
-    },
   ];
 
-  const columnLabel = ["id", "name", "category", "supplier", "quantity", "createdAt", "updatedAt"]
+  const searchFilters = ["name", "category", "createdAt", "updatedAt", "quantity"]
+  const columnLabel = ["id", "name", "category", "createdAt", "updatedAt", "inventoryId", "quantity"]
 
   const onChangeSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -123,7 +120,7 @@ export default function Orders() {
       initial={"hidden"}
       animate={"visible"}
       exit={"exit"}
-      className="orders-content">
+      className="inventory-content">
       <div className="topbar-container">
         <Topbar
           routes={settingsRoutes}

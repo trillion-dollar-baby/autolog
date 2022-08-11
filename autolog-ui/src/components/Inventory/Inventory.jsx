@@ -6,6 +6,7 @@ import Table from "../Table/Table";
 import Topbar from "../Topbar/Topbar";
 import Dropdown from "../Dropdown/Dropdown";
 import FormInput from "../FormInput/FormInput";
+import InventoryContext from "../../contexts/inventory";
 import InventoriesContext from "../../contexts/inventories";
 import Loading from "../Loading/Loading";
 import { ToastContext } from "../../contexts/toast";
@@ -13,49 +14,51 @@ import apiClient from "../../services/apiClient";
 import ButtonAction from "../Button/ButtonAction";
 import { useNavigate } from "react-router";
 import ItemContext from "../../contexts/items";
-import QuestionMark from "../../assets/question-mark-icon.png"
 
 export default function Inventory() {
   const navigate = useNavigate();
 
   const { notifyError, notifySuccess } = useContext(ToastContext);
-
+  
   // Items Context
-  const { itemContext, searchContext, searchTermContext, selectedItemsContext } = useContext(ItemContext);
-  const [items, setItems] = itemContext;
-  const [searchItem] = searchContext;
-  const [searchTerm, setSearchTerm] = searchTermContext;
-  const [selectedItems, setSelectedItems] = selectedItemsContext;
-
+  const { selectedItemsContext } = useContext(ItemContext);
+  const [selectedItems, setSelectedItems] = selectedItemsContext; 
+  
   // Inventory Context
   const { processingContext, initializedContext, selectedInventoryContext } = useContext(InventoriesContext);
   const [isProcessing, setIsProcessing] = processingContext;
   const [initialized, setInitialized] = initializedContext;
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
-  
+
+  // Item Context
+  const { inventoryItemContext, searchContext, searchTermContext } = useContext(InventoryContext);
+  const [inventoryItems] = inventoryItemContext;
+  const [searchOrders] = searchContext;
+  const [searchTerm, setSearchTerm] = searchTermContext;
+
   // Categories constants
   const [isFetching, setIsFetching] = useState(false);
   const [categoryItems, setCategoryItems] = useState();
   const [selectedCategory, setSelectedCategory] = useState();
-
+  
   const [pageNumber, setPageNumber] = useState(0);
 
   const settingsRoutes = [
-  // {
-  //   name: "Orders",
-  //   to: "/inventory/orders",
-  // },
     {
-      name: "Stock", 
-      to: "/inventory/"
+      name: "Items",
+      to: "./",
+    },
+    {
+      name: "Purchases",
+      to: "/purchase/"
     },
     {
       name: "Invoices",
-      to: "/inventory/invoice",
+      to: "/invoice/",
     },
   ];
 
-  const columnLabel = ["name", "category", "supplier", "quantity", "cost", "retail price"]
+  const columnLabel = ["name", "category", "createdAt", "updatedAt", "quantity"]
 
   const onChangeSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -69,11 +72,12 @@ export default function Inventory() {
       // as it is a new search, reset page number
       setPageNumber(0);
 
-      const result = await searchItem(searchTerm, 0);
+      const result = await searchOrders(searchTerm, 0);
       setIsProcessing(false);
-      
+
+      setInventoryItems(result?.items);
       if(result?.items){
-        setItems(result?.items);
+        setInventoryItems(result?.items);
       }
 
       if (result.items.length === 0) {
@@ -82,7 +86,7 @@ export default function Inventory() {
       setIsProcessing(false);
     }
   }
-  
+
   // On mount get categories
   useEffect(() => {
     const fetchCategories = async () => {
@@ -96,50 +100,24 @@ export default function Inventory() {
 
     if (selectedInventory?.inventoryId) {
       fetchCategories();
-      setPageNumber(0);
     }
   }, [selectedInventory?.inventoryId]);
-  
-  async function handleOnSearch(event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      setIsProcessing(true);
-
-      // as it is a new search, reset page number
-      setPageNumber(0);
-
-      // format value
-      const formattedCategory = selectedCategory?.toLowerCase() === 'all' ? '' : selectedCategory?.toLowerCase();
-
-      const result = await searchItem(searchTerm, 0, formattedCategory);
-      setIsProcessing(false);
-
-      if (result?.items) {
-        setItems(result?.items);
-      }
-
-      if (result?.items.length === 0) {
-        notifyError("No items were found!");
-      }
-      setIsProcessing(false);
-    }
-  }
 
   // Fetch list by category if user selects one in dropdown
   const fetchItemsByCategory = async (category) => {
     setIsProcessing(true);
-
+    
     // format value
-    const formattedCategory = category.toLowerCase() === 'all' ? '' : category.toLowerCase();
-
+    const searchCategory = category.toLowerCase() === 'all' ? '' : category.toLowerCase();
+    
     // save for infinite scrolling
-    setSelectedCategory(formattedCategory);
+    setSelectedCategory(searchCategory);  
     setPageNumber(0);
 
-    const result = await searchItem(searchTerm, 0, formattedCategory);
+    const result = await searchItem(searchTerm, 0, searchCategory);
 
     if (result?.items) {
-      setItems(result?.items);
+      setInventoryItems(result?.items);
     }
 
     if (result.items.length === 0) {
@@ -150,20 +128,19 @@ export default function Inventory() {
 
   // Function triggered after reaching the bottom of table
   const fetchMoreItems = async () => {
-    setIsFetching(true);
-      const result = await searchItem(searchTerm || '', (pageNumber + 1) || 1, selectedCategory || '');
-      // append into array and increase page number for next request if user wants to keep scrolling
-      if (result?.items) {
-        setItems([...items, ...result?.items]);
-        
-        // setItems((prevItems) => ([...prevItems, ...result?.items]));
-        setPageNumber((prevNum) => prevNum + 1);
-      }
-    setIsFetching(false);
-  }
+    const searchCategory = selectedCategory?.toLowerCase() === 'all' ? '' : selectedCategory?.toLowerCase();
+
+    const result = await searchItem(searchTerm || '', (pageNumber + 1) || 1, searchCategory || '');
+
+    // append into array and increase page number for next request if user wants to keep scrolling
+    if (result?.items) {
+      setItems((prevItems) => ([...prevItems, ...result?.items]));
+      setPageNumber((prevNum) => prevNum+1);
+    }
+  } 
 
   const handleOnCreateInvoice = () => {
-    if (selectedItems.length > 0) {
+    if(selectedItems.length > 0) {
       navigate('/invoice/create');
     } else {
       notifyError("You need to first select items to create an invoice!")
@@ -171,7 +148,7 @@ export default function Inventory() {
   }
 
   const handleOnCreatePurchase = () => {
-    if (selectedItems.length > 0) {
+    if(selectedItems.length > 0) {
       navigate('/purchase/create');
     } else {
       notifyError("You need to first select items to create a purchase!")
@@ -203,15 +180,12 @@ export default function Inventory() {
       <div className="topbar-container">
         <Topbar
           routes={settingsRoutes}
-          buttonName={"Create Item"}
+          buttonName={"Create"}
           buttonPath={"/item/create"}
         />
       </div>
-
+      
       <div className="filter-container">
-        <div className="question-mark" data-tooltip="Want to search for a part faster? Search for it here.">
-          <img className="question-icon" src={QuestionMark} ></img>
-        </div>
         <div className="search-bar">
           <FormInput
             data={{
@@ -229,28 +203,22 @@ export default function Inventory() {
       </div>
 
       <div className="button-container">
-        <ButtonAction label={"Create Invoice"} color={"var(--actionGreen)"} onClick={handleOnCreateInvoice} />
-        <ButtonAction label={"Create Purchase"} color={"var(--actionBlue)"} onClick={handleOnCreatePurchase} />
+        <ButtonAction label={"Create Invoice"} color={"var(--actionGreen)"} onClick={handleOnCreateInvoice}/>
+        <ButtonAction label={"Create Purchase"} color={"var(--actionBlue)"} onClick={handleOnCreatePurchase}/>
       </div>
 
-      <div className="question-m" data-tooltip="This table displays the current items in stock, first select items from the table, next either choose to create an invoice or purchase">
-          <img className="question-icon" src={QuestionMark} ></img>
-        </div>
-        
       <div className="table-container">
         {isProcessing || !initialized ? (
           <Loading />
         ) : (
           <Table
-            tableLabel={"Items"}
-            tableElementArray={items.length ? items : []}
+            tableLabel={"Results"}
+            tableElementArray={inventoryItems.length ? inventoryItems : []}
             tableColumnLabelArray={columnLabel}
             isItemTable={true}
             fetchMoreItems={fetchMoreItems}
             selectedItems={selectedItems}
             setSelectedItems={setSelectedItems}
-            isSelectable={true}
-            isFetching={isFetching}
           />
         )}
       </div>

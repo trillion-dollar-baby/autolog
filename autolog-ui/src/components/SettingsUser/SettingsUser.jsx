@@ -170,7 +170,7 @@ export default function SettingsUser() {
             exit={"exit"}
         >
             {isProcessing ? <Loading /> :
-                <div className="settings-user" data-tooltip="Change your info by editing the text. When you're done, click update.">
+                <div className="settings-user">
                     <Form formState={form} setFormState={setForm} formArray={formArray} />
                 </div>}
             {/* if change, render button */}
@@ -185,7 +185,7 @@ export default function SettingsUser() {
                 <span>Password settings</span>
             </div>
 
-            <div className="settings-user-2">
+            <div className="settings-user">
                 {/* password forms */}
                 <Form formState={passwordForm} setFormState={setPasswordForm} formArray={passwordFormArray} />
                 {/* if password does not match show error message */}

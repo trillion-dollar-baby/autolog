@@ -11,24 +11,19 @@ import InventoriesContext from '../../contexts/inventories';
 import { motion, AnimatePresence } from 'framer-motion';
 import DropdownOverlay from '../DropdownOverlay/DropdownOverlay';
 import ModalCreateInventory from '../ModalCreateInventory/ModalCreateInventory';
-import DashboardContext from '../../contexts/dashboard';
+
 /**
  * Dropdown for navbar that switches between inventories
  * that the user has access to
  */
 export default function InventoryDropdown() {
     // contexts
-    const { announcementCreateContext, announcementContext } = useContext(DashboardContext);
     const { accessibleInventoriesContext, selectedInventoryContext, inventoryPostContext } = useContext(InventoriesContext);
     const [createInventory] = inventoryPostContext;
-    
     const [accessibleInventories, setAccessibleInventories] = accessibleInventoriesContext;
     const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
     const [open, setOpen] = useState(false);
-    const [createAnnouncement] = announcementCreateContext;
-    const [announcement, setAnnouncement] = announcementContext;
-    
 
     // modal hook
     const [modalOpen, setModalOpen] = useState(false);
@@ -45,7 +40,6 @@ export default function InventoryDropdown() {
 
     // handle dropdown item's clicks
     const handleOnClick = (inventory) => {
-        setAnnouncement("No announcement currently!");
         setSelectedInventory(inventory);
         setOpen(!open);
     }

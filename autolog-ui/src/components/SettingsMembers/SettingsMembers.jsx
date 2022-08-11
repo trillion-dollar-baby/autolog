@@ -68,6 +68,9 @@ export default function SettingsMembers() {
       exit={"exit"}
     >
       <MemberList userArray={inventoryMembers} roleArray={userRoles} />
+      <div className="content">
+        <ButtonAction label={"Manage roles"} color={"#4c5e35"} onClick={onClickRedirect} />
+      </div>
     </motion.div>
   )
 }

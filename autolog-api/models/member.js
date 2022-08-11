@@ -61,7 +61,7 @@ class Member {
             WHERE
                 inventory.id = $1`
             , [inventoryId]);
-        
+
         return result.rows;
     }
 

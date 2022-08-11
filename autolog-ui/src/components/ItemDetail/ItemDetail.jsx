@@ -78,49 +78,42 @@ function ItemDetail() {
                 setCategoryValue(data.item.category);
             }
         }
-        
+
         fetchItem();
     }, [])
 
     // form array for "item information" section
     const formArray = [
         {
-            label: 'Name *',
+            label: 'Name',
             name: 'name',
             type: 'text',
             placeholder: 'The alternator is shot Saul'
         },
         {
-            label: 'Quantity *',
+            label: 'Quantity',
             name: 'quantity',
             type: 'text',
-            placeholder: '99'
+            placeholder: '1234'
         },
         {
-            label: 'Cost *',
-            name: 'cost',
+            label: 'Measures (Optional)',
+            name: 'measures',
             type: 'text',
-            placeholder: '2.49'
-        },
-        {
-            label: 'Sell Price *',
-            name: 'sellPrice',
-            type: 'text',
-            placeholder: '9.99'
-        },
-        {
-            label: 'Part Number (Optional)',
-            name: 'partNumber',
-            type: 'text',
-            placeholder: '033 131 925'
+            placeholder: '12x12x12'
         },
         {
             label: 'Located At (Optional)',
             name: 'locatedAt',
             type: 'text',
-            placeholder: 'Shelf 12'
+            placeholder: 'Shelve 12'
         },
-    
+        {
+            label: 'Part Number (Optional)',
+            name: 'partNumber',
+            type: 'text',
+            placeholder: '1234'
+        },
     ]
 
     // form array for "additional details" section

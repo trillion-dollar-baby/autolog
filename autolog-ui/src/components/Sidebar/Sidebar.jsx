@@ -13,7 +13,8 @@ export default function Sidebar() {
   
   if (location.pathname !== '/login' && location.pathname !== '/register' && location.pathname !== '/' && location.pathname !== '/email-confirmation') {
     return (
-        <div className="sidebar">
+      <div className='sidebar-empty'>
+        <nav className="sidebar">
           <span className="title">
             General
           </span>
@@ -33,6 +34,7 @@ export default function Sidebar() {
             <img className='icon' src={settingsIcon} alt="icon" />
             <span>Settings</span>
           </NavLink>
+        </nav>
       </div>
     )
   }

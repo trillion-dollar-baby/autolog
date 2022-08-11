@@ -11,10 +11,8 @@
   "dependencies": {
     "axios": "^0.27.2",
     "chart.js": "^3.8.0",
-    "easyinvoice": "^2.3.3",
     "framer-motion": "^6.5.1",
     "lodash": "^4.17.21",
-    "nhtsa": "^1.2.7",
     "normalize.css": "^8.0.1",
     "react": "^18.2.0",
     "react-chartjs-2": "^4.3.1",

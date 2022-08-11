@@ -41,9 +41,7 @@ export default function CreateItem() {
     const handleItemCreate = async () => {
         // TODO: APPEND TO INVENTORY LOOKUP ARRAY
         setIsProcessing(true);
-        if (categoryValue != "") {
-            itemForm['category'] = categoryValue;
-        }
+        itemForm['category'] = categoryValue;
         itemForm.inventoryId = selectedInventory.inventoryId
         const {data, error} = await createItem(itemForm);
 
@@ -60,42 +58,35 @@ export default function CreateItem() {
     // form array for "item information" section
     const formArray = [
         {
-            label: 'Name *',
+            label: 'Name',
             name: 'name',
             type: 'text',
-            placeholder: 'Alternator'
+            placeholder: 'The alternator is shot Saul'
         },
         {
-            label: 'Quantity *',
+            label: 'Quantity',
             name: 'quantity',
             type: 'text',
-            placeholder: '99'
+            placeholder: '1234'
         },
         {
-            label: 'Cost *',
-            name: 'cost',
+            label: 'Measures (Optional)',
+            name: 'measures',
             type: 'text',
-            placeholder: '2.49'
-        },
-        {
-            label: 'Retail Price *',
-            name: 'retailPrice',
-            type: 'text',
-            placeholder: '3.00'
-        },
-        {
-            label: 'Part Number (Optional)',
-            name: 'partNumber',
-            type: 'text',
-            placeholder: '033 131 925'
+            placeholder: '12x12x12'
         },
         {
             label: 'Located At (Optional)',
             name: 'locatedAt',
             type: 'text',
-            placeholder: 'Shelf 12'
+            placeholder: 'Shelve 12'
         },
-    
+        {
+            label: 'Part Number (Optional)',
+            name: 'partNumber',
+            type: 'text',
+            placeholder: '1234'
+        },
     ]
 
     // form array for "additional details" section
@@ -160,9 +151,9 @@ export default function CreateItem() {
                         <DropdownCategory categoryValue={categoryValue} setCategoryValue={setCategoryValue} />
                     </div>
                     <div className="form-container text-area">
-                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Write a description" }} onChange={handleChange} inputValue={itemForm['description']} />
+                        <TextArea data={{ label: "Description", name: "description", type: "text", placeholder: "Hello World" }} onChange={handleChange} inputValue={itemForm['description']} />
                     </div>
-                    <div className="content button-container">
+                    <div className="content">
                         <ButtonAction onClick={handleItemCreate} color={'#3F5BE8'} label={"Create"} />
                     </div>
                 </div>

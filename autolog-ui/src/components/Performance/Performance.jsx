@@ -60,10 +60,10 @@ export default function Performance() {
             </div>
 
             <div className='filter-container'>
-              <div className='filter-by-week' data-tooltip="Sort inventory performance by quantity ascending or descending order">
+              <div className='filter-by-week'>
                 <Dropdown items={sortItems} value={"Sort By"} onSelect={setSort}/>
               </div>
-              <div className='filter-by-month' data-tooltip="Sort inventory performance by month">
+              <div className='filter-by-month'>
                 <Dropdown items={filterItems} value={"Filter By"} onSelect={setFilter}/>
               </div>
             </div>

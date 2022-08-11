@@ -116,7 +116,7 @@ export function ModalBody({ formState, setFormState, formArray, setModalError, m
         <>
             <h3 style={{ color: 'red' }}>{modalError || ''}</h3>
             <Form formState={formState} setFormState={setFormState} formArray={formArray} />
-            <div className="permission-container">
+            <div className="permissions-container">
                 <PermissionCheckbox label={"Create"} name={"create"} value={formState.create} setForm={setFormState} />
                 <PermissionCheckbox label={"Read"} name={"read"} value={formState.read} setForm={setFormState} />
                 <PermissionCheckbox label={"Update"} name={"update"} value={formState.update} setForm={setFormState} />
