@@ -6,7 +6,24 @@ var easyinvoice = require('easyinvoice');
 const _ = require("lodash");
 
 class Invoice {
-    static async createInvoice(inventoryId, invoice, user, pdfString) {
+    static convertNamingConvention(items) {
+        const updatedNames = [];
+
+        items.forEach((item) => {
+            updatedNames.push(
+                {
+                    description: item.name,
+                    price: item.sell_price,
+                    quantity: item.quantity,
+                    "tax-rate": 8.75
+                }
+            )
+        })
+
+        return updatedNames;
+    }
+
+    static async createInvoice(inventoryId, invoice, user) {
         // Required fields for a successful query
         const requiredFields = [
             "recipientFirstName",
@@ -63,8 +80,7 @@ class Invoice {
             vehicle_plate_number,
             total_labor_cost,
             created_at,
-            total_material_cost,
-            base_64_pdf_string
+            total_material_cost
         ) 
         VALUES (
             $1,
@@ -80,8 +96,7 @@ class Invoice {
             $11,
             $12,
             $13,
-            $14,
-            $15
+            $14
         )
         RETURNING *
         `
@@ -100,8 +115,7 @@ class Invoice {
              invoice.vehiclePlateNumber,
              invoice.totalLabor,
              invoice.date,
-             invoice.totalMaterial,
-             pdfString
+             invoice.totalMaterial
             ])
 
         return results.rows[0];
@@ -109,6 +123,13 @@ class Invoice {
 
     static async createSoldItemRecords(items, invoiceId) {
         const queryResults = [];
+        
+        items.forEach((item) => {
+            if(item.quantity > item['in stock']) {
+                throw new BadRequestError(`${item.name} would fall into negative!`)
+            }
+        })
+
         // Loop through each item selected for the invoice
         items.forEach(async (item) => {
             let query = `
@@ -130,8 +151,18 @@ class Invoice {
             )
             RETURNING id, name, category, quantity, sold_date
             `
+            
+            let result = await db.query(query, [invoiceId, item.name, item.category, item.quantity, parseInt(item.cost), parseInt(item['sell price'])])
+            
+            const queryUpdate = `
+                UPDATE items
+                SET quantity = $2
+                WHERE id = $1
+                RETURNING *;
+            `
+            const newQuantity = item['in stock'] - item.quantity;
 
-            let result = await db.query(query, [invoiceId, item.name, item.category, item.quantity, parseInt(item.cost), parseInt(item['retail price'])])
+            const resultUpdate = await db.query(queryUpdate, [item.id, newQuantity]);
 
             queryResults.push(result.rows[0]);
         })
@@ -147,17 +178,27 @@ class Invoice {
 
         const query = `
         SELECT
+            to_char(created_at, 'MM-DD-YYYY') AS "createdAt",
             id,
-            sender_id AS "senderId",
+            inventory_id AS "inventoryId",
+            recipient_address AS "recipientAddress",
             recipient_first_name AS "recipientFirstName",
             recipient_last_name AS "recipientLastName",
-            recipient_address AS "recipientAddress",
-            created_at AS "createdAt",
-            total_labor_cost AS "totalLabor",
-            total_material_cost AS "totalMaterial"
+            recipient_phone AS "recipientPhone",
+            sender_id AS "senderId",
+            CAST(total_labor_cost as money) AS "totalLabor",
+            CAST(total_material_cost as money) AS "totalMaterial",
+            CAST((total_labor_cost + total_material_cost) as money) AS "totalProfit",
+            vehicle_make AS "vehicleMake",
+            vehicle_model AS "vehicleModel",
+            vehicle_plate_number AS "vehiclePlateNumber",
+            vehicle_vin AS "vehicleVin",
+            vehicle_year AS "vehicleYear",
+            invoices.created_at
         FROM
             invoices
         WHERE invoices.inventory_id = $1
+        ORDER BY invoices.id DESC;
         `
 
         const results = await db.query(query, [inventoryId]);
@@ -201,6 +242,15 @@ class Invoice {
         );
     }
 
+
+    static async renderPdfInBrowser(invoice, selectedInventory) {
+        const purchases = await this.getSoldItems(invoice.id)
+        console.log("get purchases:", purchases)
+
+        return await this.createInvoicePdf({ invoice, purchases, selectedInventory});
+    }
+
+
     static async getSoldItems(invoiceId) {
         const query = `
             SELECT *
@@ -209,10 +259,17 @@ class Invoice {
         `
 
         const result = await db.query(query, [invoiceId]);
+
+        return result.rows;
     }
 
-    static async createInvoicePdf({ invoice, purchases }) {
-        console.log(invoice, purchases);
+    static async createInvoicePdf({ invoice, purchases, selectedInventory }) {
+        console.log("invoice:", invoice);
+        console.log("selected:", selectedInventory);
+
+
+        const updatedNames = this.convertNamingConvention(purchases);
+
         let data = {
             // Customize enables you to provide your own templates
             // Please review the documentation for instructions and examples
@@ -221,7 +278,7 @@ class Invoice {
             },
             "images": {
                 // The logo on top of your invoice
-                "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
+                // "logo": "https://public.easyinvoice.cloud/img/logo_en_original.png",
                 // The invoice background
                 // "background": "https://public.easyinvoice.cloud/img/watermark-draft.jpg"
             },
@@ -233,34 +290,44 @@ class Invoice {
                 "city": "Sampletown",
                 "country": "Samplecountry"
                 //"custom1": "custom value 1",
+                //"custom2": "custom value 2",
+                //"custom3": "custom value 3"
             },
             // Your recipient
             "client": {
-                "name": `${invoice.recipientFirstName} ${invoice.recipientLastName}`,
+                "company": "Client Corp",
                 "address": "Clientstreet 456",
                 "zip": "4567 CD",
                 "city": "Clientcity",
                 "country": "Clientcountry"
                 // "custom1": "custom value 1",
+                // "custom2": "custom value 2",
+                // "custom3": "custom value 3"
             },
             "information": {
                 // Invoice number
                 "number": invoice.id,
                 // Invoice data
-                "date": invoice.date,
+                "date": invoice.createdAt,
                 // Invoice due date
-                "due-date": 1//invoice?.due_date
+                "due-date": invoice?.due_date
             },
             // The products you would like to see on your invoice
             // Total values are being calculated automatically
             "products": [
-                //...purchases 
-                 {
-                    "quantity": 2,
-                    "description": "Product 1",
-                    "tax-rate": 6,
-                    "price": 33.87
-                },   
+                ...updatedNames,
+                {
+                    "quantity": 1,
+                    "description": "labor",
+                    "tax-rate": 0,
+                    "price": invoice.totalLabor.substring(1)
+                }
+                //  {
+                //     "quantity": 2,
+                //     "description": "Product 1",
+                //     "tax-rate": 6,
+                //     "price": 33.87
+                // },   
             ],
             // The message you would like to display on the bottom of your invoice
             "bottom-notice": "Please pay your invoice within 15 days. Thank you for your support!",

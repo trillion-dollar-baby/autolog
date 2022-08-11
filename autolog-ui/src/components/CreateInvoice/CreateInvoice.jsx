@@ -25,7 +25,7 @@ function CreateInvoice() {
   const [selectedInventory, setSelectedInventory] = selectedInventoryContext;
 
   // Items Context
-  const { itemContext, searchContext, searchTermContext, selectedItemsContext } = useContext(ItemContext);
+  const { itemContext, searchContext, searchTermContext, selectedItemsContext, fetchGenericItemList } = useContext(ItemContext);
   const [items, setItems] = itemContext;
   const [searchItem] = searchContext;
   const [searchTerm, setSearchTerm] = searchTermContext;
@@ -120,6 +120,12 @@ function CreateInvoice() {
   const handleOnSearchVin = async () => {
     const {data} = await nhtsa.decodeVin(invoiceForm.vehicleVin);
 
+    if(data) {
+      notifySuccess("Successfully loaded data from VIN!");
+    } else {
+      notifyError("Invalid VIN. No information found");
+    }
+
     data?.Results.forEach((obj) => {
       if(obj.Variable == "Model") {
         setInvoiceForm((prevForm) => ({
@@ -160,17 +166,25 @@ function CreateInvoice() {
 
   const handleOnSubmit = async() => {
     const {data, error} = await apiClient.createInvoice(selectedInventory?.inventoryId, {...invoiceForm, totalMaterial: total}, selectedItems);
-
+    console.log(data, error);
     if(data) {
+      // let user know
       notifySuccess("Success creating invoice!");
+
+      fetchGenericItemList();
+
+      //reset selected items
+      setSelectedItems([]);
+
+      // go back to invoice list
       navigate('/inventory/invoice');
     }
 
     if(error) {
-      notifyError("Error: ", error)
+      notifyError(`Error: ${error}`);
     }
   }
-
+  console.log(selectedItems);
   const containerVariants = {
     hidden: {
       opacity: 0,
@@ -217,26 +231,29 @@ function CreateInvoice() {
           </div>
         </div>
         <div className="total-price-container">
-          <span id='subtotal-price'>Total without labor: ${total}</span>
-          <span id="subtotal-labor-price">Total with labor: ${totalWithLabor}</span>
-          <span id="grandtotal-price">Grand total: $9999</span>
+          <div className="section">
+            <span id='subtotal-price'>Total without labor: ${total}</span>
+          </div>
+          <div className="section">
+            <span id="subtotal-labor-price">Total with labor: ${totalWithLabor}</span>
+          </div>
         </div>
-        
 
         <div className="button-container">
           <ButtonAction label={"Create Invoice"} color={"var(--actionBlueAccent)"} onClick={handleOnSubmit} />
           <ButtonAction label={"Load VIN"} color={"var(--actionBlue)"} onClick={handleOnSearchVin} />
         </div>
       </div>
-
-      <InvoiceTable
-        tableElementArray={selectedItems}
-        tableColumnLabelArray={columnLabel}
-        tableLabel={"Items in invoice"}
-        isItemTable={true}
-        setSelectedItems={setSelectedItems}
-        selectedItems={selectedItems}
-        calculateTotals={calculateTotals} />
+      <div className="invoice-table-container">
+        <InvoiceTable
+          tableElementArray={selectedItems}
+          tableColumnLabelArray={columnLabel}
+          tableLabel={"Items in invoice"}
+          isItemTable={true}
+          setSelectedItems={setSelectedItems} 
+          selectedItems={selectedItems}
+          calculateTotals={calculateTotals} />
+      </div>
     </motion.div>
   )
 }

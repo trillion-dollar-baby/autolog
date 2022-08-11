@@ -49,11 +49,11 @@ export const InventoriesContextProvider = ({ children }) => {
   }, [user]);
 
   // Loading message to stop any other children components to render
-  //  if ((isProcessing) || (initialized === false)) return (
-  //   <div className="">
-  //     {/* <Loading /> */}
-  //   </div>
-  // )
+   if ((isProcessing) || (initialized === false)) return (
+    <div className="">
+      <Loading />
+    </div>
+  )
 
   // Create an inventory
   const createInventory = async (values) => {
@@ -75,6 +75,7 @@ export const InventoriesContextProvider = ({ children }) => {
   // Get inventories that are accessible to the user
   const getAccessibleInventories = async () => {
     if (selectedInventory.inventoryId !== null) {
+      setIsProcessing(true);
       const { data, error } = await apiClient.getAccessibleInventories();
       if (!error) {
         if (data?.inventory) {
@@ -85,6 +86,7 @@ export const InventoriesContextProvider = ({ children }) => {
       else {
         console.error("Error getting accessible inventories, message:", error)
       }
+      setIsProcessing(false);
     }
   }
 

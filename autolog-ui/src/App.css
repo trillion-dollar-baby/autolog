@@ -2,13 +2,14 @@
     display:flex;
     flex-direction: column;
     width: 100vw;
-    min-height: 100vh;
+    max-height: 100vh;
     /* flex-wrap: wrap; */
 }
 
 .page-content {
     display: flex;
     flex-direction: row;
-    min-height: calc(100vh - var(--navbarHeight));
+    height: calc(100vh - var(--navbarHeight));
+    max-height: calc(100vh - var(--navbarHeight));
     width: 100%;
 }
